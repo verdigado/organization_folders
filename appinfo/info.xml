@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>organization_folders</id>
+    <name>Organization Folders</name>
+    <summary>Managed Groupfolders for your Organisation</summary>
+    <description><![CDATA[]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="mail@jonathan-treffler.de">Jonathan Treffler</author>
+    <namespace>OrganizationFolders</namespace>
+    <category>files</category>
+    <bugs>https://git.verdigado.com/verdigado-public/organization_folders/issues</bugs>
+    <dependencies>
+        <php min-version="8.2" />
+        <database>pgsql</database>
+        <database>sqlite</database>
+        <database>mysql</database>
+        <nextcloud min-version="29" max-version="29"/>
+    </dependencies>
+</info>

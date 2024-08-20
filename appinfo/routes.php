@@ -1,0 +1,8 @@
+<?php
+
+return [
+	'resources' => [
+	],
+	'routes' => [
+	]
+];
