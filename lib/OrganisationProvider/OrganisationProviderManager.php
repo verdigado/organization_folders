@@ -2,39 +2,39 @@
 
 declare(strict_types=1);
 
-namespace OCA\OrganizationFolders\OrganisationProvider;
+namespace OCA\OrganizationFolders\OrganizationProvider;
 
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Server;
 
-use OCA\OrganizationFolders\Events\RegisterOrganisationProviderEvent;
+use OCA\OrganizationFolders\Events\RegisterOrganizationProviderEvent;
 
-class OrganisationProviderManager {
-	private array $organisationProviders = [];
+class OrganizationProviderManager {
+	private array $organizationProviders = [];
 
 	public function __construct(
 		IEventDispatcher $dispatcher,
 	) {
-		$event = new RegisterOrganisationProviderEvent($this);
+		$event = new RegisterOrganizationProviderEvent($this);
 		$dispatcher->dispatchTyped($event);
 	}
 
 	/**
-	 * @return OrganisationProvider[]
+	 * @return OrganizationProvider[]
 	 */
-	public function getOrganisationProviders(): array {
-		return $this->organisationProviders;
+	public function getOrganizationProviders(): array {
+		return $this->organizationProviders;
 	}
 
 	/**
-	 * @return OrganisationProvider
+	 * @return OrganizationProvider
 	 */
-	public function getOrganisationProvider($id): ?OrganisationProvider {
-		return $this->organisationProviders[$id];
+	public function getOrganizationProvider($id): ?OrganizationProvider {
+		return $this->organizationProviders[$id];
 	}
 
-	public function registerOrganisationProvider(OrganisationProvider $organisationProvider): self {
-		$this->organisationProviders[$organisationProvider->getId()] = $organisationProvider;
+	public function registerOrganizationProvider(OrganizationProvider $organizationProvider): self {
+		$this->organizationProviders[$organizationProvider->getId()] = $organizationProvider;
 		return $this;
 	}
 }

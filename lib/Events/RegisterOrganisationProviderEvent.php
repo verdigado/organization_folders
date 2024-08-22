@@ -6,22 +6,22 @@ namespace OCA\OrganizationFolders\Events;
 
 use OCP\EventDispatcher\Event;
 
-use OCA\OrganizationFolders\Transport\OrganisationProviderManager;
+use OCA\OrganizationFolders\Transport\OrganizationProviderManager;
 
 /**
- * This event is triggered during the initialization of Organisation Folders.
+ * This event is triggered during the initialization of Organization Folders.
  */
-class RegisterOrganisationProviderEvent extends Event {
+class RegisterOrganizationProviderEvent extends Event {
 
-	/** @var OrganisationProviderManager */
-	private $organisationProviderManager;
+	/** @var OrganizationProviderManager */
+	private $organizationProviderManager;
 
-	public function __construct(OrganisationProviderManager $organisationProviderManager) {
+	public function __construct(OrganizationProviderManager $organizationProviderManager) {
 		parent::__construct();
-		$this->organisationProviderManager = $organisationProviderManager;
+		$this->organizationProviderManager = $organizationProviderManager;
 	}
 
-	public function getOrganisationProviderManager(): OrganisationProviderManager {
-		return $this->organisationProviderManager;
+	public function getOrganizationProviderManager(): OrganizationProviderManager {
+		return $this->organizationProviderManager;
 	}
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\OrganizationFolders\OrganisationProvider;
+namespace OCA\OrganizationFolders\OrganizationProvider;
 
-abstract class OrganisationProvider {
+abstract class OrganizationProvider {
 	protected $id;
 
 	public function getId() {

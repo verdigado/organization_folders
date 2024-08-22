@@ -3,7 +3,7 @@
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>organization_folders</id>
     <name>Organization Folders</name>
-    <summary>Managed Groupfolders for your Organisation</summary>
+    <summary>Managed Groupfolders for your Organization</summary>
     <description><![CDATA[]]></description>
     <version>0.0.1</version>
     <licence>agpl</licence>
