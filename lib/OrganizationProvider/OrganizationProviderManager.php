@@ -27,6 +27,13 @@ class OrganizationProviderManager {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function hasOrganizationProvider($id): bool {
+		return array_key_exists($id, $this->organizationProviders);
+	}
+
+	/**
 	 * @return OrganizationProvider
 	 */
 	public function getOrganizationProvider($id): ?OrganizationProvider {

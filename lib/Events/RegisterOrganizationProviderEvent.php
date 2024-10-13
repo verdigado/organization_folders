@@ -6,7 +6,7 @@ namespace OCA\OrganizationFolders\Events;
 
 use OCP\EventDispatcher\Event;
 
-use OCA\OrganizationFolders\Transport\OrganizationProviderManager;
+use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 /**
  * This event is triggered during the initialization of Organization Folders.
