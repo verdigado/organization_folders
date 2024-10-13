@@ -16,4 +16,11 @@ class Organization implements \JsonSerializable {
     public function getMembersGroup(): string {
 		return $this->membersGroup;
 	}
+
+	public function jsonSerialize(): array {
+		return [
+			'id' => $this->id,
+			'membersGroup' => $this->membersGroup,
+		];
+	}
 }

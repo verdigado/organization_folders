@@ -26,4 +26,13 @@ class OrganizationRole implements \JsonSerializable {
     public function getMembersGroup(): string {
 		return $this->membersGroup;
 	}
+
+  public function jsonSerialize(): array {
+		return [
+			'id' => $this->id,
+			'organizationId' => $this->organizationId,
+      'friendlyName' => $this->friendlyName,
+      'membersGroup' => $this->membersGroup,
+		];
+	}
 }
