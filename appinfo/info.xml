@@ -19,6 +19,8 @@
         <nextcloud min-version="29" max-version="30"/>
     </dependencies>
     <commands>
+        <command>OCA\OrganizationFolders\Command\OrganizationFolder\ListOrganizationFolders</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationFolder\CreateOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\Resource\CreateResource</command>
         <command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
     </commands>
