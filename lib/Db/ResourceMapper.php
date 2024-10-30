@@ -52,17 +52,17 @@ class ResourceMapper extends QBMapper {
 	}
 
     /**
-	 * @param int $groupfolderId
+	 * @param int $organizationFolderId
      * @param int $parentResourceId
 	 * @return array
 	 */
-	public function findAll(int $groupfolderId, ?int $parentResourceId = null): array {
+	public function findAll(int $organizationFolderId, ?int $parentResourceId = null): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission')
 			->from(self::RESOURCES_TABLE, "resource")
-            ->where($qb->expr()->eq('group_folder_id', $qb->createNamedParameter($groupfolderId, IQueryBuilder::PARAM_INT)));
+            ->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
 
         if(is_null($parentResourceId)) {
             $qb->andWhere($qb->expr()->isNull('parent_resource'));

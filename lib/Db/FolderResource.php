@@ -19,7 +19,7 @@ class FolderResource extends Resource {
 
 		$instance->setId($row["id"]);
 		$instance->setParentResource($row["parent_resource"]);
-		$instance->setGroupFolderId($row["group_folder_id"]);
+		$instance->setOrganizationFolderId($row["organization_folder_id"]);
 		$instance->setName($row["name"]);
 		$instance->setActive($row["active"]);
 		$instance->setLastUpdatedTimestamp($row["last_updated_timestamp"]);
@@ -36,7 +36,7 @@ class FolderResource extends Resource {
 		return [
 			'id' => $this->id,
 			'parentResource' => $this->parentResource,
-			'groupFolderId' => $this->groupFolderId,
+			'organizationFolderId' => $this->organizationFolderId,
 			'type' => "folder",
 			'name' => $this->name,
 			'active' => $this->active,

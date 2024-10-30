@@ -39,7 +39,7 @@ class ResourceService {
 	/* Use named arguments to call this function */
 	public function create(
 		string $type,
-		int $groupFolderId,
+		int $organizationFolderId,
 		?int $parentResource = null,
 		bool $active = true,
 

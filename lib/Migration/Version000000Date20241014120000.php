@@ -34,7 +34,7 @@ class Version000000Date20241014120000 extends SimpleMigrationStep {
 			$table->addColumn('parent_resource', Types::INTEGER, [
 				'notnull' => false,
 			]);
-			$table->addColumn('group_folder_id', Types::BIGINT, [
+			$table->addColumn('organization_folder_id', Types::BIGINT, [
 				'length' => 20,
 				'notnull' => true,
 			]);
@@ -62,10 +62,14 @@ class Version000000Date20241014120000 extends SimpleMigrationStep {
 				'organizationfolders_resources_parent_resource_id_fk');
 			$table->addForeignKeyConstraint(
 				$schema->getTable(self::GROUP_FOLDERS_TABLE),
-				['group_folder_id'],
+				['organization_folder_id'],
 				['folder_id'],
 				['onDelete' => 'CASCADE'],
-				'organizationfolders_resources_group_folder_id_fk');
+				'organizationfolders_resources_organization_folder_id_fk');
+
+			// WARNING: CONSTRAINT CURRENTLY DOES NOT WORK FOR TOP LEVEL RESOURCES, AS ROWS WITH A NULL IN ONE OF THE UNIQUE COLUMNS WILL NOT BE CHECKED BY THIS
+			// TODO: use NULLS NOT DISTINCT (postgres supported only)
+			$table->addUniqueConstraint(['organization_folder_id', 'parent_resource', 'name'], "organizationfolders_resources_name_unique");
 		}
 
 		if (!$schema->hasTable(self::FOLDER_RESOURCES_TABLE)) {
