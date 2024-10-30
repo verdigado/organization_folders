@@ -12,11 +12,16 @@ use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
+use OCA\OrganizationFolders\Errors\ResourceNameNotUnique;
 
 class ResourceService {
 	public function __construct(
 		private ResourceMapper $mapper
 	) {
+	}
+
+	public function findAll(int $groupfolderId, int $parentResourceId = null) {
+		return $this->mapper->findAll($groupfolderId, $parentResourceId);
 	}
 
 	private function handleException(Exception $e, int $id): void {
@@ -40,6 +45,7 @@ class ResourceService {
 	public function create(
 		string $type,
 		int $organizationFolderId,
+		string $name,
 		?int $parentResource = null,
 		bool $active = true,
 
@@ -53,30 +59,36 @@ class ResourceService {
 			throw new InvalidResourceType($type);
 		}
 
-		$resource->setGroupFolderId($groupFolderId);
-		$resource->setParentResource($parentResource);
-		$resource->setActive($active);
-		$resource->setLastUpdatedTimestamp(time());
+		if(!$this->mapper->existsWithName($organizationFolderId, $parentResource, $name)) {
+			$resource->setGroupFolderId($organizationFolderId);
+			$resource->setName($name);
+			$resource->setParentResource($parentResource);
+			$resource->setActive($active);
+			$resource->setLastUpdatedTimestamp(time());
 
-		if($type === "folder") {
-			if(isset($membersAclPermission, $managersAclPermission, $inheritedAclPermission)) {
-				$resource->setMembersAclPermission($membersAclPermission);
-				$resource->setManagersAclPermission($managersAclPermission);
-				$resource->setInheritedAclPermission($inheritedAclPermission);
-			} else {
-				throw new \InvalidArgumentException("Folder specific parameters must be included, when creating a resource of type folder");
+			if($type === "folder") {
+				if(isset($membersAclPermission, $managersAclPermission, $inheritedAclPermission)) {
+					$resource->setMembersAclPermission($membersAclPermission);
+					$resource->setManagersAclPermission($managersAclPermission);
+					$resource->setInheritedAclPermission($inheritedAclPermission);
+				} else {
+					throw new \InvalidArgumentException("Folder specific parameters must be included, when creating a resource of type folder");
+				}
 			}
+
+			$resource = $this->mapper->insert($resource);
+
+			return $resource;
+		} else {
+			throw new ResourceNameNotUnique();
 		}
-
-		$resource = $this->mapper->insert($resource);
-
-		return $resource;
 	}
 
 	/* Use named arguments to call this function */
 	public function update(
 			int $id,
 
+			?string $name = null,
 			?int $parentResource = null,
 			?bool $active = null,
 
@@ -88,6 +100,14 @@ class ResourceService {
 
 		if(isset($parentResource)) {
 			$resource->setParentResource($parentResource);
+		}
+
+		if(isset($name)) {
+			if($this->mapper->existsWithName($resource->getGroupFolderId(), $resource->getParentResource(), $name)) {
+				throw new ResourceNameNotUnique();
+			} else {
+				$resource->setName($name);
+			}
 		}
 
 		if(isset($active)) {

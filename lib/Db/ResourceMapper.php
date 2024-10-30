@@ -17,7 +17,7 @@ class ResourceMapper extends QBMapper {
 	public const RESOURCES_TABLE = "organizationfolders_resources";
 	public const FOLDER_RESOURCES_TABLE = "organizationfolders_folder_resources";
 
-    private const updateableResourceProperties = ["parentResource", "active", "lastUpdatedTimestamp"];
+    private const updateableResourceProperties = ["parentResource", "active", "name", "lastUpdatedTimestamp"];
     private const updateableFolderResourceProperties = ["membersAclPermission", "managersAclPermission", "inheritedAclPermission"];
 
 	public function __construct(IDBConnection $db) {
@@ -75,6 +75,25 @@ class ResourceMapper extends QBMapper {
         return $this->findEntities($qb);
 	}
 
+    public function existsWithName(int $organizationFolderId, ?int $parentResourceId, string $name): bool {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select($qb->createFunction('COUNT(1)'))
+			->from(self::RESOURCES_TABLE)
+            ->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
+
+        if(is_null($parentResourceId)) {
+            $qb->andWhere($qb->expr()->isNull('parent_resource'));
+        } else {
+            $qb->andWhere($qb->expr()->eq('parent_resource', $qb->createNamedParameter($parentResourceId, IQueryBuilder::PARAM_INT)));
+        }
+
+        $qb->andWhere($qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)));
+
+		return $qb->executeQuery()->fetch()["COUNT(1)"] === 1;
+	}
+
     /**
 	 * Creates a new entry in the db from an entity
 	 *
@@ -87,7 +106,7 @@ class ResourceMapper extends QBMapper {
 	 */
 	public function insert(Entity $entity): Entity {
 		$setProperties = array_keys($entity->getUpdatedFields());
-        $setResourceProperties = array_intersect(["id", ...self::updateableResourceProperties], $setProperties);
+        $setResourceProperties = ["type", "organizationFolderId", ...array_intersect(["id", ...self::updateableResourceProperties], $setProperties)];
 
         if($entity->getType() === "folder") {
             $typeSpecificTable = self::FOLDER_RESOURCES_TABLE;
