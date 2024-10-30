@@ -47,4 +47,22 @@ class FolderResource extends Resource {
 			'inheritedAclPermission' => $this->inheritedAclPermission,
 		];
 	}
+
+	public function tableSerialize(): array {
+		return [
+			'Id' => $this->id,
+			'Name' => $this->name,
+			'Type' => "Folder",
+			'Active' => ((bool)$this->active) ? 'yes' : 'no',
+			'Last Updated' => $this->lastUpdatedTimestamp,
+
+			'Members ACL Permission' => $this->membersAclPermission,
+			'Managers ACL Permission' => $this->managersAclPermission,
+			'Inherited ACL Permission' => $this->inheritedAclPermission,
+		];
+	}
+
+	public function getType(): string {
+		return "folder";
+	}
 }

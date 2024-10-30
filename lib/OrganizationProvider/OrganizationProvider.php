@@ -13,7 +13,7 @@ use OCA\OrganizationFolders\Errors\OrganizationRoleNotFound;
 abstract class OrganizationProvider {
 	protected $id;
 
-	public function getId() {
+	public function getId(): string {
 		return $this->id;
 	}
 

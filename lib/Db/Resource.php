@@ -3,10 +3,11 @@
 namespace OCA\OrganizationFolders\Db;
 
 use JsonSerializable;
+use OCA\OrganizationFolders\Interface\TableSerializable;
 
 use OCP\AppFramework\Db\Entity;
 
-abstract class Resource extends Entity implements JsonSerializable {
+abstract class Resource extends Entity implements JsonSerializable, TableSerializable {
 	protected $organizationFolderId;
 	protected $parentResource;
 	protected $name;
@@ -19,4 +20,6 @@ abstract class Resource extends Entity implements JsonSerializable {
         $this->addType('active','bool');
 		$this->addType('lastUpdatedTimestamp','integer');
 	}
+
+	abstract public function getType(): string;
 }
