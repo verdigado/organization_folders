@@ -89,6 +89,9 @@ class Version000000Date20241014120000 extends SimpleMigrationStep {
                 'length' => 11,
 				'notnull' => true,
 			]);
+			$table->addColumn('file_id', Types::INTEGER, [
+				'notnull' => true,
+			]);
 
 			$table->setPrimaryKey(['resource_id']);
 			$table->addForeignKeyConstraint(
@@ -97,6 +100,7 @@ class Version000000Date20241014120000 extends SimpleMigrationStep {
 				['id'],
 				['onDelete' => 'CASCADE'],
 				'organizationfolders_folder_resources_resource_id_fk');
+			$table->addIndex(['file_id'], 'organizationfolders_folder_resources_file_id_index');
 		}
 
 		return $schema;

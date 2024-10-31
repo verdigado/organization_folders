@@ -6,12 +6,14 @@ class FolderResource extends Resource {
 	protected $membersAclPermission;
 	protected $managersAclPermission;
 	protected $inheritedAclPermission;
+	protected $fileId;
 
 	public function __construct() {
         parent::__construct();
 		$this->addType('membersAclPermission','integer');
 		$this->addType('managersAclPermission','integer');
 		$this->addType('inheritedAclPermission','integer');
+		$this->addType('fileId','integer');
 	}
 
 	public static function fromRow(array $row): static {
@@ -26,6 +28,7 @@ class FolderResource extends Resource {
 		$instance->setMembersAclPermission($row["members_acl_permission"]);
 		$instance->setManagersAclPermission($row["managers_acl_permission"]);
 		$instance->setInheritedAclPermission($row["inherited_acl_permission"]);
+		$instance->setFileId($row["file_id"]);
 
 		$instance->resetUpdatedFields();
 
@@ -45,6 +48,7 @@ class FolderResource extends Resource {
 			'membersAclPermission' => $this->membersAclPermission,
 			'managersAclPermission' => $this->managersAclPermission,
 			'inheritedAclPermission' => $this->inheritedAclPermission,
+			'fileId' => $this->fileId,
 		];
 	}
 

@@ -18,7 +18,7 @@ class ResourceMapper extends QBMapper {
 	public const FOLDER_RESOURCES_TABLE = "organizationfolders_folder_resources";
 
     private const updateableResourceProperties = ["parentResource", "active", "name", "lastUpdatedTimestamp"];
-    private const updateableFolderResourceProperties = ["membersAclPermission", "managersAclPermission", "inheritedAclPermission"];
+    private const updateableFolderResourceProperties = ["membersAclPermission", "managersAclPermission", "inheritedAclPermission", "fileId"];
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::RESOURCES_TABLE, Resource::class);
