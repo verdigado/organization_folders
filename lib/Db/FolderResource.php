@@ -48,7 +48,7 @@ class FolderResource extends Resource {
 		];
 	}
 
-	public function tableSerialize(): array {
+	public function tableSerialize(?array $params = null): array {
 		return [
 			'Id' => $this->id,
 			'Name' => $this->name,

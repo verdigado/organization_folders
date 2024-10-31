@@ -23,5 +23,7 @@
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\CreateOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\Resource\CreateResource</command>
         <command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
+        <command>OCA\OrganizationFolders\Command\ResourceMember\CreateResourceMember</command>
+        <command>OCA\OrganizationFolders\Command\ResourceMember\ListResourceMembers</command>
     </commands>
 </info>

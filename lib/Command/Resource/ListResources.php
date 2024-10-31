@@ -27,7 +27,7 @@ class ListResources extends BaseCommand {
 
 			$resources = $this->resourceService->findAll($organizationFolderId, $parentResourceId);
 
-			$this->writeTableInOutputFormat($input, $output, $this->formatResources($resources));
+			$this->writeTableInOutputFormat($input, $output, $this->formatTableSerializables($resources));
 			return 0;
 		} catch (Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");

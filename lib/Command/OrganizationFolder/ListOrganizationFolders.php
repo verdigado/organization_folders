@@ -21,7 +21,7 @@ class ListOrganizationFolders extends BaseCommand {
 		try {
 			$organizationFolderGroupfolders = $this->organizationFolderService->getAll();
 
-			$this->writeTableInOutputFormat($input, $output, $this->formatOrganizationFolders($organizationFolderGroupfolders));
+			$this->writeTableInOutputFormat($input, $output, $this->formatTableSerializables($organizationFolderGroupfolders));
 			return 0;
 		} catch (Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");

@@ -20,8 +20,8 @@ class ResourceService {
 	) {
 	}
 
-	public function findAll(int $groupfolderId, int $parentResourceId = null) {
-		return $this->mapper->findAll($groupfolderId, $parentResourceId);
+	public function findAll(int $organizationFolderId, int $parentResourceId = null) {
+		return $this->mapper->findAll($organizationFolderId, $parentResourceId);
 	}
 
 	private function handleException(Exception $e, int $id): void {
@@ -60,7 +60,7 @@ class ResourceService {
 		}
 
 		if(!$this->mapper->existsWithName($organizationFolderId, $parentResource, $name)) {
-			$resource->setGroupFolderId($organizationFolderId);
+			$resource->setOrganizationFolderId($organizationFolderId);
 			$resource->setName($name);
 			$resource->setParentResource($parentResource);
 			$resource->setActive($active);
