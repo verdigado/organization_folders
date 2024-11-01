@@ -24,13 +24,21 @@ class OrganizationFolderService {
 	) {
     }
 
-    public function getAll() {
+    public function findAll() {
         $result = [];
 
-        $tags = $this->tagService->findAllIncludingGroupfolder("organization_folder");
+        $groupfolders = $this->tagService->findGroupfoldersWithTagsGenerator([
+            ["key" => "organization_folder"],
+        ], ["organization_provider", "organization_id"]);
 
-        foreach ($tags as $tag) {
-            $result[] = new OrganizationFolder($tag["group_folder_id"], $tag["mount_point"], $tag["quota"]);
+        foreach ($groupfolders as $groupfolder) {
+            $result[] = new OrganizationFolder(
+                id: $groupfolder["id"],
+                name: $groupfolder["mount_point"],
+                quota: $groupfolder["quota"],
+                organizationProvider: $groupfolder["organization_provider"],
+                organizationId: $groupfolder["organization_id"],
+            );
         }
 
         return $result;

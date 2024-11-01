@@ -10,6 +10,8 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		private int $id,
         private string $name,
         private int $quota,
+		private ?string $organizationProvider = null,
+		private ?int $organizationId = null,
 	) {
     }
 
@@ -30,6 +32,8 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'id' => $this->id,
 			'name' => $this->name,
             'quota' => $this->quota,
+			'organizationProvider' => $this->organizationProvider,
+			'organizationId' => $this->organizationId,
 		];
 	}
 
@@ -38,6 +42,8 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'Id' => $this->id,
 			'Name' => $this->name,
             'Quota' => $this->quota,
+			'Organization Provider' => $this->organizationProvider,
+			'Organization Id' => $this->organizationId,
 		];
 	}
 }

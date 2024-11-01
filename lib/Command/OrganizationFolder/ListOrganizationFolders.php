@@ -19,7 +19,7 @@ class ListOrganizationFolders extends BaseCommand {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-			$organizationFolderGroupfolders = $this->organizationFolderService->getAll();
+			$organizationFolderGroupfolders = $this->organizationFolderService->findAll();
 
 			$this->writeTableInOutputFormat($input, $output, $this->formatTableSerializables($organizationFolderGroupfolders));
 			return 0;
