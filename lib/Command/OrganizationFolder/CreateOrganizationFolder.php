@@ -26,7 +26,7 @@ class CreateOrganizationFolder extends BaseCommand {
 		try {
 			$organizationFolder = $this->organizationFolderService->create($name, $quota);
 
-			$output->writeln(json_encode($organizationFolder));
+			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($organizationFolder)]);			
 			return 0;
 		} catch (Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");
