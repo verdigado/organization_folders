@@ -43,7 +43,7 @@ class CreateResource extends BaseCommand {
 				type: $type,
 				organizationFolderId: $organizationFolder,
 				name: $name,
-				parentResource: $parentResource,
+				parentResourceId: $parentResource,
 
 				membersAclPermission: $membersAclPermission,
 				managersAclPermission: $managersAclPermission,

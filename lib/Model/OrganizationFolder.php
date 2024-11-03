@@ -27,11 +27,11 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		return $this->quota;
 	}
 
-	public function getOrganizationProvider(): string {
+	public function getOrganizationProvider(): ?string {
 		return $this->organizationProvider;
 	}
 
-	public function getOrganizationId(): int {
+	public function getOrganizationId(): ?int {
 		return $this->organizationId;
 	}
 

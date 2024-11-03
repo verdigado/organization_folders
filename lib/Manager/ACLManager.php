@@ -14,10 +14,10 @@ use OCA\GroupFolders\Folder\FolderManager;
 
 class ACLManager {
     public function __construct(
-        private IDBConnection $db,
-		private FolderManager $folderManager,
-        private IUserMappingManager $userMappingManager,
-        private RuleManager $ruleManager,
+        protected IDBConnection $db,
+		protected FolderManager $folderManager,
+        protected IUserMappingManager $userMappingManager,
+        protected RuleManager $ruleManager,
 	) {
     }
 
@@ -48,7 +48,7 @@ class ACLManager {
         return array_map($this->createRuleEntityFromRow(...), $rows);
     }
 
-    private function ruleMappingComparison(Rule $rule1, Rule $rule2) {
+    protected function ruleMappingComparison(Rule $rule1, Rule $rule2): int {
         $mapping1 = $rule1->getUserMapping();
         $mapping2 = $rule2->getUserMapping();
 

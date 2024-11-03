@@ -38,7 +38,7 @@ class OrganizationFolderService {
                 name: $groupfolder["mount_point"],
                 quota: $groupfolder["quota"],
                 organizationProvider: $groupfolder["organization_provider"],
-                organizationId: $groupfolder["organization_id"],
+                organizationId: (int)$groupfolder["organization_id"],
             );
         }
 
@@ -59,7 +59,7 @@ class OrganizationFolderService {
             name: $groupfolder["mount_point"],
             quota: $groupfolder["quota"],
             organizationProvider: $groupfolder["organization_provider"],
-            organizationId: $groupfolder["organization_id"],
+            organizationId: (int)$groupfolder["organization_id"],
         );
     }
 
