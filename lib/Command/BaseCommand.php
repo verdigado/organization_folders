@@ -5,10 +5,10 @@ namespace OCA\OrganizationFolders\Command;
 use OC\Core\Command\Base;
 use OCP\IDateTimeFormatter;
 
-use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
+use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Interface\TableSerializable;
 
 abstract class BaseCommand extends Base {
@@ -18,6 +18,7 @@ abstract class BaseCommand extends Base {
         protected readonly OrganizationFolderService $organizationFolderService,
         protected ResourceService $resourceService,
 		protected ResourceMemberService $resourceMemberService,
+		protected OrganizationProviderManager $organizationProviderManager,
 	) {
 		parent::__construct();
 	}

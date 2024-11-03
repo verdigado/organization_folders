@@ -14,7 +14,7 @@ class RemoveOrganizationFolder extends BaseCommand {
 		$this
 			->setName('organization-folders:remove')
 			->setDescription('Remove a new organization folder')
-			->addArgument('id', null, InputArgument::REQUIRED, 'Id of the organization folder to remove');
+			->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder to remove');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {

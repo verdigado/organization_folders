@@ -27,5 +27,9 @@
         <command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
         <command>OCA\OrganizationFolders\Command\ResourceMember\CreateResourceMember</command>
         <command>OCA\OrganizationFolders\Command\ResourceMember\ListResourceMembers</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationProviders</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizations</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationRoles</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganizationRole</command>
     </commands>
 </info>

@@ -14,7 +14,7 @@ class GetOrganizationFolder extends BaseCommand {
 		$this
 			->setName('organization-folders:get')
 			->setDescription('Get organization folder by id')
-            ->addArgument('id', null, InputArgument::REQUIRED, 'Id of the organization folder to get');
+            ->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder to get');
 		parent::configure();
 	}
 

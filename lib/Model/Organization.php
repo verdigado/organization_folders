@@ -2,7 +2,9 @@
 
 namespace OCA\OrganizationFolders\Model;
 
-class Organization implements \JsonSerializable {
+use OCA\OrganizationFolders\Interface\TableSerializable;
+
+class Organization implements \JsonSerializable, TableSerializable {
     public function __construct(
 		private int $id,
         private string $membersGroup,
@@ -21,6 +23,13 @@ class Organization implements \JsonSerializable {
 		return [
 			'id' => $this->id,
 			'membersGroup' => $this->membersGroup,
+		];
+	}
+
+	public function tableSerialize(?array $params = null): array {
+		return [
+			'Id' => $this->id,
+			'Members Group' => $this->membersGroup,
 		];
 	}
 }

@@ -57,7 +57,7 @@ abstract class OrganizationProvider {
     *
     * @return Organization[]
     */
-	abstract public function getSubOrganizations(?int $parentOrganizationId): array;
+	abstract public function getSubOrganizations(?int $parentOrganizationId = null): array;
 
    /**
     * Get a specific role by its id (must be unique within organization provider, not just within parent organization)
@@ -65,7 +65,7 @@ abstract class OrganizationProvider {
     * @return OrganizationRole
     * @throws OrganizationRoleNotFound
     */
-    abstract public function getRole(int $id): OrganizationRole;
+    abstract public function getRole(string $id): OrganizationRole;
 
    /**
     * Get all roles of a specific organization
