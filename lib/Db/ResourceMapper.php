@@ -42,7 +42,7 @@ class ResourceMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission')
+		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id')
 			->from(self::RESOURCES_TABLE, "resource")
             ->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
@@ -56,21 +56,27 @@ class ResourceMapper extends QBMapper {
      * @param int $parentResourceId
 	 * @return array
 	 */
-	public function findAll(int $organizationFolderId, ?int $parentResourceId = null): array {
+	public function findAll(int $organizationFolderId, ?int $parentResourceId = null, array $filters = []): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission')
+		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id')
 			->from(self::RESOURCES_TABLE, "resource")
             ->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
 
         if(is_null($parentResourceId)) {
-            $qb->andWhere($qb->expr()->isNull('parent_resource'));
+            $qb->andWhere($qb->expr()->isNull('resource.parent_resource'));
         } else {
-            $qb->andWhere($qb->expr()->eq('parent_resource', $qb->createNamedParameter($parentResourceId, IQueryBuilder::PARAM_INT)));
+            $qb->andWhere($qb->expr()->eq('resource.parent_resource', $qb->createNamedParameter($parentResourceId, IQueryBuilder::PARAM_INT)));
         }
 
-        $qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'),);
+        $folderJoinCondition = $qb->expr()->eq('resource.id', 'folder.resource_id');
+        if(isset($filters["type"]) && $filters["type"] === "folder") {
+            $qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter("folder")));
+            $qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $folderJoinCondition);
+        } else {
+            $qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $folderJoinCondition);
+        }
 
         return $this->findEntities($qb);
 	}

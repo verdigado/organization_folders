@@ -9,19 +9,29 @@ use OCP\IDBConnection;
 
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupfolderTags\Service\TagService;
+use OCA\GroupFolders\ACL\UserMapping\UserMappingManager;
+use OCA\GroupFolders\ACL\Rule;
 
 use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Manager\PathManager;
+use OCA\OrganizationFolders\Manager\GroupfolderManager;
+use OCA\OrganizationFolders\Manager\ACLManager;
 
 class OrganizationFolderService {
     use TTransactional;
 
     public function __construct(
-        private IDBConnection $db,
-		private FolderManager $folderManager,
-        private TagService $tagService,
-        private OrganizationProviderManager $organizationProviderManager,
+        protected IDBConnection $db,
+		protected FolderManager $folderManager,
+        protected UserMappingManager $userMappingManager,
+        protected TagService $tagService,
+        protected OrganizationProviderManager $organizationProviderManager,
+        protected PathManager $pathManager,
+        protected GroupfolderManager $groupfolderManager,
+        protected ACLManager $aclManager,
+        protected ResourceService $resourceService,
 	) {
     }
 
@@ -132,7 +142,60 @@ class OrganizationFolderService {
     }
 
     public function applyPermissions(int $id) {
-        
+        $organizationFolder = $this->find($id);
+
+        $memberGroups = $this->getMemberGroups($organizationFolder);
+
+        $this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $memberGroups);
+        $this->setRootFolderACLs($organizationFolder, $memberGroups);
+
+        return $this->resourceService->setAllFolderResourceAclsInOrganizationFolder($organizationFolder, $memberGroups);
+    }
+
+    protected function getMemberGroups(OrganizationFolder $organizationFolder) {
+        // TODO: fetch member groups, for now only use organization members
+        $memberGroups = [];
+
+        if(!is_null($organizationFolder->getOrganizationProvider()) && !is_null($organizationFolder->getOrganizationId())) {
+            $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProvider());
+            $organization = $organizationProvider->getOrganization($organizationFolder->getOrganizationId());
+
+            $memberGroups[] = $organization->getMembersGroup();
+        }
+
+        return $memberGroups;
+    }
+
+    protected function setGroupsAsGroupfolderMembers($groupfolderId, array $groups) {
+        $groupfolderMembers = [];
+
+        foreach($groups as $group) {
+            $groupfolderMembers[] = [
+                "group_id" => $group,
+                "permissions" => \OCP\Constants::PERMISSION_ALL,
+            ];
+        }
+
+        return $this->groupfolderManager->overwriteMemberGroups($groupfolderId, $groupfolderMembers);
+    }
+    /**
+     * In the root folder of an organization folder only resource folders can exist
+     * To prevent adding files there all member groups of the groupfolder need to have a read-only ACL rule on the root folder
+     */
+    protected function setRootFolderACLs(OrganizationFolder $organizationFolder, $groups) {
+        $folderNode = $this->pathManager->getOrganizationFolderNode($organizationFolder);
+        $fileId = $folderNode->getId();
+
+        $acls = [];
+        foreach($groups as $group) {
+            $acls[] = new Rule(userMapping: $this->userMappingManager->mappingFromId("group", $group),
+                fileId: $fileId,
+                mask: 31,
+                permissions: 1,
+            );
+        }
+
+        $this->aclManager->overwriteACLsForFileId($fileId, $acls);
     }
 
     public function remove($id): void {
