@@ -52,6 +52,8 @@ class ResourceMemberService {
 		$member->setResourceId($resourceId);
 		$member->setPermissionLevel($permissionLevel->value);
         $member->setType($type->value);
+		
+		// TODO: check if principal fits format
         $member->setPrincipal($principal);
         $member->setCreatedTimestamp(time());
         $member->setLastUpdatedTimestamp(time());

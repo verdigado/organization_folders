@@ -46,4 +46,17 @@ class ResourceMemberMapper extends QBMapper {
 		
 		return $this->findEntities($qb);
 	}
+
+	public function exists(int $resourceId, int $type, string $principal): bool {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select($qb->createFunction('COUNT(1)'))
+			->from(self::RESOURCE_MEMBERS_TABLE)
+			->where($qb->expr()->eq('resource_id', $qb->createNamedParameter($resourceId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('principal', $qb->createNamedParameter($principal)));
+
+		return $qb->executeQuery()->fetch()["COUNT(1)"] === 1;
+	}
 }

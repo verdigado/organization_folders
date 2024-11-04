@@ -28,14 +28,29 @@ class PathManager {
 	public function getOrganizationFolderNode(OrganizationFolder $organizationFolder): ?Folder {
 		return $this->getOrganizationFolderNodeById($organizationFolder->getId());
 	}
-
-	public function getOrganizationFolderNodeById(int $id): ?Folder {
-		return $this->mountProvider->getFolder($id, False);
+	/** Get underlying groupfolder folder node for the organization folder
+	 * (or if it was never before used create it in the filesystem and filecache!)
+	*/
+	public function getOrganizationFolderNodeById(int $id)/*: ?Folder*/ {
+		return $this->mountProvider->getFolder(id: $id, create: True);
 	}
 
-	public function getFolderResourceNode(FolderResource $resource): ?Folder {
-		$organizationFolderNode = $this->getOrganizationFolderNodeById($resource->getOrganizationFolderId());
+	public function getOrganizationFolderSubfolder(OrganizationFolder $organizationFolder, array $path) {
+		return $this->getOrganizationFolderByIdSubfolder($organizationFolder->getId(), $path);
+	}
 
-		return $organizationFolderNode->getFirstNodeById($resource->getFileId());
+	public function getOrganizationFolderByIdSubfolder(int $id, array $path): ?Folder {
+		$organizationFolderNode = $this->getOrganizationFolderNodeById($id);
+		$currentFolder = $organizationFolderNode;
+
+		foreach($path as $subfolder) {
+			try {
+				$currentFolder = $currentFolder->get($subfolder);
+			} catch (\OCP\Files\NotFoundException $e) {
+				return null;
+			}
+		}
+
+		return $currentFolder;
 	}
 }

@@ -28,6 +28,7 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 
     public function jsonSerialize(): array {
 		return [
+			'id' => $this->id,
 			'resourceId' => $this->resourceId,
 			'permissionLevel' => $this->permissionLevel,
 			'type' => $this->type,
@@ -39,6 +40,7 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 
     public function tableSerialize(?array $params = null): array {
 		return [
+			'Id' => $this->id,
 			'Resource Id' => $this->resourceId,
 			'Permission Level' => MemberPermissionLevel::from($this->permissionLevel)->name,
 			'Type' => MemberType::from($this->type)->name,

@@ -14,18 +14,23 @@ use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
+use OCA\OrganizationFolders\Enum\MemberType;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
 use OCA\OrganizationFolders\Errors\ResourceNameNotUnique;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
+use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 class ResourceService {
 	public function __construct(
-		private ResourceMapper $mapper,
-		private PathManager $pathManager,
+		protected ResourceMapper $mapper,
+		protected PathManager $pathManager,
 		protected ACLManager $aclManager,
-		private UserMappingManager $userMappingManager,
+		protected UserMappingManager $userMappingManager,
+		protected ResourceMemberService $resourceMemberService,
+		protected OrganizationProviderManager $organizationProviderManager,
 	) {
 	}
 
@@ -77,9 +82,13 @@ class ResourceService {
 			if(isset($parentResourceId)) {
 				$parentResource = $this->find($parentResourceId);
 
-				$resource->setParentResource($parentResource->getId());
+				if($parentResource->getOrganizationFolderId() === $organizationFolderId) {
+					$resource->setParentResource($parentResource->getId());
+				} else {
+					throw new Exception("Cannot create child-resource of parent in different organizationId");
+				}
 
-				$parentNode = $this->pathManager->getFolderResourceNode($parentResource);
+				$parentNode = $this->getFolderResourceFilesystemNode($parentResource);
 			} else {
 				$parentNode = $this->pathManager->getOrganizationFolderNodeById($organizationFolderId);
 			}
@@ -129,9 +138,15 @@ class ResourceService {
 		}
 
 		if(isset($name)) {
-			if($this->mapper->existsWithName($resource->getGroupFolderId(), $resource->getParentResource(), $name)) {
+			if($this->mapper->existsWithName($resource->getOrganizationFolderId(), $resource->getParentResource(), $name)) {
 				throw new ResourceNameNotUnique();
 			} else {
+				if($resource->getType() === "folder") {
+					$resourceNode = $this->getFolderResourceFilesystemNode($resource);
+					$newPath = $resourceNode->getParent()->getPath() . "/" . $name;
+					$resourceNode->move($newPath);
+				}
+
 				$resource->setName($name);
 			}
 		}
@@ -161,6 +176,7 @@ class ResourceService {
 		}
 
 		return $this->mapper->update($resource);
+		// TODO: improve error handing: if db update fails roll back changes in the filesystem
 	}
 
 	public function setAllFolderResourceAclsInOrganizationFolder(OrganizationFolder $organizationFolder, array $inheritingGroups) {
@@ -184,11 +200,50 @@ class ResourceService {
 			$resourceFileId = $folderResource->getFileId();
 			$acls = [];
 
+			// inherit ACLs
 			foreach($inheritingGroups as $inheritingGroup) {
-				$acls[] = new Rule(userMapping: $this->userMappingManager->mappingFromId("group", $inheritingGroup),
+				$acls[] = new Rule(
+					userMapping: $this->userMappingManager->mappingFromId("group", $inheritingGroup),
 					fileId: $resourceFileId,
 					mask: 31,
 					permissions: $folderResource->getInheritedAclPermission(),
+				);
+			}
+
+			// member ACLs
+			$resourceMembers = $this->resourceMemberService->findAll($folderResource->getId());
+			foreach($resourceMembers as $resourceMember) {
+				if($resourceMember->getPermissionLevel() === MemberPermissionLevel::MANAGER->value) {
+					$resourceMemberPermissions = $folderResource->getManagersAclPermission();
+				} else if($resourceMember->getPermissionLevel() === MemberPermissionLevel::MEMBER->value) {
+					$resourceMemberPermissions = $folderResource->getMembersAclPermission();
+				} else {
+					throw new Exception("invalid resource member permission level");
+				}
+
+				if($resourceMember->getType() === MemberType::USER->value) {
+					$mapping = $this->userMappingManager->mappingFromId("user", $resourceMember->getPrincipal());
+				} else if($resourceMember->getType() === MemberType::GROUP->value) {
+					$mapping = $this->userMappingManager->mappingFromId("group", $resourceMember->getPrincipal());
+				} else if($resourceMember->getType() === MemberType::ROLE->value) {
+					[$organizationProviderId, $roleId] = explode(":", $resourceMember->getPrincipal(), 2);
+					$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
+					$role = $organizationProvider->getRole($roleId);
+					$mapping = $this->userMappingManager->mappingFromId("group", $role->getMembersGroup());
+				} else {
+					throw new Exception("invalid resource member type");
+				}
+
+				if(is_null($mapping)) {
+					// TODO: skip member instead of crashing
+					throw new Exception(message: "invalid mapping, likely non-existing group");
+				}
+				
+				$acls[] = new Rule(
+					userMapping: $mapping,
+					fileId: $resourceFileId,
+					mask: 31,
+					permissions: $resourceMemberPermissions,
 				);
 			}
 
@@ -196,6 +251,25 @@ class ResourceService {
 
 			// TODO: recurse sub-resources
 		}
+	}
+
+	public function getResourcePath(FolderResource $resource) {
+		$currentResource = $resource;
+		
+		$invertedPath = [];
+
+		$invertedPath[] = $currentResource->getName();
+
+		while($currentResource->getParentResource()) {
+			$currentResource = $this->find($currentResource->getParentResource());
+			$invertedPath[] = $currentResource->getName();
+		}
+
+		return array_reverse($invertedPath);
+	}
+
+	public function getFolderResourceFilesystemNode(FolderResource $resource) {
+		return $this->pathManager->getOrganizationFolderByIdSubfolder($resource->getOrganizationFolderId(), $this->getResourcePath($resource));
 	}
 
 	public function delete(int $id): Resource {

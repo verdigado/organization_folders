@@ -188,7 +188,8 @@ class OrganizationFolderService {
 
         $acls = [];
         foreach($groups as $group) {
-            $acls[] = new Rule(userMapping: $this->userMappingManager->mappingFromId("group", $group),
+            $acls[] = new Rule(
+                userMapping: $this->userMappingManager->mappingFromId("group", $group),
                 fileId: $fileId,
                 mask: 31,
                 permissions: 1,
