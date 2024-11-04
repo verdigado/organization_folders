@@ -30,6 +30,7 @@
         <command>OCA\OrganizationFolders\Command\Resource\UpdateResource</command>
         <command>OCA\OrganizationFolders\Command\ResourceMember\CreateResourceMember</command>
         <command>OCA\OrganizationFolders\Command\ResourceMember\ListResourceMembers</command>
+        <command>OCA\OrganizationFolders\Command\ResourceMember\RemoveResourceMember</command>
         <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationProviders</command>
         <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizations</command>
         <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationRoles</command>
