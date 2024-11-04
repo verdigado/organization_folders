@@ -75,7 +75,7 @@ class OrganizationFolderService {
                 $organization = $this->organizationProviderManager->getOrganizationProvider($organizationProvider)->getOrganization($organizationId);
 
                 $this->tagService->update($groupfolderId, "organization_provider", $organizationProvider);
-                $this->tagService->update($groupfolderId, "organization_id", $organization->getId());
+                $this->tagService->update($groupfolderId, "organization_id", (string)$organization->getId());
             }
 
             $organizationFolder = new OrganizationFolder(
@@ -87,6 +87,47 @@ class OrganizationFolderService {
             );
             
             return $organizationFolder;
+        }, $this->db);
+    }
+
+    public function update(
+        int $id,
+        ?string $name = null,
+        ?int $quota = null,
+        ?string $organizationProviderId = null,
+        ?int $organizationId = null
+    ): OrganizationFolder {
+        return $this->atomic(function () use ($id, $name, $quota, $organizationProviderId, $organizationId) {
+            if(isset($name)) {
+                $this->folderManager->renameFolder($id, $name);
+            }
+
+            if(isset($quota)) {
+                $this->folderManager->setFolderQuota($id, $quota);
+            }
+            
+            if(isset($organizationProviderId) || isset($organizationId)) {
+                if(!isset($organizationProviderId)) {
+                    $organizationProviderId = $this->tagService->find($id, "organization_provider")->getTagValue();
+                }
+    
+                if(!$this->organizationProviderManager->hasOrganizationProvider($organizationProviderId)) {
+                    throw new \Exception("organization provider not found");
+                }
+    
+                $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
+    
+                if(!isset($organizationId)) {
+                    $organizationId = (int)$this->tagService->find($id, "organization_id")->getTagValue();
+                }
+    
+                $organization = $organizationProvider->getOrganization($organizationId);
+    
+                $this->tagService->update($id, "organization_provider", $organizationProviderId);
+                $this->tagService->update($id, "organization_id", (string)$organization->getId());
+            }
+
+            return $this->find($id);
         }, $this->db);
     }
 

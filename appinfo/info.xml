@@ -22,6 +22,7 @@
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\GetOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\ListOrganizationFolders</command>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\CreateOrganizationFolder</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationFolder\UpdateOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\RemoveOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\Resource\CreateResource</command>
         <command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
