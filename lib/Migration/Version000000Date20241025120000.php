@@ -67,6 +67,7 @@ class Version000000Date20241025120000 extends SimpleMigrationStep {
 				['onDelete' => 'CASCADE'],
 				'organizationfolders_resource_members_resource_id_fk');
             $table->addIndex(['resource_id'], 'organizationfolders_resource_members_resource_id_index');
+			$table->addUniqueConstraint(['resource_id', 'type', 'principal'], "organizationfolders_resource_members_unique");
 		}
 
 		return $schema;
