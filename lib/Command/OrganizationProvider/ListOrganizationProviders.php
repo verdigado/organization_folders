@@ -11,7 +11,7 @@ use OCA\OrganizationFolders\Command\BaseCommand;
 class ListOrganizationProviders extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:list-organization-providers')
+			->setName('organization-folders:organization-providers:list')
 			->setDescription('List all registered organization providers');
 		parent::configure();
 	}

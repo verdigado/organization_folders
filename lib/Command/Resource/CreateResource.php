@@ -12,7 +12,7 @@ use OCA\OrganizationFolders\Command\BaseCommand;
 class CreateResource extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:create-resource')
+			->setName('organization-folders:resources:create')
 			->setDescription('Create a new resource in organization folder')
 			->addOption('organization-folder', null, InputOption::VALUE_REQUIRED, 'Id of organization folder to create resource in')
 			->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of resource (valid values: folder)')

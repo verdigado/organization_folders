@@ -12,7 +12,7 @@ use OCA\OrganizationFolders\Command\BaseCommand;
 class GetOrganizationRole extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:get-organization-role')
+			->setName('organization-folders:organization-roles:get')
 			->setDescription('Get a specific organization role by id')
             ->addArgument('provider-id', InputArgument::REQUIRED, 'provider to query')
             ->addArgument('role-id', InputArgument::REQUIRED, '');

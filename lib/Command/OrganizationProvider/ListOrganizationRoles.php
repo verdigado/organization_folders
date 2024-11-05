@@ -12,7 +12,7 @@ use OCA\OrganizationFolders\Command\BaseCommand;
 class ListOrganizationRoles extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:list-organization-roles')
+			->setName('organization-folders:organization-roles:list')
 			->setDescription('List all roles in a specific organization')
             ->addArgument('provider-id', InputArgument::REQUIRED, 'provider to query')
             ->addArgument('organization-id', InputArgument::REQUIRED, 'organization id to query roles of');

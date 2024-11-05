@@ -13,7 +13,7 @@ use OCA\OrganizationFolders\Command\BaseCommand;
 class UpdateResource extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:update-resource')
+			->setName('organization-folders:resources:update')
 			->setDescription('Update a resource')
             ->addArgument('id', InputArgument::REQUIRED, 'Id of the resource to update')
 			->addOption('name', null, InputOption::VALUE_OPTIONAL, 'New name of resource');

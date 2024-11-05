@@ -9,11 +9,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\OrganizationFolders\Command\BaseCommand;
 
-class RemoveResourceMember extends BaseCommand {
+class DeleteResourceMember extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:remove-resource-member')
-			->setDescription('Remove a member of a resource')
+			->setName('organization-folders:resource-members:delete')
+			->setDescription('Delete a member of a resource')
 			->addArgument('id', InputArgument::REQUIRED, 'Id of the resource member');
 	}
 

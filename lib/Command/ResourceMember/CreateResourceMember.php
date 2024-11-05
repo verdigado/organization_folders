@@ -14,7 +14,7 @@ use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
 class CreateResourceMember extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:create-resource-member')
+			->setName('organization-folders:resource-members:create')
 			->setDescription('Create a new member of resource')
 			->addOption('resource-id', null, InputOption::VALUE_REQUIRED, 'Id of resource to create member of')
 			->addOption('permission-level', null, InputOption::VALUE_REQUIRED, 'Permissions level of member (valid values: MEMBER, MANAGER)')

@@ -12,7 +12,7 @@ use OCA\OrganizationFolders\Command\BaseCommand;
 class ListResourceMembers extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:list-resource-members')
+			->setName('organization-folders:resource-members:list')
             ->addArgument('resource-id', InputArgument::REQUIRED, 'Id of Resource')
 			->setDescription('List all members of resource.');
             

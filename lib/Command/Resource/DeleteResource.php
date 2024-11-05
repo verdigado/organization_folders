@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\OrganizationFolders\Command\OrganizationFolder;
+namespace OCA\OrganizationFolders\Command\Resource;
 
 use OCP\DB\Exception;
 use Symfony\Component\Console\Input\InputArgument;
@@ -9,19 +9,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\OrganizationFolders\Command\BaseCommand;
 
-class RemoveOrganizationFolder extends BaseCommand {
+class DeleteResource extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:remove')
-			->setDescription('Remove a new organization folder')
-			->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder to remove');
+			->setName('organization-folders:resources:delete')
+			->setDescription('Delete a resource')
+			->addArgument('id', InputArgument::REQUIRED, 'Id of the resource');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$id = (int)$input->getArgument('id');
 
 		try {
-			$this->organizationFolderService->remove($id);
+			$this->resourceService->deleteById($id);
 
             $output->writeln("done");
 

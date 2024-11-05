@@ -14,7 +14,7 @@ class UpdateOrganizationFolder extends BaseCommand {
 	protected function configure(): void {
 		$this
 			->setName('organization-folders:update')
-			->setDescription('Update a organization folder')
+			->setDescription('Update an organization folder')
             ->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder to update')
 			->addOption('name', null, InputOption::VALUE_OPTIONAL, 'New name of the organization folder')
 			->addOption('quota', null, InputOption::VALUE_OPTIONAL, 'New storage quota of the organization folder')
