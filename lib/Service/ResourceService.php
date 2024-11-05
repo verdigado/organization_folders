@@ -271,14 +271,51 @@ class ResourceService {
 	public function getFolderResourceFilesystemNode(FolderResource $resource) {
 		return $this->pathManager->getOrganizationFolderByIdSubfolder($resource->getOrganizationFolderId(), $this->getResourcePath($resource));
 	}
+	/** 
+	 * get all direct sub-resources
+	 */
+	public function getSubResources(Resource $resource) {
+		return $this->findAll($resource->getOrganizationFolderId(), $resource->getId());
+	}
 
-	public function delete(int $id): Resource {
+	/**
+	 * get all sub-resources recursively
+	 */
+	public function getAllSubResources(Resource $resource) {
+		$subResources = $this->getSubResources($resource);
+
+		foreach($subResources as $subResource) {
+			$subResources = array_merge($subResources, $this->getAllSubResources($subResource));
+		}
+
+		return $subResources;
+	}
+
+	public function deleteById(int $id): Resource {
 		try {
 			$resource = $this->mapper->find($id);
-			$this->mapper->delete($resource);
-			return $resource;
+			return $this->delete($resource);
 		} catch (Exception $e) {
-			$this->handleException($e, $id);
+			$this->handleException($e, $resource->getId());
 		}
+	}
+
+	public function delete(Resource $resource): Resource {
+		// first delete all subresources recursively
+		$subResources = $this->getSubResources($resource);
+		
+		foreach($subResources as $subResource) {
+			$this->delete($subResource);
+		}
+
+		// delete in filesystem if type folder
+		if($resource->getType() === "folder") {
+			$this->getFolderResourceFilesystemNode($resource)->delete();
+		}
+		
+		// delete in database
+		$this->mapper->delete($resource);
+		return $resource;
+		
 	}
 }
