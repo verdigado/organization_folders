@@ -28,6 +28,7 @@
         <command>OCA\OrganizationFolders\Command\Resource\CreateResource</command>
         <command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
         <command>OCA\OrganizationFolders\Command\Resource\UpdateResource</command>
+        <command>OCA\OrganizationFolders\Command\Resource\RemoveResource</command>
         <command>OCA\OrganizationFolders\Command\ResourceMember\CreateResourceMember</command>
         <command>OCA\OrganizationFolders\Command\ResourceMember\ListResourceMembers</command>
         <command>OCA\OrganizationFolders\Command\ResourceMember\RemoveResourceMember</command>
