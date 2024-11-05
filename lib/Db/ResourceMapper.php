@@ -44,12 +44,26 @@ class ResourceMapper extends QBMapper {
 
 		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id')
 			->from(self::RESOURCES_TABLE, "resource")
-            ->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+            ->where($qb->expr()->eq('resource.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
         $qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'),);
 
         return $this->findEntity($qb);
 	}
+
+    public function findByFileId(int $fileId): FolderResource {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id')
+			->from(self::RESOURCES_TABLE, "resource");
+
+        $qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'),);
+
+        $qb->where($qb->expr()->eq('folder.file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+
+        return $this->findEntity($qb);
+    }
 
     /**
 	 * @param int $organizationFolderId

@@ -55,6 +55,11 @@ class ResourceService {
 		}
 	}
 
+	public function findByFileId(int $fileId): FolderResource {
+		// TODO: improve error handling
+		return $this->mapper->findByFileId($fileId);
+	}
+
 	/* Use named arguments to call this function */
 	public function create(
 		string $type,
