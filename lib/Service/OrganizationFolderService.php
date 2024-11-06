@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Service;
 
+use Psr\Container\ContainerInterface;
+
 use OCP\AppFramework\Db\TTransactional;
 use OCP\IDBConnection;
 
@@ -31,7 +33,7 @@ class OrganizationFolderService {
         protected PathManager $pathManager,
         protected GroupfolderManager $groupfolderManager,
         protected ACLManager $aclManager,
-        protected ResourceService $resourceService,
+		protected ContainerInterface $container,
 	) {
     }
 
@@ -96,6 +98,8 @@ class OrganizationFolderService {
                 organizationId: $organizationId,
             );
             
+            $this->applyPermissions($groupfolderId);
+            
             return $organizationFolder;
         }, $this->db);
     }
@@ -107,7 +111,7 @@ class OrganizationFolderService {
         ?string $organizationProviderId = null,
         ?int $organizationId = null
     ): OrganizationFolder {
-        return $this->atomic(function () use ($id, $name, $quota, $organizationProviderId, $organizationId) {
+        $this->atomic(function () use ($id, $name, $quota, $organizationProviderId, $organizationId) {
             if(isset($name)) {
                 $this->folderManager->renameFolder($id, $name);
             }
@@ -136,9 +140,11 @@ class OrganizationFolderService {
                 $this->tagService->update($id, "organization_provider", $organizationProviderId);
                 $this->tagService->update($id, "organization_id", (string)$organization->getId());
             }
-
-            return $this->find($id);
         }, $this->db);
+
+        $this->applyPermissions($id);
+
+        return $this->find($id);
     }
 
     public function applyPermissions(int $id) {
@@ -149,7 +155,9 @@ class OrganizationFolderService {
         $this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $memberGroups);
         $this->setRootFolderACLs($organizationFolder, $memberGroups);
 
-        return $this->resourceService->setAllFolderResourceAclsInOrganizationFolder($organizationFolder, $memberGroups);
+        /** @var ResourceService */
+		$resourceService = $this->container->get(ResourceService::class);
+        return $resourceService->setAllFolderResourceAclsInOrganizationFolder($organizationFolder, $memberGroups);
     }
 
     protected function getMemberGroups(OrganizationFolder $organizationFolder) {

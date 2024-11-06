@@ -17,7 +17,9 @@ use OCA\OrganizationFolders\Enum\MemberType;
 
 class ResourceMemberService {
 	public function __construct(
-        private ResourceMemberMapper $mapper
+        protected ResourceMemberMapper $mapper,
+		protected ResourceService $resourceService,
+		protected OrganizationFolderService $organizationFolderService,
     ) {
 	}
 
@@ -48,8 +50,11 @@ class ResourceMemberService {
 		MemberType $type,
 		string $principal
 	): ResourceMember {
+		$resource = $this->resourceService->find($resourceId);
+
 		$member = new ResourceMember();
-		$member->setResourceId($resourceId);
+
+		$member->setResourceId($resource->getId());
 		$member->setPermissionLevel($permissionLevel->value);
         $member->setType($type->value);
 		
@@ -58,7 +63,11 @@ class ResourceMemberService {
         $member->setCreatedTimestamp(time());
         $member->setLastUpdatedTimestamp(time());
 
-		return $this->mapper->insert($member);
+		$member = $this->mapper->insert($member);
+
+		$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+
+		return $member;
 	}
 
 	public function update(int $id, ?MemberPermissionLevel $permissionLevel = null, ?MemberType $type = null, ?string $principal = null): ResourceMember {
@@ -81,7 +90,12 @@ class ResourceMemberService {
                 $member->setLastUpdatedTimestamp(time());
             }
 
-			return $this->mapper->update($member);
+			$member = $this->mapper->update($member);
+
+			$resource = $this->resourceService->find($member->getResourceId());
+			$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+
+			return $member;
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
@@ -90,7 +104,12 @@ class ResourceMemberService {
 	public function delete(int $id): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
+
 			$this->mapper->delete($member);
+
+			$resource = $this->resourceService->find($member->getResourceId());
+			$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+
 			return $member;
 		} catch (Exception $e) {
 			$this->handleException($e);
