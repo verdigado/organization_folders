@@ -49,6 +49,9 @@ class Version000000Date20241014120000 extends SimpleMigrationStep {
 			$table->addColumn('active', Types::BOOLEAN, [
 				'notnull' => true,
 			]);
+			$table->addColumn('inherit_managers', Types::BOOLEAN, [
+				'notnull' => true,
+			]);
 			$table->addColumn('last_updated_timestamp', Types::BIGINT, [
 				'notnull' => true,
 			]);

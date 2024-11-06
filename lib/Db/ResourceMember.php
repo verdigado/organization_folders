@@ -49,4 +49,23 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 			'LastUpdated' => $this->lastUpdatedTimestamp,
 		];
 	}
+
+	public function getParsedPrincipal() {
+		if($this->type === MemberType::USER->value) {
+			return [
+				"userId" => $this->principal,
+			];
+		} else if($this->type === MemberType::GROUP->value) {
+			return [
+				"groupId" => $this->principal,
+			];
+		} else if($this->type === MemberType::ROLE->value) {
+			[$organizationProviderId, $roleId] = explode(":", $this->principal, 2);
+
+			return [
+				"organizationProviderId" => $organizationProviderId,
+				"roleId" => $roleId,
+			];
+		}
+	}
 }

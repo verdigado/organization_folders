@@ -67,6 +67,7 @@ class ResourceService {
 		string $name,
 		?int $parentResourceId = null,
 		bool $active = true,
+		bool $inheritManagers = true,
 
 		?int $membersAclPermission = null,
 		?int $managersAclPermission = null,
@@ -82,6 +83,7 @@ class ResourceService {
 			$resource->setOrganizationFolderId($organizationFolderId);
 			$resource->setName($name);
 			$resource->setActive($active);
+			$resource->setInheritManagers($inheritManagers);
 			$resource->setLastUpdatedTimestamp(time());
 
 			if(isset($parentResourceId)) {
@@ -131,6 +133,7 @@ class ResourceService {
 			?string $name = null,
 			?int $parentResource = null,
 			?bool $active = null,
+			?bool $inheritManagers = null,
 
 			?int $membersAclPermission = null,
 			?int $managersAclPermission = null,
@@ -158,6 +161,10 @@ class ResourceService {
 
 		if(isset($active)) {
 			$resource->setActive($active);
+		}
+
+		if(isset($inheritManagers)) {
+			$resource->setInheritManagers($inheritManagers);
 		}
 
 		if($resource->getType() === "folder") {
@@ -231,7 +238,8 @@ class ResourceService {
 				} else if($resourceMember->getType() === MemberType::GROUP->value) {
 					$mapping = $this->userMappingManager->mappingFromId("group", $resourceMember->getPrincipal());
 				} else if($resourceMember->getType() === MemberType::ROLE->value) {
-					[$organizationProviderId, $roleId] = explode(":", $resourceMember->getPrincipal(), 2);
+					['organizationProviderId' => $organizationProviderId, 'roleId' => $roleId] = $resourceMember->getParsedPrincipal();
+
 					$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
 					$role = $organizationProvider->getRole($roleId);
 					$mapping = $this->userMappingManager->mappingFromId("group", $role->getMembersGroup());
@@ -294,6 +302,14 @@ class ResourceService {
 		}
 
 		return $subResources;
+	}
+
+	public function getParentResource(Resource $resource): ?Resource {
+		if(!is_null($resource->getParentResource())) {
+			return $this->find($resource->getParentResource());
+		} else {
+			return null;
+		}
 	}
 
 	public function deleteById(int $id): Resource {

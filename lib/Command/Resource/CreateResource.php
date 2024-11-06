@@ -17,7 +17,8 @@ class CreateResource extends BaseCommand {
 			->addOption('organization-folder', null, InputOption::VALUE_REQUIRED, 'Id of organization folder to create resource in')
 			->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of resource (valid values: folder)')
 			->addOption('name', null, InputOption::VALUE_REQUIRED, 'Name of resource')
-			->addOption('parent-resource', null, InputOption::VALUE_OPTIONAL, 'Id of parent resource (leave out if creating at top level in organization folder)');
+			->addOption('parent-resource', null, InputOption::VALUE_OPTIONAL, 'Id of parent resource (leave out if creating at top level in organization folder)')
+			->addOption('inherit-managers', null, InputOption::VALUE_REQUIRED, 'Wether managers of the parent level (parent resource or organization folder for top level resources) should have management permissions');
 
 		// folder type options
 		$this
@@ -33,6 +34,7 @@ class CreateResource extends BaseCommand {
 		$type = $input->getOption('type');
 		$name = $input->getOption('name');
 		$parentResource = $input->getOption('parent-resource');
+		$inheritManagers = $input->getOption('inherit-managers') === true || $input->getOption('inherit-managers') === "true";
 
 		$membersAclPermission = $input->getOption('members-acl-permission');
 		$managersAclPermission = $input->getOption('managers-acl-permission');
@@ -44,6 +46,8 @@ class CreateResource extends BaseCommand {
 				organizationFolderId: $organizationFolder,
 				name: $name,
 				parentResourceId: $parentResource,
+				active: true,
+				inheritManagers : $inheritManagers,
 
 				membersAclPermission: $membersAclPermission,
 				managersAclPermission: $managersAclPermission,
