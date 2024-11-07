@@ -83,7 +83,7 @@ class ResourceVoter extends Voter {
             $parentResource = $this->resourceService->getParentResource($resource);
 
             if(!is_null($parentResource)) {
-                return $this->isResourceManager($user, $resource);
+                return $this->isResourceManager($user, $parentResource);
             }
         }
 
