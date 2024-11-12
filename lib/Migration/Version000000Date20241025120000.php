@@ -42,13 +42,13 @@ class Version000000Date20241025120000 extends SimpleMigrationStep {
             // 0: user
             // 1: group
             // 2: role
-			$table->addColumn('type', Types::INTEGER, [
+			$table->addColumn('principal_type', Types::INTEGER, [
 				'notnull' => true,
 			]);
-            // for type user: "[user_id]"
-            // for type group: "[group_name]"
-            // for type role: "[organization_provider_id]:[role_id]"
-			$table->addColumn('principal', Types::STRING, [
+            // for principal type user: "[user_id]"
+            // for principal type group: "[group_name]"
+            // for principal type role: "[organization_provider_id]:[role_id]"
+			$table->addColumn('principal_id', Types::STRING, [
                 'length' => 128,
 				'notnull' => true,
 			]);

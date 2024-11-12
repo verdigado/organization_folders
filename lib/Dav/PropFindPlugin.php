@@ -14,14 +14,17 @@ use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\Service\ResourceService;
+use OCA\OrganizationFolders\Security\AuthorizationService;
 
 class PropFindPlugin extends ServerPlugin {
 	public const ORGANIZATION_FOLDER_ID_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-id';
 	public const ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-resource-id';
+	public const ORGANIZATION_FOLDER_RESOURCE_MANAGER_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-resource-user-has-manager-permissions';
 
 	public function __construct(
 		private FolderManager $folderManager,
 		private ResourceService $resourceService,
+		private AuthorizationService $authorizationService,
 	) {
 	}
 
@@ -41,6 +44,7 @@ class PropFindPlugin extends ServerPlugin {
 			return;
 		}
 
+
 		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use ($fileInfo): int {
 			return $this->folderManager->getFolderByPath($fileInfo->getPath());
 		});
@@ -48,6 +52,15 @@ class PropFindPlugin extends ServerPlugin {
 		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME, function () use ($node): ?int {
 			try {
 				return $this->resourceService->findByFileId($node->getId())->getId();
+			} catch (\Exception $e) {
+				return null;
+			}
+		});
+
+		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_MANAGER_PERMISSIONS_PROPERTYNAME, function () use ($node) {
+			try {
+				$resource = $this->resourceService->findByFileId($node->getId());
+				return $this->authorizationService->isGranted(["READ"], $resource) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}

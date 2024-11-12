@@ -34,7 +34,9 @@ class ResourceMemberMapper extends QBMapper {
 
 	/**
 	 * @param int $resourceId
+	 * @psalm-param int $resourceId
 	 * @return array
+	 * @psalm-return ResourceMember[]
 	 */
 	public function findAll(int $resourceId): array {
 		/* @var $qb IQueryBuilder */

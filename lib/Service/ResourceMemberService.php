@@ -13,7 +13,7 @@ use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Db\ResourceMemberMapper;
 
 use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
-use OCA\OrganizationFolders\Enum\MemberType;
+use OCA\OrganizationFolders\Model\Principal;
 
 class ResourceMemberService {
 	public function __construct(
@@ -23,6 +23,12 @@ class ResourceMemberService {
     ) {
 	}
 
+	/**
+	 * @param int $resourceId
+	 * @psalm-param int $resourceId
+	 * @return array
+	 * @psalm-return ResourceMember[]
+	 */
 	public function findAll(int $resourceId): array {
 		return $this->mapper->findAll($resourceId);
 	}
@@ -47,8 +53,7 @@ class ResourceMemberService {
 	public function create(
 		int $resourceId,
 		MemberPermissionLevel $permissionLevel,
-		MemberType $type,
-		string $principal
+		Principal $principal,
 	): ResourceMember {
 		$resource = $this->resourceService->find($resourceId);
 
@@ -56,10 +61,7 @@ class ResourceMemberService {
 
 		$member->setResourceId($resource->getId());
 		$member->setPermissionLevel($permissionLevel->value);
-        $member->setType($type->value);
-		
-		// TODO: check if principal fits format
-        $member->setPrincipal($principal);
+		$member->setPrincipal($principal);
         $member->setCreatedTimestamp(time());
         $member->setLastUpdatedTimestamp(time());
 
@@ -70,7 +72,7 @@ class ResourceMemberService {
 		return $member;
 	}
 
-	public function update(int $id, ?MemberPermissionLevel $permissionLevel = null, ?MemberType $type = null, ?string $principal = null): ResourceMember {
+	public function update(int $id, ?MemberPermissionLevel $permissionLevel = null, ?Principal $principal = null): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
 
@@ -78,12 +80,8 @@ class ResourceMemberService {
                 $member->setPermissionLevel($permissionLevel->value);
             }
 
-            if(isset($type)) {
-                $member->setType($type->value);
-            }
-
             if(isset($principal)) {
-                $member->setPrincipal($principal);
+				$member->setPrincipal($principal);
             }
 			
             if(count($member->getUpdatedFields()) > 0) {

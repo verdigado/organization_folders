@@ -9,7 +9,7 @@ use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
-use OCA\OrganizationFolders\Enum\MemberType;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 class ResourceVoter extends Voter {
@@ -38,6 +38,7 @@ class ResourceVoter extends Voter {
 			'READ' => $this->isGranted($user, $resource),
             'UPDATE' => $this->isGranted($user, $resource),
 			'DELETE' => $this->isGranted($user, $resource),
+            'UPDATE_MEMBERS' => $this->isGranted($user, $resource),
 			default => throw new \LogicException('This code should not be reached!')
 		};
 	}
@@ -59,19 +60,22 @@ class ResourceVoter extends Voter {
 
         foreach($resourceMembers as $resourceMember) {
             if($resourceMember->getPermissionLevel() === MemberPermissionLevel::MANAGER->value) {
-                if($resourceMember->getType() === MemberType::USER->value) {
-                    if($resourceMember->getPrincipal() === $user->getUID()) {
+                $principal = $resourceMember->getPrincipal();
+
+                if($principal->getType() === PrincipalType::USER) {
+                    if($principal->getId() === $user->getUID()) {
                         return true;
                     }
-                } else if($resourceMember->getType() === MemberType::GROUP->value) {
-                    if($this->groupManager->isInGroup($user->getUID(), $resourceMember->getPrincipal())) {
+                } else if($principal->getType() === PrincipalType::GROUP) {
+                    if($this->groupManager->isInGroup($user->getUID(), $principal->getId())) {
                         return true;
                     }
-                } else if($resourceMember->getType() === MemberType::ROLE->value) {
-                    ['organizationProviderId' => $organizationProviderId, 'roleId' => $roleId] = $resourceMember->getParsedPrincipal();
+                } else if($principal->getType() === PrincipalType::ROLE) {
+                    [$organizationProviderId, $roleId] = explode(":", $principal->getId(), 2);
 					
 					$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
 					$role = $organizationProvider->getRole($roleId);
+
                     if($this->groupManager->isInGroup($user->getUID(), $role->getMembersGroup())) {
                         return true;
                     }

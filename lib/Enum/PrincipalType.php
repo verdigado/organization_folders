@@ -2,7 +2,7 @@
 
 namespace OCA\OrganizationFolders\Enum;
 
-enum MemberType: int {
+enum PrincipalType: int {
     use FromNameEnum;
 
     case USER = 1;

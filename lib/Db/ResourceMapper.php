@@ -67,8 +67,13 @@ class ResourceMapper extends QBMapper {
 
     /**
 	 * @param int $organizationFolderId
-     * @param int $parentResourceId
+     * @psalm-param int $organizationFolderId
+     * @param int|null $parentResourceId
+     * @psalm-param int|null $parentResourceId
+     * @param array $filters
+     * @psalm-param array $filters
 	 * @return array
+     * @psalm-return Resource[]
 	 */
 	public function findAll(int $organizationFolderId, ?int $parentResourceId = null, array $filters = []): array {
 		/* @var $qb IQueryBuilder */

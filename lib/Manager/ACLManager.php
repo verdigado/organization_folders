@@ -8,9 +8,14 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 use OCA\GroupFolders\ACL\Rule;
+use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
 use OCA\GroupFolders\ACL\UserMapping\IUserMappingManager;
 use OCA\GroupFolders\ACL\RuleManager;
 use OCA\GroupFolders\Folder\FolderManager;
+
+use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 
 class ACLManager {
     public function __construct(
@@ -18,6 +23,7 @@ class ACLManager {
 		protected FolderManager $folderManager,
         protected IUserMappingManager $userMappingManager,
         protected RuleManager $ruleManager,
+        protected OrganizationProviderManager $organizationProviderManager
 	) {
     }
 
@@ -46,6 +52,38 @@ class ACLManager {
 		$rows = $qb->executeQuery()->fetchAll();
 
         return array_map($this->createRuleEntityFromRow(...), $rows);
+    }
+
+    public function getMappingForPrincipal(Principal $principal): IUserMapping {
+        if($principal->getType() === PrincipalType::USER) {
+            return $this->userMappingManager->mappingFromId("user", $principal->getId());
+        } else if($principal->getType() === PrincipalType::GROUP) {
+            return $this->userMappingManager->mappingFromId("group", $principal->getId());
+        } else if($principal->getType() === PrincipalType::ROLE) {
+            [$organizationProviderId, $roleId] = explode(":", $principal->getId(), 2);
+
+            $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
+            $role = $organizationProvider->getRole($roleId);
+
+            return $this->userMappingManager->mappingFromId("group", $role->getMembersGroup());
+        } else {
+            throw new \Exception("invalid resource member type");
+        }
+    }
+
+    public function createAclRuleForPrincipal(Principal $principal, int $fileId, int $mask, int $permissions): ?Rule {
+        $mapping = $this->getMappingForPrincipal($principal);
+
+        if(is_null($mapping)) {
+            return null;
+        }
+
+        return new Rule(
+            userMapping: $mapping,
+            fileId: $fileId,
+            mask: $mask,
+            permissions: $permissions,
+        );
     }
 
     protected function ruleMappingComparison(Rule $rule1, Rule $rule2): int {

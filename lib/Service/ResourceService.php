@@ -16,8 +16,9 @@ use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
+use \OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
-use OCA\OrganizationFolders\Enum\MemberType;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
 use OCA\OrganizationFolders\Errors\ResourceNameNotUnique;
@@ -37,7 +38,16 @@ class ResourceService {
 	) {
 	}
 
-	public function findAll(int $organizationFolderId, int $parentResourceId = null, array $filters = []) {
+	/**
+	 * @param int $organizationFolderId
+	 * @psalm-param int $organizationFolderId
+	 * @param int|null $parentResourceId
+	 * @psalm-param int|null $parentResourceId
+	 * @param array $filters
+	 * @psalm-param array $filters
+	 * @psalm-return Resource[]
+	 */
+	public function findAll(int $organizationFolderId, ?int $parentResourceId = null, array $filters = []): array {
 		return $this->mapper->findAll($organizationFolderId, $parentResourceId, $filters);
 	}
 
@@ -93,7 +103,11 @@ class ResourceService {
 				$parentResource = $this->find($parentResourceId);
 
 				if($parentResource->getOrganizationFolderId() === $organizationFolderId) {
-					$resource->setParentResource($parentResource->getId());
+					if($parentResource->getType() !== "folder") {
+						throw new Exception("Only folder resources can have sub-resources");
+					} else {
+						$resource->setParentResource($parentResource->getId());
+					}
 				} else {
 					throw new Exception("Cannot create child-resource of parent in different organizationId");
 				}
@@ -136,7 +150,6 @@ class ResourceService {
 			int $id,
 
 			?string $name = null,
-			?int $parentResource = null,
 			?bool $active = null,
 			?bool $inheritManagers = null,
 
@@ -145,10 +158,6 @@ class ResourceService {
 			?int $inheritedAclPermission = null,
 		): Resource {
 		$resource = $this->find($id);
-
-		if(isset($parentResource)) {
-			$resource->setParentResource($parentResource);
-		}
 
 		if(isset($name)) {
 			if($this->mapper->existsWithName($resource->getOrganizationFolderId(), $resource->getParentResource(), $name)) {
@@ -206,10 +215,7 @@ class ResourceService {
 		
 		$inheritingPrincipals = [];
 		foreach($inheritingGroups as $inheritingGroup) {
-			$inheritingPrincipals[] = [
-				"type" => "group",
-				"groupId" => $inheritingGroup,
-			];
+			$inheritingPrincipals[] = new Principal(PrincipalType::GROUP, $inheritingGroup);
 		}
 
 		return $this->recursivelySetFolderResourceALCs($topLevelFolderResources, "", $inheritingPrincipals);
@@ -222,8 +228,8 @@ class ResourceService {
 	 * @psalm-param FolderResource[] $folderResources
 	 * @param string $path
 	 * @psalm-param string $path
-	 * @param array $inheritingGroups
-	 * @psalm-param string[] $inheritingGroups
+	 * @param array $inheritingPrincipals
+	 * @psalm-param Principal[] $inheritingPrincipals
 	 */
 	public function recursivelySetFolderResourceALCs(array $folderResources, string $path, array $inheritingPrincipals) {
 		foreach($folderResources as $folderResource) {
@@ -232,20 +238,16 @@ class ResourceService {
 
 			// inherit ACLs
 			foreach($inheritingPrincipals as $inheritingPrincipal) {
-				if($inheritingPrincipal["type"] === "group") {
-					$acls[] = new Rule(
-						userMapping: $this->userMappingManager->mappingFromId("group", $inheritingPrincipal["groupId"]),
-						fileId: $resourceFileId,
-						mask: 31,
-						permissions: $folderResource->getInheritedAclPermission(),
-					);
-				} else if($inheritingPrincipal["type"] === "user") {
-					$acls[] = new Rule(
-						userMapping: $this->userMappingManager->mappingFromId("user", $inheritingPrincipal["userId"]),
-						fileId: $resourceFileId,
-						mask: 31,
-						permissions: $folderResource->getInheritedAclPermission(),
-					);
+				$newACL = $this->aclManager->createAclRuleForPrincipal(
+					principal: $inheritingPrincipal,
+					fileId: $resourceFileId,
+					mask: 31,
+					permissions: $folderResource->getInheritedAclPermission(),
+				);
+
+				// if mapping for principal could not be created, skip creating rule for it
+				if(!is_null($newACL)) {
+					$acls[] = $newACL;
 				}
 			}
 
@@ -260,6 +262,7 @@ class ResourceService {
 			/** @var ResourceService */
 			$resourceMemberService = $this->container->get(ResourceMemberService::class);
 			$resourceMembers = $resourceMemberService->findAll($folderResource->getId());
+
 			foreach($resourceMembers as $resourceMember) {
 				if($resourceMember->getPermissionLevel() === MemberPermissionLevel::MANAGER->value) {
 					$resourceMemberPermissions = $folderResource->getManagersAclPermission();
@@ -270,43 +273,20 @@ class ResourceService {
 				}
 
 				if($resourceMemberPermissions !== 0) {
-					if($resourceMember->getType() === MemberType::USER->value) {
-						$mapping = $this->userMappingManager->mappingFromId("user", $resourceMember->getPrincipal());
-						$nextInheritingPrincipals[] = [
-							"type" => "user",
-							"userId" => $resourceMember->getPrincipal(),
-						];
-					} else if($resourceMember->getType() === MemberType::GROUP->value) {
-						$mapping = $this->userMappingManager->mappingFromId("group", $resourceMember->getPrincipal());
-						$nextInheritingPrincipals[] = [
-							"type" => "group",
-							"groupId" => $resourceMember->getPrincipal(),
-						];
-					} else if($resourceMember->getType() === MemberType::ROLE->value) {
-						['organizationProviderId' => $organizationProviderId, 'roleId' => $roleId] = $resourceMember->getParsedPrincipal();
+					$resourceMemberPrincipal = $resourceMember->getPrincipal();
 
-						$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
-						$role = $organizationProvider->getRole($roleId);
-						$mapping = $this->userMappingManager->mappingFromId("group", $role->getMembersGroup());
-						$nextInheritingPrincipals[] = [
-							"type" => "group",
-							"groupId" => $role->getMembersGroup(),
-						];
-					} else {
-						throw new Exception("invalid resource member type");
-					}
-
-					if(is_null($mapping)) {
-						// TODO: skip member instead of crashing
-						throw new Exception(message: "invalid mapping, likely non-existing group");
-					}
-					
-					$acls[] = new Rule(
-						userMapping: $mapping,
+					$newACL = $this->aclManager->createAclRuleForPrincipal(
+						principal: $resourceMemberPrincipal,
 						fileId: $resourceFileId,
 						mask: 31,
 						permissions: $resourceMemberPermissions,
 					);
+
+					// if mapping for principal could not be created, skip creating rule for it
+					if(!is_null($newACL)) {
+						$acls[] = $newACL;
+						$nextInheritingPrincipals[] = $resourceMemberPrincipal;
+					}
 				}
 			}
 
