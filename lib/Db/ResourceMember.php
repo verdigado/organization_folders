@@ -7,7 +7,7 @@ use OCA\OrganizationFolders\Interface\TableSerializable;
 
 use OCP\AppFramework\Db\Entity;
 
-use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
+use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\Principal;
 
@@ -26,6 +26,7 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
         $this->addType('createdTimestamp','integer');
 		$this->addType('lastUpdatedTimestamp','integer');
 	}
+	
 	public function getPrincipal(): Principal {
 		return new Principal(PrincipalType::from($this->principalType), $this->principalId);
 	}
@@ -34,6 +35,20 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 		$this->setPrincipalType($principal->getType()->value);
         $this->setPrincipalId($principal->getId());
 	}
+
+	public function setPermissionLevel(int $permissionLevel) {
+        if($permissionLevel >= 1 && $permissionLevel <= 2) {
+			if ($permissionLevel === $this->permissionLevel) {
+				// no change
+				return;
+			}
+
+			$this->markFieldUpdated("permissionLevel");
+            $this->permissionLevel = $permissionLevel;
+		} else {
+            throw new \Exception("invalid resource member permission level");
+        }
+    }
 
     public function jsonSerialize(): array {
 		return [
@@ -50,7 +65,7 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 		return [
 			'Id' => $this->id,
 			'Resource Id' => $this->resourceId,
-			'Permission Level' => MemberPermissionLevel::from($this->permissionLevel)->name,
+			'Permission Level' => ResourceMemberPermissionLevel::from($this->permissionLevel)->name,
 			'Principal Type' => PrincipalType::from($this->principalType)->name,
             'Principal Id' => $this->principalId,
             'Created' => $this->createdTimestamp,

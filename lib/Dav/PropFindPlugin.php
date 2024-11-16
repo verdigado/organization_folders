@@ -60,7 +60,7 @@ class PropFindPlugin extends ServerPlugin {
 		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_MANAGER_PERMISSIONS_PROPERTYNAME, function () use ($node) {
 			try {
 				$resource = $this->resourceService->findByFileId($node->getId());
-				return $this->authorizationService->isGranted(["READ"], $resource) ? 'true' : 'false';
+				return $this->authorizationService->isGranted(["UPDATE"], $resource) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}

@@ -34,20 +34,20 @@ class Version000000Date20241025120000 extends SimpleMigrationStep {
 			$table->addColumn('resource_id', Types::INTEGER, [
 				'notnull' => true,
 			]);
-            // 0: member
-            // 1: manager
+			// 1: MEMBER
+			// 2: MANAGER
 			$table->addColumn('permission_level', Types::INTEGER, [
 				'notnull' => true,
 			]);
-            // 0: user
-            // 1: group
-            // 2: role
+            // 1: USER
+			// 2: GROUP
+			// 3: ROLE
 			$table->addColumn('principal_type', Types::INTEGER, [
 				'notnull' => true,
 			]);
-            // for principal type user: "[user_id]"
-            // for principal type group: "[group_name]"
-            // for principal type role: "[organization_provider_id]:[role_id]"
+            // for principal type USER: "[user_id]"
+            // for principal type GROUP: "[group_name]"
+            // for principal type ROLE: "[organization_provider_id]:[role_id]"
 			$table->addColumn('principal_id', Types::STRING, [
                 'length' => 128,
 				'notnull' => true,
@@ -67,7 +67,7 @@ class Version000000Date20241025120000 extends SimpleMigrationStep {
 				['onDelete' => 'CASCADE'],
 				'organizationfolders_resource_members_resource_id_fk');
             $table->addIndex(['resource_id'], 'organizationfolders_resource_members_resource_id_index');
-			$table->addUniqueConstraint(['resource_id', 'type', 'principal'], "organizationfolders_resource_members_unique");
+			$table->addUniqueConstraint(['resource_id', 'principal_type', 'principal_id'], "organizationfolders_resource_members_unique");
 		}
 
 		return $schema;

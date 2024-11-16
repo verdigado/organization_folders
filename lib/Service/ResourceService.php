@@ -17,7 +17,7 @@ use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use \OCA\OrganizationFolders\Model\Principal;
-use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
+use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
@@ -264,9 +264,9 @@ class ResourceService {
 			$resourceMembers = $resourceMemberService->findAll($folderResource->getId());
 
 			foreach($resourceMembers as $resourceMember) {
-				if($resourceMember->getPermissionLevel() === MemberPermissionLevel::MANAGER->value) {
+				if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
 					$resourceMemberPermissions = $folderResource->getManagersAclPermission();
-				} else if($resourceMember->getPermissionLevel() === MemberPermissionLevel::MEMBER->value) {
+				} else if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MEMBER->value) {
 					$resourceMemberPermissions = $folderResource->getMembersAclPermission();
 				} else {
 					throw new Exception("invalid resource member permission level");

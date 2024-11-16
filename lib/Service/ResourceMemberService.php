@@ -11,8 +11,7 @@ use OCA\OrganizationFolders\Errors\ResourceMemberNotFound;
 
 use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Db\ResourceMemberMapper;
-
-use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
+use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Model\Principal;
 
 class ResourceMemberService {
@@ -52,7 +51,7 @@ class ResourceMemberService {
 
 	public function create(
 		int $resourceId,
-		MemberPermissionLevel $permissionLevel,
+		ResourceMemberPermissionLevel $permissionLevel,
 		Principal $principal,
 	): ResourceMember {
 		$resource = $this->resourceService->find($resourceId);
@@ -62,8 +61,10 @@ class ResourceMemberService {
 		$member->setResourceId($resource->getId());
 		$member->setPermissionLevel($permissionLevel->value);
 		$member->setPrincipal($principal);
-        $member->setCreatedTimestamp(time());
-        $member->setLastUpdatedTimestamp(time());
+
+		$creationTime = time();
+        $member->setCreatedTimestamp($creationTime);
+        $member->setLastUpdatedTimestamp($creationTime);
 
 		$member = $this->mapper->insert($member);
 
@@ -72,7 +73,7 @@ class ResourceMemberService {
 		return $member;
 	}
 
-	public function update(int $id, ?MemberPermissionLevel $permissionLevel = null, ?Principal $principal = null): ResourceMember {
+	public function update(int $id, ?ResourceMemberPermissionLevel $permissionLevel = null, ?Principal $principal = null): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
 
@@ -86,9 +87,9 @@ class ResourceMemberService {
 			
             if(count($member->getUpdatedFields()) > 0) {
                 $member->setLastUpdatedTimestamp(time());
-            }
 
-			$member = $this->mapper->update($member);
+				$member = $this->mapper->update($member);
+            }
 
 			$resource = $this->resourceService->find($member->getResourceId());
 			$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());

@@ -2,7 +2,7 @@
 
 namespace OCA\OrganizationFolders\Enum;
 
-enum MemberPermissionLevel: int {
+enum ResourceMemberPermissionLevel: int {
     use FromNameEnum;
     
     case MEMBER = 1;

@@ -8,7 +8,7 @@ use OCP\IGroupManager;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
-use OCA\OrganizationFolders\Enum\MemberPermissionLevel;
+use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
@@ -39,6 +39,7 @@ class ResourceVoter extends Voter {
             'UPDATE' => $this->isGranted($user, $resource),
 			'DELETE' => $this->isGranted($user, $resource),
             'UPDATE_MEMBERS' => $this->isGranted($user, $resource),
+            'CREATE_SUBRESOURCE' => $this->isGranted($user, $resource),
 			default => throw new \LogicException('This code should not be reached!')
 		};
 	}
@@ -59,7 +60,7 @@ class ResourceVoter extends Voter {
 		$resourceMembers = $this->resourceMemberService->findAll($resource->getId());
 
         foreach($resourceMembers as $resourceMember) {
-            if($resourceMember->getPermissionLevel() === MemberPermissionLevel::MANAGER->value) {
+            if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
                 $principal = $resourceMember->getPrincipal();
 
                 if($principal->getType() === PrincipalType::USER) {
@@ -67,16 +68,13 @@ class ResourceVoter extends Voter {
                         return true;
                     }
                 } else if($principal->getType() === PrincipalType::GROUP) {
-                    if($this->groupManager->isInGroup($user->getUID(), $principal->getId())) {
+                    if($this->userIsInGroup($user, $principal->getId())) {
                         return true;
                     }
                 } else if($principal->getType() === PrincipalType::ROLE) {
                     [$organizationProviderId, $roleId] = explode(":", $principal->getId(), 2);
 					
-					$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
-					$role = $organizationProvider->getRole($roleId);
-
-                    if($this->groupManager->isInGroup($user->getUID(), $role->getMembersGroup())) {
+                    if($this->userHasRole($user, $organizationProviderId, $roleId)) {
                         return true;
                     }
                 }
@@ -96,5 +94,16 @@ class ResourceVoter extends Voter {
 
 	protected function isGranted(IUser $user, Resource $resource): bool {
 		return $this->isResourceOrganizationFolderAdmin($user, $resource) || $this->isResourceManager($user, $resource);
+	}
+
+    private function userIsInGroup(IUser $user, string $groupId): bool {
+        return $this->groupManager->isInGroup($user->getUID(), $groupId);
+    }
+
+    private function userHasRole(IUser $user, string $organizationProviderId, string $roleId): bool {
+        $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
+        $role = $organizationProvider->getRole($roleId);
+
+        return $this->userIsInGroup($user, $role->getMembersGroup());
 	}
 }
