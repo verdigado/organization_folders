@@ -25,6 +25,9 @@
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\UpdateOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\DeleteOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\FixACLsOfOrganizationFolder</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationFolderMember\CreateOrganizationFolderMember</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationFolderMember\ListOrganizationFolderMembers</command>
+        <command>OCA\OrganizationFolders\Command\OrganizationFolderMember\DeleteOrganizationFolderMember</command>
         <command>OCA\OrganizationFolders\Command\Resource\CreateResource</command>
         <command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
         <command>OCA\OrganizationFolders\Command\Resource\UpdateResource</command>

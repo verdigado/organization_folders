@@ -6,6 +6,7 @@ use OC\Core\Command\Base;
 use OCP\IDateTimeFormatter;
 
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
+use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
@@ -16,9 +17,10 @@ abstract class BaseCommand extends Base {
 	public function __construct(
 		private readonly IDateTimeFormatter $dateTimeFormatter,
         protected readonly OrganizationFolderService $organizationFolderService,
-        protected ResourceService $resourceService,
-		protected ResourceMemberService $resourceMemberService,
-		protected OrganizationProviderManager $organizationProviderManager,
+		protected readonly OrganizationFolderMemberService $organizationFolderMemberService,
+        protected readonly ResourceService $resourceService,
+		protected readonly ResourceMemberService $resourceMemberService,
+		protected readonly OrganizationProviderManager $organizationProviderManager,
 	) {
 		parent::__construct();
 	}
