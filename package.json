@@ -1,0 +1,60 @@
+{
+	"name": "organization_folders",
+	"description": "",
+	"version": "1.0.0",
+	"author": "Verdigado <support@verdigado.com",
+	"contributors": [
+		"Jonathan Treffler <mail@jonathan-treffler.de>",
+		"Giuliano Mele <giuliano.mele@verdigado.com>",
+		"Sven Seeberg <mail@sven-seeberg.de>",
+		"Willi Junga <willi.junga@verdigado.com>"
+	],
+	"bugs": {
+		"url": "https://git.verdigado.com/verdigado-public/organization_folders/issues"
+	},
+	"repository": {
+		"url": "https://git.verdigado.com/verdigado-public/organization_folders/",
+		"type": "git"
+	},
+	"homepage": "https://git.verdigado.com/verdigado-public/organization_folders/issues",
+	"license": "",
+	"private": true,
+	"scripts": {
+		"build": "webpack --node-env production --progress",
+		"dev": "webpack --node-env development --progress",
+		"watch": "webpack --node-env development --progress --watch",
+		"serve": "webpack --node-env development serve --progress",
+		"lint": "eslint --ext .js,.vue src",
+		"lint:fix": "eslint --ext .js,.vue src --fix",
+		"stylelint": "stylelint css/*.css css/*.scss src/**/*.scss src/**/*.vue",
+		"stylelint:fix": "stylelint css/*.css css/*.scss src/**/*.scss src/**/*.vue --fix"
+	},
+	"dependencies": {
+		"@nextcloud/axios": "^2.4.0",
+		"@nextcloud/dialogs": "^5.3.0",
+		"@nextcloud/files": "^3.1.1",
+		"@nextcloud/initial-state": "^2.1.0",
+		"@nextcloud/l10n": "^2.2.0",
+		"@nextcloud/router": "^3.0.0",
+		"@nextcloud/vue": "^8.17.0",
+		"debounce-fn": "^6.0.0",
+		"pinia": "^2.1.7",
+		"vue": "^2.7.0",
+		"vue-material-design-icons": "^5.3.0",
+		"vue2-helpers": "^2.1.1"
+	},
+	"browserslist": [
+		"extends @nextcloud/browserslist-config"
+	],
+	"engines": {
+		"node": "^16.0.0",
+		"npm": "^7.0.0 || ^8.0.0"
+	},
+	"devDependencies": {
+		"@nextcloud/babel-config": "^1.0.0",
+		"@nextcloud/browserslist-config": "^3.0.0",
+		"@nextcloud/eslint-config": "^8.3.0",
+		"@nextcloud/stylelint-config": "^2.3.0",
+		"@nextcloud/webpack-vue-config": "^6.0.1"
+	}
+}

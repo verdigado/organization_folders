@@ -1,0 +1,5 @@
+/node_modules
+**/vendor/
+/build
+/js/
+.php-cs-fixer.cache
