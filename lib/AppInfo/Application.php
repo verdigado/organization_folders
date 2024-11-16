@@ -11,8 +11,10 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\IUserSession;
 
 use OCA\DAV\Events\SabrePluginAddEvent;
+use OCA\Files\Event\LoadAdditionalScriptsEvent;
 
 use OCA\OrganizationFolders\Listener\SabrePluginAddListener;
+use OCA\OrganizationFolders\Listener\LoadAdditionalScripts;
 use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Security\ResourceVoter;
 
@@ -24,6 +26,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function register(IRegistrationContext $context): void {
+		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScripts::class);
 		$context->registerEventListener(SabrePluginAddEvent::class, SabrePluginAddListener::class);
 
 		$context->registerService(AuthorizationService::class, function (ContainerInterface $c) {
