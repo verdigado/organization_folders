@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace OCA\OrganizationFolders\OrganizationProvider;
 
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Server;
 
+use OCA\OrganizationFolders\Errors\OrganizationProviderNotFound;
 use OCA\OrganizationFolders\Events\RegisterOrganizationProviderEvent;
 
 class OrganizationProviderManager {
@@ -35,9 +35,15 @@ class OrganizationProviderManager {
 
 	/**
 	 * @return OrganizationProvider
+	 * @throws OrganizationProviderNotFound
 	 */
-	public function getOrganizationProvider($id): ?OrganizationProvider {
-		return $this->organizationProviders[$id];
+	public function getOrganizationProvider($id): OrganizationProvider {
+		$organizationProvider = $this->organizationProviders[$id];
+		if(isset($organizationProvider)) {
+			return $organizationProvider;
+		} else {
+			throw new OrganizationProviderNotFound($id);
+		}
 	}
 
 	public function registerOrganizationProvider(OrganizationProvider $organizationProvider): self {

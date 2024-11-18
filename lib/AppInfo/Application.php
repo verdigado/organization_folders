@@ -17,6 +17,7 @@ use OCA\OrganizationFolders\Listener\SabrePluginAddListener;
 use OCA\OrganizationFolders\Listener\LoadAdditionalScripts;
 use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Security\ResourceVoter;
+use OCA\OrganizationFolders\Security\OrganizationFolderVoter;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'organization_folders';
@@ -31,6 +32,7 @@ class Application extends App implements IBootstrap {
 
 		$context->registerService(AuthorizationService::class, function (ContainerInterface $c) {
 			$service = new AuthorizationService($c->get(IUserSession::class));
+			$service->registerVoter($c->get(OrganizationFolderVoter::class));
 			$service->registerVoter($c->get(ResourceVoter::class));
 			return $service;
 		});

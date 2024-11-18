@@ -6,21 +6,25 @@ use OCP\IUser;
 use OCP\IGroupManager;
 
 use OCA\OrganizationFolders\Db\Resource;
+use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
-use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Security\OrganizationFolderVoter;
 
 class ResourceVoter extends Voter {
 	public function __construct(
+        private OrganizationFolderService $organizationFolderService,
         private OrganizationFolderMemberService $organizationFolderMemberService,
 		private ResourceService $resourceService,
         private ResourceMemberService $resourceMemberService,
 		private IGroupManager $groupManager,
         private OrganizationProviderManager $organizationProviderManager,
+        private OrganizationFolderVoter $organizationFolderVoter,
 	) {
 	}
 	protected function supports(string $attribute, mixed $subject): bool {
@@ -29,8 +33,6 @@ class ResourceVoter extends Voter {
 
 
 	protected function voteOnAttribute(string $attribute, mixed $subject, ?IUser $user): bool {
-		// _dlog($attribute, $subject);
-
 		if (!$user) {
 			return false;
         }
@@ -47,31 +49,8 @@ class ResourceVoter extends Voter {
 		};
 	}
 
-    private function isResourceOrganizationFolderAdmin(IUser $user, Resource $resource): bool {
-        $organizationFolderMembers = $this->organizationFolderMemberService->findAll($resource->getOrganizationFolderId(), [
-            "permissionLevel" => OrganizationFolderMemberPermissionLevel::ADMIN,
-        ]);
-        
-        foreach($organizationFolderMembers as $organizationFolderMember) {
-            // should be true for all returned members because of the filter, double check because of the big security implications
-            if($organizationFolderMember->getPermissionLevel() === OrganizationFolderMemberPermissionLevel::ADMIN->value) {
-                $principal = $organizationFolderMember->getPrincipal();
-
-                if($principal->getType() === PrincipalType::GROUP) {
-                    if($this->userIsInGroup($user, $principal->getId())) {
-                        return true;
-                    }
-                } else if($principal->getType() === PrincipalType::ROLE) {
-                    [$organizationProviderId, $roleId] = explode(":", $principal->getId(), 2);
-					
-                    if($this->userHasRole($user, $organizationProviderId, $roleId)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
+    private function allowedToManageAllResourcesInOrganizationFolder(IUser $user, OrganizationFolder $resourceOrganizationFolder): bool {
+        return $this->organizationFolderVoter->vote($user, $resourceOrganizationFolder, ["MANAGE_ALL_RESOURCES"]) === self::ACCESS_GRANTED;
     }
 
 	/**
@@ -79,9 +58,7 @@ class ResourceVoter extends Voter {
 	 * @param Resource $resource
 	 * @return bool
 	 */
-	private function isResourceManager(IUser $user, Resource $resource): bool {
-        // TODO: check if is top-level resource and user is organizationFolder manager
-
+	private function isResourceManager(IUser $user, Resource $resource, OrganizationFolder $resourceOrganizationFolder): bool {
 		$resourceMembers = $this->resourceMemberService->findAll($resource->getId());
 
         foreach($resourceMembers as $resourceMember) {
@@ -106,11 +83,18 @@ class ResourceVoter extends Voter {
             }
         }
 
+        // inherit manager permissions from level above
         if($resource->getInheritManagers()) {
-            $parentResource = $this->resourceService->getParentResource($resource);
+            if(!is_null($resource->getParentResource())) {
+                // not top-level resource -> allowed to manage resource if allowed to manage parent resource
+                $parentResource = $this->resourceService->getParentResource($resource);
 
-            if(!is_null($parentResource)) {
-                return $this->isResourceManager($user, $parentResource);
+                if(!is_null($parentResource)) {
+                    return $this->isResourceManager($user, $parentResource, $resourceOrganizationFolder);
+                }
+            } else {
+                // top-level resource -> allowed to manage resource if manager of organization folder
+                return $this->organizationFolderVoter->vote($user, $resourceOrganizationFolder, ["MANAGE_TOP_LEVEL_RESOURCES"]) === self::ACCESS_GRANTED;
             }
         }
 
@@ -118,7 +102,10 @@ class ResourceVoter extends Voter {
 	}
 
 	protected function isGranted(IUser $user, Resource $resource): bool {
-		return $this->isResourceOrganizationFolderAdmin($user, $resource) || $this->isResourceManager($user, $resource);
+        $resourceOrganizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
+
+		return $this->allowedToManageAllResourcesInOrganizationFolder($user, $resourceOrganizationFolder)
+                || $this->isResourceManager($user, $resource, $resourceOrganizationFolder);
 	}
 
     private function userIsInGroup(IUser $user, string $groupId): bool {
