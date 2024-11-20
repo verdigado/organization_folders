@@ -16,6 +16,8 @@ use OCA\GroupFolders\Folder\FolderManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Enum\PrincipalType;
+use OCA\OrganizationFolders\Errors\OrganizationProviderNotFound;
+use OCA\OrganizationFolders\Errors\OrganizationRoleNotFound;
 
 class ACLManager {
     public function __construct(
@@ -54,7 +56,7 @@ class ACLManager {
         return array_map($this->createRuleEntityFromRow(...), $rows);
     }
 
-    public function getMappingForPrincipal(Principal $principal): IUserMapping {
+    public function getMappingForPrincipal(Principal $principal): ?IUserMapping {
         if($principal->getType() === PrincipalType::USER) {
             return $this->userMappingManager->mappingFromId("user", $principal->getId());
         } else if($principal->getType() === PrincipalType::GROUP) {
@@ -62,8 +64,17 @@ class ACLManager {
         } else if($principal->getType() === PrincipalType::ROLE) {
             [$organizationProviderId, $roleId] = explode(":", $principal->getId(), 2);
 
-            $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
-            $role = $organizationProvider->getRole($roleId);
+            try {
+                $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
+            } catch (OrganizationProviderNotFound $e) {
+                return null;
+            }
+            
+            try {
+                $role = $organizationProvider->getRole($roleId);
+            } catch (OrganizationRoleNotFound $e) {
+                return null;
+            }
 
             return $this->userMappingManager->mappingFromId("group", $role->getMembersGroup());
         } else {
