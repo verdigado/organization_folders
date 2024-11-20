@@ -13,23 +13,23 @@ const props = defineProps({
   },
 });
 
-const friendlyNameParts = computed(() => props.member.principal.split(" / "));
+const friendlyNameParts = computed(() => [props.member.principal.id] /*.split(" / ")*/);
 
 const emit = defineEmits(["update", "delete"]);
 
-const typeOptions = [
+const permissionLevelOptions = [
   { label: "Mitglied", value: 1 },
   { label: "Manager", value: 2 },
 ];
 
-const onTypeSelected = (e) => {
+const onPermissionLevelSelected = (e) => {
   emit("update", props.member.id, {
-    type: e.target.value,
-  })
+    permissionLevel: parseInt(e.target.value, 10),
+  });
 };
 
 const onDeleteClicked = (e) => {
-  emit("delete", props.member.id)
+  emit("delete", props.member.id);
 };
 </script>
 
@@ -52,8 +52,8 @@ const onDeleteClicked = (e) => {
 			</div>
 		</td>
 		<td>
-			<select :value="props.member.permissionLevel" @input="onTypeSelected">
-				<option v-for="{ label, value} in typeOptions" :key="value" :value="value">
+			<select :value="props.member.permissionLevel" @input="onPermissionLevelSelected">
+				<option v-for="{ label, value} in permissionLevelOptions" :key="value" :value="value">
 					{{ label }}
 				</option>
 			</select>

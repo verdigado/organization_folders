@@ -6,7 +6,7 @@ import { NcLoadingIcon, NcCheckboxRadioSwitch, NcButton, NcTextField } from '@ne
 import BackupRestore from "vue-material-design-icons/BackupRestore.vue";
 import Delete from "vue-material-design-icons/Delete.vue";
 
-import MemberList from "../components/MemberList/index.js";
+import ResourceMembersList from "../components/MemberList/ResourceMembersList.vue";
 import Permissions from "../components/Permissions/index.js";
 import ConfirmDeleteDialog from "../components/ConfirmDeleteDialog.vue";
 import ModalView from '../ModalView.vue';
@@ -31,7 +31,11 @@ const resourceNameValid = computed(() => {
 });
 
 const saveName = async () => {
-    resource.value = await api.updateResource(resource.value.id, { name: currentResourceName.value });
+    resource.value = await api.updateResource(resource.value.id, { name: currentResourceName.value }, "model+members");
+};
+
+const saveInheritManagers = async (inheritManagers) => {
+    resource.value = await api.updateResource(resource.value.id, { inheritManagers }, "model+members");
 };
 
 watch(() => props.resourceId, async (newResourceId) => {
@@ -43,28 +47,54 @@ watch(() => props.resourceId, async (newResourceId) => {
 
 const saveActive = async (active) => {
     resourceActiveLoading.value = true;
-    resource.value = await api.updateResource(resource.value.id, { active });
+    resource.value = await api.updateResource(resource.value.id, { active }, "model+members");
     resourceActiveLoading.value = false;
 };
 
 const savePermission = async ({ field, value }) => {
     resource.value = await api.updateResource(resource.value.id, {
 	  [field]: value,
-	});
+	}, "model+members");
 };
 
 const switchToSnapshotRestoreView = ()  => {
 
 };
 
+const addMember = async (principalType, principalId) => {
+	resource.value.members.push(await api.createResourceMember(resource.value.id, {
+		permissionLevel: api.ResourceMemberPermissionLevels.MEMBER,
+		principalType,
+		principalId,
+	}));
+};
+
+const updateMember = async (memberId, updateResourceMemberDto) => {
+	const member = await api.updateResourceMember(memberId, updateResourceMemberDto);
+	resource.value.members = resource.value.members.map((m) => m.id === member.id ? member : m);
+};
+
+const deleteMember = async (memberId) => {
+	await api.deleteResourceMember(memberId);
+	resource.value.members = resource.value.members.filter((m) => m.id !== memberId);
+};
+
 const snapshotIntegrationActive = loadState('organization_folders', 'snapshot_integration_active', false);
+
+const organizationProviders = ref([]);
+
+api.getOrganizationProviders().then((providers) => {
+	organizationProviders.value = providers;
+});
+
+const validResourceMemberPrincipalTypes = api.PrincipalTypes;
 
 </script>
 
 <template>
     <ModalView :has-back-button="true" :has-next-step-button="false" :has-last-step-button="false" :title="'Resource Settings'" :loading="loading" v-slot="">
         <h3>Eigenschaften</h3>
-		<div class="name-input-container">
+		<div class="resource-general-settings">
 			<NcTextField :value.sync="currentResourceName"
 				:error="!resourceNameValid"
 				:label-visible="!resourceNameValid"
@@ -77,10 +107,16 @@ const snapshotIntegrationActive = loadState('organization_folders', 'snapshot_in
 				@trailing-button-click="saveName"
 				@blur="() => currentResourceName = currentResourceName.trim()"
 				@keyup.enter="saveName" />
+			<NcCheckboxRadioSwitch :checked="resource.inheritManagers" @update:checked="saveInheritManagers">Manager aus oberer Ebene vererben</NcCheckboxRadioSwitch>
 		</div>
 		<h3>Berechtigungen</h3>
 		<Permissions :resource="resource" @permissionUpdated="savePermission" />
-		<MemberList :members="resource?.members" />
+		<ResourceMembersList :resource-id="resource.id"
+			:members="resource?.members"
+			:organizationProviders="organizationProviders"
+			@add-member="addMember"
+			@update-member="updateMember"
+			@delete-member="deleteMember"/>
 		<h3>Einstellungen</h3>
 		<div class="settings-group">
 			<NcButton v-if="snapshotIntegrationActive" @click="switchToSnapshotRestoreView">

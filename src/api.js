@@ -118,14 +118,22 @@ export default {
 	},
 
 	/**
-	 * @param {number|string} resourceMemberId Resource member id
+	 * @param {number} resourceMemberId Resource member id
 	 * @param {{
 	 * permissionLevel: ResourceMemberPermissionLevel
-	 * }} createResourceMemberDto CreateResourceMemberDto
+	 * }} updateResourceMemberDto UpdateResourceMemberDto
 	 * @return {Promise<ResourceMember>}
 	 */
-	updateResourceMember(resourceId, createResourceMemberDto) {
-		return axios.post(`/resources/${resourceId}/members`, { ...createResourceMemberDto }).then((res) => res.data);
+	updateResourceMember(resourceMemberId, updateResourceMemberDto) {
+		return axios.put(`/resources/members/${resourceMemberId}`, { ...updateResourceMemberDto }).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number} resourceMemberId Resource member id
+	 * @return {Promise<ResourceMember>}
+	 */
+	deleteResourceMember(resourceMemberId) {
+		return axios.delete(`/resources/members/${resourceMemberId}`, {}).then((res) => res.data);
 	},
 
 	/**
