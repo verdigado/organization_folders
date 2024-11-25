@@ -8,8 +8,9 @@ export const useCurrentDirStore = defineStore("currentDir", {
 		loading: false,
 		path: "",
 		organizationFolderId: null,
+		organizationFolderUpdatePermissions: null,
 		organizationFolderResourceId: null,
-		userManagerPermissions: null,
+		organizationFolderResourceUpdatePermissions: null,
   	}),
 	actions: {
 		/**
@@ -24,8 +25,9 @@ export const useCurrentDirStore = defineStore("currentDir", {
 			let { fileInfo } = await getFolderProperties(path)
 				.catch(() => {
 					this.organizationFolderId = false;
+					this.organizationFolderUpdatePermissions = false,
 					this.organizationFolderResourceId = false;
-					this.userManagerPermissions = false;
+					this.organizationFolderResourceUpdatePermissions = false;
 					this.loading = false;
 				});
 
@@ -33,12 +35,14 @@ export const useCurrentDirStore = defineStore("currentDir", {
 
 			if(fileInfo) {
 				this.organizationFolderId = fileInfo.organizationFolderId;
+				this.organizationFolderUpdatePermissions = fileInfo.organizationFolderUpdatePermissions;
 				this.organizationFolderResourceId = fileInfo.organizationFolderResourceId;
-				this.userManagerPermissions = fileInfo.userManagerPermissions;
+				this.organizationFolderResourceUpdatePermissions = fileInfo.organizationFolderResourceUpdatePermissions;
 			} else {
 				this.organizationFolderId = false;
+				this.organizationFolderUpdatePermissions = false;
 				this.organizationFolderResourceId = false;
-				this.userManagerPermissions = false;
+				this.organizationFolderResourceUpdatePermissions = false;
 			}
 
 			this.loading = false;

@@ -113,7 +113,7 @@ const deleteMember = (memberId) => {
 				</tr>
 				<tr v-if="!loading && !members.length">
 					<td colspan="4" style="grid-column-start: 1; grid-column-end: 5">
-						<NcEmptyContent title="Keine Mitglieder" />
+						<NcEmptyContent name="Keine Mitglieder" />
 					</td>
 				</tr>
 				<MemberListItem v-for="member in members"

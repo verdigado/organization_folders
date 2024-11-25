@@ -2,12 +2,23 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import ResourceSettings from "./views/ResourceSettings.vue";
+import OrganizationFolderSettings from "./views/OrganizationFolderSettings.vue";
 
 Vue.use(Router);
 
 const router = new Router({
 	mode: 'abstract',
 	routes: [
+		{
+			path: "/organizationFolder/:organizationFolderId",
+			name: "organizationFolder-settings",
+			component: OrganizationFolderSettings,
+			props: (route) => (
+				{
+					organizationFolderId: Number.parseInt(route.params.organizationFolderId, 10) || undefined,
+				}
+			),
+		},
 		{
 			path: "/resource/:resourceId",
 			name: "resource-settings",

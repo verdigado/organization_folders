@@ -9,8 +9,11 @@ import Delete from "vue-material-design-icons/Delete.vue";
 import ResourceMembersList from "../components/MemberList/ResourceMembersList.vue";
 import Permissions from "../components/Permissions/index.js";
 import ConfirmDeleteDialog from "../components/ConfirmDeleteDialog.vue";
+import ResourceList from "../components/ResourceList.vue";
+import CreateResourceButton from "../components/CreateResourceButton.vue";
 import ModalView from '../ModalView.vue';
 import api from "../api.js";
+import { useRouter } from 'vue2-helpers/vue-router';
 import { validResourceName } from "../helpers/validation.js";
 
 const props = defineProps({
@@ -87,12 +90,38 @@ api.getOrganizationProviders().then((providers) => {
 	organizationProviders.value = providers;
 });
 
-const validResourceMemberPrincipalTypes = api.PrincipalTypes;
+const router = useRouter();
+
+const subResourceClicked = (resource) => {
+	router.push({
+		path: '/resource/' + resource.id,
+	});
+};
+
+const backButtonClicked = () => {
+	if(resource.value?.parentResource) {
+		router.push({
+			path: '/resource/' + resource.value.parentResource,
+		});
+	} else {
+		router.push({
+			path: '/organizationFolder/' + resource.value.organizationFolderId
+		});
+	}
+	
+};
 
 </script>
 
 <template>
-    <ModalView :has-back-button="true" :has-next-step-button="false" :has-last-step-button="false" :title="'Resource Settings'" :loading="loading" v-slot="">
+    <ModalView
+		:has-back-button="true"
+		:has-next-step-button="false"
+		:has-last-step-button="false"
+		:title="'Resource Settings'"
+		:loading="loading"
+		v-slot=""
+		@back-button-pressed="backButtonClicked">
         <h3>Eigenschaften</h3>
 		<div class="resource-general-settings">
 			<NcTextField :value.sync="currentResourceName"
@@ -165,10 +194,15 @@ const validResourceMemberPrincipalTypes = api.PrincipalTypes;
 				</template>
 			</ConfirmDeleteDialog>
 		</div>
+		<div class="header-button-group">
+			<h3>Unter-Resourcen</h3>
+			<CreateResourceButton />
+		</div>
+		<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
     </ModalView>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .name-input-group {
 	display: flex;
 	align-items: flex-end;
@@ -184,9 +218,11 @@ const validResourceMemberPrincipalTypes = api.PrincipalTypes;
 	margin-right: 20px;
 }
 
-.resource-active-button >>> .checkbox-radio-switch__label {
-	/* Add primary background color like other buttons */
-	background-color: var(--color-primary-light);
+.resource-active-button {
+	::v-deep .checkbox-radio-switch__label {
+		/* Add primary background color like other buttons */
+		background-color: var(--color-primary-light);
+	}
 }
 
 label {
@@ -197,5 +233,18 @@ h3 {
 	font-weight: bold;
 	margin-top: 24px;
 	margin-bottom: 0;
+}
+
+.header-button-group {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	column-gap: 10px;
+	margin-top: 24px;
+	margin-bottom: 12px;
+
+	h1, h2, h3 {
+		margin-top: 0px;
+	}
 }
 </style>

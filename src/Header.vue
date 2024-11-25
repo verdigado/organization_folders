@@ -15,17 +15,15 @@ const currentDir = useCurrentDirStore();
 const modalOpen = ref(false);
 
 function openModal() {
-    if(currentDir.userManagerPermissions) {
-        if(currentDir.organizationFolderResourceId) {
-            router.push({
-                path: '/resource/' + currentDir.organizationFolderResourceId
-            });
-        } else {
-            router.push({
-                path: '/organizationFolder/' + currentDir.organizationFolderId
-            });
-        }
-        
+    if(currentDir.organizationFolderResourceId && currentDir.organizationFolderResourceUpdatePermissions) {
+        router.push({
+            path: '/resource/' + currentDir.organizationFolderResourceId
+        });
+        modalOpen.value = true;
+    } else if(currentDir.organizationFolderId && currentDir.organizationFolderUpdatePermissions) {
+        router.push({
+            path: '/organizationFolder/' + currentDir.organizationFolderId
+        });
         modalOpen.value = true;
     }
 }
@@ -33,7 +31,7 @@ function openModal() {
 </script>
 
 <template>
-    <div v-if="currentDir.userManagerPermissions" class="toolbar">
+    <div v-if="currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderResourceUpdatePermissions" class="toolbar">
         <NcButton :disabled="currentDir.loading"
             type="primary"
             @click="openModal">

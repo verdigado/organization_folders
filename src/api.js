@@ -15,6 +15,17 @@ var PrincipalTypes = {
 }
 
 /**
+ * @typedef {number} ResourceType
+ **/
+
+/**
+ * @enum {ResourceType}
+ */
+var ResourceTypes = {
+    FOLDER: "folder",
+}
+
+/**
  * @typedef {number} ResourceMemberPermissionLevel
  **/
 
@@ -38,6 +49,8 @@ var ResourceMemberPermissionLevels = {
  * membersAclPermission: number
  * managersAclPermission: number
  * inheritedAclPermission: number
+ * members: Array<ResourceMember>|undefined
+ * subResources: Array<Resource>|undefined
  * }} FolderResource
  * 
  * @typedef {(FolderResource)} Resource
@@ -69,6 +82,7 @@ axios.defaults.baseURL = generateUrl("/apps/organization_folders")
 export default {
 	PrincipalTypes,
 	ResourceMemberPermissionLevels,
+	ResourceTypes,
 
 	/**
 	 *
