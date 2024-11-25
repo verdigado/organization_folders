@@ -41,7 +41,7 @@ class ResourceController extends BaseController {
 		}
 
 		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
-			$result["subresources"] = $this->getSubResources($resource->getId());
+			$result["subResources"] = $this->getSubResources($resource->getId());
 		}
 
 		return $result;
