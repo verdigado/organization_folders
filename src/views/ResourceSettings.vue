@@ -40,7 +40,7 @@ const saveInheritManagers = async (inheritManagers) => {
 
 watch(() => props.resourceId, async (newResourceId) => {
     loading.value = true;
-    resource.value = await api.getResource(newResourceId, "model+members");
+    resource.value = await api.getResource(newResourceId, "model+members+subresources");
     currentResourceName.value = resource.value.name;
     loading.value = false;
 }, { immediate: true });

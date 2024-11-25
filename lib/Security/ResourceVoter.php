@@ -40,7 +40,9 @@ class ResourceVoter extends Voter {
 		/** @var Resource */
 		$resource = $subject;
 		return match ($attribute) {
-			'READ' => $this->isGranted($user, $resource),
+			'READ' => $this->isGranted( $user, $resource),
+            // can read limited information about the resource (true: limited read is allowed, full read may be allowed, false: limited read is not allowed, full read may be allowed (!))
+            'READ_LIMITED' => $this->isGrantedLimitedRead($user, $resource),
             'UPDATE' => $this->isGranted($user, $resource),
 			'DELETE' => $this->isGranted($user, $resource),
             'UPDATE_MEMBERS' => $this->isGranted($user, $resource),
@@ -107,6 +109,34 @@ class ResourceVoter extends Voter {
 		return $this->allowedToManageAllResourcesInOrganizationFolder($user, $resourceOrganizationFolder)
                 || $this->isResourceManager($user, $resource, $resourceOrganizationFolder);
 	}
+
+    protected function isGrantedLimitedRead(IUser $user, Resource $resource): bool {
+        $subResources = $this->resourceService->getAllSubResources($resource);
+
+        foreach($subResources as $subResource) {
+            if($this->isManagerOfAnySubresource($user, $subResource)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected function isManagerOfAnySubresource(IUser $user, Resource $resource) {
+        if($this->isGranted($user, $resource)) {
+            return true;
+        }
+
+        $subResources = $this->resourceService->getAllSubResources($resource);
+
+        foreach($subResources as $subResource) {
+            if($this->isManagerOfAnySubresource($user, $subResource)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private function userIsInGroup(IUser $user, string $groupId): bool {
         return $this->groupManager->isInGroup($user->getUID(), $groupId);

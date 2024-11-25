@@ -9,7 +9,7 @@ use OCP\AppFramework\Controller;
 use OCP\IRequest;
 
 class BaseController extends Controller {
-	private AuthorizationService $authorizationService;
+	protected AuthorizationService $authorizationService;
 
 	public function __construct(
 	) {

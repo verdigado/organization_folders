@@ -8,6 +8,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
+use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Traits\ApiObjectController;
 
 class ResourceController extends BaseController {
@@ -15,10 +16,12 @@ class ResourceController extends BaseController {
 	use ApiObjectController;
 
 	public const MEMBERS_INCLUDE = 'members';
+	public const SUBRESOURCES_INCLUDE = 'subresources';
 
 	public function __construct(
 		private ResourceService $service,
 		private ResourceMemberService $memberService,
+		private OrganizationFolderService $organizationFolderService, 
 		private string $userId,
     ) {
 		parent::__construct();
@@ -35,6 +38,10 @@ class ResourceController extends BaseController {
 
 		if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
 			$result["members"] = $this->memberService->findAll($resource->getId());
+		}
+
+		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
+			$result["subresources"] = $this->getSubResources($resource->getId());
 		}
 
 		return $result;
@@ -68,16 +75,18 @@ class ResourceController extends BaseController {
 		?string $include,
 	): JSONResponse {
 		return $this->handleErrors(function () use ($organizationFolderId, $type, $name, $parentResourceId, $active, $inheritManagers, $membersAclPermission, $managersAclPermission, $inheritedAclPermission, $include) {
+			$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+			
 			if(!is_null($parentResourceId)) {
 				$parentResource = $this->service->find($parentResourceId);
 
 				$this->denyAccessUnlessGranted(['CREATE_SUBRESOURCE'], $parentResource);
 			} else {
-				// TODO: ask future organization folder voter
+				$this->denyAccessUnlessGranted(['CREATE_RESOURCE'], $organizationFolder);
 			}
 
 			$resource = $this->service->create(
-				organizationFolderId: $organizationFolderId,
+				organizationFolderId: $organizationFolder->getId(),
 				type: $type,
 				name: $name,
 				parentResourceId: $parentResourceId,
@@ -125,5 +134,45 @@ class ResourceController extends BaseController {
 
 			return $this->getApiObjectFromEntity($resource, $include);
 		});
+	}
+
+	
+
+	#[NoAdminRequired]
+	public function subResources(int $resourceId): JSONResponse {
+		return $this->handleNotFound(function () use ($resourceId) {
+			return $this->getSubResources($resourceId);
+		});
+	}
+
+	protected function getSubResources(int $resourceId): array {
+		$resource = $this->service->find($resourceId);
+		$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
+
+		$subresources = $this->service->getSubResources($resource);
+
+		$result = [];
+
+		if($this->authorizationService->isGranted(['MANAGE_ALL_RESOURCES'], $organizationFolder)) {
+			/* fastpath: access to all subresources */
+			$result = $subresources;
+		} else {			
+			foreach($subresources as $subresource) {
+				// Future optimization potential 1: the following will potentially check the permissions of each of these subresources all the way up the resource tree.
+				// As sibling resources these subresources share the same resources above them in the tree.
+				// So if access to the parent resource is granted, all subresources with inheritManagers can be granted immediately.
+				// For all other subresources only a check if user has direct (non-inherited) manager rights is neccessary.
+
+				// Future optimization potential 2: READ permission check checks MANAGE_ALL_RESOURCES again, at this point we know this to be false, because of the fastpath.
+				// Could be replaced with something like a READ_DIRECT (name TBD) permission check, which does not check this again.
+				if($this->authorizationService->isGranted(['READ'], $resource)) {
+					$result[] = $subresource;
+				} else if($this->authorizationService->isGranted(['READ_LIMITED'], $resource)) {
+					$result[] = $subresource->limitedJsonSerialize();
+				}
+			}
+		}
+
+		return $result;
 	}
 }
