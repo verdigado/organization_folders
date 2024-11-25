@@ -3,8 +3,9 @@ const DAV_VERDIGADO_NAMESPACE = "{http://verdigado.com/ns}";
 
 const DAV_PROPERTIES = {
     ORGANIZATION_FOLDER_ID_PROPERTYNAME: DAV_VERDIGADO_NAMESPACE + "organization-folder-id",
+	ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME: "{http://verdigado.com/ns}organization-folder-user-has-update-permissions",
 	ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME: DAV_VERDIGADO_NAMESPACE + "organization-folder-resource-id",
-	ORGANIZATION_FOLDER_RESOURCE_MANAGER_PERMISSIONS_PROPERTYNAME: DAV_VERDIGADO_NAMESPACE + "organization-folder-resource-user-has-manager-permissions",
+	ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME: DAV_VERDIGADO_NAMESPACE + "organization-folder-resource-user-has-update-permissions",
 };
 
 /**
@@ -27,14 +28,19 @@ export function initFilesClient(filesClient) {
 			data.organizationFolderId = parseInt(organizationFolderId);
 		}
 
+		const organizationFolderUpdatePermissions = props[DAV_PROPERTIES.ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME];
+		if (typeof organizationFolderUpdatePermissions !== 'undefined') {
+			data.organizationFolderUpdatePermissions = organizationFolderUpdatePermissions === "true";
+		}
+
 		const organizationFolderResourceId = props[DAV_PROPERTIES.ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME];
 		if (typeof organizationFolderResourceId !== 'undefined') {
 			data.organizationFolderResourceId = parseInt(organizationFolderResourceId);
 		}
 
-		const userManagerPermissions = props[DAV_PROPERTIES.ORGANIZATION_FOLDER_RESOURCE_MANAGER_PERMISSIONS_PROPERTYNAME];
-		if (typeof userManagerPermissions !== 'undefined') {
-			data.userManagerPermissions = userManagerPermissions === "true";
+		const organizationFolderResourceUpdatePermissions = props[DAV_PROPERTIES.ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME];
+		if (typeof organizationFolderResourceUpdatePermissions !== 'undefined') {
+			data.organizationFolderResourceUpdatePermissions = organizationFolderResourceUpdatePermissions === "true";
 		}
 
 		return data
@@ -47,7 +53,12 @@ export function initFilesClient(filesClient) {
 
 export async function getFolderProperties(path) {
 	return client.getFileInfo(path, {
-		properties: [DAV_PROPERTIES.ORGANIZATION_FOLDER_ID_PROPERTYNAME, DAV_PROPERTIES.ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME, DAV_PROPERTIES.ORGANIZATION_FOLDER_RESOURCE_MANAGER_PERMISSIONS_PROPERTYNAME],
+		properties: [
+			DAV_PROPERTIES.ORGANIZATION_FOLDER_ID_PROPERTYNAME,
+			DAV_PROPERTIES.ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME,
+			DAV_PROPERTIES.ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME,
+			DAV_PROPERTIES.ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME
+		],
 	}).then((status, fileInfo) => {
 		return {status, fileInfo};
 	});
