@@ -34,11 +34,11 @@ const resourceNameValid = computed(() => {
 });
 
 const saveName = async () => {
-    resource.value = await api.updateResource(resource.value.id, { name: currentResourceName.value }, "model+members");
+    resource.value = await api.updateResource(resource.value.id, { name: currentResourceName.value }, "model+members+subresources");
 };
 
 const saveInheritManagers = async (inheritManagers) => {
-    resource.value = await api.updateResource(resource.value.id, { inheritManagers }, "model+members");
+    resource.value = await api.updateResource(resource.value.id, { inheritManagers }, "model+members+subresources");
 };
 
 watch(() => props.resourceId, async (newResourceId) => {
@@ -50,15 +50,21 @@ watch(() => props.resourceId, async (newResourceId) => {
 
 const saveActive = async (active) => {
     resourceActiveLoading.value = true;
-    resource.value = await api.updateResource(resource.value.id, { active }, "model+members");
+    resource.value = await api.updateResource(resource.value.id, { active }, "model+members+subresources");
     resourceActiveLoading.value = false;
 };
 
 const savePermission = async ({ field, value }) => {
     resource.value = await api.updateResource(resource.value.id, {
 	  [field]: value,
-	}, "model+members");
+	}, "model+members+subresources");
 };
+
+const deleteResource = async (closeDialog) => {
+	await api.deleteResource(resource.value.id);
+	closeDialog();
+	backButtonClicked();
+}
 
 const switchToSnapshotRestoreView = ()  => {
 
@@ -111,6 +117,21 @@ const backButtonClicked = () => {
 	
 };
 
+const createSubResource = async (type, name) => {
+	resource.value.subResources.push(await api.createResource({
+		type,
+		organizationFolderId: resource.value.organizationFolderId,
+		name,
+		parentResourceId: resource.value.id,
+		active: true,
+		inheritManagers: true,
+
+		membersAclPermission: 0,
+		managersAclPermission: 31,
+		inheritedAclPermission: 1,
+	}));
+}
+
 </script>
 
 <template>
@@ -118,7 +139,7 @@ const backButtonClicked = () => {
 		:has-back-button="true"
 		:has-next-step-button="false"
 		:has-last-step-button="false"
-		:title="'Resource Settings'"
+		:title="resource?.type === api.ResourceTypes.FOLDER ? 'Folder Settings' : 'Settings'"
 		:loading="loading"
 		v-slot=""
 		@back-button-pressed="backButtonClicked">
@@ -136,7 +157,7 @@ const backButtonClicked = () => {
 				@trailing-button-click="saveName"
 				@blur="() => currentResourceName = currentResourceName.trim()"
 				@keyup.enter="saveName" />
-			<NcCheckboxRadioSwitch :checked="resource.inheritManagers" @update:checked="saveInheritManagers">Manager aus oberer Ebene vererben</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch style="margin-top: 12px;" :checked="resource.inheritManagers" @update:checked="saveInheritManagers">Manager aus oberer Ebene vererben</NcCheckboxRadioSwitch>
 		</div>
 		<h3>Berechtigungen</h3>
 		<Permissions :resource="resource" @permissionUpdated="savePermission" />
@@ -159,7 +180,7 @@ const backButtonClicked = () => {
 					:loading="resourceActiveLoading"
 					type="checkbox"
                     @update:checked="saveActive">
-					Resource aktiv
+					Ordner aktiv
 				</NcCheckboxRadioSwitch>
 			</div>
 			<ConfirmDeleteDialog title="Ordner löschen"
@@ -172,7 +193,7 @@ const backButtonClicked = () => {
 						:disabled="resource.active"
 						type="error"
 						@click="open">
-						Gruppe löschen
+						Ordner löschen
 					</NcButton>
 				</template>
 				<template #content>
@@ -189,14 +210,14 @@ const backButtonClicked = () => {
 							<NcLoadingIcon v-if="loading" />
 							<Delete v-else :size="20" />
 						</template>
-						Gruppe löschen
+						Ordner löschen
 					</NcButton>
 				</template>
 			</ConfirmDeleteDialog>
 		</div>
 		<div class="header-button-group">
 			<h3>Unter-Resourcen</h3>
-			<CreateResourceButton />
+			<CreateResourceButton @create="createSubResource" />
 		</div>
 		<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
     </ModalView>

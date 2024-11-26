@@ -15,13 +15,13 @@ const permissionGroups = computed(() => {
   return [
 	{
 	  field: "managersAclPermission",
-	  label: "Resourcenadministrator*innen",
+	  label: "Manager*innen",
 	  value: props.resource.managersAclPermission,
 	  mask: 31,
 	},
 	{
 	  field: "membersAclPermission",
-	  label: "Resourcenmitglieder",
+	  label: "Mitglieder",
 	  value: props.resource.membersAclPermission,
 	  mask: 31,
 	},
