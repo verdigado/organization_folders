@@ -13,8 +13,6 @@ const props = defineProps({
   },
 });
 
-const friendlyNameParts = computed(() => [props.member.principal.id] /*.split(" / ")*/);
-
 const emit = defineEmits(["update", "delete"]);
 
 const permissionLevelOptions = [
@@ -36,18 +34,18 @@ const onDeleteClicked = (e) => {
 <template>
 	<tr>
 		<td>
-			<NcAvatar :user="props.member.type === 1 ? props.member.principal : undefined"
+			<NcAvatar :user="props.member.principal.type === 1 ? props.member.principal.id : undefined"
 				:disabled-menu="true"
 				:disabled-tooltip="true"
-				:icon-class="props.member.type === 2 ? 'icon-group' : undefined" />
+				:icon-class="props.member.principal.type > 1 ? 'icon-group' : undefined" />
 		</td>
 		<td>
-			<div class="friendlyNameParts">
-				<div v-for="(friendlyNamePart, index) of friendlyNameParts" :key="'breadcrumb-' + friendlyNamePart" class="friendlyNamePartDiv">
-					<p v-tooltip="friendlyNamePart" class="friendlyNamePartP">
-						{{ friendlyNamePart }}
+			<div class="fullHierarchyNameParts">
+				<div v-for="(fullHierarchyNamePart, index) of props.member.principal.fullHierarchyNames" :key="fullHierarchyNamePart">
+					<p v-tooltip="fullHierarchyNamePart">
+						{{ fullHierarchyNamePart }}
 					</p>
-					<ChevronRight v-if="index !== friendlyNameParts.length - 1" :size="20" />
+					<ChevronRight v-if="index !== props.member.principal.fullHierarchyNames.length - 1" :size="20" />
 				</div>
 			</div>
 		</td>
@@ -68,28 +66,32 @@ const onDeleteClicked = (e) => {
 	</tr>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	td {
 		padding: 8px;
 	}
-	.friendlyNameParts {
+
+	.fullHierarchyNameParts {
 		display: inline-flex;
 		max-width: 100%;
 		overflow-x: clip;
-	}
-	.friendlyNamePartP {
-		white-space: nowrap;
-		overflow: hidden;
 
-	}
-	.friendlyNamePartP:not(:last-child)  {
-		text-overflow: ellipsis;
-	}
-	.friendlyNamePartDiv {
-		display: inline-flex;
-		min-width: 20px;
-	}
-	.friendlyNamePartDiv:last-child  {
-		flex-shrink: 0;
+		> div {
+			display: inline-flex;
+			min-width: 20px;
+
+			&:last-child  {
+				flex-shrink: 0;
+			}
+
+			> p {
+				white-space: nowrap;
+				overflow: hidden;
+
+				&:not(:last-child)  {
+					text-overflow: ellipsis;
+				}
+			}
+		}
 	}
 </style>
