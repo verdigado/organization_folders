@@ -10,6 +10,7 @@ import MemberListItem from "./MemberListItem.vue";
 import Plus from "vue-material-design-icons/Plus.vue";
 import Close from "vue-material-design-icons/Close.vue";
 import HelpCircle from "vue-material-design-icons/HelpCircle.vue";
+import AccountOff from "vue-material-design-icons/AccountOff.vue";
 import api from "../../api.js";
 import { ref } from 'vue';
 
@@ -60,7 +61,7 @@ const deleteMember = (memberId) => {
 
 <template>
 	<div>
-		<div class="title">
+		<div class="header-button-group">
 			<h3>Mitglieder</h3>
 			<NcActions :disabled="!!newMemberType" type="secondary">
 				<template #icon>
@@ -113,7 +114,11 @@ const deleteMember = (memberId) => {
 				</tr>
 				<tr v-if="!loading && !members.length">
 					<td colspan="4" style="grid-column-start: 1; grid-column-end: 5">
-						<NcEmptyContent name="Keine Mitglieder" />
+						<NcEmptyContent name="Keine Mitglieder">
+							<template #icon>
+								<AccountOff />
+							</template>
+						</NcEmptyContent>
 					</td>
 				</tr>
 				<MemberListItem v-for="member in members"
@@ -139,17 +144,20 @@ const deleteMember = (memberId) => {
 	table td, table th {
 		padding: 8px;
 	}
-	.title {
+	.new-item {
+		display: flex;
+	}
+
+	.header-button-group {
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+		column-gap: 10px;
 		margin-top: 24px;
-	}
-	h3 {
-		font-weight: bold;
-		margin-right: 24px;
-	}
-	.new-item {
-		display: flex;
+		margin-bottom: 12px;
+
+		h1, h2, h3 {
+			margin: 0px;
+		}
 	}
 </style>
