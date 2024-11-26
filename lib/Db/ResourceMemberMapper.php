@@ -8,11 +8,42 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+use OCA\OrganizationFolders\Enum\PrincipalType;
+use OCA\OrganizationFolders\Model\PrincipalFactory;
+
 class ResourceMemberMapper extends QBMapper {
 	public const RESOURCE_MEMBERS_TABLE = "organizationfolders_resource_members";
 
-	public function __construct(IDBConnection $db) {
+	public function __construct(
+		protected PrincipalFactory $principalFactory,
+		IDBConnection $db,
+	) {
 		parent::__construct($db, self::RESOURCE_MEMBERS_TABLE, ResourceMember::class);
+	}
+
+	/**
+	 *
+	 * @param array $row the row which should be converted to an entity
+	 * @return ResourceMember the entity
+	 * @psalm-return ResourceMember the entity
+	 */
+	protected function mapRowToEntity(array $row): ResourceMember {
+		$resourceMember = new ResourceMember();
+
+		$resourceMember->setId($row["id"]);
+		$resourceMember->setResourceId($row["resource_id"]);
+		$resourceMember->setPermissionLevel($row["permission_level"]);
+
+		$principalType = PrincipalType::from($row["principal_type"]);
+		$principal = $this->principalFactory->buildPrincipal($principalType, $row["principal_id"]);
+		$resourceMember->setPrincipal($principal);
+
+		$resourceMember->setCreatedTimestamp($row["created_timestamp"]);
+		$resourceMember->setLastUpdatedTimestamp($row["last_updated_timestamp"]);
+
+		$resourceMember->resetUpdatedFields();
+
+		return $resourceMember;
 	}
 
 	/**

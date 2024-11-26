@@ -4,26 +4,30 @@ namespace OCA\OrganizationFolders\Model;
 
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
-class Principal implements \JsonSerializable {
-    public function __construct(
-		private PrincipalType $type,
-        private string $id,
-	) {
-        // check if id fits format
-    }
+abstract class Principal implements \JsonSerializable {
+	protected bool $valid;
 
-    public function getType(): PrincipalType {
-		return $this->type;
-	}
+    abstract public function getType(): PrincipalType;
 
-    public function getId(): string {
-		return $this->id;
+    abstract public function getId(): string;
+
+	abstract public function getFriendlyName(): string;
+
+	/**
+	 * @return array
+	 * @psalm-return string[]
+	 */
+	public function getFullHierarchyNames(): array {
+		return [$this->getFriendlyName()];
 	}
 
 	public function jsonSerialize(): array {
 		return [
-			'type' => $this->type->value,
-			'id' => $this->id,
+			'type' => $this->getType(),
+			'id' => $this->getId(),
+			'valid' => $this->valid,
+			'friendlyName' => $this->getFriendlyName(),
+			'fullHierarchyNames' => $this->getFullHierarchyNames(),
 		];
 	}
 }

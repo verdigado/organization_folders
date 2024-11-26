@@ -11,6 +11,7 @@ use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Interface\TableSerializable;
+use OCA\OrganizationFolders\Model\PrincipalFactory;
 
 abstract class BaseCommand extends Base {
 
@@ -21,6 +22,7 @@ abstract class BaseCommand extends Base {
         protected readonly ResourceService $resourceService,
 		protected readonly ResourceMemberService $resourceMemberService,
 		protected readonly OrganizationProviderManager $organizationProviderManager,
+		protected readonly PrincipalFactory $principalFactory,
 	) {
 		parent::__construct();
 	}

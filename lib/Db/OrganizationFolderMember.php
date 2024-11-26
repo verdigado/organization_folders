@@ -14,8 +14,11 @@ use OCA\OrganizationFolders\Model\Principal;
 class OrganizationFolderMember extends Entity implements JsonSerializable, TableSerializable {
 	protected $organizationFolderId;
 	protected $permissionLevel;
-	protected $principalType;
-    protected $principalId;
+
+	/**
+	 * @var Principal
+	 */
+	protected $principal;
     protected $createdTimestamp;
 	protected $lastUpdatedTimestamp;
 	
@@ -26,20 +29,33 @@ class OrganizationFolderMember extends Entity implements JsonSerializable, Table
         $this->addType('createdTimestamp','integer');
 		$this->addType('lastUpdatedTimestamp','integer');
 	}
-	
-	public function getPrincipal(): Principal {
-		return new Principal(PrincipalType::from($this->principalType), $this->principalId);
-	}
 
 	public function setPrincipal(Principal $principal) {
-        $principalType = $principal->getType();
-        if($principalType === PrincipalType::GROUP || $principalType === PrincipalType::ROLE) {
-		    $this->setPrincipalType($principalType->value);
-        } else {
-            throw new \Exception("individual users are not allowed as organization folder members");
-        }
+		if($principal->getType() === PrincipalType::GROUP || $principal->getType() === PrincipalType::ROLE) {
+			if(!isset($this->principal) || $this->principal->getType() !== $principal->getType()) {
+				$this->markFieldUpdated("principalType");
+				$principalTypeUpdated = true;
+			}
 
-        $this->setPrincipalId($principal->getId());
+			if(!isset($this->principal) || $this->principal->getId() !== $principal->getId()) {
+				$this->markFieldUpdated("principalId");
+				$principalIdUpdated = true;
+			}
+
+			if($principalTypeUpdated || $principalIdUpdated) {
+				$this->principal = $principal;
+			}
+		} else {
+			throw new \Exception("individual users are not allowed as organization folder members");
+		}
+	}
+
+	public function getPrincipalType(): int {
+		return $this->principal?->getType()->value;
+	}
+
+	public function getPrincipalId(): string|null {
+		return $this->principal?->getId();
 	}
 
     public function setPermissionLevel(int $permissionLevel) {
@@ -72,8 +88,9 @@ class OrganizationFolderMember extends Entity implements JsonSerializable, Table
 			'Id' => $this->id,
 			'Organization Folder Id' => $this->organizationFolderId,
 			'Permission Level' => OrganizationFolderMemberPermissionLevel::from($this->permissionLevel)->name,
-			'Principal Type' => PrincipalType::from($this->principalType)->name,
-            'Principal Id' => $this->principalId,
+			'Principal Type' => $this->principal?->getType()->name,
+            'Principal Id' => $this->principal?->getId(),
+			'Principal Friendly Name' => $this->principal?->getFriendlyName(),
             'Created' => $this->createdTimestamp,
 			'LastUpdated' => $this->lastUpdatedTimestamp,
 		];

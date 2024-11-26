@@ -31,11 +31,13 @@ class CreateOrganizationFolderMember extends BaseCommand {
 		$principalType = PrincipalType::fromNameOrValue($input->getOption('principal-type'));
 		$principalId = $input->getOption('principal-id');
 
+		$principal = $this->principalFactory->buildPrincipal($principalType, $principalId);
+
 		try {
 			$member = $this->organizationFolderMemberService->create(
 				organizationFolderId: $organizationFolderId,
 				permissionLevel: $permissionLevel,
-				principal: new Principal($principalType, $principalId),
+				principal: $principal,
 			);
 
 			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($member)]);

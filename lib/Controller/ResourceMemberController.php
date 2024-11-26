@@ -2,7 +2,6 @@
 
 namespace OCA\OrganizationFolders\Controller;
 
-use OCA\OrganizationFolders\Model\Principal;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
@@ -11,6 +10,7 @@ use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
+use OCA\OrganizationFolders\Model\PrincipalFactory;
 
 class ResourceMemberController extends BaseController {
 	use Errors;
@@ -18,6 +18,7 @@ class ResourceMemberController extends BaseController {
 	public function __construct(
 		private ResourceMemberService $service,
 		private ResourceService $resourceService,
+		private PrincipalFactory $principalFactory,
 		private string $userId,
     ) {
 		parent::__construct();
@@ -46,10 +47,12 @@ class ResourceMemberController extends BaseController {
 
             $this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
 
+			$principal = $this->principalFactory->buildPrincipal(PrincipalType::fromNameOrValue($principalType), $principalId);
+
 			$resourceMember = $this->service->create(
 				resourceId: $resourceId,
                 permissionLevel: ResourceMemberPermissionLevel::fromNameOrValue($permissionLevel),
-				principal: new Principal(PrincipalType::fromNameOrValue($principalType), $principalId),
+				principal: $principal,
 			);
 
 			return $resourceMember;

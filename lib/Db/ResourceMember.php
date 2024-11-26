@@ -14,8 +14,11 @@ use OCA\OrganizationFolders\Model\Principal;
 class ResourceMember extends Entity implements JsonSerializable, TableSerializable {
 	protected $resourceId;
 	protected $permissionLevel;
-	protected $principalType;
-    protected $principalId;
+
+	/**
+	 * @var Principal
+	 */
+	protected $principal;
     protected $createdTimestamp;
 	protected $lastUpdatedTimestamp;
 	
@@ -26,14 +29,29 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
         $this->addType('createdTimestamp','integer');
 		$this->addType('lastUpdatedTimestamp','integer');
 	}
-	
-	public function getPrincipal(): Principal {
-		return new Principal(PrincipalType::from($this->principalType), $this->principalId);
-	}
 
 	public function setPrincipal(Principal $principal) {
-		$this->setPrincipalType($principal->getType()->value);
-        $this->setPrincipalId($principal->getId());
+		if(!isset($this->principal) || $this->principal->getType() !== $principal->getType()) {
+			$this->markFieldUpdated("principalType");
+			$principalTypeUpdated = true;
+		}
+
+		if(!isset($this->principal) || $this->principal->getId() !== $principal->getId()) {
+			$this->markFieldUpdated("principalId");
+			$principalIdUpdated = true;
+		}
+
+		if($principalTypeUpdated || $principalIdUpdated) {
+			$this->principal = $principal;
+		}
+	}
+
+	public function getPrincipalType(): int {
+		return $this->principal?->getType()->value;
+	}
+
+	public function getPrincipalId(): string|null {
+		return $this->principal?->getId();
 	}
 
 	public function setPermissionLevel(int $permissionLevel) {
@@ -55,7 +73,7 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 			'id' => $this->id,
 			'resourceId' => $this->resourceId,
 			'permissionLevel' => $this->permissionLevel,
-			'principal' => $this->getPrincipal(),
+			'principal' => $this->principal,
             'createdTimestamp' => $this->createdTimestamp,
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 		];
@@ -66,8 +84,9 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 			'Id' => $this->id,
 			'Resource Id' => $this->resourceId,
 			'Permission Level' => ResourceMemberPermissionLevel::from($this->permissionLevel)->name,
-			'Principal Type' => PrincipalType::from($this->principalType)->name,
-            'Principal Id' => $this->principalId,
+			'Principal Type' => $this->principal?->getType()->name,
+            'Principal Id' => $this->principal?->getId(),
+			'Principal Friendly Name' => $this->principal?->getFriendlyName(),
             'Created' => $this->createdTimestamp,
 			'LastUpdated' => $this->lastUpdatedTimestamp,
 		];

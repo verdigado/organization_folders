@@ -31,11 +31,13 @@ class CreateResourceMember extends BaseCommand {
 		$principalType = PrincipalType::fromNameOrValue($input->getOption('principal-type'));
 		$principalId = $input->getOption('principal-id');
 
+		$principal = $this->principalFactory->buildPrincipal($principalType, $principalId);
+
 		try {
 			$member = $this->resourceMemberService->create(
 				resourceId: $resourceId,
 				permissionLevel: $permissionLevel,
-				principal: new Principal($principalType, $principalId),
+				principal: $principal,
 			);
 
 			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($member)]);

@@ -17,6 +17,7 @@ use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use \OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
@@ -35,6 +36,7 @@ class ResourceService {
 		protected OrganizationProviderManager $organizationProviderManager,
 		protected OrganizationFolderService $organizationFolderService,
 		protected ContainerInterface $container,
+		protected PrincipalFactory $principalFactory,
 	) {
 	}
 
@@ -215,7 +217,7 @@ class ResourceService {
 		
 		$inheritingPrincipals = [];
 		foreach($inheritingGroups as $inheritingGroup) {
-			$inheritingPrincipals[] = new Principal(PrincipalType::GROUP, $inheritingGroup);
+			$inheritingPrincipals[] = $this->principalFactory->buildPrincipal(PrincipalType::GROUP, $inheritingGroup);
 		}
 
 		return $this->recursivelySetFolderResourceALCs($topLevelFolderResources, "", $inheritingPrincipals);
