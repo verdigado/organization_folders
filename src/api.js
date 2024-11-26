@@ -40,7 +40,7 @@ var ResourceMemberPermissionLevels = {
 /**
  * @typedef {{
  * id: number
- * type: string
+ * type: ResourceType
  * organizationFolderId: number
  * name: string
  * parentResource: number
@@ -58,6 +58,8 @@ var ResourceMemberPermissionLevels = {
  * @typedef {{
  * type: PrincipalType,
  * id: string,
+ * friendlyName: string
+ * fullHierarchyNames: string[]
  * }} Principal
  * 
  * @typedef {{
@@ -104,10 +106,40 @@ export default {
 	 *   managersAclPermission: number|undefined
 	 *   inheritedAclPermission: number|undefined
 	 * }} updateResourceDto UpdateResourceDto
+	 * @param string include
 	 * @return {Promise<Resource>}
 	 */
 	updateResource(resourceId, updateGroupDto, include = "model") {
 		return axios.put(`/resources/${resourceId}`, { ...updateGroupDto, include }).then((res) => res.data);
+	},
+
+	/**
+	 * @param {{
+	 * type: ResourceType
+	 * organizationFolderId: number
+	 * name: string
+	 * parentResourceId: number|undefined
+	 * active: bool
+	 * inheritManagers: bool
+	 * 
+	 * membersAclPermission: number|undefined
+	 * managersAclPermission: number|undefined
+	 * inheritedAclPermission: number|undefined
+	 * }} createResourceDto CreateResourceDto
+	 * @param string include
+	 * @return {Promise<Resource>}
+	 */
+	createResource(createGroupDto, include = "model") {
+		return axios.post(`/resources`, { ...createGroupDto, include }).then((res) => res.data);
+	},
+
+	/**
+	 *
+	 * @param {number|string} resourceId Resource id
+	 * @return {Promise<Resource>}
+	 */
+	deleteResource(resourceId) {
+		return axios.delete(`/resources/${resourceId}`).then((res) => res.data);
 	},
 
 	/**
