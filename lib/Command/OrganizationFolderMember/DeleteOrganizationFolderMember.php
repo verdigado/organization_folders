@@ -14,7 +14,7 @@ class DeleteOrganizationFolderMember extends BaseCommand {
 		$this
 			->setName('organization-folders:members:delete')
 			->setDescription('Delete a member of an organization folder')
-			->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder');
+			->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder member');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
