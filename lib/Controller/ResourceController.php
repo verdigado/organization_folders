@@ -82,7 +82,7 @@ class ResourceController extends BaseController {
 
 				$this->denyAccessUnlessGranted(['CREATE_SUBRESOURCE'], $parentResource);
 			} else {
-				$this->denyAccessUnlessGranted(['CREATE_RESOURCE'], $organizationFolder);
+				$this->denyAccessUnlessGranted(['CREATE_TOP_LEVEL_RESOURCE'], $organizationFolder);
 			}
 
 			$resource = $this->service->create(

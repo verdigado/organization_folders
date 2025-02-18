@@ -96,7 +96,7 @@ class ResourceVoter extends Voter {
                 }
             } else {
                 // top-level resource -> allowed to manage resource if manager of organization folder
-                return $this->organizationFolderVoter->vote($user, $resourceOrganizationFolder, ["MANAGE_TOP_LEVEL_RESOURCES"]) === self::ACCESS_GRANTED;
+                return $this->organizationFolderVoter->vote($user, $resourceOrganizationFolder, ["MANAGE_TOP_LEVEL_RESOURCES_WITH_INHERITANCE"]) === self::ACCESS_GRANTED;
             }
         }
 

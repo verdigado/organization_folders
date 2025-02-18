@@ -40,9 +40,9 @@ class OrganizationFolderVoter extends Voter {
             'MANAGE_ALL_RESOURCES' => $this->isOrganizationFolderAdmin($user, $organizationFolder),
 
             // At least Manager permissions required
-            'READ_LIMITED' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder),
-            'CREATE_RESOURCE' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder),
-            'MANAGE_TOP_LEVEL_RESOURCES' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder),
+            'READ_LIMITED' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder), // TODO: return true only for managers, not admins, to make it false if READ is true
+            'CREATE_TOP_LEVEL_RESOURCE' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder),
+            'MANAGE_TOP_LEVEL_RESOURCES_WITH_INHERITANCE' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder),
             
 			default => throw new \LogicException('This code should not be reached!')
 		};
