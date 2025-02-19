@@ -123,6 +123,15 @@ export default {
 	/* Organization Folders */
 
 	/**
+	 * ADMIN ONLY
+	 * 
+	 * @return {Promise<Array<OrganizationFolder>>}
+	 */
+	getOrganizationFolders() {
+		return axios.get(`/organizationFolders`, { params: { } }).then((res) => res.data);
+	},
+
+	/**
 	 *
 	 * @param {number|string} id Organization folder id
 	 * @param {string} include 
