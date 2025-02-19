@@ -17,10 +17,11 @@ const newFolderResourceName = ref("");
         <template #icon>
             <Plus :size="20" />
         </template>
-        <NcActionInput v-model="newFolderResourceName" :label-outside="true" label="Ordner hinzufügen" @submit="emit('create', api.ResourceTypes.FOLDER, newFolderResourceName)">
+        <NcActionInput v-model="newFolderResourceName" label="Ordner erstellen" @submit="emit('create', api.ResourceTypes.FOLDER, newFolderResourceName)">
             <template #icon>
                 <Folder :size="20" />
             </template>
+            Ordner Name
         </NcActionInput>
     </NcActions>
 </template>
