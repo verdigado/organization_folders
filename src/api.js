@@ -26,6 +26,19 @@ var ResourceTypes = {
 }
 
 /**
+ * @typedef {number} OrganizationFolderMemberPermissionLevel
+ **/
+
+/**
+ * @enum {OrganizationFolderMemberPermissionLevel}
+ */
+var OrganizationFolderMemberPermissionLevels = {
+    MEMBER: 1,
+    MANAGER: 2,
+	ADMIN: 3,
+}
+
+/**
  * @typedef {number} ResourceMemberPermissionLevel
  **/
 
@@ -38,6 +51,26 @@ var ResourceMemberPermissionLevels = {
 }
 
 /**
+ * 
+ * @typedef {{
+ * id: number
+ * name: string
+ * quota: number
+ * organizationProviderId: string|undefined
+ * organizationId: number
+ * members: Array<OrganizationFolderMember>|undefined
+ * resources: Array<Resource>|undefined
+ * }} OrganizationFolder
+ * 
+ * @typedef {{
+ * id: number
+ * organizationFolderId: number
+ * permissionLevel: OrganizationFolderMemberPermissionLevel
+ * principal: Principal,
+ * createdTimestamp: number,
+ * lastUpdatedTimestamp: number,
+ * }} OrganizationFolderMember
+ *
  * @typedef {{
  * id: number
  * type: ResourceType
@@ -83,8 +116,80 @@ axios.defaults.baseURL = generateUrl("/apps/organization_folders")
 
 export default {
 	PrincipalTypes,
+	OrganizationFolderMemberPermissionLevels,
 	ResourceMemberPermissionLevels,
 	ResourceTypes,
+
+	/* Organization Folders */
+
+	/**
+	 *
+	 * @param {number|string} id Organization folder id
+	 * @param {string} include 
+	 * @return {Promise<OrganizationFolder>}
+	 */
+	getOrganizationFolder(organizationFolderId, include = "model") {
+		return axios.get(`/organizationFolders/${organizationFolderId}`, { params: { include } }).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number|string} organizationFolderId Organization folder id
+	 * @param {{
+	 *   name: string|undefined
+	 *   quota: number|undefined
+	 *   organizationProviderId: string|undefined
+	 *   organizationId: number|undefined
+	 * }} updateOrganizationFolderDto UpdateOrganizationFolderDto
+	 * @param string include
+	 * @return {Promise<OrganizationFolder>}
+	 */
+	updateOrganizationFolder(organizationFolderId, updateOrganizationFolderDto, include = "model") {
+		return axios.put(`/organizationFolders/${organizationFolderId}`, { ...updateOrganizationFolderDto, include }).then((res) => res.data);
+	},
+
+	/* Organization Folder Members */
+
+	/**
+	 * @param {number|string} organizationFolderId Organization folder id
+	 * @return {Promise<Array<OrganizationFolderMember>>}
+	 */
+	getOrganizationFolderMembers(organizationFolderId) {
+		return axios.get(`/organizationFolders/${organizationFolderId}/members`, {}).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number|string} organizationFolderId Organization folder id
+	 * @param {{
+	 *   permissionLevel: OrganizationFolderMemberPermissionLevel
+	 *   principalType: PrincipalType
+	 *   principalId: string
+	 * }} createOrganizationFolderMemberDto CreateOrganizationFolderMemberDto
+	 * @return {Promise<OrganizationFolderMember>}
+	 */
+	createOrganizationFolderMember(organizationFolderId, createOrganizationFolderMemberDto) {
+		return axios.post(`/organizationFolders/${organizationFolderId}/members`, { ...createOrganizationFolderMemberDto }).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number} organizationFolderMemberId Organization folder member id
+	 * @param {{
+	 *   permissionLevel: OrganizationFolderMemberPermissionLevel
+	 * }} updateOrganizationFolderMemberMemberDto UpdateOrganizationFolderMemberDto
+	 * @return {Promise<OrganizationFolderMember>}
+	 */
+	updateOrganizationFolderMember(organizationFolderMemberId, updateOrganizationFolderMemberMemberDto) {
+		return axios.put(`/organizationFolders/members/${organizationFolderMemberId}`, { ...updateOrganizationFolderMemberMemberDto }).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number} organizationFolderMemberId Organization folder member id
+	 * @return {Promise<OrganizationFolderMember>}
+	 */
+	deleteOrganizationFolderMember(organizationFolderMemberId) {
+		return axios.delete(`/organizationFolders/members/${organizationFolderMemberId}`, {}).then((res) => res.data);
+	},
+
+	/* Resources */
 
 	/**
 	 *
@@ -109,8 +214,8 @@ export default {
 	 * @param string include
 	 * @return {Promise<Resource>}
 	 */
-	updateResource(resourceId, updateGroupDto, include = "model") {
-		return axios.put(`/resources/${resourceId}`, { ...updateGroupDto, include }).then((res) => res.data);
+	updateResource(resourceId, updateResourceDto, include = "model") {
+		return axios.put(`/resources/${resourceId}`, { ...updateResourceDto, include }).then((res) => res.data);
 	},
 
 	/**
@@ -129,8 +234,8 @@ export default {
 	 * @param string include
 	 * @return {Promise<Resource>}
 	 */
-	createResource(createGroupDto, include = "model") {
-		return axios.post(`/resources`, { ...createGroupDto, include }).then((res) => res.data);
+	createResource(createResourceDto, include = "model") {
+		return axios.post(`/resources`, { ...createResourceDto, include }).then((res) => res.data);
 	},
 
 	/**
@@ -141,6 +246,8 @@ export default {
 	deleteResource(resourceId) {
 		return axios.delete(`/resources/${resourceId}`).then((res) => res.data);
 	},
+
+	/* Resource Members */
 
 	/**
 	 * @param {number|string} resourceId Resource id
@@ -182,6 +289,8 @@ export default {
 		return axios.delete(`/resources/members/${resourceMemberId}`, {}).then((res) => res.data);
 	},
 
+	/* Organization Providers / Organizations / Organization Roles */
+
 	/**
 	 * @return {Promise<Array<string>>}
 	 */
@@ -220,5 +329,4 @@ export default {
 	getRoles(organizationProviderId, organizationId) {
 		return axios.get(`/organizationProviders/${organizationProviderId}/organizations/${organizationId}/roles/`, { }).then((res) => res.data);
 	}
-
 }
