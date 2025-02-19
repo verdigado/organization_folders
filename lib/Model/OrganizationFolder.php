@@ -40,7 +40,18 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'id' => $this->id,
 			'name' => $this->name,
             'quota' => $this->quota,
-			'organizationProvider' => $this->organizationProvider,
+			'organizationProviderId' => $this->organizationProvider,
+			'organizationId' => $this->organizationId,
+		];
+	}
+
+	// currently no different than non-limited
+	public function limitedJsonSerialize(): array {
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+            'quota' => $this->quota,
+			'organizationProviderId' => $this->organizationProvider,
 			'organizationId' => $this->organizationId,
 		];
 	}
