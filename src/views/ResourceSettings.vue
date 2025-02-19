@@ -2,18 +2,22 @@
 import { ref, watch, computed } from "vue";
 import { loadState } from '@nextcloud/initial-state';
 import { NcLoadingIcon, NcCheckboxRadioSwitch, NcButton, NcTextField } from '@nextcloud/vue';
+import { useRouter } from 'vue2-helpers/vue-router';
 
 import BackupRestore from "vue-material-design-icons/BackupRestore.vue";
 import Delete from "vue-material-design-icons/Delete.vue";
 
-import ResourceMembersList from "../components/MemberList/ResourceMembersList.vue";
+import HeaderButtonGroup from "../components/HeaderButtonGroup.vue";
+import MembersList from "../components/MemberList/MembersList.vue";
 import Permissions from "../components/Permissions/index.js";
 import ConfirmDeleteDialog from "../components/ConfirmDeleteDialog.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
+
 import ModalView from '../ModalView.vue';
+
 import api from "../api.js";
-import { useRouter } from 'vue2-helpers/vue-router';
+import { useOrganizationProvidersStore } from "../stores/organization-providers.js";
 import { validResourceName } from "../helpers/validation.js";
 
 const props = defineProps({
@@ -23,9 +27,18 @@ const props = defineProps({
   },
 });
 
+const organizationProviders = useOrganizationProvidersStore();
+
+organizationProviders.initialize();
+
 const resource = ref(null);
 const loading = ref(false);
 const resourceActiveLoading = ref(false);
+
+const memberPermissionLevelOptions = [
+  { label: "Mitglied", value: 1 },
+  { label: "Manager", value: 2 },
+];
 
 const currentResourceName = ref(false);
 
@@ -90,12 +103,6 @@ const deleteMember = async (memberId) => {
 
 const snapshotIntegrationActive = loadState('organization_folders', 'snapshot_integration_active', false);
 
-const organizationProviders = ref([]);
-
-api.getOrganizationProviders().then((providers) => {
-	organizationProviders.value = providers;
-});
-
 const router = useRouter();
 
 const subResourceClicked = (resource) => {
@@ -114,7 +121,6 @@ const backButtonClicked = () => {
 			path: '/organizationFolder/' + resource.value.organizationFolderId
 		});
 	}
-	
 };
 
 const createSubResource = async (type, name) => {
@@ -144,7 +150,7 @@ const createSubResource = async (type, name) => {
 		v-slot=""
 		@back-button-pressed="backButtonClicked">
         <h3>Eigenschaften</h3>
-		<div class="resource-general-settings">
+		<div>
 			<NcTextField :value.sync="currentResourceName"
 				:error="!resourceNameValid"
 				:label-visible="!resourceNameValid"
@@ -161,9 +167,9 @@ const createSubResource = async (type, name) => {
 		</div>
 		<h3>Berechtigungen</h3>
 		<Permissions :resource="resource" @permissionUpdated="savePermission" />
-		<ResourceMembersList :resource-id="resource.id"
-			:members="resource?.members"
-			:organizationProviders="organizationProviders"
+		<MembersList :members="resource?.members"
+			:organizationProviders="organizationProviders.providers"
+			:permission-level-options="memberPermissionLevelOptions"
 			@add-member="addMember"
 			@update-member="updateMember"
 			@delete-member="deleteMember"/>
@@ -215,10 +221,10 @@ const createSubResource = async (type, name) => {
 				</template>
 			</ConfirmDeleteDialog>
 		</div>
-		<div class="header-button-group">
+		<HeaderButtonGroup>
 			<h3>Unter-Resourcen</h3>
 			<CreateResourceButton @create="createSubResource" />
-		</div>
+		</HeaderButtonGroup>
 		<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
     </ModalView>
 </template>
@@ -254,18 +260,5 @@ h3 {
 	font-weight: bold;
 	margin-top: 24px;
 	margin-bottom: 0;
-}
-
-.header-button-group {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	column-gap: 10px;
-	margin-top: 24px;
-	margin-bottom: 12px;
-
-	h1, h2, h3 {
-		margin-top: 0px;
-	}
 }
 </style>

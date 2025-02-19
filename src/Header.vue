@@ -1,5 +1,6 @@
 <script setup>
 import { ref, inject, watch, computed, nextTick } from "vue";
+import { getCurrentUser } from "@nextcloud/auth";
 import NcButton from "@nextcloud/vue/dist/Components/NcButton.js";
 import NcLoadingIcon from "@nextcloud/vue/dist/Components/NcLoadingIcon.js";
 import FolderCog from "vue-material-design-icons/FolderCog.vue";
@@ -14,15 +15,32 @@ const currentDir = useCurrentDirStore();
 
 const modalOpen = ref(false);
 
+const userIsAdmin = ref(getCurrentUser().isAdmin);
+
+const buttonText = computed(() => {
+    if(currentDir.organizationFolderId) {
+        return "Ordner und Berechtigungen verwalten";
+    } else if (userIsAdmin) {
+        return "Organization Folders verwalten";
+    } else {
+        return "";
+    }
+});
+
 function openModal() {
     if(currentDir.organizationFolderResourceId && currentDir.organizationFolderResourceUpdatePermissions) {
         router.push({
-            path: '/resource/' + currentDir.organizationFolderResourceId
+            path: '/resource/' + currentDir.organizationFolderResourceId,
         });
         modalOpen.value = true;
     } else if(currentDir.organizationFolderId && currentDir.organizationFolderUpdatePermissions) {
         router.push({
-            path: '/organizationFolder/' + currentDir.organizationFolderId
+            path: '/organizationFolder/' + currentDir.organizationFolderId,
+        });
+        modalOpen.value = true;
+    } else if (userIsAdmin) {
+        router.push({
+            path: '/organizationFolders',
         });
         modalOpen.value = true;
     }
@@ -31,7 +49,7 @@ function openModal() {
 </script>
 
 <template>
-    <div v-if="currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderResourceUpdatePermissions" class="toolbar">
+    <div v-if="currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderResourceUpdatePermissions || userIsAdmin" class="toolbar">
         <NcButton :disabled="currentDir.loading"
             type="primary"
             @click="openModal">
@@ -39,7 +57,7 @@ function openModal() {
                 <NcLoadingIcon v-if="currentDir.loading" />
                 <FolderCog v-else :size="20" />
             </template>
-            Ordner und Berechtigungen Verwalten
+            {{ buttonText }}
 		</NcButton>
         <Modal :open.sync="modalOpen" />
     </div>

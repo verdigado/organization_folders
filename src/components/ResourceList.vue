@@ -68,7 +68,6 @@ const filteredResources = computed(() => props.resources.filter((g) => g.name.to
 <style scoped>
 .search-input {
 	width: 100%;
-	border: 1px solid #666;
 	margin-bottom: 10px;
 }
 

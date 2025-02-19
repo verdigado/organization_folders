@@ -1,38 +1,50 @@
 <script setup>
 import NcEmptyContent from "@nextcloud/vue/dist/Components/NcEmptyContent.js";
-import NcLoadingIcon from "@nextcloud/vue/dist/Components/NcLoadingIcon.js";
 import NcActions from "@nextcloud/vue/dist/Components/NcActions.js";
 import NcActionButton from "@nextcloud/vue/dist/Components/NcActionButton.js";
 import NcButton from "@nextcloud/vue/dist/Components/NcButton.js";
-import { showError } from "@nextcloud/dialogs";
+
 import MemberListNewRole from "./MemberListNewRole.vue";
 import MemberListItem from "./MemberListItem.vue";
+import HeaderButtonGroup from "./../HeaderButtonGroup.vue";
+
 import Plus from "vue-material-design-icons/Plus.vue";
 import Close from "vue-material-design-icons/Close.vue";
 import HelpCircle from "vue-material-design-icons/HelpCircle.vue";
 import AccountOff from "vue-material-design-icons/AccountOff.vue";
+
 import api from "../../api.js";
 import { ref } from 'vue';
 
 const props = defineProps({
-	resourceId: {
-		type: Number,
-		required: true,
-	},
 	members: {
 		type: Array,
 		required: true,
+	},
+	enableUserType: {
+		type: Boolean,
+		default: true,
+	},
+	enableGroupType: {
+		type: Boolean,
+		default: true,
+	},
+	enableRoleType: {
+		type: Boolean,
+		default: true,
 	},
 	organizationProviders: {
 		type: Array,
 		required: false,
 		default: [],
 	},
+	permissionLevelOptions: {
+		type: Array,
+		required: true,
+	},
 });
 
 const emit = defineEmits(["add-member", "update-member", "delete-member"]);
-
-const loading = ref(false);
 
 const newMemberType = ref(null);
 const newMemberAdditionalParameters = ref({});
@@ -61,19 +73,19 @@ const deleteMember = (memberId) => {
 
 <template>
 	<div>
-		<div class="header-button-group">
+		<HeaderButtonGroup>
 			<h3>Mitglieder</h3>
 			<NcActions :disabled="!!newMemberType" type="secondary">
 				<template #icon>
 					<Plus :size="20" />
 				</template>
-				<NcActionButton icon="icon-user" close-after-click @click="setNewMemberType(api.PrincipalTypes.USER)">
+				<NcActionButton icon="icon-user" close-after-click v-if="props.enableUserType" @click="setNewMemberType(api.PrincipalTypes.USER)">
 					Benutzer hinzufügen
 				</NcActionButton>
-				<NcActionButton icon="icon-group" close-after-click @click="setNewMemberType(api.PrincipalTypes.GROUP)">
+				<NcActionButton icon="icon-group" close-after-click v-if="props.enableGroupType" @click="setNewMemberType(api.PrincipalTypes.GROUP)">
 					Gruppe hinzufügen
 				</NcActionButton>
-				<NcActionButton v-for="organizationProvider of organizationProviders"
+				<NcActionButton v-for="organizationProvider of (props.enableGroupType ? organizationProviders : [])"
 					:key="organizationProvider"
 					icon="icon-group"
 					close-after-click
@@ -81,16 +93,16 @@ const deleteMember = (memberId) => {
 					{{ organizationProvider }} Organisation Rolle hinzufügen
 				</NcActionButton>
 			</NcActions>
-		</div>
+		</HeaderButtonGroup>
 		<div v-if="newMemberType" class="new-item">
 			<NcButton type="tertiary" @click="setNewMemberType(null)">
 				<template #icon>
 					<Close />
 				</template>
 			</NcButton>
-			<!--<MemberListNewUser v-if="newMemberType === api.PrincipalTypes.USER" :resource-id="props.resourceId" @add-member="(principalId) => addMember(api.PrincipalTypes.USER, principalId)" />-->
-			<!--<MemberListNewGroup v-if="newMemberType === api.PrincipalTypes.GROUP" :resource-id="props.resourceId" @add-member="(principalId) => addMember(api.PrincipalTypes.GROUP, principalId)" />-->
-			<MemberListNewRole v-if="newMemberType === api.PrincipalTypes.ROLE" :resource-id="props.resourceId" :organization-provider="newMemberAdditionalParameters?.organizationProvider" @add-member="(principalId) => addMember(api.PrincipalTypes.ROLE, principalId)" />
+			<!--<MemberListNewUser v-if="newMemberType === api.PrincipalTypes.USER" @add-member="(principalId) => addMember(api.PrincipalTypes.USER, principalId)" />-->
+			<!--<MemberListNewGroup v-if="newMemberType === api.PrincipalTypes.GROUP" @add-member="(principalId) => addMember(api.PrincipalTypes.GROUP, principalId)" />-->
+			<MemberListNewRole v-if="newMemberType === api.PrincipalTypes.ROLE" :organization-provider="newMemberAdditionalParameters?.organizationProvider" @add-member="(principalId) => addMember(api.PrincipalTypes.ROLE, principalId)" />
 		</div>
 		<table>
 			<thead style="display: contents;">
@@ -107,12 +119,7 @@ const deleteMember = (memberId) => {
 				</tr>
 			</thead>
 			<tbody style="display: contents">
-				<tr v-if="loading">
-					<td colspan="4" style="grid-column-start: 1; grid-column-end: 5">
-						<NcLoadingIcon :size="50" />
-					</td>
-				</tr>
-				<tr v-if="!loading && !members.length">
+				<tr v-if="!members.length">
 					<td colspan="4" style="grid-column-start: 1; grid-column-end: 5">
 						<NcEmptyContent name="Keine Mitglieder">
 							<template #icon>
@@ -124,6 +131,7 @@ const deleteMember = (memberId) => {
 				<MemberListItem v-for="member in members"
 					:key="member.id"
 					:member="member"
+					:permission-level-options="props.permissionLevelOptions"
 					@update="updateMember"
 					@delete="deleteMember" />
 			</tbody>

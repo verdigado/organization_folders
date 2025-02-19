@@ -11,14 +11,13 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  permissionLevelOptions: {
+	type: Array,
+    required: true,
+  },
 });
 
 const emit = defineEmits(["update", "delete"]);
-
-const permissionLevelOptions = [
-  { label: "Mitglied", value: 1 },
-  { label: "Manager", value: 2 },
-];
 
 const onPermissionLevelSelected = (e) => {
   emit("update", props.member.id, {
@@ -51,7 +50,7 @@ const onDeleteClicked = (e) => {
 		</td>
 		<td>
 			<select :value="props.member.permissionLevel" @input="onPermissionLevelSelected">
-				<option v-for="{ label, value} in permissionLevelOptions" :key="value" :value="value">
+				<option v-for="{ label, value} in props.permissionLevelOptions" :key="value" :value="value">
 					{{ label }}
 				</option>
 			</select>
