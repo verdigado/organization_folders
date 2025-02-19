@@ -1,10 +1,19 @@
+/* eslint-disable no-useless-escape */
+const specialChars = /[`!@#$%^()+=\[\]{};'"\\|,.<>\/?~]/
+
 /**
  *
- * @param {string} str
+ * @param {string} name
  */
-export function validResourceName(str) {
-    /* eslint-disable no-useless-escape */
-    const specialChars = /[`!@#$%^()+=\[\]{};'"\\|,.<>\/?~]/
-    return !specialChars.test(str)
-  }
-  
+export function validOrganizationFolderName(name) {
+	return !specialChars.test(name);
+}
+
+/**
+ *
+ * @param {string} name
+ */
+export function validResourceName(name) {
+	return !specialChars.test(name);
+}
+	
