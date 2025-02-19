@@ -40,9 +40,9 @@ class OrganizationFolderVoter extends Voter {
             'MANAGE_ALL_RESOURCES' => $this->isOrganizationFolderAdmin($user, $organizationFolder),
 
             // At least Manager permissions required
-            'READ_LIMITED' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder), // TODO: return true only for managers, not admins, to make it false if READ is true
+            'READ_LIMITED' => $this->isOrganizationFolderManager($user, $organizationFolder), // FALSE if READ is allowed, as permission is implied
             'CREATE_TOP_LEVEL_RESOURCE' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder),
-            'MANAGE_TOP_LEVEL_RESOURCES_WITH_INHERITANCE' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder),
+            'MANAGE_TOP_LEVEL_RESOURCES_WITH_INHERITANCE' => $this->isOrganizationFolderManager($user, $organizationFolder), // FALSE if MANAGE_ALL_RESOURCES is allowed, as permission is implied
             
 			default => throw new \LogicException('This code should not be reached!')
 		};
@@ -84,6 +84,28 @@ class OrganizationFolderVoter extends Voter {
             }
         }
 
+        return $this->userIsNextcloudAdmin($user);
+    }
+
+    /**
+	 * @param IUser $user
+	 * @param OrganizationFolder $organizationFolder
+	 * @return bool
+	 */
+    private function isOrganizationFolderManager(IUser $user, OrganizationFolder $organizationFolder): bool {
+        $organizationFolderMembers = $this->organizationFolderMemberService->findAll($organizationFolder->getId(), [
+            "permissionLevel" => OrganizationFolderMemberPermissionLevel::MANAGER,
+        ]);
+        
+        foreach($organizationFolderMembers as $organizationFolderMember) {
+            // should be true for all returned members because of the filter, double check because of the big security implications
+            if($organizationFolderMember->getPermissionLevel() === OrganizationFolderMemberPermissionLevel::MANAGER->value) {
+                if($this->userIsPrincipal($user, $organizationFolderMember->getPrincipal())) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -104,7 +126,7 @@ class OrganizationFolderVoter extends Voter {
             }
         }
 
-        return false;
+        return $this->userIsNextcloudAdmin($user);
     }
 
     private function userIsInGroup(IUser $user, string $groupId): bool {
@@ -130,5 +152,9 @@ class OrganizationFolderVoter extends Voter {
             // a principal object with that type should have never been put into this function
             return false;
         }
+    }
+
+    private function userIsNextcloudAdmin(IUser $user): bool {
+        return $this->groupManager->isAdmin($user->getUID());
     }
 }
