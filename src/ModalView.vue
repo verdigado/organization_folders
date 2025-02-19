@@ -59,6 +59,7 @@ const lastStepButtonPressed = () => {
                 type="secondary"
                 class="btn-back"
                 aria-label="Zurück"
+                v-if="hasBackButton"
                 @click="backButtonPressed">
                 <template #icon>
                     <KeyboardBackspace />
