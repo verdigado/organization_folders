@@ -1,0 +1,14 @@
+OC.L10N.register(
+    "organization_folders",
+    {
+    "Read" : "Читање",
+    "Write" : "Писање",
+    "Create" : "Креирање",
+    "Delete" : "Избриши",
+    "Share" : "Пдели",
+    "Denied (Inherited permission)" : "Одбијено (наслеђеним дозволама)",
+    "Allowed (Inherited permission)" : "Одобрено (наслеђеним дозволама)",
+    "Denied" : "Одбијено",
+    "Allowed" : "Одобрено"
+},
+"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -1,0 +1,7 @@
+{ "translations": {
+    "Read" : "Lugemine",
+    "Write" : "Kirjuta",
+    "Create" : "Lisa",
+    "Delete" : "Kustuta"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

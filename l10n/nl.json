@@ -1,0 +1,12 @@
+{ "translations": {
+    "Read" : "Lezen",
+    "Write" : "Schrijven",
+    "Create" : "Creëer",
+    "Delete" : "Verwijder",
+    "Share" : "Delen",
+    "Denied (Inherited permission)" : "Geweigerd (Overgeërfde machtiging)",
+    "Allowed (Inherited permission)" : "Toegelaten (Overgeërfde machtiging)",
+    "Denied" : "Geweigerd",
+    "Allowed" : "Toegelaten"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

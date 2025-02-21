@@ -1,0 +1,12 @@
+OC.L10N.register(
+    "organization_folders",
+    {
+    "Write" : "Escribir",
+    "Create" : "Crear",
+    "Delete" : "Borrar",
+    "Denied (Inherited permission)" : "Denegado (Permiso heredado)",
+    "Allowed (Inherited permission)" : "Permitido (Permiso heredado)",
+    "Denied" : "Denegado",
+    "Allowed" : "Permitido"
+},
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

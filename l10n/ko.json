@@ -1,0 +1,12 @@
+{ "translations": {
+    "Read" : "읽기",
+    "Write" : "쓰기",
+    "Create" : "생성",
+    "Delete" : "삭제",
+    "Share" : "공유하기",
+    "Denied (Inherited permission)" : "거부됨(권한 상속)",
+    "Allowed (Inherited permission)" : "허용됨(권한 상속)",
+    "Denied" : "거부됨",
+    "Allowed" : "허용됨"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

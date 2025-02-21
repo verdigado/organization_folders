@@ -1,0 +1,12 @@
+{ "translations": {
+    "Read" : "Lue",
+    "Write" : "Kirjoita",
+    "Create" : "Luo",
+    "Delete" : "Poista",
+    "Share" : "Jaa",
+    "Denied (Inherited permission)" : "Estetty (peritty oikeus)",
+    "Allowed (Inherited permission)" : "Sallittu (peritty oikeus)",
+    "Denied" : "Estetty",
+    "Allowed" : "Sallittu"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

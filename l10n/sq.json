@@ -1,0 +1,8 @@
+{ "translations": {
+    "Read" : "Lexoni",
+    "Write" : "Shkruaj",
+    "Create" : "Krijo",
+    "Delete" : "Fshi",
+    "Share" : "Ndaj"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

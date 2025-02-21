@@ -1,0 +1,5 @@
+{ "translations": {
+    "Denied (Inherited permission)" : "Afvist (nedarvet tilladelse)",
+    "Allowed (Inherited permission)" : "Tilladt (nedarvet tilladelse)"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

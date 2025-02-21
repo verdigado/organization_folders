@@ -1,0 +1,12 @@
+{ "translations": {
+    "Read" : "Les",
+    "Write" : "Skriv",
+    "Create" : "Opprett",
+    "Delete" : "Slett",
+    "Share" : "Dele",
+    "Denied (Inherited permission)" : "Nektet (arvet rettighet)",
+    "Allowed (Inherited permission)" : "Tillatt (arvet rettighet)",
+    "Denied" : "Nektet",
+    "Allowed" : "Tillatt"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

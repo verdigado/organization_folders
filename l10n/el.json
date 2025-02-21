@@ -1,0 +1,7 @@
+{ "translations": {
+    "Delete" : "Διαγραφή",
+    "Share" : "Διαμοιρασμός",
+    "Denied (Inherited permission)" : "Απαγορεύτηκε (Κληρονομικά δικαιώματα)",
+    "Allowed (Inherited permission)" : "Επετράπη (Κληρονομικά δικαιώματα)"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

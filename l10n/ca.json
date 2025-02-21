@@ -1,0 +1,5 @@
+{ "translations": {
+    "Denied (Inherited permission)" : "Denegat (permís heretat)",
+    "Allowed (Inherited permission)" : "Permès (permís heretat)"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

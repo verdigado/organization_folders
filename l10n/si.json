@@ -1,0 +1,7 @@
+{ "translations": {
+    "Read" : "කියවීම",
+    "Write" : "ලිවීම",
+    "Create" : "සාදන්න",
+    "Share" : "බෙදාගන්න"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

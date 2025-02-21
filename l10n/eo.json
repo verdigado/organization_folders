@@ -1,0 +1,6 @@
+{ "translations": {
+    "Delete" : "Forigi",
+    "Denied (Inherited permission)" : "Rifuzita (heredita permeso)",
+    "Allowed (Inherited permission)" : "Permesita (heredita permeso)"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

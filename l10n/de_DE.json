@@ -1,0 +1,7 @@
+{ "translations": {
+    "Delete" : "Löschen",
+    "Share" : "Teilen",
+    "Denied (Inherited permission)" : "Verweigert (Vererbte Berechtigung)",
+    "Allowed (Inherited permission)" : "Zugelassen (Vererbte Berechtigung)"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -1,0 +1,12 @@
+{ "translations": {
+    "Read" : "読み込み",
+    "Write" : "編集",
+    "Create" : "作成",
+    "Delete" : "削除",
+    "Share" : "共有",
+    "Denied (Inherited permission)" : "拒否（権限継承）",
+    "Allowed (Inherited permission)" : "許可（権限継承）",
+    "Denied" : "拒否",
+    "Allowed" : "許可"
+},"pluralForm" :"nplurals=1; plural=0;"
+}
