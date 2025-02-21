@@ -1,6 +1,10 @@
 { "translations": {
+    "Read" : "Legi",
+    "Write" : "Skribi",
     "Delete" : "Forigi",
     "Denied (Inherited permission)" : "Rifuzita (heredita permeso)",
-    "Allowed (Inherited permission)" : "Permesita (heredita permeso)"
+    "Allowed (Inherited permission)" : "Permesita (heredita permeso)",
+    "Denied" : "Rifuzita",
+    "Allowed" : "Permesita"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

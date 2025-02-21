@@ -1,0 +1,7 @@
+{ "translations": {
+    "Read" : "Lleer",
+    "Create" : "Crear",
+    "Delete" : "Desaniciar",
+    "Share" : "Compartir"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

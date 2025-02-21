@@ -1,5 +1,12 @@
 { "translations": {
+    "Read" : "Læs",
+    "Write" : "Skriv",
+    "Create" : "Opret",
+    "Delete" : "Slet",
+    "Share" : "Del",
     "Denied (Inherited permission)" : "Afvist (nedarvet tilladelse)",
-    "Allowed (Inherited permission)" : "Tilladt (nedarvet tilladelse)"
+    "Allowed (Inherited permission)" : "Tilladt (nedarvet tilladelse)",
+    "Denied" : "Afvist",
+    "Allowed" : "Tilladt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
