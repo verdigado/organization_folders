@@ -1,14 +1,16 @@
 OC.L10N.register(
     "organization_folders",
     {
-    "Read" : "已讀",
+    "Organization Folders" : "機構資料夾",
+    "Managed Groupfolders for your Organization" : "為您機構管理的群組資料夾",
+    "Read" : "讀取",
     "Write" : "寫入",
     "Create" : "創建",
     "Delete" : "刪除",
     "Share" : "分享",
     "Denied (Inherited permission)" : "拒絕（繼承權限）",
     "Allowed (Inherited permission)" : "允許（繼承權限）",
-    "Denied" : "拒絕",
-    "Allowed" : "允許"
+    "Denied" : "被拒絕",
+    "Allowed" : "允許的"
 },
 "nplurals=1; plural=0;");

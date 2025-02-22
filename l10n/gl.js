@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Organization Folders" : "Cartafoles da organización",
+    "Managed Groupfolders for your Organization" : "Cartafoles de grupo xestionados para a súa organización",
     "Read" : "Ler",
     "Write" : "Escribir",
     "Create" : "Crear",

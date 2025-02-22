@@ -1,4 +1,6 @@
 { "translations": {
+    "Organization Folders" : "Szervezeti mappák",
+    "Managed Groupfolders for your Organization" : "Menedzselt csoportmappák a szervezete számára",
     "Read" : "Olvasás",
     "Write" : "Írás",
     "Create" : "Létrehozás",

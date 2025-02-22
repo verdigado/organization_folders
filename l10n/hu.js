@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Organization Folders" : "Szervezeti mappák",
+    "Managed Groupfolders for your Organization" : "Menedzselt csoportmappák a szervezete számára",
     "Read" : "Olvasás",
     "Write" : "Írás",
     "Create" : "Létrehozás",

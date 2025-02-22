@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Organization Folders" : "Organisationsmappar",
+    "Managed Groupfolders for your Organization" : "Hanterade gruppmappar för din organisation",
     "Read" : "Läs",
     "Write" : "Skriva",
     "Create" : "Skapa",
