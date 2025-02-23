@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Organization Folders" : "Fillteáin Eagraíochta",
+    "Managed Groupfolders for your Organization" : "Fillteáin Ghrúpa bainistithe do d'Eagraíocht",
     "Read" : "Léigh",
     "Write" : "Scríobh",
     "Create" : "Cruthaigh",
