@@ -2,7 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "Ordner der Organisation",
-    "Managed Groupfolders for your Organization" : "Gruppenordner für Ihre Organisation verwalten",
+    "Managed Groupfolders for your Organization" : "Verwaltete Gruppenordner für deine Organisation",
     "Read" : "Lesen",
     "Write" : "Schreiben",
     "Create" : "Erstellen",
