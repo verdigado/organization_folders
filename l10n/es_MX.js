@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Read" : "Leer",
     "Write" : "Escribir",
     "Create" : "Crear",
     "Delete" : "Eliminar",
