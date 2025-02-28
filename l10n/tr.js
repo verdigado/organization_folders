@@ -1,13 +1,16 @@
 OC.L10N.register(
     "organization_folders",
     {
-    "Read" : "Okunmuş",
+    "Organization Folders" : "Kuruluş klasörleri",
+    "Managed Groupfolders for your Organization" : "Kuruluşunuzun için yönetebileceğiniz grup klasörleri",
+    "Read" : "Okuma",
     "Write" : "Yazma",
-    "Create" : "Ekle",
-    "Delete" : "Sil",
-    "Share" : "Paylaş",
+    "Create" : "Ekleme",
+    "Delete" : "Silme",
+    "Share" : "Paylaşma",
     "Denied (Inherited permission)" : "Reddedildi (devralınan izin)",
     "Allowed (Inherited permission)" : "İzin verildi (devralınan izin)",
-    "Denied" : "Reddedildi"
+    "Denied" : "Reddedildi",
+    "Allowed" : "İzin verildi"
 },
 "nplurals=2; plural=(n > 1);");
