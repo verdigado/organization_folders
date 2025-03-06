@@ -2,7 +2,6 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "조직 폴더",
-    "Managed Groupfolders for your Organization" : "조직을 위한 그룹 폴더 관리",
     "Read" : "읽기",
     "Write" : "쓰기",
     "Create" : "생성",

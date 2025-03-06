@@ -2,7 +2,6 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "Adresáre organizácie",
-    "Managed Groupfolders for your Organization" : "Spravované skupinové adresáre skupín pre vašu organizáciu",
     "Read" : "Čítanie",
     "Write" : "Zapisovať",
     "Create" : "Vytvoriť",

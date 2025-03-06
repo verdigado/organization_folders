@@ -2,7 +2,6 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "Organisaatiokansiot",
-    "Managed Groupfolders for your Organization" : "Hallinnoi organisaatiosi ryhmäkansioita",
     "Read" : "Lue",
     "Write" : "Kirjoita",
     "Create" : "Luo",

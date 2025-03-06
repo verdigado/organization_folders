@@ -2,7 +2,6 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "مُجلَّدات المؤسسة",
-    "Managed Groupfolders for your Organization" : "مُجلَّدات عامة تُدار لصالح مؤسستك",
     "Read" : "قراءة",
     "Write" : "كتابة",
     "Create" : "إنشاء",
