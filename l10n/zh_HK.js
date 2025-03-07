@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "機構資料夾",
+    "Managed group folders for your organization" : "為您機構管理的群組資料夾",
     "Read" : "讀取",
     "Write" : "寫入",
     "Create" : "創建",

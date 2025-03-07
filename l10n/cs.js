@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "Organizační složky",
+    "Managed group folders for your organization" : "Spravované skupinové složky pro vaší organizaci",
     "Read" : "Nastavit jako přečtené",
     "Write" : "Zapisovat",
     "Create" : "Vytvářet",

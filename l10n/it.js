@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "Cartelle dell'organizzazione",
+    "Managed group folders for your organization" : "Cartelle di gruppo gestite per la tua organizzazione",
     "Read" : "Lettura",
     "Write" : "Scrittura",
     "Create" : "Crea",
