@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "фолдери организације",
+    "Managed group folders for your organization" : "Фолдери групе за вашу организацију којима се управља",
     "Read" : "Читање",
     "Write" : "Писање",
     "Create" : "Креирање",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Organization Folders" : "Kuruluş klasörleri",
+    "Managed group folders for your organization" : "Kuruluşunuzun için yönetebileceğiniz grup klasörleri",
     "Read" : "Okuma",
     "Write" : "Yazma",
     "Create" : "Ekleme",
