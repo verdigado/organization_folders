@@ -92,7 +92,7 @@ class Version000000Date20241014120000 extends SimpleMigrationStep {
                 'length' => 11,
 				'notnull' => true,
 			]);
-			$table->addColumn('file_id', Types::INTEGER, [
+			$table->addColumn('file_id', Types::BIGINT, [
 				'notnull' => true,
 			]);
 
