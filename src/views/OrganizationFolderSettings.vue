@@ -89,8 +89,8 @@ const backButtonClicked = () => {
 	}
 };
 
-const createSubResource = async (type, name) => {
-	resource.value.subResources.push(await api.createResource({
+const createResource = async (type, name) => {
+	organizationFolder.value?.resources.push(await api.createResource({
 		type,
 		organizationFolderId: organizationFolder.value.id,
 		name,
@@ -135,7 +135,7 @@ const createSubResource = async (type, name) => {
 			@delete-member="deleteMember"/>
 		<HeaderButtonGroup>
 		  <h3>Resourcen</h3>
-				<CreateResourceButton @create="createSubResource" />
+				<CreateResourceButton @create="createResource" />
 		</HeaderButtonGroup>
 		<ResourceList :resources="organizationFolder?.resources" :enable-search="true" @click:resource="resourceClicked" />
 	</ModalView>
