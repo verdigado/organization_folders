@@ -8,6 +8,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
 use OCA\OrganizationFolders\Errors\ResourceMemberNotFound;
+use OCA\OrganizationFolders\Errors\PrincipalAlreadyResourceMember;
 
 use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Db\ResourceMemberMapper;
@@ -64,8 +65,14 @@ class ResourceMemberService {
 		int $resourceId,
 		ResourceMemberPermissionLevel $permissionLevel,
 		Principal $principal,
+
+		bool $skipPermssionsApply = false
 	): ResourceMember {
 		$resource = $this->resourceService->find($resourceId);
+
+		if($this->mapper->exists($resourceId, $principal->getType()->value, $principal->getId())) {
+			throw new PrincipalAlreadyResourceMember($principal, $resourceId);
+		}
 
 		$member = new ResourceMember();
 
@@ -79,7 +86,9 @@ class ResourceMemberService {
 
 		$member = $this->mapper->insert($member);
 
-		$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+		if(!$skipPermssionsApply) {
+			$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+		}
 
 		return $member;
 	}

@@ -8,6 +8,7 @@ use Psr\Container\ContainerInterface;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use \OCP\Files\Folder;
 
 use OCA\GroupFolders\ACL\UserMapping\UserMappingManager;
 use OCA\GroupFolders\ACL\Rule;
@@ -87,6 +88,10 @@ class ResourceService {
 		?int $membersAclPermission = null,
 		?int $managersAclPermission = null,
 		?int $inheritedAclPermission = null,
+
+		// special mode only applicable if type = "folder", that uses an existing folder with the resource name 
+		?bool $folderAlreadyExists = false,
+		?bool $skipPermssionsApply = false,
 	) {
 		if($type === "folder") {
 			$resource = new FolderResource();
@@ -120,7 +125,16 @@ class ResourceService {
 			}
 
 			if($type === "folder") {
-				$resourceNode = $parentNode->newFolder($name);
+				if($folderAlreadyExists) {
+					$resourceNode = $parentNode->get($name);
+
+					if(!(isset($resourceNode) && $resourceNode instanceof Folder)) {
+						throw new Exception("Resource folder does not exist or is a file, cannot proceed");
+					}
+				} else {
+					$resourceNode = $parentNode->newFolder($name);
+				}
+				
 				$fileId = $resourceNode->getId();
 
 				if($fileId === -1) {
@@ -137,9 +151,19 @@ class ResourceService {
 				}
 			}
 
-			$resource = $this->mapper->insert($resource);
+			try {
+				$resource = $this->mapper->insert($resource);
+			} catch (\Throwable $e) {
+				// an error occured, rewind all changes, depending on resource type
+				if($type === "folder" && !$folderAlreadyExists) {
+					$resourceNode?->delete();
+				}
+				throw $e;
+			}
 
-			$this->organizationFolderService->applyPermissions($organizationFolderId);
+			if(!$skipPermssionsApply) {
+				$this->organizationFolderService->applyPermissions($organizationFolderId);
+			}
 
 			return $resource;
 		} else {
