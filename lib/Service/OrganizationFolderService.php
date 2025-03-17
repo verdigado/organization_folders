@@ -75,9 +75,22 @@ class OrganizationFolderService {
         );
     }
 
-    public function create(string $name, int $quota, ?string $organizationProvider = null,?int $organizationId = null): OrganizationFolder {
-        return $this->atomic(function () use ($name, $quota, $organizationProvider, $organizationId) {
-            $groupfolderId = $this->folderManager->createFolder($name);
+    public function create(
+        string $name,
+        int $quota,
+        ?string $organizationProvider = null,
+        ?int $organizationId = null,
+
+        // special mode, that re-uses an existing groupfolder
+        ?int $existingGroupfolderId = null,
+    ): OrganizationFolder {
+        return $this->atomic(function () use ($name, $quota, $organizationProvider, $organizationId, $existingGroupfolderId) {
+            if(!isset($existingGroupfolderId)) {
+                $groupfolderId = $this->folderManager->createFolder($name);
+            } else {
+                $groupfolderId = $existingGroupfolderId;
+            }
+            
             $this->folderManager->setFolderQuota($groupfolderId, $quota);
             $this->folderManager->setFolderACL($groupfolderId, true);
 
