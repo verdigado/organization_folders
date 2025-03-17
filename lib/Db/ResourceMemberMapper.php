@@ -65,6 +65,27 @@ class ResourceMemberMapper extends QBMapper {
 
 	/**
 	 * @param int $resourceId
+	 * @param int $principalType
+	 * @param string $principalId
+	 * @return Entity|ResourceMember
+	 * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
+	 * @throws DoesNotExistException
+	 */
+	public function findByPrincipal(int $resourceId, int $principalType, string $principalId): ResourceMember {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('*')
+			->from(self::RESOURCE_MEMBERS_TABLE)
+			->where($qb->expr()->eq('resource_id', $qb->createNamedParameter($resourceId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('principal_type', $qb->createNamedParameter($principalType, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('principal_id', $qb->createNamedParameter($principalId)));
+		
+		return $this->findEntity($qb);
+	}
+
+	/**
+	 * @param int $resourceId
 	 * @psalm-param int $resourceId
 	 * @return array
 	 * @psalm-return ResourceMember[]

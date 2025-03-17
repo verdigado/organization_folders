@@ -32,10 +32,10 @@ class ResourceMemberService {
 		return $this->mapper->findAll($resourceId);
 	}
 
-	private function handleException(Exception $e, int $id): void {
+	private function handleException(Exception $e, array $criteria): void {
 		if ($e instanceof DoesNotExistException ||
 			$e instanceof MultipleObjectsReturnedException) {
-			throw new ResourceMemberNotFound($id);
+			throw new ResourceMemberNotFound($criteria);
 		} else {
 			throw $e;
 		}
@@ -45,7 +45,18 @@ class ResourceMemberService {
 		try {
 			return $this->mapper->find($id);
 		} catch (Exception $e) {
-			$this->handleException($e, $id);
+			$this->handleException($e, ["id" => $id]);
+		}
+	}
+
+	public function findByPrincipal(int $resourceId, Principal $principal): ResourceMember {
+		try {
+			$principalType = $principal->getType()->value;
+			$principalId = $principal->getId();
+
+			return $this->mapper->findByPrincipal($resourceId, $principalType, $principalId);
+		} catch (Exception $e) {
+			$this->handleException($e, ["resourceId" => $resourceId, "principalType" => $principalType, "principalId" => $principalId]);
 		}
 	}
 
