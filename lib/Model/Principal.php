@@ -13,6 +13,10 @@ abstract class Principal implements \JsonSerializable {
 
 	abstract public function getFriendlyName(): string;
 
+	public function isValid(): bool {
+		return $this->valid;
+	}
+
 	/**
 	 * @return array
 	 * @psalm-return string[]

@@ -6,10 +6,12 @@ use OCP\IUser;
 use OCP\IGroupManager;
 
 use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\GroupPrincipal;
+use OCA\OrganizationFolders\Model\OrganizationMemberPrincipal;
+use OCA\OrganizationFolders\Model\OrganizationRolePrincipal;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 class OrganizationFolderVoter extends Voter {
@@ -22,7 +24,6 @@ class OrganizationFolderVoter extends Voter {
 	protected function supports(string $attribute, mixed $subject): bool {
 		return $subject instanceof OrganizationFolder || $subject === OrganizationFolder::class;
 	}
-
 
 	protected function voteOnAttribute(string $attribute, mixed $subject, ?IUser $user): bool {
 		if (!$user) {
@@ -133,20 +134,25 @@ class OrganizationFolderVoter extends Voter {
         return $this->groupManager->isInGroup($user->getUID(), $groupId);
     }
 
-    private function userHasRole(IUser $user, string $organizationProviderId, string $roleId): bool {
-        $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
-        $role = $organizationProvider->getRole($roleId);
-
-        return $this->userIsInGroup($user, $role->getMembersGroup());
-    }
-
     private function userIsPrincipal(IUser $user, Principal $principal): bool {
-        if($principal->getType() === PrincipalType::GROUP) {
+        if($principal instanceof GroupPrincipal) {
             return $this->userIsInGroup($user, $principal->getId());
-        } else if($principal->getType() === PrincipalType::ROLE) {
-            [$organizationProviderId, $roleId] = explode(":", $principal->getId(), 2);
+        } else if($principal instanceof OrganizationMemberPrincipal) {
+            $organization = $principal->getOrganization();
             
-            return $this->userHasRole($user, $organizationProviderId, $roleId);
+            if(isset($organization)) {
+                return $this->userIsInGroup($user, $organization->getMembersGroup());
+            } else {
+                return false;
+            }
+        } else if($principal instanceof OrganizationRolePrincipal) {
+            $role = $principal->getRole();
+
+            if(isset($role)) {
+                return $this->userIsInGroup($user, $role->getMembersGroup());
+            } else {
+                return false;
+            }
         } else {
             // user principals are not supported by Organization Folder Members and
             // a principal object with that type should have never been put into this function

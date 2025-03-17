@@ -18,7 +18,7 @@ abstract class OrganizationProvider {
 	}
 
    /**
-    * Get specific role by its id (unique within OrganizationProvider)
+    * Get specific organization by its id (unique within OrganizationProvider)
     * @return Organization
     * @throws OrganizationNotFound
     */

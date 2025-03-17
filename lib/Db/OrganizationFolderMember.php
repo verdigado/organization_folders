@@ -31,7 +31,8 @@ class OrganizationFolderMember extends Entity implements JsonSerializable, Table
 	}
 
 	public function setPrincipal(Principal $principal) {
-		if($principal->getType() === PrincipalType::GROUP || $principal->getType() === PrincipalType::ROLE) {
+		$principalType = $principal->getType();
+		if($principalType === PrincipalType::GROUP || $principalType === PrincipalType::ORGANIZATION_MEMBER || $principalType === PrincipalType::ORGANIZATION_ROLE) {
 			if(!isset($this->principal) || $this->principal->getType() !== $principal->getType()) {
 				$this->markFieldUpdated("principalType");
 				$principalTypeUpdated = true;

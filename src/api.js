@@ -11,7 +11,8 @@ import { generateUrl } from "@nextcloud/router"
 var PrincipalTypes = {
     USER: 1,
     GROUP: 2,
-	ROLE: 3,
+	ORGANIZATION_MEMBER: 3,
+	ORGANIZATION_ROLE: 4,
 }
 
 /**

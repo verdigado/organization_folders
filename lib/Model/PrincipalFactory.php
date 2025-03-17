@@ -21,12 +21,22 @@ class PrincipalFactory {
             return new UserPrincipal($this->userManager, $id);
         } else if ($type === PrincipalType::GROUP) {
             return new GroupPrincipal($this->groupManager, $id);
-        } else if ($type === PrincipalType::ROLE) {
-            [$organizationProviderId, $roleId] = explode(":", $id, 2);
-            if(!(isset($organizationProviderId) && isset($roleId))) {
-                throw new \Exception("Invalid id format for principal of type role");
+        } else if ($type === PrincipalType::ORGANIZATION_MEMBER) {
+            [$organizationProviderId, $organizationId] = explode(":", $id, 2);
+
+            if(!(isset($organizationProviderId) && isset($organizationId) && ctype_digit($organizationId))) {
+                throw new \Exception("Invalid id format for principal of type organization member");
             }
-            return new RolePrincipal($this->organizationProviderManager, $organizationProviderId, $roleId);
+
+            return new OrganizationMemberPrincipal($this->organizationProviderManager, $organizationProviderId, $organizationId);
+        } else if ($type === PrincipalType::ORGANIZATION_ROLE) {
+            [$organizationProviderId, $roleId] = explode(":", $id, 2);
+
+            if(!(isset($organizationProviderId) && isset($roleId))) {
+                throw new \Exception("Invalid id format for principal of type organization role");
+            }
+
+            return new OrganizationRolePrincipal($this->organizationProviderManager, $organizationProviderId, $roleId);
         } else {
             throw new \Exception("invalid PrincipalType");
         }

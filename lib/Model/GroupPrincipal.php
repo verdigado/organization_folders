@@ -31,6 +31,6 @@ class GroupPrincipal extends Principal {
 	}
 
     public function getFriendlyName(): string {
-        return $this->group?->getDisplayName();
+        return $this->group?->getDisplayName() ?? $this->getId();
     }
 }

@@ -7,12 +7,15 @@ use OCP\IGroupManager;
 
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Model\UserPrincipal;
+use OCA\OrganizationFolders\Model\GroupPrincipal;
+use OCA\OrganizationFolders\Model\OrganizationMemberPrincipal;
+use OCA\OrganizationFolders\Model\OrganizationRolePrincipal;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Security\OrganizationFolderVoter;
 
@@ -67,18 +70,24 @@ class ResourceVoter extends Voter {
             if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
                 $principal = $resourceMember->getPrincipal();
 
-                if($principal->getType() === PrincipalType::USER) {
+                if($principal instanceof UserPrincipal) {
                     if($principal->getId() === $user->getUID()) {
                         return true;
                     }
-                } else if($principal->getType() === PrincipalType::GROUP) {
+                } else if($principal instanceof GroupPrincipal) {
                     if($this->userIsInGroup($user, $principal->getId())) {
                         return true;
                     }
-                } else if($principal->getType() === PrincipalType::ROLE) {
-                    [$organizationProviderId, $roleId] = explode(":", $principal->getId(), 2);
-					
-                    if($this->userHasRole($user, $organizationProviderId, $roleId)) {
+                } else if($principal instanceof OrganizationMemberPrincipal) {
+                    $organization = $principal->getOrganization();
+                    
+                    if(isset($organization) && $this->userIsInGroup($user, $organization->getMembersGroup())) {
+                        return true;
+                    }
+                } else if($principal instanceof OrganizationRolePrincipal) {
+                    $role = $principal->getRole();
+        
+                    if(isset($role) && $this->userIsInGroup($user, $role->getMembersGroup())) {
                         return true;
                     }
                 }
@@ -140,12 +149,5 @@ class ResourceVoter extends Voter {
 
     private function userIsInGroup(IUser $user, string $groupId): bool {
         return $this->groupManager->isInGroup($user->getUID(), $groupId);
-    }
-
-    private function userHasRole(IUser $user, string $organizationProviderId, string $roleId): bool {
-        $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
-        $role = $organizationProvider->getRole($roleId);
-
-        return $this->userIsInGroup($user, $role->getMembersGroup());
     }
 }

@@ -9,39 +9,33 @@ use OCP\IDBConnection;
 
 use OCA\GroupFolders\ACL\Rule;
 use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
-use OCA\GroupFolders\ACL\UserMapping\IUserMappingManager;
+use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 use OCA\GroupFolders\ACL\RuleManager;
 use OCA\GroupFolders\Folder\FolderManager;
 
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Model\Principal;
-use OCA\OrganizationFolders\Enum\PrincipalType;
-use OCA\OrganizationFolders\Errors\OrganizationProviderNotFound;
-use OCA\OrganizationFolders\Errors\OrganizationRoleNotFound;
+use OCA\OrganizationFolders\Model\UserPrincipal;
+use OCA\OrganizationFolders\Model\GroupPrincipal;
+use OCA\OrganizationFolders\Model\OrganizationMemberPrincipal;
+use OCA\OrganizationFolders\Model\OrganizationRolePrincipal;
 
 class ACLManager {
     public function __construct(
         protected IDBConnection $db,
 		protected FolderManager $folderManager,
-        protected IUserMappingManager $userMappingManager,
         protected RuleManager $ruleManager,
         protected OrganizationProviderManager $organizationProviderManager
 	) {
     }
 
-    protected function createRuleEntityFromRow(array $data): ?Rule {
-		$mapping = $this->userMappingManager->mappingFromId($data['mapping_type'], $data['mapping_id']);
-
-		if ($mapping) {
-			return new Rule(
-				$mapping,
-				(int)$data['fileid'],
-				(int)$data['mask'],
-				(int)$data['permissions']
-			);
-		} else {
-			return null;
-		}
+    protected function createRuleEntityFromRow(array $data): Rule {
+        return new Rule(
+            new UserMapping(type: $data['mapping_type'], id: $data['mapping_id'], displayName: null),
+            (int)$data['fileid'],
+            (int)$data['mask'],
+            (int)$data['permissions']
+        );
 	}
 
     public function getAllRulesForFileId(int $fileId) {
@@ -57,26 +51,31 @@ class ACLManager {
     }
 
     public function getMappingForPrincipal(Principal $principal): ?IUserMapping {
-        if($principal->getType() === PrincipalType::USER) {
-            return $this->userMappingManager->mappingFromId("user", $principal->getId());
-        } else if($principal->getType() === PrincipalType::GROUP) {
-            return $this->userMappingManager->mappingFromId("group", $principal->getId());
-        } else if($principal->getType() === PrincipalType::ROLE) {
-            [$organizationProviderId, $roleId] = explode(":", $principal->getId(), 2);
+        if($principal instanceof UserPrincipal) {
+            // needs to return, even if user does not currently exist, so we can't use IUserMappingManager
+            return new UserMapping(type: "user", id: $principal->getId(), displayName: null);
+        } else if($principal instanceof GroupPrincipal) {
+            // needs to return, even if group does not currently exist, so we can't use IUserMappingManager
+            return new UserMapping(type: "group", id: $principal->getId(), displayName: null);
+        } else if($principal instanceof OrganizationMemberPrincipal) {
+            $organization = $$principal->getOrganization();
 
-            try {
-                $organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
-            } catch (OrganizationProviderNotFound $e) {
+            if(isset($organization)) {
+                // needs to return, even if group does not currently exist, so we can't use IUserMappingManager
+                return new UserMapping(type: "group", id: $organization->getMembersGroup(), displayName: null);
+            } else {
                 return null;
             }
+
+        } else if($principal instanceof OrganizationRolePrincipal) {
+            $role = $principal->getRole();
             
-            try {
-                $role = $organizationProvider->getRole($roleId);
-            } catch (OrganizationRoleNotFound $e) {
+            if(isset($role)) {
+                // needs to return, even if group does not currently exist, so we can't use IUserMappingManager
+                return new UserMapping(type: "group", id: $role->getMembersGroup(), displayName: null);
+            } else {
                 return null;
             }
-
-            return $this->userMappingManager->mappingFromId("group", $role->getMembersGroup());
         } else {
             throw new \Exception("invalid resource member type");
         }

@@ -31,6 +31,6 @@ class UserPrincipal extends Principal {
 	}
 
     public function getFriendlyName(): string {
-        return $this->user?->getDisplayName();
+        return $this->user?->getDisplayName() ?? $this->getId();
     }
 }
