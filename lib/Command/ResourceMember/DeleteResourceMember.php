@@ -23,7 +23,7 @@ class DeleteResourceMember extends BaseCommand {
 		try {
 			$this->resourceMemberService->delete($id);
 
-            $output->writeln("done");
+			$output->writeln("done");
 
 			return 0;
 		} catch (Exception $e) {

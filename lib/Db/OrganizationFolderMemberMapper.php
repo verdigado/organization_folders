@@ -65,7 +65,7 @@ class OrganizationFolderMemberMapper extends QBMapper {
 
 	/**
 	 * @param int $organizationFolderId
-     * @param array{permissionLevel: int, principalType: int} $filters
+	 * @param array{permissionLevel: int, principalType: int} $filters
 	 * @return array
 	 * @psalm-return OrganizationFolderMember[]
 	 */
@@ -77,13 +77,13 @@ class OrganizationFolderMemberMapper extends QBMapper {
 			->from(self::ORGANIZATIONFOLDER_MEMBERS_TABLE)
 			->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
 
-        if(isset($filters["permissionLevel"])) {
-            $qb->andWhere($qb->expr()->eq('permission_level', $qb->createNamedParameter($filters["permissionLevel"], IQueryBuilder::PARAM_INT)));
-        }
+		if(isset($filters["permissionLevel"])) {
+			$qb->andWhere($qb->expr()->eq('permission_level', $qb->createNamedParameter($filters["permissionLevel"], IQueryBuilder::PARAM_INT)));
+		}
 
-        if(isset($filters["principalType"])) {
-            $qb->andWhere($qb->expr()->eq('principal_type', $qb->createNamedParameter($filters["principalType"], IQueryBuilder::PARAM_INT)));
-        }
+		if(isset($filters["principalType"])) {
+			$qb->andWhere($qb->expr()->eq('principal_type', $qb->createNamedParameter($filters["principalType"], IQueryBuilder::PARAM_INT)));
+		}
 		
 		return $this->findEntities($qb);
 	}

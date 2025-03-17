@@ -14,20 +14,20 @@ class GetOrganizationRole extends BaseCommand {
 		$this
 			->setName('organization-folders:organization-roles:get')
 			->setDescription('Get a specific organization role by id')
-            ->addArgument('provider-id', InputArgument::REQUIRED, 'provider to query')
-            ->addArgument('role-id', InputArgument::REQUIRED, '');
+			->addArgument('provider-id', InputArgument::REQUIRED, 'provider to query')
+			->addArgument('role-id', InputArgument::REQUIRED, '');
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-            $providerId = $input->getArgument('provider-id');
+			$providerId = $input->getArgument('provider-id');
 			$roleId = $input->getArgument('role-id');
 
-            if(!$this->organizationProviderManager->hasOrganizationProvider($providerId)) {
-                $output->writeln("<error>organization provider not found</error>");
-                return 0;
-            }
+			if(!$this->organizationProviderManager->hasOrganizationProvider($providerId)) {
+				$output->writeln("<error>organization provider not found</error>");
+				return 0;
+			}
 
 			$role = $this->organizationProviderManager->getOrganizationProvider($providerId)->getRole($roleId);
 

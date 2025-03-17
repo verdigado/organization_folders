@@ -13,15 +13,15 @@ class ListOrganizationFolderMembers extends BaseCommand {
 	protected function configure(): void {
 		$this
 			->setName('organization-folders:members:list')
-            ->addArgument('organization-folder-id', InputArgument::REQUIRED, 'Id of organization folder')
+			->addArgument('organization-folder-id', InputArgument::REQUIRED, 'Id of organization folder')
 			->setDescription('List all members of organization folder.');
-            
+			
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-            $organizationFolderId = $input->getArgument('organization-folder-id');
+			$organizationFolderId = $input->getArgument('organization-folder-id');
 
 			$members = $this->organizationFolderMemberService->findAll($organizationFolderId);
 

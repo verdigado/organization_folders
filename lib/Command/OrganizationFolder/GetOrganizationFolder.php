@@ -14,12 +14,12 @@ class GetOrganizationFolder extends BaseCommand {
 		$this
 			->setName('organization-folders:get')
 			->setDescription('Get organization folder by id')
-            ->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder to get');
+			->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder to get');
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-        $id = (int)$input->getArgument('id');
+		$id = (int)$input->getArgument('id');
 
 		try {
 			$organizationFolder = $this->organizationFolderService->find($id);

@@ -11,14 +11,14 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	protected $organizationFolderId;
 	protected $parentResource;
 	protected $name;
-    protected $active;
+	protected $active;
 	protected $inheritManagers;
 	protected $lastUpdatedTimestamp;
 	
 	public function __construct() {
 		$this->addType('organizationFolderId','integer');
 		$this->addType('parentResource','integer');
-        $this->addType('active','bool');
+		$this->addType('active','bool');
 		$this->addType('inheritManagers','bool');
 		$this->addType('lastUpdatedTimestamp','integer');
 	}

@@ -23,7 +23,7 @@ class FixACLsOfOrganizationFolder extends BaseCommand {
 		try {
 			$output->writeln(var_dump($this->organizationFolderService->applyPermissions($id)));
 
-            $output->writeln("done");
+			$output->writeln("done");
 
 			return 0;
 		} catch (Exception $e) {

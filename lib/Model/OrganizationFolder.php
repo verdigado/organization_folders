@@ -6,24 +6,24 @@ use \JsonSerializable;
 use OCA\OrganizationFolders\Interface\TableSerializable;
 
 class OrganizationFolder implements JsonSerializable, TableSerializable {
-    public function __construct(
+	public function __construct(
 		private int $id,
-        private string $name,
-        private int $quota,
+		private string $name,
+		private int $quota,
 		private ?string $organizationProvider = null,
 		private ?int $organizationId = null,
 	) {
-    }
+	}
 
-    public function getId(): int {
+	public function getId(): int {
 		return $this->id;
 	}
 
-    public function getName(): string {
+	public function getName(): string {
 		return $this->name;
 	}
 
-    public function getQuota(): int {
+	public function getQuota(): int {
 		return $this->quota;
 	}
 
@@ -39,7 +39,7 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		return [
 			'id' => $this->id,
 			'name' => $this->name,
-            'quota' => $this->quota,
+			'quota' => $this->quota,
 			'organizationProviderId' => $this->organizationProvider,
 			'organizationId' => $this->organizationId,
 		];
@@ -50,7 +50,7 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		return [
 			'id' => $this->id,
 			'name' => $this->name,
-            'quota' => $this->quota,
+			'quota' => $this->quota,
 			'organizationProviderId' => $this->organizationProvider,
 			'organizationId' => $this->organizationId,
 		];
@@ -60,7 +60,7 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		return [
 			'Id' => $this->id,
 			'Name' => $this->name,
-            'Quota' => $this->quota,
+			'Quota' => $this->quota,
 			'Organization Provider' => $this->organizationProvider,
 			'Organization Id' => $this->organizationId,
 		];

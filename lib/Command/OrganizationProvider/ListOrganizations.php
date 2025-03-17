@@ -14,26 +14,26 @@ class ListOrganizations extends BaseCommand {
 		$this
 			->setName('organization-folders:organizations:list')
 			->setDescription('List all organizations provided by a specific organization provider')
-            ->addArgument('provider-id', InputArgument::REQUIRED, 'provider to query')
-            ->addArgument('parent-organization-id', InputArgument::OPTIONAL, 'parent organization to fetch child organizations of. Using top-level if omitted');
+			->addArgument('provider-id', InputArgument::REQUIRED, 'provider to query')
+			->addArgument('parent-organization-id', InputArgument::OPTIONAL, 'parent organization to fetch child organizations of. Using top-level if omitted');
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-            $providerId = $input->getArgument('provider-id');
+			$providerId = $input->getArgument('provider-id');
 
-            if(ctype_digit($input->getArgument('parent-organization-id'))) {
-                $parentOrganizationId = (int)$input->getArgument('parent-organization-id');
-            } else {
-                $parentOrganizationId = null;
-            }
-            
+			if(ctype_digit($input->getArgument('parent-organization-id'))) {
+				$parentOrganizationId = (int)$input->getArgument('parent-organization-id');
+			} else {
+				$parentOrganizationId = null;
+			}
+			
 
-            if(!$this->organizationProviderManager->hasOrganizationProvider($providerId)) {
-                $output->writeln("<error>organization provider not found</error>");
-                return 0;
-            }
+			if(!$this->organizationProviderManager->hasOrganizationProvider($providerId)) {
+				$output->writeln("<error>organization provider not found</error>");
+				return 0;
+			}
 
 			$organizations = $this->organizationProviderManager->getOrganizationProvider($providerId)->getSubOrganizations($parentOrganizationId);
 

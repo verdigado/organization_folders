@@ -13,17 +13,17 @@ class ListResources extends BaseCommand {
 	protected function configure(): void {
 		$this
 			->setName('organization-folders:resources:list')
-            ->addArgument('organization-folder-id', InputArgument::REQUIRED, 'Id of Organization Folder')
-            ->addArgument('parent-resource-id', InputArgument::OPTIONAL, 'Id of Organization Folder')
+			->addArgument('organization-folder-id', InputArgument::REQUIRED, 'Id of Organization Folder')
+			->addArgument('parent-resource-id', InputArgument::OPTIONAL, 'Id of Organization Folder')
 			->setDescription('List all resource in organization folder. Only shows one layer of tree at once, provide resource parent id to reveal child resources.');
-            
+			
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-            $organizationFolderId = $input->getArgument('organization-folder-id');
-            $parentResourceId = $input->getArgument('parent-resource-id');
+			$organizationFolderId = $input->getArgument('organization-folder-id');
+			$parentResourceId = $input->getArgument('parent-resource-id');
 
 			$resources = $this->resourceService->findAll($organizationFolderId, $parentResourceId);
 

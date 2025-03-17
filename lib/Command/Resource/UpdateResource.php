@@ -15,7 +15,7 @@ class UpdateResource extends BaseCommand {
 		$this
 			->setName('organization-folders:resources:update')
 			->setDescription('Update a resource')
-            ->addArgument('id', InputArgument::REQUIRED, 'Id of the resource to update')
+			->addArgument('id', InputArgument::REQUIRED, 'Id of the resource to update')
 			->addOption('name', null, InputOption::VALUE_OPTIONAL, 'New name of resource')
 			->addOption('active', null, InputOption::VALUE_OPTIONAL, 'Activate/deactivate resource')
 			->addOption('inherit-managers', null, InputOption::VALUE_OPTIONAL, 'Set wether managers of the parent level (parent resource or organization folder for top level resources) should have management permissions');
@@ -49,7 +49,7 @@ class UpdateResource extends BaseCommand {
 
 		try {
 			$resource = $this->resourceService->update(
-                id: $id,
+				id: $id,
 				name: $name,
 				active: $active,
 				inheritManagers: $inheritManagers,

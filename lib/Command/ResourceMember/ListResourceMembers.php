@@ -13,15 +13,15 @@ class ListResourceMembers extends BaseCommand {
 	protected function configure(): void {
 		$this
 			->setName('organization-folders:resource-members:list')
-            ->addArgument('resource-id', InputArgument::REQUIRED, 'Id of Resource')
+			->addArgument('resource-id', InputArgument::REQUIRED, 'Id of Resource')
 			->setDescription('List all members of resource.');
-            
+			
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
-            $resourceId = $input->getArgument('resource-id');
+			$resourceId = $input->getArgument('resource-id');
 
 			$members = $this->resourceMemberService->findAll($resourceId);
 

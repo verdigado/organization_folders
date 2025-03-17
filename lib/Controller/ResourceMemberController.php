@@ -20,38 +20,38 @@ class ResourceMemberController extends BaseController {
 		private ResourceService $resourceService,
 		private PrincipalFactory $principalFactory,
 		private string $userId,
-    ) {
+	) {
 		parent::__construct();
 	}
 
-    #[NoAdminRequired]
+	#[NoAdminRequired]
 	public function index(int $resourceId): JSONResponse {
 		return $this->handleNotFound(function () use ($resourceId) {
-            $resource = $this->resourceService->find($resourceId);
+			$resource = $this->resourceService->find($resourceId);
 
-            $this->denyAccessUnlessGranted(['READ'], $resource);
+			$this->denyAccessUnlessGranted(['READ'], $resource);
 
 			return $this->service->findAll($resourceId);
 		});
 	}
 
-    #[NoAdminRequired]
+	#[NoAdminRequired]
 	public function create(
 		int $resourceId,
-        string|int $permissionLevel,
+		string|int $permissionLevel,
 		string|int $principalType,
 		string $principalId,
 	): JSONResponse {
 		return $this->handleErrors(function () use ($resourceId, $permissionLevel, $principalType, $principalId): ResourceMember {
 			$resource = $this->resourceService->find($resourceId);
 
-            $this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
+			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
 
 			$principal = $this->principalFactory->buildPrincipal(PrincipalType::fromNameOrValue($principalType), $principalId);
 
 			$resourceMember = $this->service->create(
 				resourceId: $resourceId,
-                permissionLevel: ResourceMemberPermissionLevel::fromNameOrValue($permissionLevel),
+				permissionLevel: ResourceMemberPermissionLevel::fromNameOrValue($permissionLevel),
 				principal: $principal,
 			);
 

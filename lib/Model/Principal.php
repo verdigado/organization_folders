@@ -7,9 +7,9 @@ use OCA\OrganizationFolders\Enum\PrincipalType;
 abstract class Principal implements \JsonSerializable {
 	protected bool $valid;
 
-    abstract public function getType(): PrincipalType;
+	abstract public function getType(): PrincipalType;
 
-    abstract public function getId(): string;
+	abstract public function getId(): string;
 
 	abstract public function getFriendlyName(): string;
 

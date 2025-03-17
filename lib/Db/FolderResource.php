@@ -9,7 +9,7 @@ class FolderResource extends Resource {
 	protected $fileId;
 
 	public function __construct() {
-        parent::__construct();
+		parent::__construct();
 		$this->addType('membersAclPermission','integer');
 		$this->addType('managersAclPermission','integer');
 		$this->addType('inheritedAclPermission','integer');

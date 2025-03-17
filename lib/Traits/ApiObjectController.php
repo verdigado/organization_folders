@@ -22,7 +22,7 @@ trait ApiObjectController {
 		return [self::MODEL_INCLUDE];
 	}
 
-    /**
+	/**
 	 * @param string $test
 	 * @param array $includes
 	 *

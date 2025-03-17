@@ -16,9 +16,9 @@ class UpdateOrganizationFolderMember extends BaseCommand {
 		$this
 			->setName('organization-folders:members:update')
 			->setDescription('Update a member of an organization folder')
-            ->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder member')
+			->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder member')
 			->addOption('permission-level', null, InputOption::VALUE_REQUIRED, 'New permissions level of member (valid values: MEMBER, MANAGER, ADMIN)');
-        
+		
 		parent::configure();
 	}
 

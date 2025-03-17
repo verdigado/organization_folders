@@ -12,11 +12,11 @@ class OrganizationController extends BaseController {
 
 	public function __construct(
 		private OrganizationProviderManager $oganizationProviderManager,
-    ) {
+	) {
 		parent::__construct();
 	}
 
-    #[NoAdminRequired]
+	#[NoAdminRequired]
 	public function getOrganizationProviders(): JSONResponse {
 		return $this->handleErrors(function () {
 			return array_keys($this->oganizationProviderManager->getOrganizationProviders());
@@ -24,13 +24,13 @@ class OrganizationController extends BaseController {
 	}
 
 	#[NoAdminRequired]
-    public function getOrganization(string $organizationProviderId, int $organizationId): JSONResponse {
+	public function getOrganization(string $organizationProviderId, int $organizationId): JSONResponse {
 		return $this->handleErrors(function () use ($organizationProviderId, $organizationId) {
 			$organizationProvider = $this->oganizationProviderManager->getOrganizationProvider($organizationProviderId);
 
 			return $organizationProvider->getOrganization($organizationId);
 		});
-    }
+	}
 
 	#[NoAdminRequired]
 	public function getTopLevelOrganizations(string $organizationProviderId): JSONResponse {
@@ -39,16 +39,16 @@ class OrganizationController extends BaseController {
 
 			return $organizationProvider->getSubOrganizations();
 		});
-    }
+	}
 
 	#[NoAdminRequired]
-    public function getSubOrganizations(string $organizationProviderId, int $parentOrganizationId): JSONResponse {
+	public function getSubOrganizations(string $organizationProviderId, int $parentOrganizationId): JSONResponse {
 		return $this->handleErrors(function () use ($organizationProviderId, $parentOrganizationId) {
 			$organizationProvider = $this->oganizationProviderManager->getOrganizationProvider($organizationProviderId);
 
 			return $organizationProvider->getSubOrganizations($parentOrganizationId);
 		});
-    }
+	}
 
 	#[NoAdminRequired]
 	public function getRoles(string $organizationProviderId, int $organizationId): JSONResponse {

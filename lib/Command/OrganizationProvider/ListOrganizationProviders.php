@@ -20,14 +20,14 @@ class ListOrganizationProviders extends BaseCommand {
 		try {
 			$organizationProviders = $this->organizationProviderManager->getOrganizationProviders();
 
-            $result = [];
+			$result = [];
 
-            foreach($organizationProviders as $id => $organizationProvider) {
-                $result[] = [
-                    "Id" => $id,
-                    "Class" => $organizationProvider::class,
-                ];
-            }
+			foreach($organizationProviders as $id => $organizationProvider) {
+				$result[] = [
+					"Id" => $id,
+					"Class" => $organizationProvider::class,
+				];
+			}
 
 			$this->writeTableInOutputFormat($input, $output, $result);
 			return 0;

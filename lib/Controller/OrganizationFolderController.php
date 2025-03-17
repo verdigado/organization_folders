@@ -16,22 +16,22 @@ class OrganizationFolderController extends BaseController {
 	use Errors;
 	use ApiObjectController;
 
-    public const PERMISSIONS_INCLUDE = 'permissions';
+	public const PERMISSIONS_INCLUDE = 'permissions';
 	public const MEMBERS_INCLUDE = 'members';
 	public const RESOURCES_INCLUDE = 'resources';
 
 	public function __construct(
 		private OrganizationFolderService $service,
-        private OrganizationFolderMemberService $memberService,
+		private OrganizationFolderMemberService $memberService,
 		private ResourceService $resourceService,
 		private string $userId,
-    ) {
+	) {
 		parent::__construct();
 	}
 
-    /* ADMIN ONLY */
-    // TODO: add pagination
-    public function index(): JSONResponse {
+	/* ADMIN ONLY */
+	// TODO: add pagination
+	public function index(): JSONResponse {
 		return new JSONResponse($this->service->findAll());
 	}
 
@@ -41,28 +41,28 @@ class OrganizationFolderController extends BaseController {
 		$result = [];
 
 		if ($this->shouldInclude(self::MODEL_INCLUDE, $includes)) {
-            if($limited) {
-                $result =  $organizationFolder->limitedJsonSerialize();
-            } else {
-                $result = $organizationFolder->jsonSerialize();
-            }
+			if($limited) {
+				$result =  $organizationFolder->limitedJsonSerialize();
+			} else {
+				$result = $organizationFolder->jsonSerialize();
+			}
 		}
 
-        if ($this->shouldInclude(self::PERMISSIONS_INCLUDE, $includes)) {
+		if ($this->shouldInclude(self::PERMISSIONS_INCLUDE, $includes)) {
 			$result["permissions"] = [];
 
-            if($limited) {
-                $result["permissions"]["level"] = "limited";
-            } else {
-                $result["permissions"]["level"] = "full";
-            }
-        }
+			if($limited) {
+				$result["permissions"]["level"] = "limited";
+			} else {
+				$result["permissions"]["level"] = "full";
+			}
+		}
 
-        if(!$limited) {
-            if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
-                $result["members"] = $this->memberService->findAll($organizationFolder->getId());
-            }
-        }
+		if(!$limited) {
+			if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
+				$result["members"] = $this->memberService->findAll($organizationFolder->getId());
+			}
+		}
 
 		if($this->shouldInclude(self::RESOURCES_INCLUDE, $includes)) {
 			$result["resources"] = $this->getResources($organizationFolder);
@@ -71,24 +71,24 @@ class OrganizationFolderController extends BaseController {
 		return $result;
 	}
 
-    #[NoAdminRequired]
+	#[NoAdminRequired]
 	public function show(int $organizationFolderId, ?string $include): JSONResponse {
-        return $this->handleNotFound(function () use ($organizationFolderId, $include) {
-            $organizationFolder = $this->service->find($organizationFolderId);
+		return $this->handleNotFound(function () use ($organizationFolderId, $include) {
+			$organizationFolder = $this->service->find($organizationFolderId);
 
-            if($this->authorizationService->isGranted(["READ"], $organizationFolder)) {
-                $limited = false;
-            } else if($this->authorizationService->isGranted(["READ_LIMITED"], $organizationFolder)) {
-                $limited = true;
-            } else {
-                throw new AccessDenied();
-            }
+			if($this->authorizationService->isGranted(["READ"], $organizationFolder)) {
+				$limited = false;
+			} else if($this->authorizationService->isGranted(["READ_LIMITED"], $organizationFolder)) {
+				$limited = true;
+			} else {
+				throw new AccessDenied();
+			}
 
 			return $this->getApiObjectFromEntity($organizationFolder,  $limited, $include);
 		});
 	}
 
-    /* ADMIN ONLY */
+	/* ADMIN ONLY */
 	public function create(
 		string $name,
 		?int $quota = null,

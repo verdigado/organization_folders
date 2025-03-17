@@ -23,7 +23,7 @@ class DeleteResource extends BaseCommand {
 		try {
 			$this->resourceService->deleteById($id);
 
-            $output->writeln("done");
+			$output->writeln("done");
 
 			return 0;
 		} catch (Exception $e) {

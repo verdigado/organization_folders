@@ -23,7 +23,7 @@ class DeleteOrganizationFolderMember extends BaseCommand {
 		try {
 			$this->organizationFolderMemberService->delete($id);
 
-            $output->writeln("done");
+			$output->writeln("done");
 
 			return 0;
 		} catch (Exception $e) {

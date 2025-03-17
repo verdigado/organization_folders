@@ -23,7 +23,7 @@ class ResourceController extends BaseController {
 		private ResourceMemberService $memberService,
 		private OrganizationFolderService $organizationFolderService, 
 		private string $userId,
-    ) {
+	) {
 		parent::__construct();
 	}
 
@@ -47,18 +47,18 @@ class ResourceController extends BaseController {
 		return $result;
 	}
 
-    #[NoAdminRequired]
+	#[NoAdminRequired]
 	public function show(int $resourceId, ?string $include): JSONResponse {
 		return $this->handleNotFound(function () use ($resourceId, $include) {
-            $resource = $this->service->find($resourceId);
+			$resource = $this->service->find($resourceId);
 
-            $this->denyAccessUnlessGranted(['READ'], $resource);
+			$this->denyAccessUnlessGranted(['READ'], $resource);
 
 			return $this->getApiObjectFromEntity($resource, $include);
 		});
 	}
 
-    #[NoAdminRequired]
+	#[NoAdminRequired]
 	public function create(
 		int $organizationFolderId,
 		string $type,

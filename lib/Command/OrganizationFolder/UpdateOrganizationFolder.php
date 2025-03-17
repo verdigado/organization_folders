@@ -15,7 +15,7 @@ class UpdateOrganizationFolder extends BaseCommand {
 		$this
 			->setName('organization-folders:update')
 			->setDescription('Update an organization folder')
-            ->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder to update')
+			->addArgument('id', InputArgument::REQUIRED, 'Id of the organization folder to update')
 			->addOption('name', null, InputOption::VALUE_OPTIONAL, 'New name of the organization folder')
 			->addOption('quota', null, InputOption::VALUE_OPTIONAL, 'New storage quota of the organization folder')
 			->addOption('organization-provider', null, InputOption::VALUE_OPTIONAL, 'New organization provider of the organization this folder will be part of')
@@ -24,18 +24,18 @@ class UpdateOrganizationFolder extends BaseCommand {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-        $id = (int)$input->getArgument('id');
+		$id = (int)$input->getArgument('id');
 		$name = $input->getOption('name');
 		$quota = $input->getOption('quota');
 		$organizationProviderId = $input->getOption('organization-provider');
 
-        if(ctype_digit($input->getOption('organization-id'))) {
-            $organizationId = (int)$input->getOption('organization-id');
-        }
+		if(ctype_digit($input->getOption('organization-id'))) {
+			$organizationId = (int)$input->getOption('organization-id');
+		}
 
 		try {
 			$organizationFolder = $this->organizationFolderService->update(
-                id: $id,
+				id: $id,
 				name: $name,
 				quota: $quota,
 				organizationProviderId: $organizationProviderId,

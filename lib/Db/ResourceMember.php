@@ -19,14 +19,14 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 	 * @var Principal
 	 */
 	protected $principal;
-    protected $createdTimestamp;
+	protected $createdTimestamp;
 	protected $lastUpdatedTimestamp;
 	
 	public function __construct() {
 		$this->addType('resourceId','integer');
 		$this->addType('permissionLevel','integer');
-        $this->addType('principalType','integer');
-        $this->addType('createdTimestamp','integer');
+		$this->addType('principalType','integer');
+		$this->addType('createdTimestamp','integer');
 		$this->addType('lastUpdatedTimestamp','integer');
 	}
 
@@ -55,39 +55,39 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 	}
 
 	public function setPermissionLevel(int $permissionLevel) {
-        if($permissionLevel >= 1 && $permissionLevel <= 2) {
+		if($permissionLevel >= 1 && $permissionLevel <= 2) {
 			if ($permissionLevel === $this->permissionLevel) {
 				// no change
 				return;
 			}
 
 			$this->markFieldUpdated("permissionLevel");
-            $this->permissionLevel = $permissionLevel;
+			$this->permissionLevel = $permissionLevel;
 		} else {
-            throw new \Exception("invalid resource member permission level");
-        }
-    }
+			throw new \Exception("invalid resource member permission level");
+		}
+	}
 
-    public function jsonSerialize(): array {
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
 			'resourceId' => $this->resourceId,
 			'permissionLevel' => $this->permissionLevel,
 			'principal' => $this->principal,
-            'createdTimestamp' => $this->createdTimestamp,
+			'createdTimestamp' => $this->createdTimestamp,
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 		];
 	}
 
-    public function tableSerialize(?array $params = null): array {
+	public function tableSerialize(?array $params = null): array {
 		return [
 			'Id' => $this->id,
 			'Resource Id' => $this->resourceId,
 			'Permission Level' => ResourceMemberPermissionLevel::from($this->permissionLevel)->name,
 			'Principal Type' => $this->principal?->getType()->name,
-            'Principal Id' => $this->principal?->getId(),
+			'Principal Id' => $this->principal?->getId(),
 			'Principal Friendly Name' => $this->principal?->getFriendlyName(),
-            'Created' => $this->createdTimestamp,
+			'Created' => $this->createdTimestamp,
 			'LastUpdated' => $this->lastUpdatedTimestamp,
 		];
 	}

@@ -17,9 +17,9 @@ abstract class BaseCommand extends Base {
 
 	public function __construct(
 		private readonly IDateTimeFormatter $dateTimeFormatter,
-        protected readonly OrganizationFolderService $organizationFolderService,
+		protected readonly OrganizationFolderService $organizationFolderService,
 		protected readonly OrganizationFolderMemberService $organizationFolderMemberService,
-        protected readonly ResourceService $resourceService,
+		protected readonly ResourceService $resourceService,
 		protected readonly ResourceMemberService $resourceMemberService,
 		protected readonly OrganizationProviderManager $organizationProviderManager,
 		protected readonly PrincipalFactory $principalFactory,
@@ -31,7 +31,7 @@ abstract class BaseCommand extends Base {
 		return $serializable->tableSerialize($params);
 	}
 
-    protected function formatTableSerializables(array $serializables, ?array $params = null): array {
+	protected function formatTableSerializables(array $serializables, ?array $params = null): array {
 		$result = [];
 		foreach($serializables as $serializable) {
 			$result[] = $serializable->tableSerialize($params);

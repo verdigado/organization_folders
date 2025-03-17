@@ -21,7 +21,7 @@ class CreateOrganizationFolderMember extends BaseCommand {
 			->addOption('permission-level', null, InputOption::VALUE_REQUIRED, 'Permissions level of member (valid values: MEMBER, MANAGER, ADMIN)')
 			->addOption('principal-type', null, InputOption::VALUE_REQUIRED, 'Type of principal (valid values: GROUP, ROLE)')
 			->addOption('principal-id', null, InputOption::VALUE_OPTIONAL, 'For type group: "[group_name]", for type role: "[organization_provider_id]:[role_id]"');
-        
+		
 		parent::configure();
 	}
 

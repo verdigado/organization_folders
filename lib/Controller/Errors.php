@@ -15,21 +15,21 @@ trait Errors {
 		return new JSONResponse($response, $status);
 	}
 
-    protected function handleNotFound(Closure $callback): JSONResponse {
+	protected function handleNotFound(Closure $callback): JSONResponse {
 		try {
 			return new JSONResponse($callback());
 		} catch (NotFoundException $e) {
 			return $this->errorResponse($e, Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
-            return $this->errorResponse($e);
-        }
+			return $this->errorResponse($e);
+		}
 	}
 
 	protected function handleErrors(Closure $callback): JSONResponse {
 		try {
 			return new JSONResponse($callback());
 		} catch (\Exception $e) {
-            return $this->errorResponse($e);
-        }
+			return $this->errorResponse($e);
+		}
 	}
 }
