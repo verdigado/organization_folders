@@ -262,6 +262,18 @@ class ResourceService {
 	public function recursivelySetFolderResourceALCs(array $folderResources, string $path, array $inheritingPrincipals) {
 		foreach($folderResources as $folderResource) {
 			$resourceFileId = $folderResource->getFileId();
+
+			if($folderResource->getActive()) {
+				$resourceMembersAclPermission = $folderResource->getMembersAclPermission();
+				$resourceManagersAclPermission = $folderResource->getManagersAclPermission();
+				$resourceInheritedAclPermission = $folderResource->getInheritedAclPermission();
+			} else {
+				$resourceMembersAclPermission = 0;
+				$resourceManagersAclPermission = 0;
+				$resourceInheritedAclPermission = 0;
+			}
+			
+
 			$acls = [];
 
 			// inherit ACLs
@@ -270,7 +282,7 @@ class ResourceService {
 					principal: $inheritingPrincipal,
 					fileId: $resourceFileId,
 					mask: 31,
-					permissions: $folderResource->getInheritedAclPermission(),
+					permissions: $resourceInheritedAclPermission,
 				);
 
 				// if mapping for principal could not be created, skip creating rule for it
@@ -280,7 +292,7 @@ class ResourceService {
 			}
 
 			// inherited principals will affect resources further down, if they have any permissions at this level
-			if($folderResource->getInheritedAclPermission() !== 0) {
+			if($resourceInheritedAclPermission !== 0) {
 				$nextInheritingPrincipals = $inheritingPrincipals;
 			} else {
 				$nextInheritingPrincipals = [];
@@ -293,9 +305,9 @@ class ResourceService {
 
 			foreach($resourceMembers as $resourceMember) {
 				if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
-					$resourceMemberPermissions = $folderResource->getManagersAclPermission();
+					$resourceMemberPermissions = $resourceManagersAclPermission;
 				} else if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MEMBER->value) {
-					$resourceMemberPermissions = $folderResource->getMembersAclPermission();
+					$resourceMemberPermissions = $resourceMembersAclPermission;
 				} else {
 					throw new Exception("invalid resource member permission level");
 				}
@@ -383,6 +395,7 @@ class ResourceService {
 	}
 
 	public function delete(Resource $resource): Resource {
+		// TODO: should this run in a transaction ?
 		// first delete all subresources recursively
 		$subResources = $this->getSubResources($resource);
 		
@@ -398,6 +411,5 @@ class ResourceService {
 		// delete in database
 		$this->mapper->delete($resource);
 		return $resource;
-		
 	}
 }
