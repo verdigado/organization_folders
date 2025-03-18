@@ -137,7 +137,8 @@ class ResourceController extends BaseController {
 			return $this->getApiObjectFromEntity($resource, $include);
 		});
 	}
-
+	
+	#[NoAdminRequired]
 	public function destroy(int $resourceId): JSONResponse {
 		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->service->find($resourceId);

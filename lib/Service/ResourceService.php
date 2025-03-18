@@ -24,6 +24,7 @@ use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
+use OCA\OrganizationFolders\Errors\InvalidResourceName;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
 use OCA\OrganizationFolders\Errors\ResourceNameNotUnique;
 use OCA\OrganizationFolders\Manager\PathManager;
@@ -78,6 +79,10 @@ class ResourceService {
 		return $this->mapper->findByFileId($fileId);
 	}
 
+	public function isValidResourceName(string $name): bool {
+		return !preg_match('/[`!@#$%^()+=\[\]{};\'"\\\\|,.<>\/?~]/', $name);
+	}
+
 	/* Use named arguments to call this function */
 	public function create(
 		string $type,
@@ -99,6 +104,10 @@ class ResourceService {
 			$resource = new FolderResource();
 		}  else {
 			throw new InvalidResourceType($type);
+		}
+
+		if(!$this->isValidResourceName($name)) {
+			throw new InvalidResourceName($name);
 		}
 
 		if(!$this->mapper->existsWithName($organizationFolderId, $parentResourceId, $name)) {
@@ -134,6 +143,10 @@ class ResourceService {
 						throw new Exception("Resource folder does not exist or is a file, cannot proceed");
 					}
 				} else {
+					if($parentNode->nodeExists($name)) {
+						throw new Exception("A subfolder with this name already exists");
+					}
+
 					$resourceNode = $parentNode->newFolder($name);
 				}
 				
@@ -188,6 +201,10 @@ class ResourceService {
 		$resource = $this->find($id);
 
 		if(isset($name)) {
+			if(!$this->isValidResourceName($name)) {
+				throw new InvalidResourceName($name);
+			}
+
 			if($this->mapper->existsWithName($resource->getOrganizationFolderId(), $resource->getParentResource(), $name)) {
 				throw new ResourceNameNotUnique();
 			} else {
