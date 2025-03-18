@@ -79,18 +79,18 @@ const deleteMember = (memberId) => {
 				<template #icon>
 					<Plus :size="20" />
 				</template>
-				<NcActionButton icon="icon-user" close-after-click v-if="props.enableUserType" @click="setNewMemberType(api.PrincipalTypes.USER)">
+				<NcActionButton icon="icon-user" close-after-click v-if="props.enableUserType" @click="setNewMemberType('USER')">
 					Benutzer hinzufügen
 				</NcActionButton>
-				<NcActionButton icon="icon-group" close-after-click v-if="props.enableGroupType" @click="setNewMemberType(api.PrincipalTypes.GROUP)">
+				<NcActionButton icon="icon-group" close-after-click v-if="props.enableGroupType" @click="setNewMemberType('GROUP')">
 					Gruppe hinzufügen
 				</NcActionButton>
 				<NcActionButton v-for="organizationProvider of (props.enableGroupType ? organizationProviders : [])"
 					:key="organizationProvider"
 					icon="icon-group"
 					close-after-click
-					@click="setNewMemberType(api.PrincipalTypes.ROLE, { organizationProvider })">
-					{{ organizationProvider }} Organisation Rolle hinzufügen
+					@click="setNewMemberType('ORGANIZATION_MEMBER_OR_ROLE', { organizationProvider })">
+					{{ organizationProvider }} Organisation Mitglied oder Rolleninhaber*innen hinzufügen
 				</NcActionButton>
 			</NcActions>
 		</HeaderButtonGroup>
@@ -100,9 +100,9 @@ const deleteMember = (memberId) => {
 					<Close />
 				</template>
 			</NcButton>
-			<!--<MemberListNewUser v-if="newMemberType === api.PrincipalTypes.USER" @add-member="(principalId) => addMember(api.PrincipalTypes.USER, principalId)" />-->
-			<!--<MemberListNewGroup v-if="newMemberType === api.PrincipalTypes.GROUP" @add-member="(principalId) => addMember(api.PrincipalTypes.GROUP, principalId)" />-->
-			<MemberListNewRole v-if="newMemberType === api.PrincipalTypes.ROLE" :organization-provider="newMemberAdditionalParameters?.organizationProvider" @add-member="(principalId) => addMember(api.PrincipalTypes.ROLE, principalId)" />
+			<!--<MemberListNewUser v-if="newMemberType === 'USER'" @add-member="(principalId) => addMember(api.PrincipalTypes.USER, principalId)" />-->
+			<!--<MemberListNewGroup v-if="newMemberType === 'GROUP'" @add-member="(principalId) => addMember(api.PrincipalTypes.GROUP, principalId)" />-->
+			<MemberListNewRole v-if="newMemberType === 'ORGANIZATION_MEMBER_OR_ROLE'" :organization-provider="newMemberAdditionalParameters?.organizationProvider" @add-member="(principalType, principalId) => addMember(principalType, principalId)" />
 		</div>
 		<table>
 			<thead style="display: contents;">

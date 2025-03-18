@@ -6,7 +6,7 @@
 			@input="event => onSelection(levelIndex, event.target.value)">
 			<select>
 				<option value="" selected />
-				<option v-for="(item, itemIndex) in level" :key="'option-' + itemIndex + '-' + item.prefix" :value="item.type + '_' + item.id">
+				<option v-for="(item, itemIndex) in level" :key="'option-' + itemIndex + '-' + item.prefix" :value="item.type + '_' + item.id" :disabled="item.disabled === true">
 					{{ item.friendlyName }}
 				</option>
 			</select>
@@ -44,14 +44,15 @@ export default {
 	return {
 	  selections: [],
 	  levels: [],
-	  selectedRole: null,
+	  selectedPrincipalType: null,
+	  selectedPrincipalId: null,
 	  options: [],
 	}
   },
   computed: {
 	validSelection() {
 	  // valid, if not null, undefined or empty
-	  return !!this.selectedRole
+	  return !!this.selectedPrincipalId
 	},
   },
   async mounted() {
@@ -60,64 +61,98 @@ export default {
 	await this.recalculateLevels();
   },
   methods: {
-	async loadSubOptions(parent) {
+	async loadSubOptions(parentId) {
 		const self = this.loadSubOptions;
 
-		let subOrganizations = await api.getSubOrganizations(this.organizationProvider, parent);
+		let results = [];
+
+		let subOrganizations = await api.getSubOrganizations(this.organizationProvider, parentId);
 		
 		let roles = [];
-		if(parent) {
-			roles = await api.getRoles(this.organizationProvider, parent);
-		}
-		
+		if(parentId) {
+			roles = await api.getRoles(this.organizationProvider, parentId);
 
-		return [
-			...subOrganizations.map((subOrganization) => {
-				return {
-					type: "organization",
-					id: subOrganization.id,
-					friendlyName: subOrganization.friendlyName,
-					subOptions: () => new Promise((resolve, reject) => {
-						self(subOrganization.id).then((result) => {
-							resolve(result);
-						}).catch((err) => {
-							reject(err);
-						});
-					}),
-				};
-			}),
-			...roles.map((role) => {
-				return {
-					type: "role",
-					id: role.id,
-					friendlyName: role.friendlyName,
-				};
-			}),
-		];
+			results.push({
+				type: "organization_member",
+				id: parentId,
+				friendlyName: "Mitglieder",
+			});
+		}
+
+		if(subOrganizations.length > 0) {
+			results.push(
+				{
+					type: "seperator",
+					friendlyName: "──────────",
+					disabled: true,
+				},
+				...subOrganizations.map((subOrganization) => {
+					return {
+						type: "organization",
+						id: subOrganization.id,
+						friendlyName: subOrganization.friendlyName,
+						subOptions: () => new Promise((resolve, reject) => {
+							self(subOrganization.id).then((result) => {
+								resolve(result);
+							}).catch((err) => {
+								reject(err);
+							});
+						}),
+					};
+				})
+			);
+		}
+
+		if(roles.length > 0) {
+			results.push(
+				{
+					type: "seperator",
+					friendlyName: "──────────",
+					disabled: true,
+				},
+				...roles.map((role) => {
+					return {
+						type: "organization_role",
+						id: role.id,
+						friendlyName: role.friendlyName,
+					};
+				}
+			));
+		}
+
+		return results;
 	},
 	async recalculateLevels() {
-		const levels = [this.options]
-		let selectedRole = null
+		const levels = [this.options];
+		let selectedPrincipalType = null;
+		let selectedPrincipalId = null;
 
-		let parent = this.options
+		let parent = this.options;
 		for (let index = 0; index < this.selections.length; index++) {
-			const selection = this.selections[index]
+			const selection = this.selections[index];
 
 			const option = parent.find(option => option.type + '_' + option.id === selection);
 
 			if (option.type === "organization") {
-				const subOptions = await option.subOptions()
-				levels[index + 1] = subOptions
-				parent = subOptions
-			} else {
-				// reached leaf
-				selectedRole = option.id
-				break
+				const subOptions = await option.subOptions();
+				levels[index + 1] = subOptions;
+				parent = subOptions;
+			} else if(option.type === "organization_member") {
+				// reached member leaf
+				selectedPrincipalType = api.PrincipalTypes.ORGANIZATION_MEMBER;
+				selectedPrincipalId = option.id;
+				break;
+			} else if(option.type === "organization_role") {
+				// reached role leaf
+				selectedPrincipalType = api.PrincipalTypes.ORGANIZATION_ROLE;
+				selectedPrincipalId = option.id;
+				break;
 			}
 		}
 
-		this.selectedRole = selectedRole
-		this.levels = levels
+		this.selectedPrincipalType = selectedPrincipalType;
+		this.selectedPrincipalId = selectedPrincipalId;
+		this.levels = levels;
 	},
 	async onSelection(level, value) {
 		// truncate to levels before new selection
@@ -129,7 +164,7 @@ export default {
 		this.recalculateLevels();
 	},
 	onSave() {
-		this.$emit("add-member", this.organizationProvider + ":" + this.selectedRole);
+		this.$emit("add-member", this.selectedPrincipalType, this.organizationProvider + ":" + this.selectedPrincipalId);		
 	},
   },
 }
@@ -137,8 +172,8 @@ export default {
 
 <style scoped>
 .input-row {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
 }
 </style>
