@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\OrganizationFolders\Model;
 
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 
-class OrganizationMemberPrincipal extends Principal {
+class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 	private ?Organization $organization = null;
 
 	public function __construct(
@@ -42,7 +44,7 @@ class OrganizationMemberPrincipal extends Principal {
 	}
 
 	public function getFriendlyName(): string {
-		return $this->organization->getFriendlyName() ?? $this->getId();
+		return $this->organization?->getFriendlyName() ?? $this->getId();
 	}
 
 	public function getFullHierarchyNames(): array {
@@ -55,11 +57,15 @@ class OrganizationMemberPrincipal extends Principal {
 		if($this->valid) {
 			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
 
-			while($organization->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
+			while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
 				$result[] = $organization->getFriendlyName();
 			}
 		}
 
 		return array_reverse($result);
+	}
+
+	public function getBackingGroup(): ?string {
+		return $this->getOrganization()?->getMembersGroup();
 	}
 }

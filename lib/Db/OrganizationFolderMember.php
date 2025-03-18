@@ -9,14 +9,14 @@ use OCP\AppFramework\Db\Entity;
 
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
-use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 
 class OrganizationFolderMember extends Entity implements JsonSerializable, TableSerializable {
 	protected $organizationFolderId;
 	protected $permissionLevel;
 
 	/**
-	 * @var Principal
+	 * @var PrincipalBackedByGroup
 	 */
 	protected $principal;
 	protected $createdTimestamp;
@@ -30,7 +30,11 @@ class OrganizationFolderMember extends Entity implements JsonSerializable, Table
 		$this->addType('lastUpdatedTimestamp','integer');
 	}
 
-	public function setPrincipal(Principal $principal) {
+	public function getPrincipal(): PrincipalBackedByGroup {
+		return $this->principal;
+	}
+
+	public function setPrincipal(PrincipalBackedByGroup $principal) {
 		$principalType = $principal->getType();
 		if($principalType === PrincipalType::GROUP || $principalType === PrincipalType::ORGANIZATION_MEMBER || $principalType === PrincipalType::ORGANIZATION_ROLE) {
 			if(!isset($this->principal) || $this->principal->getType() !== $principal->getType()) {

@@ -173,9 +173,23 @@ class OrganizationFolderService {
 		return $resourceService->setAllFolderResourceAclsInOrganizationFolder($organizationFolder, $memberGroups);
 	}
 
-	protected function getMemberGroups(OrganizationFolder $organizationFolder) {
-		// TODO: fetch member groups, for now only use organization members
+	protected function getMemberGroups(OrganizationFolder $organizationFolder): array {
 		$memberGroups = [];
+
+		// avoids circular dependency autowire
+		// TODO: find better solution
+		/**
+		 * @var OrganizationFolderMemberService
+		 */
+		$organizationFolderMemberService = \OC::$server->get(OrganizationFolderMemberService::class);
+
+		foreach($organizationFolderMemberService->findAll($organizationFolder->getId()) as $organizationFolderMember) {
+			$backingGroup = $organizationFolderMember->getPrincipal()->getBackingGroup();
+
+			if(isset($backingGroup)) {
+				$memberGroups[] = $backingGroup;
+			}
+		}
 
 		if(!is_null($organizationFolder->getOrganizationProvider()) && !is_null($organizationFolder->getOrganizationId())) {
 			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProvider());

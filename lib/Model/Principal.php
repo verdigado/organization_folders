@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\OrganizationFolders\Model;
 
 use OCA\OrganizationFolders\Enum\PrincipalType;

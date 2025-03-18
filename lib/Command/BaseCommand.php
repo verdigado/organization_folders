@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\OrganizationFolders\Command;
 
 use OC\Core\Command\Base;

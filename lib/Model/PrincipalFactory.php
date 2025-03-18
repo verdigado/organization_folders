@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\OrganizationFolders\Model;
 
 use OCP\IUserManager;
@@ -28,7 +30,7 @@ class PrincipalFactory {
 				throw new \Exception("Invalid id format for principal of type organization member");
 			}
 
-			return new OrganizationMemberPrincipal($this->organizationProviderManager, $organizationProviderId, $organizationId);
+			return new OrganizationMemberPrincipal($this->organizationProviderManager, $organizationProviderId, (int)$organizationId);
 		} else if ($type === PrincipalType::ORGANIZATION_ROLE) {
 			[$organizationProviderId, $roleId] = explode(":", $id, 2);
 

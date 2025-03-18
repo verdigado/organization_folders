@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\OrganizationFolders\Service;
 
 use Exception;
@@ -30,8 +32,8 @@ class OrganizationFolderMemberService {
 	 */
 	public function findAll(int $organizationFolderId, $filters = []): array {
         $mapperFilters = [
-            "permissionLevel" => $filters['permissionLevel']?->value ?: null,
-            "principalType" => $filters['principalType']?->value ?: null,
+            "permissionLevel" => $filters['permissionLevel']?->value ?? null,
+            "principalType" => $filters['principalType']?->value ?? null,
         ];
 
 		return $this->mapper->findAll($organizationFolderId, $mapperFilters);

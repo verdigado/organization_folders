@@ -39,6 +39,7 @@ class OrganizationProviderManager {
 	 */
 	public function getOrganizationProvider($id): OrganizationProvider {
 		$organizationProvider = $this->organizationProviders[$id];
+		
 		if(isset($organizationProvider)) {
 			return $organizationProvider;
 		} else {

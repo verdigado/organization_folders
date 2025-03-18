@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\OrganizationFolders\Model;
 
 use OCP\IGroupManager;
@@ -7,7 +9,7 @@ use \OCP\IGroup;
 
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
-class GroupPrincipal extends Principal {
+class GroupPrincipal extends PrincipalBackedByGroup {
 	private ?IGroup $group;
 
 	public function __construct(
@@ -32,5 +34,9 @@ class GroupPrincipal extends Principal {
 
 	public function getFriendlyName(): string {
 		return $this->group?->getDisplayName() ?? $this->getId();
+	}
+
+	public function getBackingGroup(): string {
+		return $this->getId();
 	}
 }

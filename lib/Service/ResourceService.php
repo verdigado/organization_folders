@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\OrganizationFolders\Service;
 
 use Exception;
@@ -309,6 +311,7 @@ class ResourceService {
 					);
 
 					// if mapping for principal could not be created, skip creating rule for it
+					// TODO: check should not be neccessary anymore
 					if(!is_null($newACL)) {
 						$acls[] = $newACL;
 						$nextInheritingPrincipals[] = $resourceMemberPrincipal;

@@ -16,9 +16,7 @@ use OCA\GroupFolders\Folder\FolderManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\UserPrincipal;
-use OCA\OrganizationFolders\Model\GroupPrincipal;
-use OCA\OrganizationFolders\Model\OrganizationMemberPrincipal;
-use OCA\OrganizationFolders\Model\OrganizationRolePrincipal;
+use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 
 class ACLManager {
 	public function __construct(
@@ -54,25 +52,12 @@ class ACLManager {
 		if($principal instanceof UserPrincipal) {
 			// needs to return, even if user does not currently exist, so we can't use IUserMappingManager
 			return new UserMapping(type: "user", id: $principal->getId(), displayName: null);
-		} else if($principal instanceof GroupPrincipal) {
-			// needs to return, even if group does not currently exist, so we can't use IUserMappingManager
-			return new UserMapping(type: "group", id: $principal->getId(), displayName: null);
-		} else if($principal instanceof OrganizationMemberPrincipal) {
-			$organization = $$principal->getOrganization();
+		} else if($principal instanceof PrincipalBackedByGroup) {
+			$group = $principal->getBackingGroup();
 
-			if(isset($organization)) {
+			if(isset($group)) {
 				// needs to return, even if group does not currently exist, so we can't use IUserMappingManager
-				return new UserMapping(type: "group", id: $organization->getMembersGroup(), displayName: null);
-			} else {
-				return null;
-			}
-
-		} else if($principal instanceof OrganizationRolePrincipal) {
-			$role = $principal->getRole();
-			
-			if(isset($role)) {
-				// needs to return, even if group does not currently exist, so we can't use IUserMappingManager
-				return new UserMapping(type: "group", id: $role->getMembersGroup(), displayName: null);
+				return new UserMapping(type: "group", id: $group, displayName: null);
 			} else {
 				return null;
 			}

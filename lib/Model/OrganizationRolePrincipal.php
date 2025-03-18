@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\OrganizationFolders\Model;
 
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 
-class OrganizationRolePrincipal extends Principal {
+class OrganizationRolePrincipal extends PrincipalBackedByGroup {
 	private ?OrganizationRole $role = null;
 
 	public function __construct(
@@ -61,5 +63,9 @@ class OrganizationRolePrincipal extends Principal {
 		}
 
 		return array_reverse($result);
+	}
+
+	public function getBackingGroup(): ?string {
+		return $this->getRole()?->getMembersGroup();
 	}
 }
