@@ -4,8 +4,9 @@ import NcActions from "@nextcloud/vue/dist/Components/NcActions.js";
 import NcActionButton from "@nextcloud/vue/dist/Components/NcActionButton.js";
 import NcButton from "@nextcloud/vue/dist/Components/NcButton.js";
 
-import MemberListNewRole from "./MemberListNewRole.vue";
+import MemberListNewUser from "./MemberListNewUser.vue";
 import MemberListNewGroup from "./MemberListNewGroup.vue";
+import MemberListNewRole from "./MemberListNewRole.vue";
 import MemberListItem from "./MemberListItem.vue";
 import HeaderButtonGroup from "./../HeaderButtonGroup.vue";
 
@@ -47,7 +48,12 @@ const props = defineProps({
 		type: Function,
 		required: false,
 		default: async () => [],
-	}
+	},
+	findUserMemberOptions: {
+		type: Function,
+		required: false,
+		default: async () => [],
+	},
 });
 
 const emit = defineEmits(["add-member", "update-member", "delete-member"]);
@@ -106,9 +112,9 @@ const deleteMember = (memberId) => {
 					<Close />
 				</template>
 			</NcButton>
-			<!--<MemberListNewUser v-if="newMemberType === 'USER'" @add-member="(principalId) => addMember(api.PrincipalTypes.USER, principalId)" />-->
-			<MemberListNewGroup v-if="newMemberType === 'GROUP'" :find-group-member-options="findGroupMemberOptions" @add-member="(principalId) => addMember(api.PrincipalTypes.GROUP, principalId)" />
-			<MemberListNewRole v-if="newMemberType === 'ORGANIZATION_MEMBER_OR_ROLE'" :organization-provider="newMemberAdditionalParameters?.organizationProvider" @add-member="(principalType, principalId) => addMember(principalType, principalId)" />
+			<MemberListNewUser v-if="newMemberType === 'USER'" :find-user-member-options="findUserMemberOptions" @add-member="(principalId) => addMember(api.PrincipalTypes.USER, principalId)" />
+			<MemberListNewGroup v-else-if="newMemberType === 'GROUP'" :find-group-member-options="findGroupMemberOptions" @add-member="(principalId) => addMember(api.PrincipalTypes.GROUP, principalId)" />
+			<MemberListNewRole v-else-if="newMemberType === 'ORGANIZATION_MEMBER_OR_ROLE'" :organization-provider="newMemberAdditionalParameters?.organizationProvider" @add-member="(principalType, principalId) => addMember(principalType, principalId)" />
 		</div>
 		<table>
 			<thead style="display: contents;">

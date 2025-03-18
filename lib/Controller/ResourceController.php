@@ -193,4 +193,21 @@ class ResourceController extends BaseController {
 			], $options);
 		});
 	}
+
+	#[NoAdminRequired]
+	public function findUserMemberOptions(int $resourceId, string $search = '', int $limit = 20): JSONResponse {
+		return $this->handleErrors(function () use ($resourceId, $search, $limit) {
+			$resource = $this->service->find($resourceId);
+
+			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
+
+			$options = $this->memberService->findUserMemberOptions($resourceId, $search, $limit);
+
+			return array_map(fn (\OCP\IUser $user) => [
+				'id' => $user->getUID(),
+				'displayName' => $user->getDisplayName(),
+				'subname' => $user->getEMailAddress(),
+			], $options);
+		});
+	}
 }

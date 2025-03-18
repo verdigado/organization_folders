@@ -270,6 +270,17 @@ export default {
 		return axios.get(`/resources/${resourceId}/groupMemberOptions`, { params: { search, limit } }).then((res) => res.data);
 	},
 
+	/**
+	 * Search for users, that could be added to the resource as members
+	 * 
+	 * @param {number|string} resourceId Resource id
+	 * @param {string} search
+	 * @param {number} limit
+	 */
+	findUserResourceMemberOptions(resourceId, search = '', limit = 20) {
+		return axios.get(`/resources/${resourceId}/userMemberOptions`, { params: { search, limit } }).then((res) => res.data);
+	},
+
 	/* Resource Members */
 
 	/**

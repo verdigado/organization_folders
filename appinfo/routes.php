@@ -23,6 +23,7 @@ return [
 		['name' => 'resource#update', 'url' => '/resources/{resourceId}', 'verb' => 'PUT'],
 		['name' => 'resource#subResources', 'url' => '/resources/{resourceId}/subResources', 'verb' => 'GET'],
 		['name' => 'resource#findGroupMemberOptions', 'url' => '/resources/{resourceId}/groupMemberOptions', 'verb' => 'GET'],
+		['name' => 'resource#findUserMemberOptions', 'url' => '/resources/{resourceId}/userMemberOptions', 'verb' => 'GET'],
 
 		/* Resource Members */
 		['name' => 'resource_member#index', 'url' => '/resources/{resourceId}/members', 'verb' => 'GET'],

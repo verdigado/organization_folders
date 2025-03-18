@@ -142,6 +142,10 @@ const findGroupMemberOptions = (search) => {
 	return api.findGroupResourceMemberOptions(resource.value.id, search);
 };
 
+const findUserMemberOptions = (search) => {
+	return api.findUserResourceMemberOptions(resource.value.id, search);
+};
+
 </script>
 
 <template>
@@ -175,6 +179,7 @@ const findGroupMemberOptions = (search) => {
 			:organizationProviders="organizationProviders.providers"
 			:permission-level-options="memberPermissionLevelOptions"
 			:find-group-member-options="findGroupMemberOptions"
+			:find-user-member-options="findUserMemberOptions"
 			@add-member="addMember"
 			@update-member="updateMember"
 			@delete-member="deleteMember"/>
