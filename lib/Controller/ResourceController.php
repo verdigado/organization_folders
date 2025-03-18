@@ -138,7 +138,16 @@ class ResourceController extends BaseController {
 		});
 	}
 
-	
+	public function destroy(int $resourceId): JSONResponse {
+		return $this->handleErrors(function () use ($resourceId) {
+			$resource = $this->service->find($resourceId);
+			
+			$this->denyAccessUnlessGranted(['DELETE'], $resource);
+
+			return $this->service->delete($resource);
+		});
+	}
+
 
 	#[NoAdminRequired]
 	public function subResources(int $resourceId): JSONResponse {
