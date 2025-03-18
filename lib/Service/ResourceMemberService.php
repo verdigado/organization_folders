@@ -6,6 +6,8 @@ namespace OCA\OrganizationFolders\Service;
 
 use Exception;
 
+use OCP\IGroupManager;
+use \OCP\IGroup;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
@@ -15,10 +17,13 @@ use OCA\OrganizationFolders\Errors\PrincipalAlreadyResourceMember;
 use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Db\ResourceMemberMapper;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\GroupPrincipal;
 
 class ResourceMemberService {
 	public function __construct(
+		protected IGroupManager $groupManager,
         protected ResourceMemberMapper $mapper,
 		protected ResourceService $resourceService,
 		protected OrganizationFolderService $organizationFolderService,
@@ -27,12 +32,17 @@ class ResourceMemberService {
 
 	/**
 	 * @param int $resourceId
-	 * @psalm-param int $resourceId
+	 * @param array{permissionLevel: ResourceMemberPermissionLevel, principalType: PrincipalType} $filters
 	 * @return array
 	 * @psalm-return ResourceMember[]
 	 */
-	public function findAll(int $resourceId): array {
-		return $this->mapper->findAll($resourceId);
+	public function findAll(int $resourceId, $filters = []): array {
+		$mapperFilters = [
+            "permissionLevel" => $filters['permissionLevel']?->value ?? null,
+            "principalType" => $filters['principalType']?->value ?? null,
+        ];
+
+		return $this->mapper->findAll($resourceId, $mapperFilters);
 	}
 
 	private function handleException(Exception $e, array $criteria): void {
@@ -135,5 +145,32 @@ class ResourceMemberService {
 		} catch (Exception $e) {
 			$this->handleException($e, $id);
 		}
+	}
+
+	/**
+	 * @param IGroup|GroupPrincipal object1
+	 * @param IGroup|GroupPrincipal object2
+	 */
+
+	protected function iGroupGroupPrincipalComparison($object1, $object2): int {
+		$value1 = method_exists($object1, "getGID") ? $object1?->getGID() : $object1?->getId();
+		$value2 = method_exists($object2, "getGID") ? $object2?->getGID() : $object2?->getId();
+
+		return $value1 <=> $value2;
+	}
+
+	/**
+	 * @return IGroup[]
+	 */
+	public function findGroupMemberOptions(int $resourceId, string $search = '', ?int $limit = null): array {
+		$results = $this->groupManager->search($search, $limit);
+
+		$existingMembers = $this->findAll($resourceId, [
+			"principalType" => PrincipalType::GROUP,
+		]);
+
+		$existingPrincipals = array_map(fn($member): GroupPrincipal => $member->getPrincipal(), $existingMembers);
+
+		return array_values(array_udiff($results, $existingPrincipals, $this->iGroupGroupPrincipalComparison(...)));
 	}
 }

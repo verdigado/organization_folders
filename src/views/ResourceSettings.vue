@@ -138,6 +138,10 @@ const createSubResource = async (type, name) => {
 	}));
 }
 
+const findGroupMemberOptions = (search) => {
+	return api.findGroupResourceMemberOptions(resource.value.id, search);
+};
+
 </script>
 
 <template>
@@ -170,6 +174,7 @@ const createSubResource = async (type, name) => {
 		<MembersList :members="resource?.members"
 			:organizationProviders="organizationProviders.providers"
 			:permission-level-options="memberPermissionLevelOptions"
+			:find-group-member-options="findGroupMemberOptions"
 			@add-member="addMember"
 			@update-member="updateMember"
 			@delete-member="deleteMember"/>

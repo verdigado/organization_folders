@@ -86,17 +86,25 @@ class ResourceMemberMapper extends QBMapper {
 
 	/**
 	 * @param int $resourceId
-	 * @psalm-param int $resourceId
+	 * @param array{permissionLevel: int, principalType: int} $filters
 	 * @return array
 	 * @psalm-return ResourceMember[]
 	 */
-	public function findAll(int $resourceId): array {
+	public function findAll(int $resourceId, array $filters = []): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
 			->from(self::RESOURCE_MEMBERS_TABLE)
 			->where($qb->expr()->eq('resource_id', $qb->createNamedParameter($resourceId, IQueryBuilder::PARAM_INT)));
+
+		if(isset($filters["permissionLevel"])) {
+			$qb->andWhere($qb->expr()->eq('permission_level', $qb->createNamedParameter($filters["permissionLevel"], IQueryBuilder::PARAM_INT)));
+		}
+
+		if(isset($filters["principalType"])) {
+			$qb->andWhere($qb->expr()->eq('principal_type', $qb->createNamedParameter($filters["principalType"], IQueryBuilder::PARAM_INT)));
+		}
 		
 		return $this->findEntities($qb);
 	}

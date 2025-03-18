@@ -257,6 +257,19 @@ export default {
 		return axios.delete(`/resources/${resourceId}`).then((res) => res.data);
 	},
 
+	/* Resource Member Options */
+
+	/**
+	 * Search for groups, that could be added to the resource as members
+	 * 
+	 * @param {number|string} resourceId Resource id
+	 * @param {string} search
+	 * @param {number} limit
+	 */
+	findGroupResourceMemberOptions(resourceId, search = '', limit = 20) {
+		return axios.get(`/resources/${resourceId}/groupMemberOptions`, { params: { search, limit } }).then((res) => res.data);
+	},
+
 	/* Resource Members */
 
 	/**

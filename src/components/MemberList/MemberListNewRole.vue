@@ -164,7 +164,7 @@ export default {
 		this.recalculateLevels();
 	},
 	onSave() {
-		this.$emit("add-member", this.selectedPrincipalType, this.organizationProvider + ":" + this.selectedPrincipalId);		
+		this.$emit("add-member", this.selectedPrincipalType, this.organizationProvider + ":" + this.selectedPrincipalId);
 	},
   },
 }

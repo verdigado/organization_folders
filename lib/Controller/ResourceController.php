@@ -177,4 +177,20 @@ class ResourceController extends BaseController {
 
 		return $result;
 	}
+
+	#[NoAdminRequired]
+	public function findGroupMemberOptions(int $resourceId, string $search = '', int $limit = 20): JSONResponse {
+		return $this->handleErrors(function () use ($resourceId, $search, $limit) {
+			$resource = $this->service->find($resourceId);
+
+			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
+
+			$options = $this->memberService->findGroupMemberOptions($resourceId, $search, $limit);
+
+			return array_map(fn (\OCP\IGroup $group) => [
+				'id' => $group->getGID(),
+				'displayName' => $group->getDisplayName(),
+			], $options);
+		});
+	}
 }
