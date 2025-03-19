@@ -111,4 +111,8 @@ const currentView = ref(null);
 .ignoreForLayout {
 	display: contents;
 }
+
+.not-allowed-cursor * {
+	cursor: not-allowed !important;
+}
 </style>

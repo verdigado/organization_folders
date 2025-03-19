@@ -15,7 +15,7 @@ const open = ref(false);
 const newFolderResourceName = ref("");
 
 const onSubmit = () => {
-	if(validResourceName(newFolderResourceName)) {
+	if(validResourceName(newFolderResourceName.value)) {
 		emit('create', api.ResourceTypes.FOLDER, newFolderResourceName.value);
 		open.value = false;
 	}

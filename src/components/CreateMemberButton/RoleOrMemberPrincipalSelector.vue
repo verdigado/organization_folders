@@ -1,38 +1,32 @@
 <template>
-	<div class="input-row">
+	<div style="display: flex; flex-direction: column;">
 		<div v-for="(level, levelIndex) in levels"
 			:key="'level-' + levelIndex"
-			style="display: contents;"
-			@input="event => onSelection(levelIndex, event.target.value)">
-			<select>
+			style="display: flex; flex-direction: row;">
+			<SubdirectoryArrowRight v-if="levelIndex !== 0" :size="30" />
+			<select :value="selections[levelIndex]"
+				style="flex-grow: 100;"
+				@input="event => onSelection(levelIndex, event.target.value)">
 				<option value="" selected />
 				<option v-for="(item, itemIndex) in level" :key="'option-' + itemIndex + '-' + item.prefix" :value="item.type + '_' + item.id" :disabled="item.disabled === true">
 					{{ item.friendlyName }}
 				</option>
 			</select>
-			<ChevronRight v-if="levelIndex !== levels.length - 1" :size="20" />
 		</div>
-		<NcButton :disabled="!validSelection"
-			@click="onSave">
-			<template #icon>
-				<Plus />
-			</template>
-			Hinzufügen
-		</NcButton>
 	</div>
 </template>
 
 <script>
 import NcButton from "@nextcloud/vue/dist/Components/NcButton.js"
 import Plus from "vue-material-design-icons/Plus.vue"
-import ChevronRight from "vue-material-design-icons/ChevronRight.vue"
+import SubdirectoryArrowRight from "vue-material-design-icons/SubdirectoryArrowRight.vue"
 import api from "../../api.js"
 
 export default {
   components: {
 	NcButton,
 	Plus,
-	ChevronRight,
+	SubdirectoryArrowRight,
   },
   props: {
 	organizationProvider: {
@@ -133,16 +127,16 @@ export default {
 
 			const option = parent.find(option => option.type + '_' + option.id === selection);
 
-			if (option.type === "organization") {
+			if (option?.type === "organization") {
 				const subOptions = await option.subOptions();
 				levels[index + 1] = subOptions;
 				parent = subOptions;
-			} else if(option.type === "organization_member") {
+			} else if(option?.type === "organization_member") {
 				// reached member leaf
 				selectedPrincipalType = api.PrincipalTypes.ORGANIZATION_MEMBER;
 				selectedPrincipalId = option.id;
 				break;
-			} else if(option.type === "organization_role") {
+			} else if(option?.type === "organization_role") {
 				// reached role leaf
 				selectedPrincipalType = api.PrincipalTypes.ORGANIZATION_ROLE;
 				selectedPrincipalId = option.id;
@@ -159,21 +153,19 @@ export default {
 		const newSelections = this.selections.filter((_, index) => index < level);
 
 		newSelections[level] = value;
+		newSelections[level + 1] = "";
 		this.selections = newSelections;
 
-		this.recalculateLevels();
-	},
-	onSave() {
-		this.$emit("add-member", this.selectedPrincipalType, this.organizationProvider + ":" + this.selectedPrincipalId);
+		await this.recalculateLevels();
+
+		console.log("onSelection", this.selectedPrincipalType, this.organizationProvider, this.selectedPrincipalId);
+
+		if(this.selectedPrincipalId) {
+			this.$emit("selected", this.selectedPrincipalType, this.organizationProvider + ":" + this.selectedPrincipalId);
+		} else {
+			this.$emit("selected", null, null);
+		}
 	},
   },
 }
 </script>
-
-<style scoped>
-.input-row {
-	display: flex;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-}
-</style>

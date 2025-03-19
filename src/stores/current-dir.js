@@ -9,6 +9,7 @@ export const useCurrentDirStore = defineStore("currentDir", {
 		path: "",
 		organizationFolderId: null,
 		organizationFolderUpdatePermissions: null,
+		organizationFolderReadLimitedPermissions: null,
 		organizationFolderResourceId: null,
 		organizationFolderResourceUpdatePermissions: null,
   	}),
@@ -36,11 +37,13 @@ export const useCurrentDirStore = defineStore("currentDir", {
 			if(fileInfo) {
 				this.organizationFolderId = fileInfo.organizationFolderId;
 				this.organizationFolderUpdatePermissions = fileInfo.organizationFolderUpdatePermissions;
+				this.organizationFolderReadLimitedPermissions = fileInfo.organizationFolderReadLimitedPermissions;
 				this.organizationFolderResourceId = fileInfo.organizationFolderResourceId;
 				this.organizationFolderResourceUpdatePermissions = fileInfo.organizationFolderResourceUpdatePermissions;
 			} else {
 				this.organizationFolderId = false;
 				this.organizationFolderUpdatePermissions = false;
+				this.organizationFolderReadLimitedPermissions = false;
 				this.organizationFolderResourceId = false;
 				this.organizationFolderResourceUpdatePermissions = false;
 			}

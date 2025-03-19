@@ -4,7 +4,7 @@ import { getCurrentUser } from "@nextcloud/auth";
 import { NcTextField } from '@nextcloud/vue';
 import { useRouter } from 'vue2-helpers/vue-router';
 
-import HeaderButtonGroup from "../components/HeaderButtonGroup.vue";
+import HeaderButtonGroup from "../components/SectionHeaderButtonGroup.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
 import MembersList from "../components/MemberList/MembersList.vue";
@@ -44,6 +44,10 @@ const router = useRouter();
 
 const organizationFolderNameValid = computed(() => {
 	return validOrganizationFolderName(currentOrganizationFolderName.value); 
+});
+
+const organizationFolderPermissionsLimited = computed(() => {
+	return organizationFolder.value?.permissions?.level === "limited"; 
 });
 
 watch(() => props.organizationFolderId, async (newOrganizationFolderId) => {
@@ -90,7 +94,7 @@ const backButtonClicked = () => {
 };
 
 const createResource = async (type, name) => {
-	organizationFolder.value?.resources.push(await api.createResource({
+	const newResource = await api.createResource({
 		type,
 		organizationFolderId: organizationFolder.value.id,
 		name,
@@ -100,7 +104,11 @@ const createResource = async (type, name) => {
 		membersAclPermission: 0,
 		managersAclPermission: 31,
 		inheritedAclPermission: 1,
-	}));
+	});
+
+	organizationFolder.value?.resources.push(newResource);
+
+	resourceClicked(newResource);
 }
 
 </script>
@@ -115,6 +123,7 @@ const createResource = async (type, name) => {
 		@back-button-pressed="backButtonClicked">
 		<h3>Eigenschaften</h3>
 		<NcTextField :value.sync="currentOrganizationFolderName"
+			:disabled="organizationFolderPermissionsLimited"
 			:error="!organizationFolderNameValid"
 			:label-visible="!organizationFolderNameValid"
 			:label-outside="true"
@@ -126,16 +135,16 @@ const createResource = async (type, name) => {
 			@trailing-button-click="saveName"
 			@blur="() => currentOrganizationFolderName = currentOrganizationFolderName.trim()"
 			@keyup.enter="saveName" />
-		<MembersList :members="organizationFolder?.members"
+		<MembersList v-if="!organizationFolderPermissionsLimited"
+			:members="organizationFolder?.members"
 			:organizationProviders="organizationProviders.providers"
 			:enable-user-type="false"
 			:permission-level-options="memberPermissionLevelOptions"
 			@add-member="addMember"
 			@update-member="updateMember"
 			@delete-member="deleteMember"/>
-		<HeaderButtonGroup>
-		  <h3>Resourcen</h3>
-				<CreateResourceButton @create="createResource" />
+		<HeaderButtonGroup text="Resourcen">
+			<CreateResourceButton @create="createResource" />
 		</HeaderButtonGroup>
 		<ResourceList :resources="organizationFolder?.resources" :enable-search="true" @click:resource="resourceClicked" />
 	</ModalView>

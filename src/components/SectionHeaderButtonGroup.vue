@@ -1,8 +1,21 @@
 <template>
     <div class="header-button-group">
+		<SectionHeader :text="props.text" />
         <slot />
     </div>
 </template>
+
+<script setup>
+import SectionHeader from "./SectionHeader.vue";
+
+const props = defineProps({
+	text: {
+		type: String,
+		required: true,
+	},
+});
+
+</script>
 
 <style>
 .header-button-group {
@@ -10,11 +23,5 @@
 	justify-content: flex-start;
 	align-items: center;
 	column-gap: 10px;
-	margin-top: 24px;
-	margin-bottom: 12px;
-
-	h1, h2, h3 {
-		margin-top: 0px;
-	}
 }
 </style>

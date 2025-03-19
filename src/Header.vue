@@ -33,7 +33,7 @@ function openModal() {
             path: '/resource/' + currentDir.organizationFolderResourceId,
         });
         modalOpen.value = true;
-    } else if(currentDir.organizationFolderId && currentDir.organizationFolderUpdatePermissions) {
+    } else if(currentDir.organizationFolderId && (currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderReadLimitedPermissions)) {
         router.push({
             path: '/organizationFolder/' + currentDir.organizationFolderId,
         });
@@ -49,7 +49,7 @@ function openModal() {
 </script>
 
 <template>
-    <div v-if="currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderResourceUpdatePermissions || userIsAdmin" class="toolbar">
+    <div v-if="currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderResourceUpdatePermissions || currentDir.organizationFolderReadLimitedPermissions || userIsAdmin" class="toolbar">
         <NcButton :disabled="currentDir.loading"
             type="primary"
             @click="openModal">

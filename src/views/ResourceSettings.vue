@@ -1,18 +1,21 @@
 <script setup>
 import { ref, watch, computed } from "vue";
 import { loadState } from '@nextcloud/initial-state';
-import { NcLoadingIcon, NcCheckboxRadioSwitch, NcButton, NcTextField } from '@nextcloud/vue';
+import { NcLoadingIcon, NcCheckboxRadioSwitch, NcButton, NcTextField, NcNoteCard } from '@nextcloud/vue';
 import { useRouter } from 'vue2-helpers/vue-router';
 
 import BackupRestore from "vue-material-design-icons/BackupRestore.vue";
 import Delete from "vue-material-design-icons/Delete.vue";
 
-import HeaderButtonGroup from "../components/HeaderButtonGroup.vue";
+import HeaderButtonGroup from "../components/SectionHeaderButtonGroup.vue";
+import Section from "../components/Section.vue";
+import SectionHeader from "../components/SectionHeader.vue";
 import MembersList from "../components/MemberList/MembersList.vue";
 import Permissions from "../components/Permissions/index.js";
 import ConfirmDeleteDialog from "../components/ConfirmDeleteDialog.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
+import CreateMemberButton from "../components/CreateMemberButton/CreateMemberButton.vue";
 
 import ModalView from '../ModalView.vue';
 
@@ -54,9 +57,13 @@ const saveInheritManagers = async (inheritManagers) => {
     resource.value = await api.updateResource(resource.value.id, { inheritManagers }, "model+members+subresources");
 };
 
+const resourcePermissionsLimited = computed(() => {
+	return resource.value?.permissions?.level === "limited"; 
+});
+
 watch(() => props.resourceId, async (newResourceId) => {
     loading.value = true;
-    resource.value = await api.getResource(newResourceId, "model+members+subresources");
+    resource.value = await api.getResource(newResourceId, "model+permissions+members+subresources");
     currentResourceName.value = resource.value.name;
     loading.value = false;
 }, { immediate: true });
@@ -157,9 +164,16 @@ const findUserMemberOptions = (search) => {
 		:loading="loading"
 		v-slot=""
 		@back-button-pressed="backButtonClicked">
-        <h3>Eigenschaften</h3>
-		<div>
+		<NcNoteCard v-if="resourcePermissionsLimited"
+			type="info"
+			text="Du hast nicht die Berechtigung diesen Ordner zu verwalten" />
+		<Section>
+			<template #header>
+				<SectionHeader text="Eigenschaften"></SectionHeader>
+			</template>
 			<NcTextField :value.sync="currentResourceName"
+				:disabled="resourcePermissionsLimited"
+				:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
 				:error="!resourceNameValid"
 				:label-visible="!resourceNameValid"
 				:label-outside="true"
@@ -171,71 +185,97 @@ const findUserMemberOptions = (search) => {
 				@trailing-button-click="saveName"
 				@blur="() => currentResourceName = currentResourceName.trim()"
 				@keyup.enter="saveName" />
-			<NcCheckboxRadioSwitch style="margin-top: 12px;" :checked="resource.inheritManagers" @update:checked="saveInheritManagers">Manager aus oberer Ebene vererben</NcCheckboxRadioSwitch>
-		</div>
-		<h3>Berechtigungen</h3>
-		<Permissions :resource="resource" @permissionUpdated="savePermission" />
-		<MembersList :members="resource?.members"
-			:organizationProviders="organizationProviders.providers"
-			:permission-level-options="memberPermissionLevelOptions"
-			:find-group-member-options="findGroupMemberOptions"
-			:find-user-member-options="findUserMemberOptions"
-			@add-member="addMember"
-			@update-member="updateMember"
-			@delete-member="deleteMember"/>
-		<h3>Einstellungen</h3>
-		<div class="settings-group">
-			<NcButton v-if="snapshotIntegrationActive" @click="switchToSnapshotRestoreView">
-				<template #icon>
-					<BackupRestore />
-				</template>
-				Aus Backup wiederherstellen
-			</NcButton>
-			<div class="resource-active-button">
-				<NcCheckboxRadioSwitch :checked="resource.active"
-					:loading="resourceActiveLoading"
-					type="checkbox"
-                    @update:checked="saveActive">
-					Ordner aktiv
-				</NcCheckboxRadioSwitch>
+			<NcCheckboxRadioSwitch
+				:checked="resource.inheritManagers"
+				:disabled="resourcePermissionsLimited"
+				:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
+				style="margin-top: 12px;"
+				@update:checked="saveInheritManagers">
+				Manager aus oberer Ebene vererben
+			</NcCheckboxRadioSwitch>
+		</Section>
+		<Section v-if="!resourcePermissionsLimited">
+			<template #header>
+				<SectionHeader text="Berechtigungen"></SectionHeader>
+			</template>
+			<Permissions :resource="resource"
+				@permissionUpdated="savePermission" />
+		</Section>
+		<Section v-if="!resourcePermissionsLimited">
+			<template #header>
+				<HeaderButtonGroup text="Members">
+					<CreateMemberButton :organizationProviders="organizationProviders.providers"
+						:permission-level-options="memberPermissionLevelOptions"
+						:find-group-member-options="findGroupMemberOptions"
+						:find-user-member-options="findUserMemberOptions"
+						@add-member="addMember" />
+				</HeaderButtonGroup>
+			</template>
+			<MembersList :members="resource?.members"
+				:permission-level-options="memberPermissionLevelOptions"
+				@update-member="updateMember"
+				@delete-member="deleteMember" />
+		</Section>
+		<Section v-if="!resourcePermissionsLimited">
+			<template #header>
+				<SectionHeader text="Einstellungen"></SectionHeader>
+			</template>
+			<div class="settings-group">
+				<NcButton v-if="snapshotIntegrationActive" @click="switchToSnapshotRestoreView">
+					<template #icon>
+						<BackupRestore />
+					</template>
+					Aus Backup wiederherstellen
+				</NcButton>
+				<div class="resource-active-button">
+					<NcCheckboxRadioSwitch :checked="resource.active"
+						:loading="resourceActiveLoading"
+						type="checkbox"
+						@update:checked="saveActive">
+						Ordner aktiv
+					</NcCheckboxRadioSwitch>
+				</div>
+				<ConfirmDeleteDialog title="Ordner löschen"
+					:loading="loading"
+					button-label="Ordner löschen"
+					:match-text="resource.name">
+					<template #activator="{ open }">
+						<NcButton v-tooltip="resource.active ? 'Nur deaktivierte Resourcen können gelöscht werden' : undefined"
+							style="height: 52px;"
+							:disabled="resource.active"
+							type="error"
+							@click="open">
+							Ordner löschen
+						</NcButton>
+					</template>
+					<template #content>
+						<p style="margin: 1rem 0 1rem 0">
+							Du bist dabei den Ordner {{ resource.name }} und den Inhalt komplett zu löschen.
+						</p>
+					</template>
+					<template #delete-button="{ close, disabled }">
+						<NcButton type="warning"
+							:disabled="disabled || loading"
+							:loading="loading"
+							@click="() => deleteResource(close)">
+							<template #icon>
+								<NcLoadingIcon v-if="loading" />
+								<Delete v-else :size="20" />
+							</template>
+							Ordner löschen
+						</NcButton>
+					</template>
+				</ConfirmDeleteDialog>
 			</div>
-			<ConfirmDeleteDialog title="Ordner löschen"
-				:loading="loading"
-				button-label="Ordner löschen"
-				:match-text="resource.name">
-				<template #activator="{ open }">
-					<NcButton v-tooltip="resource.active ? 'Nur deaktivierte Resourcen können gelöscht werden' : undefined"
-						style="height: 52px;"
-						:disabled="resource.active"
-						type="error"
-						@click="open">
-						Ordner löschen
-					</NcButton>
-				</template>
-				<template #content>
-					<p style="margin: 1rem 0 1rem 0">
-						Du bist dabei den Ordner {{ resource.name }} und den Inhalt komplett zu löschen.
-					</p>
-				</template>
-				<template #delete-button="{ close, disabled }">
-					<NcButton type="warning"
-						:disabled="disabled || loading"
-						:loading="loading"
-						@click="() => deleteResource(close)">
-						<template #icon>
-							<NcLoadingIcon v-if="loading" />
-							<Delete v-else :size="20" />
-						</template>
-						Ordner löschen
-					</NcButton>
-				</template>
-			</ConfirmDeleteDialog>
-		</div>
-		<HeaderButtonGroup>
-			<h3>Unter-Resourcen</h3>
-			<CreateResourceButton @create="createSubResource" />
-		</HeaderButtonGroup>
-		<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
+		</Section>
+		<Section>
+			<template #header>
+				<HeaderButtonGroup text="Unter-Resourcen">
+					<CreateResourceButton @create="createSubResource" />
+				</HeaderButtonGroup>
+			</template>
+			<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
+		</Section>
     </ModalView>
 </template>
 
@@ -264,11 +304,5 @@ const findUserMemberOptions = (search) => {
 
 label {
 	display: block;
-}
-
-h3 {
-	font-weight: bold;
-	margin-top: 24px;
-	margin-bottom: 0;
 }
 </style>

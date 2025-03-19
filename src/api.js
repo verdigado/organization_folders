@@ -204,7 +204,7 @@ export default {
 	/**
 	 *
 	 * @param {number|string} resourceId Resource id
-	 * @param {string} include 
+	 * @param {string} include
 	 * @return {Promise<Resource>}
 	 */
 	getResource(resourceId, include = "model") {
