@@ -2,6 +2,7 @@
 
 namespace OCA\OrganizationFolders\Security;
 
+use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCP\IUser;
 use OCP\IGroupManager;
 
@@ -11,13 +12,15 @@ use OCA\OrganizationFolders\Model\OrganizationMemberPrincipal;
 use OCA\OrganizationFolders\Model\OrganizationRolePrincipal;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
+use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 class OrganizationFolderVoter extends Voter {
 	public function __construct(
-		private OrganizationFolderMemberService $organizationFolderMemberService,
 		private IGroupManager $groupManager,
+		private OrganizationFolderMemberService $organizationFolderMemberService,
+		private ResourceService $resourceService,
 		private OrganizationProviderManager $organizationProviderManager,
 	) {
 	}
@@ -41,7 +44,7 @@ class OrganizationFolderVoter extends Voter {
 			'MANAGE_ALL_RESOURCES' => $this->isOrganizationFolderAdmin($user, $organizationFolder),
 
 			// At least Manager permissions required
-			'READ_LIMITED' => $this->isOrganizationFolderManager($user, $organizationFolder), // FALSE if READ is allowed, as permission is implied
+			'READ_LIMITED' => $this->isOrganizationFolderManagerOrSubResourceManager($user, $organizationFolder), // FALSE if READ is allowed, as permission is implied
 			'CREATE_TOP_LEVEL_RESOURCE' => $this->isOrganizationFolderAdminOrManager($user, $organizationFolder),
 			'MANAGE_TOP_LEVEL_RESOURCES_WITH_INHERITANCE' => $this->isOrganizationFolderManager($user, $organizationFolder), // FALSE if MANAGE_ALL_RESOURCES is allowed, as permission is implied
 			
@@ -115,6 +118,38 @@ class OrganizationFolderVoter extends Voter {
 	 * @param OrganizationFolder $organizationFolder
 	 * @return bool
 	 */
+	private function isOrganizationFolderManagerOrSubResourceManager(IUser $user, OrganizationFolder $organizationFolder): bool {
+		if($this->isOrganizationFolderManager($user, $organizationFolder)) {
+			return true;
+		}
+
+		// TODO: potential performance improvement:
+		// While we cannot fetch a whole subgraph of the resources graph without recursion (so this optimization is not possible if we are only checking a subgraph
+		// like in the resourceVoter READ_LIMITED), we can fetch the whole resources graph of a groupfolder efficiently.
+		// So instead of asking for READ_LIMITED on the top level resources we could fetch all resources of the organization folder here and check them here
+		// as a flat list instead of recursively with fewer queries. We could also use a join to get all members directly with just one query.
+
+		$resources = $this->resourceService->findAll($organizationFolder->getId());
+
+		/**
+		 * @var ResourceVoter
+		 */
+		$resourceVoter = \OC::$server->get(ResourceVoter::class);
+
+		foreach ($resources as $resource) {
+			if($resourceVoter->vote($user, $resource, ["READ_DIRECT", "READ_LIMITED"]) === self::ACCESS_GRANTED) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @param OrganizationFolder $organizationFolder
+	 * @return bool
+	 */
 	private function isOrganizationFolderAdminOrManager(IUser $user, OrganizationFolder $organizationFolder): bool {
 		$organizationFolderMembers = $this->organizationFolderMemberService->findAll($organizationFolder->getId());
 		
@@ -135,24 +170,8 @@ class OrganizationFolderVoter extends Voter {
 	}
 
 	private function userIsPrincipal(IUser $user, Principal $principal): bool {
-		if($principal instanceof GroupPrincipal) {
-			return $this->userIsInGroup($user, $principal->getId());
-		} else if($principal instanceof OrganizationMemberPrincipal) {
-			$organization = $principal->getOrganization();
-			
-			if(isset($organization)) {
-				return $this->userIsInGroup($user, $organization->getMembersGroup());
-			} else {
-				return false;
-			}
-		} else if($principal instanceof OrganizationRolePrincipal) {
-			$role = $principal->getRole();
-
-			if(isset($role)) {
-				return $this->userIsInGroup($user, $role->getMembersGroup());
-			} else {
-				return false;
-			}
+		if($principal instanceof PrincipalBackedByGroup) {
+			return $this->userIsInGroup($user, $principal->getBackingGroup());
 		} else {
 			// user principals are not supported by Organization Folder Members and
 			// a principal object with that type should have never been put into this function

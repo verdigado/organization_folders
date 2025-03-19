@@ -32,6 +32,9 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 			'organizationFolderId' => $this->organizationFolderId,
 			'type' => $this->getType(),
 			'name' => $this->name,
+			'active' => $this->active,
+			'inheritManagers' => $this->inheritManagers,
+			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 		];
 	}
 }

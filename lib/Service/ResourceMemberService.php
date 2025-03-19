@@ -42,8 +42,8 @@ class ResourceMemberService {
 	 */
 	public function findAll(int $resourceId, $filters = []): array {
 		$mapperFilters = [
-            "permissionLevel" => $filters['permissionLevel']?->value ?? null,
-            "principalType" => $filters['principalType']?->value ?? null,
+			"permissionLevel" => $filters['permissionLevel']?->value ?? null,
+			"principalType" => $filters['principalType']?->value ?? null,
         ];
 
 		return $this->mapper->findAll($resourceId, $mapperFilters);

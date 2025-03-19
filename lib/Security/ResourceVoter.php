@@ -8,9 +8,7 @@ use OCP\IGroupManager;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\UserPrincipal;
-use OCA\OrganizationFolders\Model\GroupPrincipal;
-use OCA\OrganizationFolders\Model\OrganizationMemberPrincipal;
-use OCA\OrganizationFolders\Model\OrganizationRolePrincipal;
+use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\ResourceService;
@@ -44,6 +42,7 @@ class ResourceVoter extends Voter {
 		$resource = $subject;
 		return match ($attribute) {
 			'READ' => $this->isGranted( $user, $resource),
+			'READ_DIRECT' => $this->isResourceManagerDirect( $user, $resource),
 			// can read limited information about the resource (true: limited read is allowed, full read may be allowed, false: limited read is not allowed, full read may be allowed (!))
 			'READ_LIMITED' => $this->isGrantedLimitedRead($user, $resource),
 			'UPDATE' => $this->isGranted($user, $resource),
@@ -59,12 +58,18 @@ class ResourceVoter extends Voter {
 	}
 
 	/**
+	 * Return wether user is a manager of the resource DIRECTLY (not through any inheritance from parent resources or the organization folder)
 	 * @param IUser $user
 	 * @param Resource $resource
 	 * @return bool
 	 */
-	private function isResourceManager(IUser $user, Resource $resource, OrganizationFolder $resourceOrganizationFolder): bool {
-		$resourceMembers = $this->resourceMemberService->findAll($resource->getId());
+	private function isResourceManagerDirect(IUser $user, Resource $resource): bool {
+		$resourceMembers = $this->resourceMemberService->findAll(
+			resourceId: $resource->getId(),
+			filters: [
+				"permissionLevel" => ResourceMemberPermissionLevel::MANAGER,
+			],
+		);
 
 		foreach($resourceMembers as $resourceMember) {
 			if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
@@ -74,24 +79,26 @@ class ResourceVoter extends Voter {
 					if($principal->getId() === $user->getUID()) {
 						return true;
 					}
-				} else if($principal instanceof GroupPrincipal) {
-					if($this->userIsInGroup($user, $principal->getId())) {
-						return true;
-					}
-				} else if($principal instanceof OrganizationMemberPrincipal) {
-					$organization = $principal->getOrganization();
-					
-					if(isset($organization) && $this->userIsInGroup($user, $organization->getMembersGroup())) {
-						return true;
-					}
-				} else if($principal instanceof OrganizationRolePrincipal) {
-					$role = $principal->getRole();
-		
-					if(isset($role) && $this->userIsInGroup($user, $role->getMembersGroup())) {
+				} else if($principal instanceof PrincipalBackedByGroup) {
+					if($this->userIsInGroup($user, $principal->getBackingGroup())) {
 						return true;
 					}
 				}
 			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @param Resource $resource
+	 * @param OrganizationFolder $resourceOrganizationFolder
+	 * @return bool
+	 */
+	private function isResourceManager(IUser $user, Resource $resource, OrganizationFolder $resourceOrganizationFolder): bool {
+		if($this->isResourceManagerDirect($user, $resource)) {
+			return true;
 		}
 
 		// inherit manager permissions from level above
@@ -132,7 +139,7 @@ class ResourceVoter extends Voter {
 	}
 
 	protected function isManagerOfAnySubresource(IUser $user, Resource $resource) {
-		if($this->isGranted($user, $resource)) {
+		if($this->isResourceManagerDirect($user, $resource)) {
 			return true;
 		}
 

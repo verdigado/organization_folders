@@ -12,11 +12,13 @@ use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Traits\ApiObjectController;
+use OCA\OrganizationFolders\Errors\AccessDenied;
 
 class ResourceController extends BaseController {
 	use Errors;
 	use ApiObjectController;
 
+	public const PERMISSIONS_INCLUDE = 'permissions';
 	public const MEMBERS_INCLUDE = 'members';
 	public const SUBRESOURCES_INCLUDE = 'subresources';
 
@@ -29,17 +31,33 @@ class ResourceController extends BaseController {
 		parent::__construct();
 	}
 
-	private function getApiObjectFromEntity(Resource $resource, ?string $include): array {
+	private function getApiObjectFromEntity(Resource $resource, bool $limited, ?string $include): array {
 		$includes = $this->parseIncludesString($include);
 
 		$result = [];
 
 		if ($this->shouldInclude(self::MODEL_INCLUDE, $includes)) {
-			$result = $resource->jsonSerialize();
+			if($limited) {
+				$result =  $resource->limitedJsonSerialize();
+			} else {
+				$result = $resource->jsonSerialize();
+			}
 		}
 
-		if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
-			$result["members"] = $this->memberService->findAll($resource->getId());
+		if ($this->shouldInclude(self::PERMISSIONS_INCLUDE, $includes)) {
+			$result["permissions"] = [];
+
+			if($limited) {
+				$result["permissions"]["level"] = "limited";
+			} else {
+				$result["permissions"]["level"] = "full";
+			}
+		}
+
+		if(!$limited) {
+			if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
+				$result["members"] = $this->memberService->findAll($resource->getId());
+			}
 		}
 
 		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
@@ -54,9 +72,15 @@ class ResourceController extends BaseController {
 		return $this->handleNotFound(function () use ($resourceId, $include) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['READ'], $resource);
+			if($this->authorizationService->isGranted(["READ"], $resource)) {
+				$limited = false;
+			} else if($this->authorizationService->isGranted(["READ_LIMITED"], $resource)) {
+				$limited = true;
+			} else {
+				throw new AccessDenied();
+			}
 
-			return $this->getApiObjectFromEntity($resource, $include);
+			return $this->getApiObjectFromEntity($resource, $limited, $include);
 		});
 	}
 
@@ -100,7 +124,7 @@ class ResourceController extends BaseController {
 				inheritedAclPermission: $inheritedAclPermission,
 			);
 
-			return $this->getApiObjectFromEntity($resource, $include);
+			return $this->getApiObjectFromEntity($resource, false, $include);
 		});
 	}
 
@@ -134,7 +158,7 @@ class ResourceController extends BaseController {
 				inheritedAclPermission: $inheritedAclPermission,
 			);
 
-			return $this->getApiObjectFromEntity($resource, $include);
+			return $this->getApiObjectFromEntity($resource, false, $include);
 		});
 	}
 	

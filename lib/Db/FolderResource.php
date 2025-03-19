@@ -54,6 +54,21 @@ class FolderResource extends Resource {
 		];
 	}
 
+	public function limitedJsonSerialize(): array {
+		return [
+			'id' => $this->id,
+			'parentResource' => $this->parentResource,
+			'organizationFolderId' => $this->organizationFolderId,
+			'type' => $this->getType(),
+			'name' => $this->name,
+			'active' => $this->active,
+			'inheritManagers' => $this->inheritManagers,
+			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
+			
+			'fileId' => $this->fileId,
+		];
+	}
+
 	public function tableSerialize(?array $params = null): array {
 		return [
 			'Id' => $this->id,

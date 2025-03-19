@@ -23,6 +23,7 @@ class PropFindPlugin extends ServerPlugin {
 	public const ORGANIZATION_FOLDER_ID_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-id';
 	public const ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-resource-id';
 	public const ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-update-permissions';
+	public const ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-read-limited-permissions';
 	public const ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-resource-user-has-update-permissions';
 
 	public function __construct(
@@ -59,7 +60,9 @@ class PropFindPlugin extends ServerPlugin {
 		 */
 		$resource = null;
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use ($fileInfo, $organizationFolder): ?int {
+		$userHasOrganizationFolderUpdatePermissions = null;
+
+		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use (&$fileInfo, &$organizationFolder): ?int {
 			try {
 				if(!isset($organizationFolder)) {
 					$organizationFolder = $this->getOrganizationFolderFromPath($fileInfo->getPath());
@@ -71,19 +74,38 @@ class PropFindPlugin extends ServerPlugin {
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($fileInfo, $organizationFolder): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$fileInfo, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
 			try {
 				if(!isset($organizationFolder)) {
 					$organizationFolder = $this->getOrganizationFolderFromPath($fileInfo->getPath());
 				}
 
-				return $this->authorizationService->isGranted(["UPDATE"], $organizationFolder) ? 'true' : 'false';
+				$userHasOrganizationFolderUpdatePermissions = $this->authorizationService->isGranted(["UPDATE"], $organizationFolder);
+
+				return $userHasOrganizationFolderUpdatePermissions ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME, function () use ($node, $resource): ?int {
+		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$fileInfo, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
+			try {
+				// use cannot have update permissions and read only permissions at the same time, skip expensive READ_LIMITED check
+				if(isset($userHasOrganizationFolderUpdatePermissions) && $userHasOrganizationFolderUpdatePermissions) {
+					return 'false';
+				}
+
+				if(!isset($organizationFolder)) {
+					$organizationFolder = $this->getOrganizationFolderFromPath($fileInfo->getPath());
+				}
+
+				return $this->authorizationService->isGranted(["READ_LIMITED"], $organizationFolder) ? 'true' : 'false';
+			} catch (\Exception $e) {
+				return null;
+			}
+		});
+
+		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME, function () use ($node, &$resource): ?int {
 			try {
 				if(!isset($resource)) {
 					$resource = $this->resourceService->findByFileId($node->getId());
@@ -95,7 +117,7 @@ class PropFindPlugin extends ServerPlugin {
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, $resource) {
+		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, &$resource) {
 			try {
 				if(!isset($resource)) {
 					$resource = $this->resourceService->findByFileId($node->getId());
