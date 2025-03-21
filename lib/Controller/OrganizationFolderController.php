@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Controller;
 
+use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
 use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
@@ -26,6 +28,7 @@ class OrganizationFolderController extends BaseController {
 		private OrganizationFolderService $service,
 		private OrganizationFolderMemberService $memberService,
 		private ResourceService $resourceService,
+		private PrincipalFactory $principalFactory,
 		private string $userId,
 	) {
 		parent::__construct();
@@ -48,6 +51,11 @@ class OrganizationFolderController extends BaseController {
 			} else {
 				$result = $organizationFolder->jsonSerialize();
 			}
+
+			$result["organizationPrincipal"] = $this->principalFactory->buildOrganizationMemberPrincipal(
+				organizationProviderId: $organizationFolder->getOrganizationProvider(),
+				organizationId: $organizationFolder->getOrganizationId(),
+			);
 		}
 
 		if ($this->shouldInclude(self::PERMISSIONS_INCLUDE, $includes)) {

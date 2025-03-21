@@ -30,7 +30,7 @@ class PrincipalFactory {
 				throw new \Exception("Invalid id format for principal of type organization member");
 			}
 
-			return new OrganizationMemberPrincipal($this->organizationProviderManager, $organizationProviderId, (int)$organizationId);
+			return $this->buildOrganizationMemberPrincipal($organizationProviderId, (int)$organizationId);
 		} else if ($type === PrincipalType::ORGANIZATION_ROLE) {
 			[$organizationProviderId, $roleId] = explode(":", $id, 2);
 
@@ -38,9 +38,17 @@ class PrincipalFactory {
 				throw new \Exception("Invalid id format for principal of type organization role");
 			}
 
-			return new OrganizationRolePrincipal($this->organizationProviderManager, $organizationProviderId, $roleId);
+			return $this->buildOrganizationRolePrincipal($organizationProviderId, $roleId);
 		} else {
 			throw new \Exception("invalid PrincipalType");
 		}
+	}
+
+	public function buildOrganizationMemberPrincipal(string $organizationProviderId, int $organizationId): OrganizationMemberPrincipal {
+		return new OrganizationMemberPrincipal($this->organizationProviderManager, $organizationProviderId, $organizationId);
+	}
+
+	public function buildOrganizationRolePrincipal(string $organizationProviderId, string $roleId): OrganizationRolePrincipal {
+		return new OrganizationRolePrincipal($this->organizationProviderManager, $organizationProviderId, $roleId);
 	}
 }
