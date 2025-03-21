@@ -1,5 +1,5 @@
 <script setup>
-import { NcEmptyContent } from '@nextcloud/vue';
+import NcEmptyContent from "@nextcloud/vue/components/NcEmptyContent";
 
 import MemberListItem from "./MemberListItem.vue";
 

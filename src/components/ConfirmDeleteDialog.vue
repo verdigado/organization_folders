@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from "vue";
-import NcTextField from "@nextcloud/vue/dist/Components/NcTextField.js";
-import NcModal from "@nextcloud/vue/dist/Components/NcModal.js";
+
+import NcTextField from "@nextcloud/vue/components/NcTextField";
+import NcModal from "@nextcloud/vue/components/NcModal";
+
 
 const props = defineProps({
   title: {

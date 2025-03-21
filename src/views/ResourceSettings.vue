@@ -1,8 +1,13 @@
 <script setup>
 import { ref, watch, computed } from "vue";
 import { loadState } from '@nextcloud/initial-state';
-import { NcLoadingIcon, NcCheckboxRadioSwitch, NcButton, NcTextField, NcNoteCard } from '@nextcloud/vue';
 import { useRouter } from 'vue2-helpers/vue-router';
+
+import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
+import NcCheckboxRadioSwitch from "@nextcloud/vue/components/NcCheckboxRadioSwitch";
+import NcButton from "@nextcloud/vue/components/NcButton";
+import NcTextField from "@nextcloud/vue/components/NcTextField";
+import NcNoteCard from "@nextcloud/vue/components/NcNoteCard";
 
 import BackupRestore from "vue-material-design-icons/BackupRestore.vue";
 import Delete from "vue-material-design-icons/Delete.vue";

@@ -1,9 +1,8 @@
 <script setup>
-import { ref, computed, watch, reactive, nextTick } from "vue";
+import NcButton from "@nextcloud/vue/components/NcButton";
+import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
 
-import NcButton from "@nextcloud/vue/dist/Components/NcButton.js";
 import KeyboardBackspace from "vue-material-design-icons/KeyboardBackspace.vue";
-import NcLoadingIcon from "@nextcloud/vue/dist/Components/NcLoadingIcon.js";
 
 const props = defineProps({
   title: {

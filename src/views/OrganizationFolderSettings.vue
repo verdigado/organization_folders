@@ -1,13 +1,22 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import { getCurrentUser } from "@nextcloud/auth";
-import { NcTextField } from '@nextcloud/vue';
-import { useRouter } from 'vue2-helpers/vue-router';
+import { useRouter } from "vue2-helpers/vue-router";
 
+import NcActions from "@nextcloud/vue/components/NcActions";
+import NcActionButton from "@nextcloud/vue/components/NcActionButton";
+import NcTextField from "@nextcloud/vue/components/NcTextField";
+
+import Pencil from "vue-material-design-icons/Pencil.vue";
+
+import Section from "../components/Section.vue";
+import SectionHeader from "../components/SectionHeader.vue";
 import HeaderButtonGroup from "../components/SectionHeaderButtonGroup.vue";
+import Principal from "../components/Principal.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
 import MembersList from "../components/MemberList/MembersList.vue";
+import CreateMemberButton from "../components/CreateMemberButton/CreateMemberButton.vue";
 
 import ModalView from '../ModalView.vue';
 
@@ -111,6 +120,20 @@ const createResource = async (type, name) => {
 	resourceClicked(newResource);
 }
 
+const findGroupMemberOptions = () => {
+	// api route for this does not exist yet
+	return [];
+}
+
+const findUserMemberOptions = () => {
+	// api route for this does not exist yet
+	return [];
+}
+
+const openOrganizationPicker = () => {
+
+};
+
 </script>
 <template>
 	<ModalView
@@ -121,28 +144,58 @@ const createResource = async (type, name) => {
 		:loading="loading"
 		v-slot=""
 		@back-button-pressed="backButtonClicked">
-		<h3>Eigenschaften</h3>
-		<NcTextField :value.sync="currentOrganizationFolderName"
-			:disabled="organizationFolderPermissionsLimited"
-			:error="!organizationFolderNameValid"
-			:label-visible="!organizationFolderNameValid"
-			:label-outside="true"
-			:helper-text="organizationFolderNameValid ? '' : 'Ungültiger Name'"
-			label="Name"
-			:show-trailing-button="currentOrganizationFolderName !== organizationFolder.name"
-			trailing-button-icon="arrowRight"
-			style=" --color-border-maxcontrast: #949494;"
-			@trailing-button-click="saveName"
-			@blur="() => currentOrganizationFolderName = currentOrganizationFolderName.trim()"
-			@keyup.enter="saveName" />
-		<MembersList v-if="!organizationFolderPermissionsLimited"
-			:members="organizationFolder?.members"
-			:organizationProviders="organizationProviders.providers"
-			:enable-user-type="false"
-			:permission-level-options="memberPermissionLevelOptions"
-			@add-member="addMember"
-			@update-member="updateMember"
-			@delete-member="deleteMember"/>
+		<Section>
+			<template #header>
+				<SectionHeader text="Eigenschaften"></SectionHeader>
+			</template>
+			<NcTextField :value.sync="currentOrganizationFolderName"
+				:disabled="organizationFolderPermissionsLimited"
+				:error="!organizationFolderNameValid"
+				:label-visible="!organizationFolderNameValid"
+				:label-outside="true"
+				:helper-text="organizationFolderNameValid ? '' : 'Ungültiger Name'"
+				label="Name"
+				:show-trailing-button="currentOrganizationFolderName !== organizationFolder.name"
+				trailing-button-icon="arrowRight"
+				style=" --color-border-maxcontrast: #949494;"
+				@trailing-button-click="saveName"
+				@blur="() => currentOrganizationFolderName = currentOrganizationFolderName.trim()"
+				@keyup.enter="saveName" />
+		</Section>
+		<Section v-if="!organizationFolderPermissionsLimited">
+			<template #header>
+				<SectionHeader text="Organisation"></SectionHeader>
+			</template>
+			<div style="display: flex; flex-direction: row; align-items: center;">
+				<Principal :principal="organizationFolder?.organizationPrincipal" />
+				<NcActions>
+					<NcActionButton @click="openOrganizationPicker">
+						<template #icon>
+							<Pencil :size="20" />
+						</template>
+						Edit
+					</NcActionButton>
+				</NcActions>
+			</div>
+		</Section>
+		<Section v-if="!organizationFolderPermissionsLimited">
+			<template #header>
+				<HeaderButtonGroup text="Members">
+					<CreateMemberButton :organizationProviders="organizationProviders.providers"
+						:permission-level-options="memberPermissionLevelOptions"
+						:find-group-member-options="findGroupMemberOptions"
+						:find-user-member-options="findUserMemberOptions"
+						@add-member="addMember" />
+				</HeaderButtonGroup>
+			</template>
+			<MembersList :members="organizationFolder?.members"
+				:organizationProviders="organizationProviders.providers"
+				:enable-user-type="false"
+				:permission-level-options="memberPermissionLevelOptions"
+				@add-member="addMember"
+				@update-member="updateMember"
+				@delete-member="deleteMember" />
+		</Section>
 		<HeaderButtonGroup text="Resourcen">
 			<CreateResourceButton @create="createResource" />
 		</HeaderButtonGroup>

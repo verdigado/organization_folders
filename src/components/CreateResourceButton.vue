@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
-import { NcActions, NcActionInput } from '@nextcloud/vue';
+
+import NcActions from "@nextcloud/vue/components/NcActions";
+import NcActionInput from "@nextcloud/vue/components/NcActionInput";
 
 import Folder from "vue-material-design-icons/Folder.vue";
 import Plus from "vue-material-design-icons/Plus.vue";

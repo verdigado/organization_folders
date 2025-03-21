@@ -2,7 +2,7 @@
 import { defineProps, ref } from "vue";
 import { useRouter, useRoute } from 'vue2-helpers/vue-router';
 
-import NcModal from "@nextcloud/vue/dist/Components/NcModal.js";
+import NcModal from "@nextcloud/vue/components/NcModal";
 
 const props = defineProps({
   open: {

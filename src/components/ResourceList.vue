@@ -1,6 +1,9 @@
 <script setup>
 import { computed, ref } from "vue";
-import { NcListItem, NcTextField, NcEmptyContent } from '@nextcloud/vue';
+
+import NcListItem from "@nextcloud/vue/components/NcListItem";
+import NcTextField from "@nextcloud/vue/components/NcTextField";
+import NcEmptyContent from "@nextcloud/vue/components/NcEmptyContent";
 
 import Magnify from "vue-material-design-icons/Magnify.vue";
 import CheckboxBlankCircle from "vue-material-design-icons/CheckboxBlankCircle.vue";

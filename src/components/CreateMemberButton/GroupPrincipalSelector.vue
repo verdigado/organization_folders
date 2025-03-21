@@ -1,15 +1,16 @@
 <template>
 	<NcSelect v-model="selectedGroup"
-		@update:modelValue="onSelection"
 		:options="options"
 		:aria-label-combobox="'Group Select'"
 		label="displayName"
+		style="width: 100%;"
+		@update:modelValue="onSelection"
 		@search="onSearch" />
 </template>
 
 
 <script setup>
-import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js';
+import NcSelect from "@nextcloud/vue/components/NcSelect";
 
 import api from "../../api.js";
 

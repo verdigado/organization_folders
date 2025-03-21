@@ -1,8 +1,10 @@
 <script setup>
 import { ref, inject, watch, computed, nextTick } from "vue";
 import { getCurrentUser } from "@nextcloud/auth";
-import NcButton from "@nextcloud/vue/dist/Components/NcButton.js";
-import NcLoadingIcon from "@nextcloud/vue/dist/Components/NcLoadingIcon.js";
+
+import NcButton from "@nextcloud/vue/components/NcButton";
+import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
+
 import FolderCog from "vue-material-design-icons/FolderCog.vue";
 
 import router from "./router.js";

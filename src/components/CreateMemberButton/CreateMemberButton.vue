@@ -1,5 +1,8 @@
 <script setup>
-import { NcActions, NcActionButton, NcDialog, NcButton } from '@nextcloud/vue';
+import NcActions from "@nextcloud/vue/components/NcActions";
+import NcActionButton from "@nextcloud/vue/components/NcActionButton";
+import NcDialog from "@nextcloud/vue/components/NcDialog";
+import NcButton from "@nextcloud/vue/components/NcButton";
 
 import UserPrincipalSelector from "./UserPrincipalSelector.vue";
 import GroupPrincipalSelector from "./GroupPrincipalSelector.vue";
@@ -123,7 +126,7 @@ const dialogUpdate = (open) => {
 				icon="icon-group"
 				close-after-click
 				@click="selectNewMemberType('ORGANIZATION_MEMBER_OR_ROLE', { organizationProvider })">
-				{{ organizationProvider }} Organisation Mitglied oder Rolleninhaber*innen hinzufügen
+				{{ organizationProvider }} Organisation Mitglieder oder Rolleninhaber*innen hinzufügen
 			</NcActionButton>
 		</NcActions>
 		<NcDialog :open="dialogOpen"
@@ -133,7 +136,7 @@ const dialogUpdate = (open) => {
 			dialogClasses="create-member-dialog"
 			contentClasses="create-member-content"
 			@update:open="dialogUpdate">
-			<div style="margin: 20px; width: max-content;">
+			<div style="margin: 20px; width: max-content; min-width: 500px;">
 				<UserPrincipalSelector v-if="newMemberType === 'USER'"
 					:find-user-member-options="findUserMemberOptions"
 					@selected="selected" />

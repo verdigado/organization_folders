@@ -1,7 +1,9 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import { useRouter } from 'vue2-helpers/vue-router';
-import { NcListItem, NcEmptyContent } from '@nextcloud/vue';
+
+import NcListItem from "@nextcloud/vue/components/NcListItem";
+import NcEmptyContent from "@nextcloud/vue/components/NcEmptyContent";
 
 import Folder from "vue-material-design-icons/Folder.vue";
 import FolderOff from "vue-material-design-icons/FolderOff.vue";

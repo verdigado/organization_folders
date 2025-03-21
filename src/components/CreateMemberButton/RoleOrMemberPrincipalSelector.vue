@@ -17,9 +17,11 @@
 </template>
 
 <script>
-import NcButton from "@nextcloud/vue/dist/Components/NcButton.js"
+import NcButton from "@nextcloud/vue/components/NcButton";
+
 import Plus from "vue-material-design-icons/Plus.vue"
 import SubdirectoryArrowRight from "vue-material-design-icons/SubdirectoryArrowRight.vue"
+
 import api from "../../api.js"
 
 export default {
@@ -33,6 +35,14 @@ export default {
 		type: String,
 		required: true,
 	},
+	enableMembers: {
+		type: Boolean,
+		default: true,
+	},
+	enableRoles: {
+		type: Boolean,
+		default: true,
+	}
   },
   data() {
 	return {
@@ -64,22 +74,30 @@ export default {
 		
 		let roles = [];
 		if(parentId) {
-			roles = await api.getRoles(this.organizationProvider, parentId);
+			if(this.enableRoles) {
+				roles = await api.getRoles(this.organizationProvider, parentId);
+			}
 
-			results.push({
-				type: "organization_member",
-				id: parentId,
-				friendlyName: "Mitglieder",
-			});
+			if(this.enableMembers) {
+				results.push({
+					type: "organization_member",
+					id: parentId,
+					friendlyName: "Mitglieder",
+				});
+			}
 		}
 
 		if(subOrganizations.length > 0) {
+			if(results.length > 0) {
+				results.push(
+					{
+						type: "seperator",
+						friendlyName: "──────────",
+						disabled: true,
+					},
+				);
+			}
 			results.push(
-				{
-					type: "seperator",
-					friendlyName: "──────────",
-					disabled: true,
-				},
 				...subOrganizations.map((subOrganization) => {
 					return {
 						type: "organization",
@@ -98,12 +116,16 @@ export default {
 		}
 
 		if(roles.length > 0) {
+			if(results.length > 0) {
+				results.push(
+					{
+						type: "seperator",
+						friendlyName: "──────────",
+						disabled: true,
+					},
+				);
+			}
 			results.push(
-				{
-					type: "seperator",
-					friendlyName: "──────────",
-					disabled: true,
-				},
 				...roles.map((role) => {
 					return {
 						type: "organization_role",
