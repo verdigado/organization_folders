@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Organization Folders" : "Pastas da Organização",
+    "Managed group folders for your organization" : "Pastas de grupo gerenciadas para sua organização",
     "Read" : "Ler",
     "Write" : "Escrever",
     "Create" : "Criar",
