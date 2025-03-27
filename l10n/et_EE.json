@@ -2,6 +2,7 @@
     "Read" : "Lugemine",
     "Write" : "Kirjuta",
     "Create" : "Lisa",
-    "Delete" : "Kustuta"
+    "Delete" : "Kustuta",
+    "Share" : "Jaga"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
