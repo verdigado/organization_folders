@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-const specialChars = /[`!@#$%^()+=\[\]{};'"\\|,.<>\/?~]/
+const specialChars = /[`!@#$%^*+=\[\]{};'"\\|<>\/?~]/
 
 /**
  *
