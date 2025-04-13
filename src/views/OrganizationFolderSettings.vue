@@ -183,16 +183,14 @@ const openOrganizationPicker = () => {
 				<HeaderButtonGroup text="Members">
 					<CreateMemberButton :organizationProviders="organizationProviders.providers"
 						:permission-level-options="memberPermissionLevelOptions"
+                        :enable-user-type="false"
 						:find-group-member-options="findGroupMemberOptions"
 						:find-user-member-options="findUserMemberOptions"
 						@add-member="addMember" />
 				</HeaderButtonGroup>
 			</template>
 			<MembersList :members="organizationFolder?.members"
-				:organizationProviders="organizationProviders.providers"
-				:enable-user-type="false"
 				:permission-level-options="memberPermissionLevelOptions"
-				@add-member="addMember"
 				@update-member="updateMember"
 				@delete-member="deleteMember" />
 		</Section>

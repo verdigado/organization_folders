@@ -52,6 +52,10 @@ var ResourceMemberPermissionLevels = {
 }
 
 /**
+ * @typedef {{
+ * id: string
+ * friendlyName: string
+ * }} OrganizationProvider
  * 
  * @typedef {{
  * id: number
@@ -326,7 +330,7 @@ export default {
 	/* Organization Providers / Organizations / Organization Roles */
 
 	/**
-	 * @return {Promise<Array<string>>}
+	 * @return {Promise<Array<OrganizationProvider>>}
 	 */
 	getOrganizationProviders() {
 		return axios.get(`/organizationProviders`, {}).then((res) => res.data);

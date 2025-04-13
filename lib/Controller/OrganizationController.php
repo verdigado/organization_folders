@@ -21,7 +21,18 @@ class OrganizationController extends BaseController {
 	#[NoAdminRequired]
 	public function getOrganizationProviders(): JSONResponse {
 		return $this->handleErrors(function () {
-			return array_keys($this->oganizationProviderManager->getOrganizationProviders());
+            $result = [];
+
+            $organizationProviders = $this->oganizationProviderManager->getOrganizationProviders();
+
+            foreach($organizationProviders as $organizationProvider) {
+                $result[] = [
+                    "id" => $organizationProvider->getId(),
+                    "friendlyName" => $organizationProvider->getFriendlyName(),
+                ];
+            }
+
+            return $result;
 		});
 	}
 

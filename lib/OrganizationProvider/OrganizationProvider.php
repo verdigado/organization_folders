@@ -17,6 +17,10 @@ abstract class OrganizationProvider {
 		return $this->id;
 	}
 
+    public function getFriendlyName(): string {
+		return $this->getId();
+	}
+
 	/**
 	 * Get specific organization by its id (unique within OrganizationProvider)
 	 * @return Organization

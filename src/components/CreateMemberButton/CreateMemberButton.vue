@@ -122,11 +122,11 @@ const dialogUpdate = (open) => {
 				Gruppe hinzufügen
 			</NcActionButton>
 			<NcActionButton v-for="organizationProvider of (props.enableGroupType ? organizationProviders : [])"
-				:key="organizationProvider"
+				:key="organizationProvider.id"
 				icon="icon-group"
 				close-after-click
-				@click="selectNewMemberType('ORGANIZATION_MEMBER_OR_ROLE', { organizationProvider })">
-				{{ organizationProvider }} Organisation Mitglieder oder Rolleninhaber*innen hinzufügen
+				@click="selectNewMemberType('ORGANIZATION_MEMBER_OR_ROLE', { organizationProvider: organizationProvider.id })">
+				{{ organizationProvider.friendlyName }} Organisation Mitglieder oder Rolleninhaber*innen hinzufügen
 			</NcActionButton>
 		</NcActions>
 		<NcDialog :open="dialogOpen"
