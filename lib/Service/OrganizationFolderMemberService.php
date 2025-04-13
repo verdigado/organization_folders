@@ -10,11 +10,14 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
 use OCA\OrganizationFolders\Errors\OrganizationFolderMemberNotFound;
+use OCA\OrganizationFolders\Errors\PrincipalAlreadyOrganizationFolderMember;
+use OCA\OrganizationFolders\Errors\PrincipalInvalid;
 
 use OCA\OrganizationFolders\Db\OrganizationFolderMember;
 use OCA\OrganizationFolders\Db\OrganizationFolderMemberMapper;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
+use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\Principal;
 
 class OrganizationFolderMemberService {
@@ -66,11 +69,21 @@ class OrganizationFolderMemberService {
 	}
 
 	public function create(
-		int $organizationFolderId,
+		OrganizationFolder $organizationFolder,
 		OrganizationFolderMemberPermissionLevel $permissionLevel,
 		Principal $principal,
 	): OrganizationFolderMember {
-		$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+        if(!$principal->isValid()) {
+            throw new PrincipalInvalid($principal);
+        }
+
+        if($this->mapper->exists(
+            organizationFolderId: $organizationFolder->getId(),
+            principalType: $principal->getType()->value,
+            principalId: $principal->getId()
+        )) {
+			throw new PrincipalAlreadyOrganizationFolderMember($principal, $organizationFolder);
+		}
 
 		$member = new OrganizationFolderMember();
 
@@ -98,6 +111,10 @@ class OrganizationFolderMemberService {
             }
 
             if(isset($principal)) {
+                if(!$principal->isValid()) {
+                    throw new PrincipalInvalid($principal);
+                }
+                
 				$member->setPrincipal($principal);
             }
 			

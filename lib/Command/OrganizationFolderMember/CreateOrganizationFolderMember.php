@@ -31,11 +31,12 @@ class CreateOrganizationFolderMember extends BaseCommand {
 		$principalType = PrincipalType::fromNameOrValue($input->getOption('principal-type'));
 		$principalId = $input->getOption('principal-id');
 
+        $organizationFolder = $this->organizationFolderService->find($organizationFolderId);
 		$principal = $this->principalFactory->buildPrincipal($principalType, $principalId);
 
 		try {
 			$member = $this->organizationFolderMemberService->create(
-				organizationFolderId: $organizationFolderId,
+				organizationFolder: $organizationFolder,
 				permissionLevel: $permissionLevel,
 				principal: $principal,
 			);

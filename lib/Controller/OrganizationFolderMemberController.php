@@ -51,7 +51,7 @@ class OrganizationFolderMemberController extends BaseController {
 			$principal = $this->principalFactory->buildPrincipal(PrincipalType::fromNameOrValue($principalType), $principalId);
 
 			$organizationFolderMember = $this->service->create(
-				organizationFolderId: $organizationFolderId,
+				organizationFolder: $organizationFolder,
 				permissionLevel: OrganizationFolderMemberPermissionLevel::fromNameOrValue($permissionLevel),
 				principal: $principal,
 			);
