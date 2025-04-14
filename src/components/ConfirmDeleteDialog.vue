@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 import NcTextField from "@nextcloud/vue/components/NcTextField";
 import NcModal from "@nextcloud/vue/components/NcModal";
 
+import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 const props = defineProps({
   title: {
@@ -31,6 +32,24 @@ const closeDialog = () => {
   open.value = false;
 }
 
+const confirmExplanation = computed(() => {
+    return t(
+        "organization_folders",
+        'Type "{markupStart}{text}{markupEnd}" to confirm.',
+        {
+            markupStart: {
+                value: '<span style="user-select: all;">',
+                escape: false,
+            },
+            text: props.matchText,
+            markupEnd: {
+                value: '</span>',
+                escape: false,
+            },
+        }
+    );
+});
+
 </script>
 
 <template>
@@ -54,16 +73,12 @@ const closeDialog = () => {
 				</div>
 				<div>
 					<slot name="content" />
-					<p>
-						Gib hier als Bestätigung "<span style="user-select: all;">{{ props.matchText }}</span>" ein.
-					</p>
+                    <p v-html="confirmExplanation" />
 					<NcTextField class="confirmText"
 						:value.sync="confirmText"
 						style=" --color-border-maxcontrast: #949494;" />
 					<slot name="delete-button" :close="closeDialog" :disabled="confirmText !== props.matchText">
-						<button type="button">
-							Löschen
-						</button>
+						<button type="button">{{ t("organization_folders", "Delete") }}</button>
 					</slot>
 				</div>
 			</div>
