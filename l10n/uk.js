@@ -2,9 +2,9 @@ OC.L10N.register(
     "organization_folders",
     {
     "Read" : "Читати",
-    "Write" : "Запис",
-    "Create" : "Створити",
-    "Delete" : "Вилучити",
+    "Write" : "Редагувати",
+    "Create" : "Створювати",
+    "Delete" : "Вилучати",
     "Share" : "Спільний доступ",
     "Denied (Inherited permission)" : "Відмовлено (успадкований дозвіл)",
     "Allowed (Inherited permission)" : "Дозволено (успадкований дозвіл) ",
