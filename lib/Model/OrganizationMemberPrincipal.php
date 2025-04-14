@@ -57,6 +57,8 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 		if($this->valid) {
 			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
 
+            $organization = null;
+
 			while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
 				$result[] = $organization->getFriendlyName();
 			}
