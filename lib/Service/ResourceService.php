@@ -12,9 +12,6 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use \OCP\Files\Folder;
 
-use OCA\GroupFolders\ACL\UserMapping\UserMappingManager;
-use OCA\GroupFolders\ACL\Rule;
-
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
@@ -36,7 +33,6 @@ class ResourceService {
 		protected ResourceMapper $mapper,
 		protected PathManager $pathManager,
 		protected ACLManager $aclManager,
-		protected UserMappingManager $userMappingManager,
 		protected OrganizationProviderManager $organizationProviderManager,
 		protected OrganizationFolderService $organizationFolderService,
 		protected ContainerInterface $container,

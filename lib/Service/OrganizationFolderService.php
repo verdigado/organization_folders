@@ -11,7 +11,7 @@ use OCP\IDBConnection;
 
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupfolderTags\Service\TagService;
-use OCA\GroupFolders\ACL\UserMapping\UserMappingManager;
+use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 use OCA\GroupFolders\ACL\Rule;
 
 use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
@@ -27,7 +27,6 @@ class OrganizationFolderService {
 	public function __construct(
 		protected IDBConnection $db,
 		protected FolderManager $folderManager,
-		protected UserMappingManager $userMappingManager,
 		protected TagService $tagService,
 		protected OrganizationProviderManager $organizationProviderManager,
 		protected PathManager $pathManager,
@@ -224,7 +223,7 @@ class OrganizationFolderService {
 		$acls = [];
 		foreach($groups as $group) {
 			$acls[] = new Rule(
-				userMapping: $this->userMappingManager->mappingFromId("group", $group),
+				userMapping: new UserMapping(type: "group", id: $group, displayName: null),
 				fileId: $fileId,
 				mask: 31,
 				permissions: 1,

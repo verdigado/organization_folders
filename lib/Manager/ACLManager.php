@@ -62,7 +62,7 @@ class ACLManager {
 				return null;
 			}
 		} else {
-			throw new \Exception("invalid resource member type");
+			throw new \Exception("invalid principal type");
 		}
 	}
 
