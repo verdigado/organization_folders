@@ -1,10 +1,10 @@
 <script setup>
+import HelpCircle from "vue-material-design-icons/HelpCircle.vue";
+import AccountOff from "vue-material-design-icons/AccountOff.vue";
+
 import NcEmptyContent from "@nextcloud/vue/components/NcEmptyContent";
 
 import MemberListItem from "./MemberListItem.vue";
-
-import HelpCircle from "vue-material-design-icons/HelpCircle.vue";
-import AccountOff from "vue-material-design-icons/AccountOff.vue";
 
 const props = defineProps({
 	members: {
@@ -15,6 +15,10 @@ const props = defineProps({
 		type: Array,
 		required: true,
 	},
+	permissionLevelExplanation: {
+		type: String,
+		default: "",
+	}
 });
 
 const emit = defineEmits(["update-member", "delete-member"]);
@@ -39,7 +43,7 @@ const deleteMember = (memberId) => {
 					<th>
 						<div style="display: flex; align-items: center;">
 							<span>Typ</span>
-							<HelpCircle v-tooltip="'Für Manager gelten die oben ausgewählten Ordnermanager Berechtigungen, für Mitglieder die Ordnermitglieder Berechtigungen. Manager haben auf diese Einstellungen Zugriff.'" style="margin-left: 5px;" :size="15" />
+							<HelpCircle v-if="props.permissionLevelExplanation" v-tooltip="props.permissionLevelExplanation" style="margin-left: 5px;" :size="15" />
 						</div>
 					</th>
 					<th>Aktion</th>

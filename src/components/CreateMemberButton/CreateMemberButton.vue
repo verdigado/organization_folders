@@ -57,13 +57,11 @@ const currentSelectedPrincipalId = ref(null);
 
 const title = computed(() => {
 	if(newMemberType.value === 'USER') {
-		return "Add User";
+		return t("organization_folders", "Select an account");
 	} else if (newMemberType.value === 'GROUP') {
-		return "Add Group";
-	} else if (newMemberType.value === 'GROUP') {
-		return "Add Group";
+		return t("organization_folders", "Select a group");
 	} else if (newMemberType.value === 'ORGANIZATION_MEMBER_OR_ROLE') {
-		return "Add organization member or role";
+		return t("organization_folders", "Select an organization role");
 	}
 	return "";
 });
@@ -116,17 +114,24 @@ const dialogUpdate = (open) => {
 				<Plus :size="20" />
 			</template>
 			<NcActionButton icon="icon-user" close-after-click v-if="props.enableUserType" @click="selectNewMemberType('USER')">
-				Benutzer hinzufügen
+				{{ t("organization_folders", "Add account") }}
 			</NcActionButton>
 			<NcActionButton icon="icon-group" close-after-click v-if="props.enableGroupType" @click="selectNewMemberType('GROUP')">
-				Gruppe hinzufügen
+				{{ t("organization_folders", "Add group") }}
 			</NcActionButton>
 			<NcActionButton v-for="organizationProvider of (props.enableGroupType ? organizationProviders : [])"
 				:key="organizationProvider.id"
 				icon="icon-group"
 				close-after-click
 				@click="selectNewMemberType('ORGANIZATION_MEMBER_OR_ROLE', { organizationProvider: organizationProvider.id })">
-				{{ organizationProvider.friendlyName }} Organisation Mitglieder oder Rolleninhaber*innen hinzufügen
+				{{ t(
+						"organization_folders",
+						"Add {organizationProvider} organization members or role",
+						{
+							organizationProvider: organizationProvider.friendlyName,
+						}
+					)
+				}}
 			</NcActionButton>
 		</NcActions>
 		<NcDialog :open="dialogOpen"

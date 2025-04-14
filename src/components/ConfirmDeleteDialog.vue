@@ -1,23 +1,23 @@
 <script setup>
 import { ref, computed } from "vue";
+import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 import NcTextField from "@nextcloud/vue/components/NcTextField";
 import NcModal from "@nextcloud/vue/components/NcModal";
 
-import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 const props = defineProps({
   title: {
-    type: String,
-    default: "Löschen",
+	type: String,
+	default: "Löschen",
   },
   loading: {
-    type: Boolean,
-    default: false,
+	type: Boolean,
+	default: false,
   },
   matchText: {
-    type: String,
-    default: "löschen",
+	type: String,
+	default: "löschen",
   },
 });
 
@@ -33,21 +33,21 @@ const closeDialog = () => {
 }
 
 const confirmExplanation = computed(() => {
-    return t(
-        "organization_folders",
-        'Type "{markupStart}{text}{markupEnd}" to confirm.',
-        {
-            markupStart: {
-                value: '<span style="user-select: all;">',
-                escape: false,
-            },
-            text: props.matchText,
-            markupEnd: {
-                value: '</span>',
-                escape: false,
-            },
-        }
-    );
+	return t(
+		"organization_folders",
+		'Type "{markupStart}{text}{markupEnd}" to confirm.',
+		{
+			markupStart: {
+				value: '<span style="user-select: all;">',
+				escape: false,
+			},
+			text: props.matchText,
+			markupEnd: {
+				value: '</span>',
+				escape: false,
+			},
+		}
+	);
 });
 
 </script>
@@ -73,7 +73,7 @@ const confirmExplanation = computed(() => {
 				</div>
 				<div>
 					<slot name="content" />
-                    <p v-html="confirmExplanation" />
+					<p v-html="confirmExplanation" />
 					<NcTextField class="confirmText"
 						:value.sync="confirmText"
 						style=" --color-border-maxcontrast: #949494;" />

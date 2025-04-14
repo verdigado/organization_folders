@@ -2,6 +2,7 @@
 import { ref, computed, watch } from "vue";
 import { getCurrentUser } from "@nextcloud/auth";
 import { useRouter } from "vue2-helpers/vue-router";
+import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 import NcActions from "@nextcloud/vue/components/NcActions";
 import NcActionButton from "@nextcloud/vue/components/NcActionButton";
@@ -134,6 +135,13 @@ const openOrganizationPicker = () => {
 
 };
 
+const permissionLevelExplanation = t(
+	"organization_folders",
+	"Managers have access to the settings of top-level resources with manager inheritance enabled. Admins have access to the settings of all resources, regardless of their inheritance setting.",
+	{},
+	{ escape: false }
+);
+
 </script>
 <template>
 	<ModalView
@@ -191,6 +199,7 @@ const openOrganizationPicker = () => {
 			</template>
 			<MembersList :members="organizationFolder?.members"
 				:permission-level-options="memberPermissionLevelOptions"
+				:permission-level-explanation="permissionLevelExplanation"
 				@update-member="updateMember"
 				@delete-member="deleteMember" />
 		</Section>

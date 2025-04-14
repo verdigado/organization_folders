@@ -2,6 +2,7 @@
 import { ref, watch, computed } from "vue";
 import { loadState } from '@nextcloud/initial-state';
 import { useRouter } from 'vue2-helpers/vue-router';
+import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
 import NcCheckboxRadioSwitch from "@nextcloud/vue/components/NcCheckboxRadioSwitch";
@@ -158,6 +159,22 @@ const findUserMemberOptions = (search) => {
 	return api.findUserResourceMemberOptions(resource.value.id, search);
 };
 
+const title = computed(() =>{
+	if(resource.value?.type === api.ResourceTypes.FOLDER) {
+		return t("organization_folders", "Folder Settings");
+	} else {
+		return t("organization_folders", "Settings");
+	}
+});
+
+const permissionLevelExplanation = computed(() => {
+	if(resource.value?.type === api.ResourceTypes.FOLDER) {
+		return t("organization_folders", "Managers have access to the settings of this folder");
+	} else {
+		return "";
+	}
+});
+
 </script>
 
 <template>
@@ -165,7 +182,7 @@ const findUserMemberOptions = (search) => {
 		:has-back-button="true"
 		:has-next-step-button="false"
 		:has-last-step-button="false"
-		:title="resource?.type === api.ResourceTypes.FOLDER ? 'Folder Settings' : 'Settings'"
+		:title="title"
 		:loading="loading"
 		v-slot=""
 		@back-button-pressed="backButtonClicked">
@@ -218,6 +235,7 @@ const findUserMemberOptions = (search) => {
 			</template>
 			<MembersList :members="resource?.members"
 				:permission-level-options="memberPermissionLevelOptions"
+				:permission-level-explanation="permissionLevelExplanation"
 				@update-member="updateMember"
 				@delete-member="deleteMember" />
 		</Section>

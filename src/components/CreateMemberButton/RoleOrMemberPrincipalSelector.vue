@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { translate as t, translatePlural as n } from "@nextcloud/l10n";
+
 import NcButton from "@nextcloud/vue/components/NcButton";
 
 import Plus from "vue-material-design-icons/Plus.vue"
@@ -82,7 +84,7 @@ export default {
 				results.push({
 					type: "organization_member",
 					id: parentId,
-					friendlyName: "Mitglieder",
+					friendlyName: t("organization_folders", "Members"),
 				});
 			}
 		}

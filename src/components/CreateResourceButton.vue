@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 import NcActions from "@nextcloud/vue/components/NcActions";
 import NcActionInput from "@nextcloud/vue/components/NcActionInput";
@@ -31,12 +32,12 @@ const onSubmit = () => {
         </template>
         <NcActionInput v-model="newFolderResourceName"
 			:show-trailing-button="validResourceName(newFolderResourceName)"
-			label="Ordner erstellen"
+			:label="t('organization_folders', 'Create folder')"
 			@submit="onSubmit">
             <template #icon>
                 <Folder :size="20" />
             </template>
-            Ordner Name
+            {{  t('organization_folders', 'Folder name') }}
         </NcActionInput>
     </NcActions>
 </template>

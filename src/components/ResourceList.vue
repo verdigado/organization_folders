@@ -34,7 +34,7 @@ const filteredResources = computed(() => props.resources.filter((g) => g.name.to
 	<div>
         <NcTextField v-if="props.enableSearch"
             :value.sync="search"
-			label="Suche..."
+			:label="t('organization_folders', 'Search')"
 			class="search-input"
 			trailing-button-icon="close"
 			:show-trailing-button="search !== ''"
