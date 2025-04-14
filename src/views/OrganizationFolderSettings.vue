@@ -112,7 +112,7 @@ const createResource = async (type, name) => {
 
 		membersAclPermission: 0,
 		managersAclPermission: 31,
-		inheritedAclPermission: 1,
+		inheritedAclPermission: 0,
 	});
 
 	organizationFolder.value?.resources.push(newResource);
