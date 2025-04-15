@@ -7,26 +7,26 @@ import Principal from "../Principal.vue";
 import PrincipalAvatar from "../PrincipalAvatar.vue";
 
 const props = defineProps({
-  member: {
-    type: Object,
-    required: true,
-  },
-  permissionLevelOptions: {
-	type: Array,
-    required: true,
-  },
+	member: {
+		type: Object,
+		required: true,
+	},
+	permissionLevelOptions: {
+		type: Array,
+		required: true,
+	},
 });
 
 const emit = defineEmits(["update", "delete"]);
 
 const onPermissionLevelSelected = (e) => {
-  emit("update", props.member.id, {
-    permissionLevel: parseInt(e.target.value, 10),
-  });
+	emit("update", props.member.id, {
+		permissionLevel: parseInt(e.target.value, 10),
+	});
 };
 
 const onDeleteClicked = (e) => {
-  emit("delete", props.member.id);
+	emit("delete", props.member.id);
 };
 </script>
 

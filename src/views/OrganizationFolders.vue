@@ -37,10 +37,10 @@ const organizationFolderClicked = (organizationFolder) => {
 		:has-back-button="false"
 		:has-next-step-button="false"
 		:has-last-step-button="false"
-		:title="'Organization Folder Admin Settings'"
+		:title="t('organization_folders', 'Organization Folders Admin Settings')"
 		:loading="loading"
 		v-slot="">
-        <NcEmptyContent v-if="organizationFolders.length === 0" name="Keine Organization Folder vorhanden">
+        <NcEmptyContent v-if="organizationFolders.length === 0" :name="t('organization_folders', 'No organization folders yet')">
             <template #icon>
                 <FolderOff />
             </template>

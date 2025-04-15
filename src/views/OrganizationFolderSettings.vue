@@ -43,9 +43,12 @@ const currentOrganizationFolderName = ref(false);
 const userIsAdmin = ref(getCurrentUser().isAdmin);
 
 const memberPermissionLevelOptions = [
-  { label: "Mitglied", value: 1 },
-  { label: "Manager", value: 2 },
-  { label: "Admin", value: 3 },
+  // TRANSLATORS This a permission level of members of organization folders and resources
+  { label: t("organization_folders", "Member"), value: 1 },
+  // TRANSLATORS This a permission level of members of organization folders and resources
+  { label: t("organization_folders", "Manager"), value: 2 },
+  // TRANSLATORS This a permission level of members of organization folders, this is not about nextcloud system administrators
+  { label: t("organization_folders", "Admin"), value: 3 },
 ];
 
 const neededOrganizationFolderIncludes = "model+permissions+members+resources";
@@ -148,21 +151,21 @@ const permissionLevelExplanation = t(
 		:has-back-button="userIsAdmin"
 		:has-next-step-button="false"
 		:has-last-step-button="false"
-		:title="'Organization Folder Settings'"
+		:title="t('organization_folders', 'Organization Folder Settings')"
 		:loading="loading"
 		v-slot=""
 		@back-button-pressed="backButtonClicked">
 		<Section>
 			<template #header>
-				<SectionHeader text="Eigenschaften"></SectionHeader>
+				<SectionHeader :text="t('organization_folders', 'Settings')"></SectionHeader>
 			</template>
 			<NcTextField :value.sync="currentOrganizationFolderName"
 				:disabled="organizationFolderPermissionsLimited"
 				:error="!organizationFolderNameValid"
 				:label-visible="!organizationFolderNameValid"
 				:label-outside="true"
-				:helper-text="organizationFolderNameValid ? '' : 'Ungültiger Name'"
-				label="Name"
+				:helper-text="organizationFolderNameValid ? '' : t('organization_folders', 'Invalid name')"
+				:label="t('organization_folders', 'Name')"
 				:show-trailing-button="currentOrganizationFolderName !== organizationFolder.name"
 				trailing-button-icon="arrowRight"
 				style=" --color-border-maxcontrast: #949494;"
@@ -172,7 +175,7 @@ const permissionLevelExplanation = t(
 		</Section>
 		<Section v-if="!organizationFolderPermissionsLimited">
 			<template #header>
-				<SectionHeader text="Organisation"></SectionHeader>
+				<SectionHeader :text="t('organization_folders', 'Organization')"></SectionHeader>
 			</template>
 			<div style="display: flex; flex-direction: row; align-items: center;">
 				<Principal :principal="organizationFolder?.organizationPrincipal" />
@@ -181,14 +184,14 @@ const permissionLevelExplanation = t(
 						<template #icon>
 							<Pencil :size="20" />
 						</template>
-						Edit
+						{{ t("organization_folders", "Edit") }}
 					</NcActionButton>
 				</NcActions>
 			</div>
 		</Section>
 		<Section v-if="!organizationFolderPermissionsLimited">
 			<template #header>
-				<HeaderButtonGroup text="Members">
+				<HeaderButtonGroup :text="t('organization_folders', 'Members')">
 					<CreateMemberButton :organizationProviders="organizationProviders.providers"
 						:permission-level-options="memberPermissionLevelOptions"
                         :enable-user-type="false"
@@ -203,7 +206,7 @@ const permissionLevelExplanation = t(
 				@update-member="updateMember"
 				@delete-member="deleteMember" />
 		</Section>
-		<HeaderButtonGroup text="Resourcen">
+		<HeaderButtonGroup :text="t('organization_folders', 'Resources')">
 			<CreateResourceButton @create="createResource" />
 		</HeaderButtonGroup>
 		<ResourceList :resources="organizationFolder?.resources" :enable-search="true" @click:resource="resourceClicked" />

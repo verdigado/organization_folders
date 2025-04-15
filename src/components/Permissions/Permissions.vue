@@ -15,19 +15,20 @@ const permissionGroups = computed(() => {
   return [
 	{
 	  field: "managersAclPermission",
-	  label: "Manager*innen",
+	  label: t("organization_folders", "Managers"),
 	  value: props.resource.managersAclPermission,
 	  mask: 31,
 	},
 	{
 	  field: "membersAclPermission",
-	  label: "Mitglieder",
+	  label: t("organization_folders", "Members"),
+	  explanation: t("organization_folders", "These permissions apply to any member added in the next section with the member permission level"),
 	  value: props.resource.membersAclPermission,
 	  mask: 31,
 	},
 	{
 	  field: "inheritedAclPermission",
-	  label: "Vererbte Berechtigungen",
+	  label: t("organization_folders", "Inherited Permissions"),
 	  value: props.resource.inheritedAclPermission,
 	  mask: 31,
 	},
@@ -45,20 +46,25 @@ const permissionUpdated = async (field, value) => {
 		<thead>
 			<tr>
 				<th />
-				<th v-tooltip="t('groupfolders', 'Read')" class="state-column">
-					{{ t('groupfolders', 'Read') }}
+				<!-- TRANSLATORS Folder read permissions checkbox title -->
+				<th v-tooltip="t('organization_folders', 'Read')" class="state-column">
+					{{ t("organization_folders", "Read") }}
 				</th>
-				<th v-tooltip="t('groupfolders', 'Write')" class="state-column">
-					{{ t('groupfolders', 'Write') }}
+				<!-- TRANSLATORS Folder write permissions checkbox title -->
+				<th v-tooltip="t('organization_folders', 'Write')" class="state-column">
+					{{ t("organization_folders", "Write") }}
 				</th>
-				<th v-tooltip="t('groupfolders', 'Create')" class="state-column">
-					{{ t('groupfolders', 'Create') }}
+				<!-- TRANSLATORS Folder create permissions checkbox title -->
+				<th v-tooltip="t('organization_folders', 'Create')" class="state-column">
+					{{ t("organization_folders", "Create") }}
 				</th>
-				<th v-tooltip="t('groupfolders', 'Delete')" class="state-column">
-					{{ t('groupfolders', 'Delete') }}
+				<!-- TRANSLATORS Folder delete permissions checkbox title -->
+				<th v-tooltip="t('organization_folders', 'Delete')" class="state-column">
+					{{ t("organization_folders", "Delete") }}
 				</th>
-				<th v-tooltip="t('groupfolders', 'Share')" class="state-column">
-					{{ t('groupfolders', 'Share') }}
+				<!-- TRANSLATORS Folder share permissions checkbox title -->
+				<th v-tooltip="t('organization_folders', 'Share')" class="state-column">
+					{{ t("organization_folders", "Share") }}
 				</th>
 			</tr>
 		</thead>

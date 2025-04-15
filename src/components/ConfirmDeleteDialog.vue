@@ -9,7 +9,7 @@ import NcModal from "@nextcloud/vue/components/NcModal";
 const props = defineProps({
   title: {
 	type: String,
-	default: "Löschen",
+	default: t("organization_folders", "Delete"),
   },
   loading: {
 	type: Boolean,
@@ -17,7 +17,7 @@ const props = defineProps({
   },
   matchText: {
 	type: String,
-	default: "löschen",
+	required: true,
   },
 });
 

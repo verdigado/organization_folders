@@ -1,4 +1,6 @@
 <script setup>
+import { translate as t, translatePlural as n } from "@nextcloud/l10n";
+
 import HelpCircle from "vue-material-design-icons/HelpCircle.vue";
 import AccountOff from "vue-material-design-icons/AccountOff.vue";
 
@@ -18,7 +20,7 @@ const props = defineProps({
 	permissionLevelExplanation: {
 		type: String,
 		default: "",
-	}
+	},
 });
 
 const emit = defineEmits(["update-member", "delete-member"]);
@@ -39,20 +41,23 @@ const deleteMember = (memberId) => {
 			<thead style="display: contents;">
 				<tr>
 					<th />
-					<th>Name</th>
+					<th>{{ t("organization_folders", "Name") }}</th>
 					<th>
 						<div style="display: flex; align-items: center;">
-							<span>Typ</span>
-							<HelpCircle v-if="props.permissionLevelExplanation" v-tooltip="props.permissionLevelExplanation" style="margin-left: 5px;" :size="15" />
+							<span>{{ t("organization_folders", "Permission level") }}</span>
+							<HelpCircle v-if="props.permissionLevelExplanation"
+								v-tooltip="props.permissionLevelExplanation"
+								style="margin-left: 5px;"
+								:size="15" />
 						</div>
 					</th>
-					<th>Aktion</th>
+					<th />
 				</tr>
 			</thead>
 			<tbody style="display: contents">
 				<tr v-if="!members.length">
 					<td colspan="4" style="grid-column-start: 1; grid-column-end: 5">
-						<NcEmptyContent name="Keine Mitglieder">
+						<NcEmptyContent :name="t('organization_folders', 'No members yet')">
 							<template #icon>
 								<AccountOff />
 							</template>

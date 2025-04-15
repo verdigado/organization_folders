@@ -45,8 +45,10 @@ const loading = ref(false);
 const resourceActiveLoading = ref(false);
 
 const memberPermissionLevelOptions = [
-  { label: "Mitglied", value: 1 },
-  { label: "Manager", value: 2 },
+  // TRANSLATORS This a permission level of members of organization folders and resources
+  { label: t("organization_folders", "Member"), value: 1 },
+  // TRANSLATORS This a permission level of members of organization folders and resources
+  { label: t("organization_folders", "Manager"), value: 2 },
 ];
 
 const currentResourceName = ref(false);
@@ -175,6 +177,48 @@ const permissionLevelExplanation = computed(() => {
 	}
 });
 
+const noPermissionExplanation = computed(() => {
+	if(resource.value?.type === api.ResourceTypes.FOLDER) {
+		return t("organization_folders", "You do not have the permissions to manage this folder");
+	} else {
+		return "";
+	}
+});
+
+const deleteResourceText = computed(() => {
+	if(resource.value?.type === api.ResourceTypes.FOLDER) {
+		return t("organization_folders", "Delete folder");
+	} else {
+		return "";
+	}
+});
+
+const deleteResourceExplanation = computed(() => {
+	if(resource.value?.type === api.ResourceTypes.FOLDER) {
+		if(resource.value?.subResources.length === 0) {
+			return t(
+				"organization_folders",
+				'You are about to delete the folder "{folderName}". Are you sure you want to proceed?',
+				{
+					folderName: resource.value?.name,
+				}
+			);
+		} else {
+			return n(
+				"organization_folders",
+				'You are about to delete the folder "{folderName}" and its %n sub-resource. Are you sure you want to proceed?',
+				'You are about to delete the folder "{folderName}" and its %n sub-resources. Are you sure you want to proceed?',
+				resource.value?.subResources.length,
+				{
+					folderName: resource.value?.name,
+				}
+			);
+		}
+	} else {
+		return "";
+	}
+});
+
 </script>
 
 <template>
@@ -188,10 +232,10 @@ const permissionLevelExplanation = computed(() => {
 		@back-button-pressed="backButtonClicked">
 		<NcNoteCard v-if="resourcePermissionsLimited"
 			type="info"
-			text="Du hast nicht die Berechtigung diesen Ordner zu verwalten" />
+			:text="noPermissionExplanation" />
 		<Section>
 			<template #header>
-				<SectionHeader text="Eigenschaften"></SectionHeader>
+				<SectionHeader :text="t('organization_folders', 'Settings')"></SectionHeader>
 			</template>
 			<NcTextField :value.sync="currentResourceName"
 				:disabled="resourcePermissionsLimited"
@@ -199,8 +243,8 @@ const permissionLevelExplanation = computed(() => {
 				:error="!resourceNameValid"
 				:label-visible="!resourceNameValid"
 				:label-outside="true"
-				:helper-text="resourceNameValid ? '' : 'Ungültiger Name'"
-				label="Name"
+				:helper-text="resourceNameValid ? '' : t('organization_folders', 'Invalid name')"
+				:label="t('organization_folders', 'Name')"
 				:show-trailing-button="currentResourceName !== resource.name"
 				trailing-button-icon="arrowRight"
 				style=" --color-border-maxcontrast: #949494;"
@@ -213,19 +257,19 @@ const permissionLevelExplanation = computed(() => {
 				:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
 				style="margin-top: 12px;"
 				@update:checked="saveInheritManagers">
-				Manager aus oberer Ebene vererben
+				{{ t("organization_folders", "Inherit managers from level above") }}
 			</NcCheckboxRadioSwitch>
 		</Section>
 		<Section v-if="!resourcePermissionsLimited">
 			<template #header>
-				<SectionHeader text="Berechtigungen"></SectionHeader>
+				<SectionHeader :text="t('organization_folders', 'Permissions')"></SectionHeader>
 			</template>
 			<Permissions :resource="resource"
 				@permissionUpdated="savePermission" />
 		</Section>
 		<Section v-if="!resourcePermissionsLimited">
 			<template #header>
-				<HeaderButtonGroup text="Members">
+				<HeaderButtonGroup :text="t('organization_folders', 'Members')">
 					<CreateMemberButton :organizationProviders="organizationProviders.providers"
 						:permission-level-options="memberPermissionLevelOptions"
 						:find-group-member-options="findGroupMemberOptions"
@@ -241,39 +285,38 @@ const permissionLevelExplanation = computed(() => {
 		</Section>
 		<Section v-if="!resourcePermissionsLimited">
 			<template #header>
-				<SectionHeader text="Einstellungen"></SectionHeader>
+				<SectionHeader :text="t('organization_folders', 'Management Actions')"></SectionHeader>
 			</template>
 			<div class="settings-group">
 				<NcButton v-if="snapshotIntegrationActive" @click="switchToSnapshotRestoreView">
 					<template #icon>
 						<BackupRestore />
 					</template>
-					Aus Backup wiederherstellen
+					{{ t("organization_folders", "Restore files from a backup") }}
 				</NcButton>
 				<div class="resource-active-button">
 					<NcCheckboxRadioSwitch :checked="resource.active"
 						:loading="resourceActiveLoading"
 						type="checkbox"
 						@update:checked="saveActive">
-						Ordner aktiv
+						{{ t("organization_folders", "Resource active") }}
 					</NcCheckboxRadioSwitch>
 				</div>
-				<ConfirmDeleteDialog title="Ordner löschen"
+				<ConfirmDeleteDialog :title="deleteResourceText"
 					:loading="loading"
-					button-label="Ordner löschen"
 					:match-text="resource.name">
 					<template #activator="{ open }">
-						<NcButton v-tooltip="resource.active ? 'Nur deaktivierte Resourcen können gelöscht werden' : undefined"
+						<NcButton v-tooltip="resource.active ? t('organization_folders', 'Only deactivated resources can be deleted') : undefined"
 							style="height: 52px;"
 							:disabled="resource.active"
 							type="error"
 							@click="open">
-							Ordner löschen
+							{{ deleteResourceText }}
 						</NcButton>
 					</template>
 					<template #content>
 						<p style="margin: 1rem 0 1rem 0">
-							Du bist dabei den Ordner {{ resource.name }} und den Inhalt komplett zu löschen.
+							{{ deleteResourceExplanation }}
 						</p>
 					</template>
 					<template #delete-button="{ close, disabled }">
@@ -285,7 +328,7 @@ const permissionLevelExplanation = computed(() => {
 								<NcLoadingIcon v-if="loading" />
 								<Delete v-else :size="20" />
 							</template>
-							Ordner löschen
+							{{ deleteResourceText }}
 						</NcButton>
 					</template>
 				</ConfirmDeleteDialog>
@@ -293,7 +336,7 @@ const permissionLevelExplanation = computed(() => {
 		</Section>
 		<Section>
 			<template #header>
-				<HeaderButtonGroup text="Unter-Resourcen">
+				<HeaderButtonGroup :text="t('organization_folders', 'Sub-Resources')">
 					<CreateResourceButton @create="createSubResource" />
 				</HeaderButtonGroup>
 			</template>

@@ -11,11 +11,11 @@
 
 
 <script setup>
+import { ref } from 'vue';
+
 import NcSelect from "@nextcloud/vue/components/NcSelect";
 
 import api from "../../api.js";
-
-import { ref } from 'vue';
 
 const props = defineProps({
 	findUserMemberOptions: {

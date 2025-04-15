@@ -11,8 +11,6 @@ import router from "./router.js";
 import { useCurrentDirStore } from "./stores/current-dir.js";
 import Modal from "./Modal.vue";
 
-console.log("router loggg", router, router.currentRoute);
-
 const currentDir = useCurrentDirStore();
 
 const modalOpen = ref(false);

@@ -76,7 +76,6 @@ const selectNewMemberType = (type, additionalParameters = {}) => {
 };
 
 const selected = (principalType, principalId) => {
-	console.log("create member button selected", principalType, principalId);
 	currentSelectedPrincipalType.value = principalType;
 	currentSelectedPrincipalId.value = principalId;
 }
