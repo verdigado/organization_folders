@@ -19,6 +19,10 @@ const modalOpen = ref(false);
 
 const userIsAdmin = ref(getCurrentUser().isAdmin);
 
+const folderLevel = computed(() => {
+	return currentDir.path.split("/").filter(Boolean).length;
+});
+
 const buttonText = computed(() => {
     if(currentDir.organizationFolderId) {
         return "Ordner und Berechtigungen verwalten";
@@ -51,7 +55,7 @@ function openModal() {
 </script>
 
 <template>
-    <div v-if="currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderResourceUpdatePermissions || currentDir.organizationFolderReadLimitedPermissions || userIsAdmin" class="toolbar">
+    <div v-if="((currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderReadLimitedPermissions ) && folderLevel === 1) || currentDir.organizationFolderResourceUpdatePermissions || (userIsAdmin && folderLevel === 0)" class="toolbar">
         <NcButton :disabled="currentDir.loading"
             type="primary"
             @click="openModal">
