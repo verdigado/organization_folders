@@ -192,7 +192,7 @@ class ResourceController extends BaseController {
 		if($this->authorizationService->isGranted(['MANAGE_ALL_RESOURCES'], $organizationFolder)) {
 			/* fastpath: access to all subresources */
 			$result = $subresources;
-		} else {			
+		} else {
 			foreach($subresources as $subresource) {
 				// Future optimization potential 1: the following will potentially check the permissions of each of these subresources all the way up the resource tree.
 				// As sibling resources these subresources share the same resources above them in the tree.
@@ -201,9 +201,9 @@ class ResourceController extends BaseController {
 
 				// Future optimization potential 2: READ permission check checks MANAGE_ALL_RESOURCES again, at this point we know this to be false, because of the fastpath.
 				// Could be replaced with something like a READ_DIRECT (name TBD) permission check, which does not check this again.
-				if($this->authorizationService->isGranted(['READ'], $resource)) {
+				if($this->authorizationService->isGranted(['READ'], $subresource)) {
 					$result[] = $subresource;
-				} else if($this->authorizationService->isGranted(['READ_LIMITED'], $resource)) {
+				} else if($this->authorizationService->isGranted(['READ_LIMITED'], $subresource)) {
 					$result[] = $subresource->limitedJsonSerialize();
 				}
 			}
