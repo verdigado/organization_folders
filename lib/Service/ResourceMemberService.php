@@ -103,7 +103,7 @@ class ResourceMemberService {
 		$member = $this->mapper->insert($member);
 
 		if(!$skipPermssionsApply) {
-			$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+			$this->organizationFolderService->applyPermissionsById($resource->getOrganizationFolderId());
 		}
 
 		return $member;
@@ -128,7 +128,7 @@ class ResourceMemberService {
             }
 
 			$resource = $this->resourceService->find($member->getResourceId());
-			$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+			$this->organizationFolderService->applyPermissionsById($resource->getOrganizationFolderId());
 
 			return $member;
 		} catch (Exception $e) {
@@ -143,7 +143,7 @@ class ResourceMemberService {
 			$this->mapper->delete($member);
 
 			$resource = $this->resourceService->find($member->getResourceId());
-			$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+			$this->organizationFolderService->applyPermissionsById($resource->getOrganizationFolderId());
 
 			return $member;
 		} catch (Exception $e) {

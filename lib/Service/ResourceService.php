@@ -16,10 +16,11 @@ use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
-use \OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
+use OCA\OrganizationFolders\Model\AclList;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\InvalidResourceName;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
@@ -30,13 +31,13 @@ use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 class ResourceService {
 	public function __construct(
-		protected ResourceMapper $mapper,
-		protected PathManager $pathManager,
-		protected ACLManager $aclManager,
-		protected OrganizationProviderManager $organizationProviderManager,
-		protected OrganizationFolderService $organizationFolderService,
-		protected ContainerInterface $container,
-		protected PrincipalFactory $principalFactory,
+		protected readonly ResourceMapper $mapper,
+		protected readonly PathManager $pathManager,
+		protected readonly ACLManager $aclManager,
+		protected readonly OrganizationProviderManager $organizationProviderManager,
+		protected readonly OrganizationFolderService $organizationFolderService,
+		protected readonly ContainerInterface $container,
+		protected readonly PrincipalFactory $principalFactory,
 	) {
 	}
 
@@ -173,7 +174,7 @@ class ResourceService {
 			}
 
 			if(!$skipPermssionsApply) {
-				$this->organizationFolderService->applyPermissions($organizationFolderId);
+				$this->organizationFolderService->applyPermissionsById($organizationFolderId);
 			}
 
 			return $resource;
@@ -244,22 +245,30 @@ class ResourceService {
 
 		$resource = $this->mapper->update($resource);
 
-		$this->organizationFolderService->applyPermissions($resource->getOrganizationFolderId());
+		$this->organizationFolderService->applyPermissionsById($resource->getOrganizationFolderId());
 
 		return $resource;
 
 		// TODO: improve error handing: if db update fails roll back changes in the filesystem
 	}
-
-	public function setAllFolderResourceAclsInOrganizationFolder(OrganizationFolder $organizationFolder, array $inheritingGroups) {
+	/**
+	 * @param OrganizationFolder $organizationFolder
+	 * @psalm-param PrincipalBackedByGroup[] $inheritedMemberPrincipals
+	 * @psalm-param PrincipalBackedByGroup[] $inheritedManagerPrincipals
+	 */
+	public function setAllFolderResourceAclsInOrganizationFolder(
+		OrganizationFolder $organizationFolder,
+		array $inheritedMemberPrincipals,
+		array $inheritedManagerPrincipals,
+	): void {
         $topLevelFolderResources = $this->findAll($organizationFolder->getId(), null, ["type" => "folder"]);
-		
-		$inheritingPrincipals = [];
-		foreach($inheritingGroups as $inheritingGroup) {
-			$inheritingPrincipals[] = $this->principalFactory->buildPrincipal(PrincipalType::GROUP, $inheritingGroup);
-		}
 
-		return $this->recursivelySetFolderResourceALCs($topLevelFolderResources, "", $inheritingPrincipals);
+		$this->recursivelySetFolderResourceALCs(
+			folderResources: $topLevelFolderResources,
+			path: "",
+			inheritedMemberPrincipals: $inheritedMemberPrincipals,
+			inheritedManagerPrincipals: $inheritedManagerPrincipals,
+		);
     }
 
 	/**
@@ -268,15 +277,23 @@ class ResourceService {
 	 * @param array $folderResources
 	 * @psalm-param FolderResource[] $folderResources
 	 * @param string $path
-	 * @psalm-param string $path
-	 * @param array $inheritingPrincipals
-	 * @psalm-param Principal[] $inheritingPrincipals
+	 * @param array $inheritedMemberPrincipals
+	 * @psalm-param Principal[] $inheritedMemberPrincipals
+	 * @param array $inheritedManagerPrincipals
+	 * @psalm-param Principal[] $inheritedManagerPrincipals
+	 * @param bool $implicitlyDeactivated
 	 */
-	public function recursivelySetFolderResourceALCs(array $folderResources, string $path, array $inheritingPrincipals) {
+	public function recursivelySetFolderResourceALCs(
+		array $folderResources,
+		string $path,
+		array $inheritedMemberPrincipals,
+		array $inheritedManagerPrincipals,
+		bool $implicitlyDeactivated = false
+	): void {
 		foreach($folderResources as $folderResource) {
 			$resourceFileId = $folderResource->getFileId();
 
-			if($folderResource->getActive()) {
+			if($folderResource->getActive() && !$implicitlyDeactivated) {
 				$resourceMembersAclPermission = $folderResource->getMembersAclPermission();
 				$resourceManagersAclPermission = $folderResource->getManagersAclPermission();
 				$resourceInheritedAclPermission = $folderResource->getInheritedAclPermission();
@@ -286,39 +303,52 @@ class ResourceService {
 				$resourceInheritedAclPermission = 0;
 			}
 			
+			$acls = new AclList($resourceFileId);
 
-			$acls = [];
-
-			// inherit ACLs
-			foreach($inheritingPrincipals as $inheritingPrincipal) {
-				$newACL = $this->aclManager->createAclRuleForPrincipal(
-					principal: $inheritingPrincipal,
-					fileId: $resourceFileId,
+			// inherited Member ACLs
+			foreach($inheritedMemberPrincipals as $inheritedMemberPrincipal) {
+				$acls->addRule(
+					userMapping: $this->aclManager->getMappingForPrincipal($inheritedMemberPrincipal),
 					mask: 31,
 					permissions: $resourceInheritedAclPermission,
 				);
-
-				// if mapping for principal could not be created, skip creating rule for it
-				if(!is_null($newACL)) {
-					$acls[] = $newACL;
-				}
 			}
 
-			// inherited principals will affect resources further down, if they have any permissions at this level
+			// inherited member principals will affect resources further down, if they have any permissions at this level
 			if($resourceInheritedAclPermission !== 0) {
-				$nextInheritingPrincipals = $inheritingPrincipals;
+				$nextInheritedMemberPrincipals = $inheritedMemberPrincipals;
 			} else {
-				$nextInheritingPrincipals = [];
+				$nextInheritedMemberPrincipals = [];
+			}
+
+			// inherited Manager ACLs
+			if($folderResource->getActive() && !$implicitlyDeactivated && $folderResource->getInheritManagers()) {
+				$inheritedManagerAclPermission = $resourceManagersAclPermission;
+				$nextInheritedManagerPrincipals = $inheritedManagerPrincipals;
+			} else {
+				$inheritedManagerAclPermission = 0;
+				$nextInheritedManagerPrincipals = [];
+			}
+
+			foreach($inheritedManagerPrincipals as $inheritedManagerPrincipal) {
+				$acls->addRule(
+					userMapping: $this->aclManager->getMappingForPrincipal($inheritedManagerPrincipal),
+					mask: 31,
+					permissions: $inheritedManagerAclPermission,
+				);
 			}
 
 			// member ACLs
-			/** @var ResourceService */
+			/** @var ResourceMemberService */
 			$resourceMemberService = $this->container->get(ResourceMemberService::class);
 			$resourceMembers = $resourceMemberService->findAll($folderResource->getId());
 
 			foreach($resourceMembers as $resourceMember) {
+				$resourceMemberPrincipal = $resourceMember->getPrincipal();
+
 				if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
 					$resourceMemberPermissions = $resourceManagersAclPermission;
+
 				} else if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MEMBER->value) {
 					$resourceMemberPermissions = $resourceMembersAclPermission;
 				} else {
@@ -326,29 +356,34 @@ class ResourceService {
 				}
 
 				if($resourceMemberPermissions !== 0) {
-					$resourceMemberPrincipal = $resourceMember->getPrincipal();
-
-					$newACL = $this->aclManager->createAclRuleForPrincipal(
-						principal: $resourceMemberPrincipal,
-						fileId: $resourceFileId,
+					$acls->addRule(
+						userMapping: $this->aclManager->getMappingForPrincipal($resourceMemberPrincipal),
 						mask: 31,
 						permissions: $resourceMemberPermissions,
 					);
 
-					// if mapping for principal could not be created, skip creating rule for it
-					// TODO: check should not be neccessary anymore
-					if(!is_null($newACL)) {
-						$acls[] = $newACL;
-						$nextInheritingPrincipals[] = $resourceMemberPrincipal;
+					// member principals will affect resources further down, if they have any permissions at this level
+					if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MEMBER->value) {
+						$nextInheritedMemberPrincipals[] = $resourceMemberPrincipal;
 					}
+				}
+
+				if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
+					$nextInheritedManagerPrincipals[] = $resourceMemberPrincipal;
 				}
 			}
 
-			$this->aclManager->overwriteACLsForFileId($resourceFileId, $acls);
+			$this->aclManager->overwriteACLsForFileId($resourceFileId, $acls->getRules());
 
 			// recurse sub-resources
 			$subFolderResources = $this->getSubResources($folderResource, ["type" => "folder"]);
-			$this->recursivelySetFolderResourceALCs($subFolderResources, $path . $folderResource->getName() . "/", $nextInheritingPrincipals);
+			$this->recursivelySetFolderResourceALCs(
+				folderResources: $subFolderResources,
+				path: $path . $folderResource->getName() . "/",
+				inheritedMemberPrincipals: $nextInheritedMemberPrincipals,
+				inheritedManagerPrincipals: $nextInheritedManagerPrincipals,
+				implicitlyDeactivated: (!$folderResource->getActive() || $implicitlyDeactivated)
+			);
 		}
 	}
 

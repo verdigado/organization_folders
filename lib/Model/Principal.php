@@ -36,4 +36,8 @@ abstract class Principal implements \JsonSerializable {
 			'fullHierarchyNames' => $this->getFullHierarchyNames(),
 		];
 	}
+
+	public function __toString(): string {
+		return $this->getType()->name . ":" . $this->getId();
+	}
 }

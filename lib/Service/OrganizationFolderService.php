@@ -14,8 +14,11 @@ use OCA\GroupfolderTags\Service\TagService;
 use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 use OCA\GroupFolders\ACL\Rule;
 
+use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
+use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\GroupfolderManager;
@@ -25,14 +28,15 @@ class OrganizationFolderService {
 	use TTransactional;
 
 	public function __construct(
-		protected IDBConnection $db,
-		protected FolderManager $folderManager,
-		protected TagService $tagService,
-		protected OrganizationProviderManager $organizationProviderManager,
-		protected PathManager $pathManager,
-		protected GroupfolderManager $groupfolderManager,
-		protected ACLManager $aclManager,
-		protected ContainerInterface $container,
+		protected readonly IDBConnection $db,
+		protected readonly FolderManager $folderManager,
+		protected readonly TagService $tagService,
+		protected readonly OrganizationProviderManager $organizationProviderManager,
+		protected readonly PathManager $pathManager,
+		protected readonly GroupfolderManager $groupfolderManager,
+		protected readonly ACLManager $aclManager,
+		protected readonly ContainerInterface $container,
+		protected readonly PrincipalFactory $principalFactory,
 	) {
 	}
 
@@ -83,7 +87,7 @@ class OrganizationFolderService {
 		// special mode, that re-uses an existing groupfolder
 		?int $existingGroupfolderId = null,
 	): OrganizationFolder {
-		return $this->atomic(function () use ($name, $quota, $organizationProvider, $organizationId, $existingGroupfolderId) {
+		return $this->atomic(function () use ($name, $quota, $organizationProvider, $organizationId, $existingGroupfolderId): OrganizationFolder {
 			if(!isset($existingGroupfolderId)) {
 				$groupfolderId = $this->folderManager->createFolder($name);
 			} else {
@@ -110,7 +114,7 @@ class OrganizationFolderService {
 				organizationId: $organizationId,
 			);
 			
-			$this->applyPermissions($groupfolderId);
+			$this->applyPermissions($organizationFolder);
 			
 			return $organizationFolder;
 		}, $this->db);
@@ -123,6 +127,8 @@ class OrganizationFolderService {
 		?string $organizationProviderId = null,
 		?int $organizationId = null
 	): OrganizationFolder {
+		$organizationFolder = $this->find($id);
+
 		$this->atomic(function () use ($id, $name, $quota, $organizationProviderId, $organizationId) {
 			if(isset($name)) {
 				$this->folderManager->renameFolder($id, $name);
@@ -154,26 +160,44 @@ class OrganizationFolderService {
 			}
 		}, $this->db);
 
-		$this->applyPermissions($id);
+		$this->applyPermissions($organizationFolder);
 
-		return $this->find($id);
+		return $organizationFolder;
 	}
 
-	public function applyPermissions(int $id) {
-		$organizationFolder = $this->find($id);
+	public function applyPermissionsById(int $id): void {
+		$this->applyPermissions($this->find($id));
+	}
 
-		$memberGroups = $this->getMemberGroups($organizationFolder);
+	public function applyPermissions(OrganizationFolder $organizationFolder): void {
+
+		[$memberPrincipals, $managerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
+
+		$memberGroups = [];
+
+		foreach($memberPrincipals as $memberPrincipal) {
+			$backingGroup = $memberPrincipal->getBackingGroup();
+
+			if(isset($backingGroup)) {
+				$memberGroups[] = $backingGroup;
+			}
+		}
 
 		$this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $memberGroups);
 		$this->setRootFolderACLs($organizationFolder, $memberGroups);
 
 		/** @var ResourceService */
 		$resourceService = $this->container->get(ResourceService::class);
-		return $resourceService->setAllFolderResourceAclsInOrganizationFolder($organizationFolder, $memberGroups);
+		$resourceService->setAllFolderResourceAclsInOrganizationFolder($organizationFolder, $memberPrincipals, $managerPrincipals);
 	}
 
-	protected function getMemberGroups(OrganizationFolder $organizationFolder): array {
-		$memberGroups = [];
+	/**
+	 * @param OrganizationFolder $organizationFolder
+	 * @psalm-return array{0: PrincipalBackedByGroup[], 1: PrincipalBackedByGroup[]}
+	 */
+	protected function getMemberAndManagerPrincipals(OrganizationFolder $organizationFolder): array {
+		$memberPrincipals = [];
+		$managerPrincipals = [];
 
 		// avoids circular dependency autowire
 		// TODO: find better solution
@@ -182,22 +206,26 @@ class OrganizationFolderService {
 		 */
 		$organizationFolderMemberService = \OC::$server->get(OrganizationFolderMemberService::class);
 
-		foreach($organizationFolderMemberService->findAll($organizationFolder->getId()) as $organizationFolderMember) {
-			$backingGroup = $organizationFolderMember->getPrincipal()->getBackingGroup();
+		$members = $organizationFolderMemberService->findAll(organizationFolderId: $organizationFolder->getId());
 
-			if(isset($backingGroup)) {
-				$memberGroups[] = $backingGroup;
+		foreach($members as $member) {
+			if($member->getPermissionLevel() === OrganizationFolderMemberPermissionLevel::MEMBER) {
+				// MEMBER
+				$memberPrincipals[] = $member->getPrincipal();
+			} else {
+				// MANAGER or ADMIN
+				$managerPrincipals[] = $member->getPrincipal();
 			}
 		}
 
 		if(!is_null($organizationFolder->getOrganizationProvider()) && !is_null($organizationFolder->getOrganizationId())) {
-			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProvider());
-			$organization = $organizationProvider->getOrganization($organizationFolder->getOrganizationId());
-
-			$memberGroups[] = $organization->getMembersGroup();
+			$memberPrincipals[] = $this->principalFactory->buildOrganizationMemberPrincipal(
+				organizationProviderId: $organizationFolder->getOrganizationProvider(),
+				organizationId: $organizationFolder->getOrganizationId(),
+			);
 		}
 
-		return $memberGroups;
+		return [$memberPrincipals, $managerPrincipals];
 	}
 
 	protected function setGroupsAsGroupfolderMembers($groupfolderId, array $groups) {
