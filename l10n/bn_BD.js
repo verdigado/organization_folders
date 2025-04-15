@@ -1,7 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
-    "Read" : "পড়",
-    "Delete" : "মুছে"
+    "Delete" : "মুছে",
+    "Read" : "পড়"
 },
 "nplurals=2; plural=(n != 1);");

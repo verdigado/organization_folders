@@ -3,14 +3,21 @@ OC.L10N.register(
     {
     "Organization Folders" : "Cartafoles da organización",
     "Managed group folders for your organization" : "Cartafoles de grupo xestionados para a súa organización",
+    "Delete" : "Eliminar",
+    "Select an account" : "Seleccione unha conta",
+    "Add account" : "Engadir unha conta",
+    "Add group" : "Engadir un grupo",
+    "Members" : "Membros",
+    "Folder name" : "Nome do cartafol",
     "Read" : "Ler",
     "Write" : "Escribir",
     "Create" : "Crear",
-    "Delete" : "Eliminar",
     "Share" : "Compartir",
     "Denied (Inherited permission)" : "Denegado (permiso de herdanza)",
     "Allowed (Inherited permission)" : "Permitido (permiso de herdanza)",
     "Denied" : "Denegado",
-    "Allowed" : "Permitido"
+    "Allowed" : "Permitido",
+    "Search" : "Buscar",
+    "Settings" : "Axustes"
 },
 "nplurals=2; plural=(n != 1);");

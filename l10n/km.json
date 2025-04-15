@@ -1,4 +1,7 @@
 { "translations": {
-    "Delete" : "លុប"
+    "Delete" : "លុប",
+    "Folder name" : "ឈ្មោះ​ថត",
+    "Search" : "ស្វែងរក",
+    "Settings" : "ការកំណត់"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

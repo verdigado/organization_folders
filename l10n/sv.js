@@ -3,14 +3,21 @@ OC.L10N.register(
     {
     "Organization Folders" : "Organisationsmappar",
     "Managed group folders for your organization" : "Hanterade gruppmappar för din organisation",
+    "Delete" : "Radera",
+    "Select an account" : "Välj ett konto",
+    "Add account" : "Lägg till konto",
+    "Add group" : "Lägg till grupp",
+    "Members" : "Medlemmar",
+    "Folder name" : "Mappnamn",
     "Read" : "Läs",
     "Write" : "Skriva",
     "Create" : "Skapa",
-    "Delete" : "Radera",
     "Share" : "Dela",
     "Denied (Inherited permission)" : "Nekad (ärvd rättighet)",
     "Allowed (Inherited permission)" : "Tillåten (ärvd rättighet)",
     "Denied" : "Nekad",
-    "Allowed" : "Tillåten"
+    "Allowed" : "Tillåten",
+    "Search" : "Sök",
+    "Settings" : "Inställningar"
 },
 "nplurals=2; plural=(n != 1);");

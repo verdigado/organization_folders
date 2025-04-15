@@ -3,14 +3,21 @@ OC.L10N.register(
     {
     "Organization Folders" : "Pastas da Organização",
     "Managed group folders for your organization" : "Pastas de grupo gerenciadas para sua organização",
+    "Delete" : "Excluir",
+    "Select an account" : "Selecionar uma conta",
+    "Add account" : "Adicionar conta",
+    "Add group" : "Adicionar grupo",
+    "Members" : "Membros",
+    "Folder name" : "Nome da pasta",
     "Read" : "Ler",
     "Write" : "Escrever",
     "Create" : "Criar",
-    "Delete" : "Excluir",
     "Share" : "Compartilhar",
     "Denied (Inherited permission)" : "Negado (Permissão herdada)",
     "Allowed (Inherited permission)" : "Permitido (Permissão herdada)",
     "Denied" : "Negado",
-    "Allowed" : "Permitido"
+    "Allowed" : "Permitido",
+    "Search" : "Pesquisar",
+    "Settings" : "Configurações"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

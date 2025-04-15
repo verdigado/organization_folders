@@ -1,14 +1,21 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "删除",
+    "Select an account" : "选择一个账号",
+    "Add account" : "添加账号",
+    "Add group" : "添加群组",
+    "Members" : "成员",
+    "Folder name" : "文件夹名称",
     "Read" : "读取",
     "Write" : "写入",
     "Create" : "创建",
-    "Delete" : "删除",
     "Share" : "共享",
     "Denied (Inherited permission)" : "拒绝（继承的权限）",
     "Allowed (Inherited permission)" : "允许（继承的权限）",
     "Denied" : "拒绝",
-    "Allowed" : "允许"
+    "Allowed" : "允许",
+    "Search" : "搜索",
+    "Settings" : "设置"
 },
 "nplurals=1; plural=0;");

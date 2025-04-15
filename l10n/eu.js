@@ -1,14 +1,21 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "Ezabatu",
+    "Select an account" : "Hautatu kontua bat",
+    "Add account" : "Gehitu kontua",
+    "Add group" : "Taldea gehitu",
+    "Members" : "Partaideak",
+    "Folder name" : "Karpetaren izena",
     "Read" : "Irakurri",
     "Write" : "Idatzi",
     "Create" : "Sortu",
-    "Delete" : "Ezabatu",
     "Share" : "Partekatu",
     "Denied (Inherited permission)" : "Ukatua (heredatutako baimena)",
     "Allowed (Inherited permission)" : "Baimenduta (heredatutako baimena)",
     "Denied" : "Ukatuta",
-    "Allowed" : "Baimenduta"
+    "Allowed" : "Baimenduta",
+    "Search" : "Bilatu",
+    "Settings" : "Ezarpenak"
 },
 "nplurals=2; plural=(n != 1);");

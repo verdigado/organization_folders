@@ -1,14 +1,21 @@
 { "translations": {
     "Organization Folders" : "機構資料夾",
     "Managed group folders for your organization" : "為您機構管理的群組資料夾",
+    "Delete" : "刪除",
+    "Select an account" : "選擇一個賬號",
+    "Add account" : "新增帳戶",
+    "Add group" : "新增群組",
+    "Members" : "成員",
+    "Folder name" : "資料夾名稱",
     "Read" : "讀取",
     "Write" : "寫入",
     "Create" : "創建",
-    "Delete" : "刪除",
     "Share" : "分享",
     "Denied (Inherited permission)" : "拒絕（繼承權限）",
     "Allowed (Inherited permission)" : "允許（繼承權限）",
     "Denied" : "被拒絕",
-    "Allowed" : "允許的"
+    "Allowed" : "允許的",
+    "Search" : "搜尋",
+    "Settings" : "設定"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

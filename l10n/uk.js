@@ -1,14 +1,21 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "Вилучати",
+    "Select an account" : "Оберіть обліковий запис",
+    "Add account" : "Додати обліковий запис",
+    "Add group" : "Додати групу",
+    "Members" : "Учасники",
+    "Folder name" : "Назва каталогу",
     "Read" : "Читати",
     "Write" : "Редагувати",
     "Create" : "Створювати",
-    "Delete" : "Вилучати",
     "Share" : "Спільний доступ",
     "Denied (Inherited permission)" : "Відмовлено (успадкований дозвіл)",
     "Allowed (Inherited permission)" : "Дозволено (успадкований дозвіл) ",
     "Denied" : "Заборонено",
-    "Allowed" : "Дозволено"
+    "Allowed" : "Дозволено",
+    "Search" : "Пошук",
+    "Settings" : "Налаштування"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

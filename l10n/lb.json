@@ -1,4 +1,7 @@
 { "translations": {
-    "Delete" : "Läschen"
+    "Delete" : "Läschen",
+    "Folder name" : "Dossiers Numm:",
+    "Search" : "Sichen",
+    "Settings" : "Astellungen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1,8 +1,12 @@
 OC.L10N.register(
     "organization_folders",
     {
-    "Create" : "Dörediň",
     "Delete" : "Pozmak",
-    "Share" : "Paýlaş"
+    "Add account" : "Hasap goşuň",
+    "Folder name" : "Papkanyň ady",
+    "Create" : "Dörediň",
+    "Share" : "Paýlaş",
+    "Search" : "Gözlemek",
+    "Settings" : "Sazlamalar"
 },
 "nplurals=2; plural=(n != 1);");

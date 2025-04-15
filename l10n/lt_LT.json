@@ -1,11 +1,18 @@
 { "translations": {
+    "Delete" : "Ištrinti",
+    "Select an account" : "Pasirinkti paskyrą",
+    "Add account" : "Pridėti paskyrą",
+    "Add group" : "Pridėti grupę",
+    "Members" : "Nariai",
+    "Folder name" : "Aplanko pavadinimas",
     "Read" : "Skaityti",
     "Write" : "Rašyti",
     "Create" : "Sukurti",
-    "Delete" : "Ištrinti",
     "Share" : "Bendrinti",
     "Denied (Inherited permission)" : "Atsisakyta (Paveldėtas leidimas)",
     "Allowed (Inherited permission)" : "Leista (Paveldėtas leidimas)",
-    "Allowed" : "Leista"
+    "Allowed" : "Leista",
+    "Search" : "Paieška",
+    "Settings" : "Nustatymai"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

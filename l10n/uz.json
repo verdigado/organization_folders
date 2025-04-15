@@ -1,6 +1,9 @@
 { "translations": {
-    "Create" : "Yaratish",
     "Delete" : "Delete",
-    "Share" : "Ulashish"
+    "Folder name" : "Folder name",
+    "Create" : "Yaratish",
+    "Share" : "Ulashish",
+    "Search" : "Qidiruv",
+    "Settings" : "Sozlamalar"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

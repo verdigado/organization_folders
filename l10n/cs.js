@@ -3,10 +3,11 @@ OC.L10N.register(
     {
     "Organization Folders" : "Organizační složky",
     "Managed group folders for your organization" : "Spravované skupinové složky pro vaší organizaci",
+    "Delete" : "Smazat",
+    "Add account" : "Přidat účet",
     "Read" : "Nastavit jako přečtené",
     "Write" : "Zapisovat",
     "Create" : "Vytvářet",
-    "Delete" : "Smazat",
     "Share" : "Nasdílet",
     "Denied (Inherited permission)" : "Odepřeno (převzaté oprávnění)",
     "Allowed (Inherited permission)" : "Umožněno (převzaté oprávnění)",

@@ -3,14 +3,21 @@ OC.L10N.register(
     {
     "Organization Folders" : "組織資料夾",
     "Managed group folders for your organization" : "為您的組織管理群組資料夾",
+    "Delete" : "刪除",
+    "Select an account" : "選擇一個帳號",
+    "Add account" : "新增帳號",
+    "Add group" : "新增群組",
+    "Members" : "成員",
+    "Folder name" : "資料夾名稱",
     "Read" : "讀取",
     "Write" : "寫入",
     "Create" : "建立",
-    "Delete" : "刪除",
     "Share" : "分享",
     "Denied (Inherited permission)" : "拒絕（繼承權限）",
     "Allowed (Inherited permission)" : "允許（繼承權限）",
     "Denied" : "拒絕",
-    "Allowed" : "允許"
+    "Allowed" : "允許",
+    "Search" : "搜尋",
+    "Settings" : "設定"
 },
 "nplurals=1; plural=0;");

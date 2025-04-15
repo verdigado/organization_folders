@@ -1,13 +1,20 @@
 { "translations": {
     "Organization Folders" : "조직 폴더",
+    "Delete" : "삭제",
+    "Select an account" : "계정 선택",
+    "Add account" : "계정 추가",
+    "Add group" : "그룹 추가",
+    "Members" : "구성원",
+    "Folder name" : "폴더 이름",
     "Read" : "읽기",
     "Write" : "쓰기",
     "Create" : "생성",
-    "Delete" : "삭제",
     "Share" : "공유하기",
     "Denied (Inherited permission)" : "거부됨(권한 상속)",
     "Allowed (Inherited permission)" : "허용됨(권한 상속)",
     "Denied" : "거부됨",
-    "Allowed" : "허용됨"
+    "Allowed" : "허용됨",
+    "Search" : "검색",
+    "Settings" : "설정"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

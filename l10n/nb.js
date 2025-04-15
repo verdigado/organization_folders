@@ -1,14 +1,21 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "Slett",
+    "Select an account" : "Velg en konto",
+    "Add account" : "Legg til konto",
+    "Add group" : "Legg til gruppe",
+    "Members" : "Medlemmer",
+    "Folder name" : "Mappenavn",
     "Read" : "Les",
     "Write" : "Skriv",
     "Create" : "Opprett",
-    "Delete" : "Slett",
     "Share" : "Dele",
     "Denied (Inherited permission)" : "Nektet (arvet rettighet)",
     "Allowed (Inherited permission)" : "Tillatt (arvet rettighet)",
     "Denied" : "Nektet",
-    "Allowed" : "Tillatt"
+    "Allowed" : "Tillatt",
+    "Search" : "Søk",
+    "Settings" : "Innstillinger"
 },
 "nplurals=2; plural=(n != 1);");

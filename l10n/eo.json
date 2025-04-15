@@ -1,10 +1,12 @@
 { "translations": {
+    "Delete" : "Forigi",
+    "Members" : "Membroj",
     "Read" : "Legi",
     "Write" : "Skribi",
-    "Delete" : "Forigi",
     "Denied (Inherited permission)" : "Rifuzita (heredita permeso)",
     "Allowed (Inherited permission)" : "Permesita (heredita permeso)",
     "Denied" : "Rifuzita",
-    "Allowed" : "Permesita"
+    "Allowed" : "Permesita",
+    "Settings" : "Agordoj"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

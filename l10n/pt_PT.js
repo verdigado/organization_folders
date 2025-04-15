@@ -1,14 +1,20 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "Eliminar",
+    "Select an account" : "Selecionar uma conta",
+    "Add group" : "Adicionar grupo",
+    "Members" : "Membros",
+    "Folder name" : "Nome da pasta",
     "Read" : "Ler",
     "Write" : "Escrever",
     "Create" : "Criar",
-    "Delete" : "Eliminar",
     "Share" : "Partilhar",
     "Denied (Inherited permission)" : "Negado (permissões herdadas)",
     "Allowed (Inherited permission)" : "Permitido (permissão herdada)",
     "Denied" : "Negado",
-    "Allowed" : "Permitido"
+    "Allowed" : "Permitido",
+    "Search" : "Pesquisa sobre",
+    "Settings" : "Definições"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -1,4 +1,6 @@
 { "translations": {
-    "Delete" : "Padam"
+    "Delete" : "Padam",
+    "Search" : "Search",
+    "Settings" : "Tetapan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

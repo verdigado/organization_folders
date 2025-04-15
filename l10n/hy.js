@@ -2,6 +2,9 @@ OC.L10N.register(
     "organization_folders",
     {
     "Delete" : "հեռացնել",
-    "Share" : "կիսվել"
+    "Folder name" : "Պանակի անուն",
+    "Share" : "կիսվել",
+    "Search" : "Search",
+    "Settings" : "Կարգավորումներ"
 },
 "nplurals=2; plural=(n != 1);");

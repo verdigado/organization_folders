@@ -1,10 +1,10 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "Изтриване",
     "Read" : "Прочитане",
     "Write" : "Писане",
     "Create" : "Създаване",
-    "Delete" : "Изтриване",
     "Share" : "Споделяне",
     "Denied (Inherited permission)" : "Отказан (наследено право)",
     "Allowed (Inherited permission)" : "Позволен (наследено право)",

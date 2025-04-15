@@ -1,10 +1,17 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "Fshi",
+    "Select an account" : "Zgjedh një llogari",
+    "Add account" : "Shtoni llogari",
+    "Add group" : "Shto grupin",
+    "Members" : "Anëtar",
+    "Folder name" : "Emër dosjeje",
     "Read" : "Lexoni",
     "Write" : "Shkruaj",
     "Create" : "Krijo",
-    "Delete" : "Fshi",
-    "Share" : "Ndaj"
+    "Share" : "Ndaj",
+    "Search" : "Kërko",
+    "Settings" : "Rregullimet"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,5 +1,8 @@
 { "translations": {
     "Delete" : "հեռացնել",
-    "Share" : "կիսվել"
+    "Folder name" : "Պանակի անուն",
+    "Share" : "կիսվել",
+    "Search" : "Search",
+    "Settings" : "Կարգավորումներ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -1,9 +1,9 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "Desaniciar",
     "Read" : "Lleer",
     "Create" : "Crear",
-    "Delete" : "Desaniciar",
     "Share" : "Compartir"
 },
 "nplurals=2; plural=(n != 1);");

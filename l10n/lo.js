@@ -1,8 +1,12 @@
 OC.L10N.register(
     "organization_folders",
     {
-    "Create" : "ສ້າງ",
     "Delete" : "ລຶບ",
-    "Share" : "ແບ່ງປັນ"
+    "Add account" : "ເພີ່ມບັນຊີ",
+    "Folder name" : "ຊື່ໂຟນເດີ",
+    "Create" : "ສ້າງ",
+    "Share" : "ແບ່ງປັນ",
+    "Search" : "ຄົ້ນຫາ",
+    "Settings" : "ການຕັ້ງຄ່າ"
 },
 "nplurals=1; plural=0;");

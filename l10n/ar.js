@@ -3,10 +3,10 @@ OC.L10N.register(
     {
     "Organization Folders" : "مُجلَّدات المؤسسة",
     "Managed group folders for your organization" : "مجلدات عامّة مُدارة لمؤسستك",
+    "Delete" : "حذف",
     "Read" : "قراءة",
     "Write" : "كتابة",
     "Create" : "إنشاء",
-    "Delete" : "حذف",
     "Share" : "مُشارَكة",
     "Denied (Inherited permission)" : "مرفوض (إذن موروث)",
     "Allowed (Inherited permission)" : "مسموح (إذن موروث)",

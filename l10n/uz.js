@@ -1,8 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
-    "Create" : "Yaratish",
     "Delete" : "Delete",
-    "Share" : "Ulashish"
+    "Folder name" : "Folder name",
+    "Create" : "Yaratish",
+    "Share" : "Ulashish",
+    "Search" : "Qidiruv",
+    "Settings" : "Sozlamalar"
 },
 "nplurals=1; plural=0;");

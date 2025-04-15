@@ -3,14 +3,21 @@ OC.L10N.register(
     {
     "Organization Folders" : "Cartelle dell'organizzazione",
     "Managed group folders for your organization" : "Cartelle di gruppo gestite per la tua organizzazione",
+    "Delete" : "Elimina",
+    "Select an account" : "Seleziona account",
+    "Add account" : "Aggiungi account",
+    "Add group" : "Aggiungi gruppo",
+    "Members" : "Partecipanti",
+    "Folder name" : "Nome della cartella",
     "Read" : "Lettura",
     "Write" : "Scrittura",
     "Create" : "Crea",
-    "Delete" : "Elimina",
     "Share" : "Condividi",
     "Denied (Inherited permission)" : "Negato (autorizzazione ereditata)",
     "Allowed (Inherited permission)" : "Consentito (autorizzazione ereditata)",
     "Denied" : "Negato",
-    "Allowed" : "Consentito"
+    "Allowed" : "Consentito",
+    "Search" : "Cerca",
+    "Settings" : "Impostazioni"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -1,14 +1,21 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Delete" : "Cantzella",
+    "Select an account" : "Seletziona unu contu",
+    "Add account" : "Agiunge contu",
+    "Add group" : "Agiunghe grupu",
+    "Members" : "Membros",
+    "Folder name" : "Nùmene de sa cartella",
     "Read" : "Leghe",
     "Write" : "Iscrie",
     "Create" : "Crea",
-    "Delete" : "Cantzella",
     "Share" : "Cumpartzidura",
     "Denied (Inherited permission)" : "Negadu (permissu eredadu)",
     "Allowed (Inherited permission)" : "Cunsentidu (permissu eredadu)",
     "Denied" : "Negadu",
-    "Allowed" : "Cunsentidu"
+    "Allowed" : "Cunsentidu",
+    "Search" : "Chirca",
+    "Settings" : "Cunfiguratzione"
 },
 "nplurals=2; plural=(n != 1);");
