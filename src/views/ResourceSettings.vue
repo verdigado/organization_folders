@@ -337,7 +337,7 @@ const deleteResourceExplanation = computed(() => {
 		<Section>
 			<template #header>
 				<HeaderButtonGroup :text="t('organization_folders', 'Sub-Resources')">
-					<CreateResourceButton @create="createSubResource" />
+					<CreateResourceButton v-if="!resourcePermissionsLimited" @create="createSubResource" />
 				</HeaderButtonGroup>
 			</template>
 			<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
