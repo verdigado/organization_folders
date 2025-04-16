@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Groep toevoegen",
     "Members" : "Leden",
     "Folder name" : "Mapnaam",
+    "Name" : "Naam",
     "Read" : "Lezen",
     "Write" : "Schrijven",
     "Create" : "Creëer",
@@ -16,6 +17,15 @@ OC.L10N.register(
     "Denied" : "Geweigerd",
     "Allowed" : "Toegelaten",
     "Search" : "Zoeken",
-    "Settings" : "Instellingen"
+    "Member" : "Leden",
+    "Manager" : "Manager",
+    "Admin" : "Beheer",
+    "Settings" : "Instellingen",
+    "Invalid name" : "Ongeldige naam",
+    "Organization" : "Organisatie",
+    "Resources" : "Bronnen",
+    "Edit" : "Bewerken",
+    "Delete folder" : "Map verwijderen",
+    "Permissions" : "Rechten"
 },
 "nplurals=2; plural=(n != 1);");

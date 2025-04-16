@@ -5,6 +5,7 @@ OC.L10N.register(
     "Add group" : "Pievienot grupu",
     "Members" : "Biedri",
     "Folder name" : "Mapes nosaukums",
+    "Name" : "Nosaukums",
     "Read" : "Lasīt",
     "Write" : "Rakstīt",
     "Share" : "Kopīgot",
@@ -13,6 +14,11 @@ OC.L10N.register(
     "Denied" : "Liegts",
     "Allowed" : "Atļauts",
     "Search" : "Meklēt",
-    "Settings" : "Iestatījumi"
+    "Admin" : "Pārvaldītājs",
+    "Settings" : "Iestatījumi",
+    "Resources" : "Resursi",
+    "Edit" : "Labot",
+    "Delete folder" : "Izdzēst mapi",
+    "Permissions" : "Atļaujas"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

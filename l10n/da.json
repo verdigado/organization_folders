@@ -1,6 +1,10 @@
 { "translations": {
     "Delete" : "Slet",
+    "Select an account" : "Vælg konto",
     "Add account" : "Tilføj konto",
+    "Add group" : "Tilføj gruppe",
+    "Members" : "Medlemmer",
+    "Folder name" : "Mappenavn",
     "Read" : "Læs",
     "Write" : "Skriv",
     "Create" : "Opret",
@@ -8,6 +12,10 @@
     "Denied (Inherited permission)" : "Afvist (nedarvet tilladelse)",
     "Allowed (Inherited permission)" : "Tilladt (nedarvet tilladelse)",
     "Denied" : "Afvist",
-    "Allowed" : "Tilladt"
+    "Allowed" : "Tilladt",
+    "Search" : "Søg",
+    "Settings" : "Indstillinger",
+    "Organization" : "Organisering",
+    "Resources" : "Resourcer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

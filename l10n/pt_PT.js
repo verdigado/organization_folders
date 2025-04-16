@@ -6,6 +6,7 @@ OC.L10N.register(
     "Add group" : "Adicionar grupo",
     "Members" : "Membros",
     "Folder name" : "Nome da pasta",
+    "Name" : "Nome",
     "Read" : "Ler",
     "Write" : "Escrever",
     "Create" : "Criar",
@@ -15,6 +16,11 @@ OC.L10N.register(
     "Denied" : "Negado",
     "Allowed" : "Permitido",
     "Search" : "Pesquisa sobre",
-    "Settings" : "Definições"
+    "Member" : "membro",
+    "Admin" : "Administrador",
+    "Settings" : "Definições",
+    "Resources" : "Recursos",
+    "Edit" : "Editar",
+    "Delete folder" : "Apagar pasta"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -1,5 +1,6 @@
 { "translations": {
     "Delete" : "Borrar",
+    "Select an account" : "Seleccionar una cuenta",
     "Add account" : "Agregar cuenta",
     "Add group" : "Agregar grupo",
     "Members" : "Miembros",
@@ -11,6 +12,12 @@
     "Allowed (Inherited permission)" : "Permitido (Permiso heredado)",
     "Denied" : "Denegado",
     "Allowed" : "Permitido",
-    "Settings" : "Ajustes"
+    "Search" : "Buscar",
+    "Member" : "Miembro",
+    "Manager" : "Administrador",
+    "Settings" : "Ajustes",
+    "Organization" : "Organización",
+    "Resources" : "Recursos",
+    "Permissions" : "Permisos"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

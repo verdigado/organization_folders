@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Delete" : "Eliminar",
+    "Select an account" : "Seleccionar una cuenta",
     "Add account" : "Añadir cuenta",
     "Add group" : "Agregar grupo",
     "Members" : "Miembros",
@@ -14,6 +15,11 @@ OC.L10N.register(
     "Allowed (Inherited permission)" : "Permitido (permiso heredado)",
     "Denied" : "Denegado",
     "Allowed" : "Permitido",
-    "Settings" : "Ajustes"
+    "Search" : "Buscar",
+    "Member" : "Miembro",
+    "Manager" : "Administrador",
+    "Settings" : "Ajustes",
+    "Resources" : "Recursos",
+    "Permissions" : "Permisos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Add group" : "Bæta við hópi",
     "Members" : "Meðlimir",
     "Folder name" : "Nafn möppu",
+    "Name" : "Heiti",
     "Read" : "Lesa",
     "Write" : "Skrifa",
     "Create" : "Búa til",
@@ -15,6 +16,14 @@ OC.L10N.register(
     "Denied" : "Hafnað",
     "Allowed" : "Leyft",
     "Search" : "Search",
-    "Settings" : "Stillingar"
+    "Member" : "Meðlimur",
+    "Manager" : "Stjórnandi",
+    "Admin" : "Stjórnun",
+    "Settings" : "Stillingar",
+    "Organization" : "Stofnun/Samtök/Félag",
+    "Resources" : "Tilföng",
+    "Edit" : "Breyta",
+    "Delete folder" : "Eyða möppu",
+    "Permissions" : "Heimildir"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

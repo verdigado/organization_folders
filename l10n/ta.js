@@ -3,7 +3,11 @@ OC.L10N.register(
     {
     "Delete" : "நீக்குக",
     "Folder name" : "கோப்புறை பெயர்",
+    "Name" : "பெயர்",
     "Search" : "தேடுதல்",
-    "Settings" : "அமைப்புகள்"
+    "Admin" : "நிர்வாகம்",
+    "Settings" : "அமைப்புகள்",
+    "Organization" : "நிறுவனம்",
+    "Edit" : "தொகுக்க"
 },
 "nplurals=2; plural=(n != 1);");

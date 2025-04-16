@@ -1,5 +1,8 @@
 { "translations": {
     "Delete" : "মুছে",
-    "Read" : "পড়"
+    "Folder name" : "ফোলডারের নাম",
+    "Read" : "পড়",
+    "Search" : "Search",
+    "Settings" : "সেটিংস"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

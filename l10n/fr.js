@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Ajouter un groupe",
     "Members" : "Membres",
     "Folder name" : "Nom du dossier",
+    "Name" : "Nom",
     "Read" : "Lire",
     "Write" : "Écrire",
     "Create" : "Créer",
@@ -16,6 +17,14 @@ OC.L10N.register(
     "Denied" : "Interdit",
     "Allowed" : "Autorisé",
     "Search" : "Rechercher",
-    "Settings" : "Paramètres"
+    "Manager" : "Supérieur",
+    "Admin" : "Administration",
+    "Settings" : "Paramètres",
+    "Invalid name" : "Nom invalide",
+    "Organization" : "Organisation",
+    "Resources" : "Ressources",
+    "Edit" : "Éditer",
+    "Delete folder" : "Supprimer ce dossier",
+    "Permissions" : "Autorisations"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -9,6 +9,7 @@ OC.L10N.register(
     "Add group" : "新增群組",
     "Members" : "成員",
     "Folder name" : "資料夾名稱",
+    "Name" : "名字",
     "Read" : "讀取",
     "Write" : "寫入",
     "Create" : "創建",
@@ -18,6 +19,14 @@ OC.L10N.register(
     "Denied" : "被拒絕",
     "Allowed" : "允許的",
     "Search" : "搜尋",
-    "Settings" : "設定"
+    "Manager" : "管理者",
+    "Admin" : "管理",
+    "Settings" : "設定",
+    "Invalid name" : "姓名無效",
+    "Organization" : "生產力",
+    "Resources" : "資源",
+    "Edit" : "編輯",
+    "Delete folder" : "刪除資料夾",
+    "Permissions" : "權限"
 },
 "nplurals=1; plural=0;");

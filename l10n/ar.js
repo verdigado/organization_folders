@@ -4,6 +4,11 @@ OC.L10N.register(
     "Organization Folders" : "مُجلَّدات المؤسسة",
     "Managed group folders for your organization" : "مجلدات عامّة مُدارة لمؤسستك",
     "Delete" : "حذف",
+    "Select an account" : "اختيار حساب",
+    "Add account" : "أضف حساباً",
+    "Add group" : "إضافة مجموعة",
+    "Members" : "الاعضاء",
+    "Folder name" : "اسم المجلد",
     "Read" : "قراءة",
     "Write" : "كتابة",
     "Create" : "إنشاء",
@@ -11,6 +16,8 @@ OC.L10N.register(
     "Denied (Inherited permission)" : "مرفوض (إذن موروث)",
     "Allowed (Inherited permission)" : "مسموح (إذن موروث)",
     "Denied" : "مرفوض",
-    "Allowed" : "مسموح"
+    "Allowed" : "مسموح",
+    "Search" : "بحث",
+    "Settings" : "الإعدادات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

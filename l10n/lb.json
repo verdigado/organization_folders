@@ -1,7 +1,10 @@
 { "translations": {
     "Delete" : "Läschen",
     "Folder name" : "Dossiers Numm:",
+    "Name" : "Numm",
     "Search" : "Sichen",
-    "Settings" : "Astellungen"
+    "Admin" : "Admin",
+    "Settings" : "Astellungen",
+    "Edit" : "Änneren"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

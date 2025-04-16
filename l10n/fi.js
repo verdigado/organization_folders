@@ -8,6 +8,7 @@ OC.L10N.register(
     "Add group" : "Lisää ryhmä",
     "Members" : "Jäsenet",
     "Folder name" : "Kansion nimi",
+    "Name" : "Nimi",
     "Read" : "Lue",
     "Write" : "Kirjoita",
     "Create" : "Luo",
@@ -17,6 +18,11 @@ OC.L10N.register(
     "Denied" : "Estetty",
     "Allowed" : "Sallittu",
     "Search" : "Etsi",
-    "Settings" : "Asetukset"
+    "Admin" : "Ylläpito",
+    "Settings" : "Asetukset",
+    "Invalid name" : "Virheellinen nimi",
+    "Resources" : "Resurssit",
+    "Edit" : "Muokkaa",
+    "Permissions" : "Oikeudet"
 },
 "nplurals=2; plural=(n != 1);");

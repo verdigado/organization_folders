@@ -5,6 +5,7 @@
     "Add group" : "Taldea gehitu",
     "Members" : "Partaideak",
     "Folder name" : "Karpetaren izena",
+    "Name" : "Izena",
     "Read" : "Irakurri",
     "Write" : "Idatzi",
     "Create" : "Sortu",
@@ -14,6 +15,13 @@
     "Denied" : "Ukatuta",
     "Allowed" : "Baimenduta",
     "Search" : "Bilatu",
-    "Settings" : "Ezarpenak"
+    "Manager" : "Zuzendaria",
+    "Admin" : "Admin",
+    "Settings" : "Ezarpenak",
+    "Invalid name" : "Izen baliogabea",
+    "Organization" : "Antolakuntza",
+    "Resources" : "Baliabideak",
+    "Edit" : "Editatu",
+    "Permissions" : "Baimenak"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

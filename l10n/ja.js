@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "グループを追加",
     "Members" : "メンバー",
     "Folder name" : "フォルダー名",
+    "Name" : "名前",
     "Read" : "読み込み",
     "Write" : "編集",
     "Create" : "作成",
@@ -16,6 +17,14 @@ OC.L10N.register(
     "Denied" : "拒否",
     "Allowed" : "許可",
     "Search" : "検索",
-    "Settings" : "設定"
+    "Member" : "参加者",
+    "Manager" : "Manager",
+    "Admin" : "管理",
+    "Settings" : "設定",
+    "Organization" : "共同作業",
+    "Resources" : "リソース",
+    "Edit" : "編集",
+    "Delete folder" : "フォルダーを削除",
+    "Permissions" : "アクセス権限"
 },
 "nplurals=1; plural=0;");

@@ -2,9 +2,11 @@
     "Delete" : "Pozmak",
     "Add account" : "Hasap goşuň",
     "Folder name" : "Papkanyň ady",
+    "Name" : "Ady",
     "Create" : "Dörediň",
     "Share" : "Paýlaş",
     "Search" : "Gözlemek",
-    "Settings" : "Sazlamalar"
+    "Settings" : "Sazlamalar",
+    "Edit" : "Redaktirläň"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

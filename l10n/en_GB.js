@@ -4,7 +4,11 @@ OC.L10N.register(
     "Organization Folders" : "Organisation Folders",
     "Managed group folders for your organization" : "Managed group folders for your organization",
     "Delete" : "Delete",
+    "Select an account" : "Select an account",
     "Add account" : "Add account",
+    "Add group" : "Add group",
+    "Members" : "Members",
+    "Folder name" : "Folder name",
     "Read" : "Read",
     "Write" : "Write",
     "Create" : "Create",
@@ -13,6 +17,10 @@ OC.L10N.register(
     "Allowed (Inherited permission)" : "Allowed (Inherited permission)",
     "Denied" : "Denied",
     "Allowed" : "Allowed",
-    "Settings" : "Settings"
+    "Search" : "Search",
+    "Manager" : "Manager",
+    "Settings" : "Settings",
+    "Resources" : "Resources",
+    "Permissions" : "Permissions"
 },
 "nplurals=2; plural=(n != 1);");

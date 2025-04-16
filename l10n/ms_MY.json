@@ -1,6 +1,9 @@
 { "translations": {
     "Delete" : "Padam",
+    "Name" : "Nama",
     "Search" : "Search",
-    "Settings" : "Tetapan"
+    "Admin" : "Admin",
+    "Settings" : "Tetapan",
+    "Edit" : "Sunting"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

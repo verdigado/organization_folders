@@ -3,7 +3,10 @@ OC.L10N.register(
     {
     "Delete" : "Läschen",
     "Folder name" : "Dossiers Numm:",
+    "Name" : "Numm",
     "Search" : "Sichen",
-    "Settings" : "Astellungen"
+    "Admin" : "Admin",
+    "Settings" : "Astellungen",
+    "Edit" : "Änneren"
 },
 "nplurals=2; plural=(n != 1);");

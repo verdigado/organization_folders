@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Agiunghe grupu",
     "Members" : "Membros",
     "Folder name" : "Nùmene de sa cartella",
+    "Name" : "Nùmene",
     "Read" : "Leghe",
     "Write" : "Iscrie",
     "Create" : "Crea",
@@ -16,6 +17,13 @@ OC.L10N.register(
     "Denied" : "Negadu",
     "Allowed" : "Cunsentidu",
     "Search" : "Chirca",
-    "Settings" : "Cunfiguratzione"
+    "Admin" : "Amministradore",
+    "Settings" : "Cunfiguratzione",
+    "Invalid name" : "Nùmene non bàlidu",
+    "Organization" : "Organizatzione",
+    "Resources" : "Risorsas",
+    "Edit" : "Modìfica",
+    "Delete folder" : "Cantzella sa cartella",
+    "Permissions" : "Permissos"
 },
 "nplurals=2; plural=(n != 1);");

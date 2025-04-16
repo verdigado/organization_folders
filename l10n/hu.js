@@ -8,6 +8,7 @@ OC.L10N.register(
     "Add group" : "Csoport hozzáadása",
     "Members" : "Tagok",
     "Folder name" : "Mappanév",
+    "Name" : "Név",
     "Read" : "Olvasás",
     "Write" : "Írás",
     "Create" : "Létrehozás",
@@ -17,6 +18,14 @@ OC.L10N.register(
     "Denied" : "Tiltott",
     "Allowed" : "Engedélyezett",
     "Search" : "Keresés",
-    "Settings" : "Beállítások"
+    "Manager" : "Kezelő",
+    "Admin" : "Rendszergazda",
+    "Settings" : "Beállítások",
+    "Invalid name" : "Érvénytelen név",
+    "Organization" : "Szervezet",
+    "Resources" : "Erőforrások",
+    "Edit" : "Szerkesztés",
+    "Delete folder" : "Mappa törlése",
+    "Permissions" : "Jogosultságok"
 },
 "nplurals=2; plural=(n != 1);");

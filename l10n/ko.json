@@ -6,6 +6,7 @@
     "Add group" : "그룹 추가",
     "Members" : "구성원",
     "Folder name" : "폴더 이름",
+    "Name" : "이름",
     "Read" : "읽기",
     "Write" : "쓰기",
     "Create" : "생성",
@@ -15,6 +16,13 @@
     "Denied" : "거부됨",
     "Allowed" : "허용됨",
     "Search" : "검색",
-    "Settings" : "설정"
+    "Manager" : "담당 관리자",
+    "Settings" : "설정",
+    "Invalid name" : "잘못된 이름",
+    "Organization" : "개인 정보 관리",
+    "Resources" : "자원",
+    "Edit" : "편집",
+    "Delete folder" : "폴더 삭제",
+    "Permissions" : "권한"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

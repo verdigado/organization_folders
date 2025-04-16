@@ -1,5 +1,10 @@
 { "translations": {
     "Delete" : "Изтриване",
+    "Select an account" : "Избор на профил",
+    "Add account" : "Добавяне на регистрация",
+    "Add group" : "Нова група",
+    "Members" : "Членове",
+    "Folder name" : "Име на папка",
     "Read" : "Прочитане",
     "Write" : "Писане",
     "Create" : "Създаване",
@@ -7,6 +12,8 @@
     "Denied (Inherited permission)" : "Отказан (наследено право)",
     "Allowed (Inherited permission)" : "Позволен (наследено право)",
     "Denied" : "Отказан",
-    "Allowed" : "Позволен"
+    "Allowed" : "Позволен",
+    "Search" : "Търсене",
+    "Settings" : "Настройки"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

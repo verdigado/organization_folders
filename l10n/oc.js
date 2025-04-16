@@ -6,10 +6,15 @@ OC.L10N.register(
     "Add group" : "Apondre grop",
     "Members" : "Membres",
     "Folder name" : "Nom del dorsièr",
+    "Name" : "Nom",
     "Read" : "Legit",
     "Create" : "Crear",
     "Share" : "Partejar",
     "Search" : "Recercar",
-    "Settings" : "Paramètres"
+    "Admin" : "Admin",
+    "Settings" : "Paramètres",
+    "Edit" : "Modificar",
+    "Delete folder" : "Suprimir dossièr",
+    "Permissions" : "Autorizacions"
 },
 "nplurals=2; plural=(n > 1);");

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Members" : "Membros",
     "Folder name" : "Nomine de dossier",
     "Search" : "Cercar",
-    "Settings" : "Configurationes"
+    "Settings" : "Configurationes",
+    "Edit" : "Modificar"
 },
 "nplurals=2; plural=(n != 1);");

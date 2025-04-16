@@ -9,6 +9,7 @@ OC.L10N.register(
     "Add group" : "Engadir un grupo",
     "Members" : "Membros",
     "Folder name" : "Nome do cartafol",
+    "Name" : "Nome",
     "Read" : "Ler",
     "Write" : "Escribir",
     "Create" : "Crear",
@@ -18,6 +19,14 @@ OC.L10N.register(
     "Denied" : "Denegado",
     "Allowed" : "Permitido",
     "Search" : "Buscar",
-    "Settings" : "Axustes"
+    "Member" : "Membro",
+    "Manager" : "Xestor/a",
+    "Admin" : "Administración",
+    "Settings" : "Axustes",
+    "Invalid name" : "Nome incorrecto",
+    "Resources" : "Recursos",
+    "Edit" : "Editar",
+    "Delete folder" : "Eliminar o cartafol",
+    "Permissions" : "Permisos"
 },
 "nplurals=2; plural=(n != 1);");

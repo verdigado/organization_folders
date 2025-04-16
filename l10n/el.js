@@ -2,7 +2,11 @@ OC.L10N.register(
     "organization_folders",
     {
     "Delete" : "Διαγραφή",
+    "Select an account" : "Επιλογή λογαριασμού",
     "Add account" : "Προσθήκη λογαριασμού",
+    "Add group" : "Προσθήκη ομάδας",
+    "Members" : "Μέλη",
+    "Folder name" : "Όνομα φακέλου",
     "Read" : "Ανάγνωση",
     "Write" : "Εγγραφή",
     "Create" : "Δημιουργία",
@@ -11,6 +15,11 @@ OC.L10N.register(
     "Allowed (Inherited permission)" : "Επετράπη (Κληρονομικά δικαιώματα)",
     "Denied" : "Απαγορεύτηκε",
     "Allowed" : "Επετράπη",
-    "Settings" : "Ρυθμίσεις"
+    "Search" : "Αναζήτηση",
+    "Manager" : "Διαχειριστής",
+    "Settings" : "Ρυθμίσεις",
+    "Organization" : "Οργανισμός",
+    "Resources" : "Πηγές",
+    "Permissions" : "Δικαιώματα"
 },
 "nplurals=2; plural=(n != 1);");

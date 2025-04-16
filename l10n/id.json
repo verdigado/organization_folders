@@ -3,9 +3,13 @@
     "Add group" : "Tambah grup",
     "Members" : "Anggota",
     "Folder name" : "Nama folder",
+    "Name" : "Nama",
     "Read" : "Baca",
     "Create" : "Buat",
     "Search" : "Cari",
-    "Settings" : "Setelan"
+    "Admin" : "Admin",
+    "Settings" : "Setelan",
+    "Resources" : "Sumber daya",
+    "Edit" : "Sunting"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

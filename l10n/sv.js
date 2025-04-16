@@ -9,6 +9,7 @@ OC.L10N.register(
     "Add group" : "Lägg till grupp",
     "Members" : "Medlemmar",
     "Folder name" : "Mappnamn",
+    "Name" : "Namn",
     "Read" : "Läs",
     "Write" : "Skriva",
     "Create" : "Skapa",
@@ -18,6 +19,13 @@ OC.L10N.register(
     "Denied" : "Nekad",
     "Allowed" : "Tillåten",
     "Search" : "Sök",
-    "Settings" : "Inställningar"
+    "Manager" : "Chef",
+    "Admin" : "Admin",
+    "Settings" : "Inställningar",
+    "Organization" : "Organisering",
+    "Resources" : "Resurser",
+    "Edit" : "Redigera",
+    "Delete folder" : "Radera mapp",
+    "Permissions" : "Behörigheter"
 },
 "nplurals=2; plural=(n != 1);");

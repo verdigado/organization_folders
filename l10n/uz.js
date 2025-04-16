@@ -3,9 +3,14 @@ OC.L10N.register(
     {
     "Delete" : "Delete",
     "Folder name" : "Folder name",
+    "Name" : "Nomi",
     "Create" : "Yaratish",
     "Share" : "Ulashish",
     "Search" : "Qidiruv",
-    "Settings" : "Sozlamalar"
+    "Admin" : "Admin",
+    "Settings" : "Sozlamalar",
+    "Resources" : "Resurslar",
+    "Edit" : "Tahrirlash",
+    "Delete folder" : "Jildni o'chirish"
 },
 "nplurals=1; plural=0;");

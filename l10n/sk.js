@@ -9,6 +9,7 @@ OC.L10N.register(
     "Add group" : "Pridať skupinu",
     "Members" : "Členovia",
     "Folder name" : "Názov priečinka",
+    "Name" : "Názov",
     "Read" : "Čítanie",
     "Write" : "Zapisovať",
     "Create" : "Vytvoriť",
@@ -18,6 +19,13 @@ OC.L10N.register(
     "Denied" : "Zamietnuté",
     "Allowed" : "Povolené",
     "Search" : "Hľadať",
-    "Settings" : "Nastavenia"
+    "Manager" : "Manažér",
+    "Admin" : "Admi",
+    "Settings" : "Nastavenia",
+    "Invalid name" : "Neplatné meno",
+    "Resources" : "Zdroje",
+    "Edit" : "Upraviť",
+    "Delete folder" : "Zmazať priečinok",
+    "Permissions" : "Oprávnenia"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

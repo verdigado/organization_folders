@@ -2,9 +2,13 @@
     "Delete" : "ลบ",
     "Add group" : "เพิ่มกลุ่ม",
     "Folder name" : "ชื่อโฟลเดอร์",
+    "Name" : "ชื่อ",
     "Read" : "อ่าน",
     "Create" : "สร้าง",
     "Search" : "ค้นหา",
-    "Settings" : "การตั้งค่า"
+    "Admin" : "ผู้ดูแลระบบ",
+    "Settings" : "การตั้งค่า",
+    "Resources" : "ทรัพยากร",
+    "Edit" : "แก้ไข"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

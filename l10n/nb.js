@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Legg til gruppe",
     "Members" : "Medlemmer",
     "Folder name" : "Mappenavn",
+    "Name" : "Navn",
     "Read" : "Les",
     "Write" : "Skriv",
     "Create" : "Opprett",
@@ -16,6 +17,15 @@ OC.L10N.register(
     "Denied" : "Nektet",
     "Allowed" : "Tillatt",
     "Search" : "Søk",
-    "Settings" : "Innstillinger"
+    "Member" : "Medlem",
+    "Manager" : "Sjef",
+    "Admin" : "Administrator",
+    "Settings" : "Innstillinger",
+    "Invalid name" : "Ugyldig navn",
+    "Organization" : "Organisering",
+    "Resources" : "Ressurser",
+    "Edit" : "Rediger",
+    "Delete folder" : "Slett mappe",
+    "Permissions" : "Rettigheter"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,7 +6,10 @@ OC.L10N.register(
     "Add account" : "Legg til konto",
     "Add group" : "Legg til gruppe",
     "Folder name" : "Katalognavn",
+    "Name" : "Namn",
     "Search" : "Søk",
-    "Settings" : "Innstillingar"
+    "Admin" : "Administrer",
+    "Settings" : "Innstillingar",
+    "Edit" : "Rediger"
 },
 "nplurals=2; plural=(n != 1);");

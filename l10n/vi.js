@@ -7,10 +7,17 @@ OC.L10N.register(
     "Add group" : "Thêm nhóm",
     "Members" : "Thành viên",
     "Folder name" : "Tên thư mục",
+    "Name" : "Tên",
     "Read" : "Đọc",
     "Create" : "Tạo",
     "Share" : "Chia sẻ",
     "Search" : "Tìm kiếm",
-    "Settings" : "Cài đặt"
+    "Member" : "Thành viên",
+    "Manager" : "Giám đốc",
+    "Admin" : "Quản trị viên",
+    "Settings" : "Cài đặt",
+    "Resources" : "Các nguồn lực",
+    "Edit" : "Chỉnh sửa",
+    "Delete folder" : "Xoá thư mục"
 },
 "nplurals=1; plural=0;");

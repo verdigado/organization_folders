@@ -1,7 +1,10 @@
 { "translations": {
     "Delete" : "حذف کریں",
+    "Name" : "اسم",
     "Share" : "اشتراک",
     "Search" : "Search",
-    "Settings" : "سیٹینگز"
+    "Admin" : "ایڈمن",
+    "Settings" : "سیٹینگز",
+    "Edit" : "تدوین کریں"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

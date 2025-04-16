@@ -9,6 +9,7 @@ OC.L10N.register(
     "Add group" : "Cuir grúpa leis",
     "Members" : "Baill",
     "Folder name" : "Ainm fillteáin",
+    "Name" : "Ainm",
     "Read" : "Léigh",
     "Write" : "Scríobh",
     "Create" : "Cruthaigh",
@@ -18,6 +19,15 @@ OC.L10N.register(
     "Denied" : "Diúltaíodh",
     "Allowed" : "Ceadaithe",
     "Search" : "Cuardach",
-    "Settings" : "Socruithe"
+    "Member" : "Ball",
+    "Manager" : "Bainisteoir",
+    "Admin" : "Riarachán",
+    "Settings" : "Socruithe",
+    "Invalid name" : "Ainm neamhbhailí",
+    "Organization" : "Eagraíocht",
+    "Resources" : "Acmhainní",
+    "Edit" : "Cuir in eagar",
+    "Delete folder" : "Scrios fillteán",
+    "Permissions" : "Ceadanna"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

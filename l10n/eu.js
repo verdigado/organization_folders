@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Taldea gehitu",
     "Members" : "Partaideak",
     "Folder name" : "Karpetaren izena",
+    "Name" : "Izena",
     "Read" : "Irakurri",
     "Write" : "Idatzi",
     "Create" : "Sortu",
@@ -16,6 +17,13 @@ OC.L10N.register(
     "Denied" : "Ukatuta",
     "Allowed" : "Baimenduta",
     "Search" : "Bilatu",
-    "Settings" : "Ezarpenak"
+    "Manager" : "Zuzendaria",
+    "Admin" : "Admin",
+    "Settings" : "Ezarpenak",
+    "Invalid name" : "Izen baliogabea",
+    "Organization" : "Antolakuntza",
+    "Resources" : "Baliabideak",
+    "Edit" : "Editatu",
+    "Permissions" : "Baimenak"
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "افزودن گروه",
     "Members" : "اعضا",
     "Folder name" : "نام پوشه",
+    "Name" : "نام",
     "Read" : "خواندن",
     "Write" : "نوشتن",
     "Create" : "ایجاد",
@@ -16,6 +17,13 @@ OC.L10N.register(
     "Denied" : "رد کرد",
     "Allowed" : "مجاز",
     "Search" : "جستجو",
-    "Settings" : "تنظیمات"
+    "Member" : "عضو",
+    "Manager" : "Manager",
+    "Admin" : "مدیر",
+    "Settings" : "تنظیمات",
+    "Organization" : "سازمانی",
+    "Resources" : "منابع",
+    "Edit" : "ویرایش",
+    "Permissions" : "مجوزها"
 },
 "nplurals=2; plural=(n > 1);");

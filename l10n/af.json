@@ -1,4 +1,6 @@
 { "translations": {
-    "Delete" : "Skrap"
+    "Delete" : "Skrap",
+    "Search" : "Soek",
+    "Settings" : "Instellings"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

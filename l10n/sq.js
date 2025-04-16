@@ -7,11 +7,19 @@ OC.L10N.register(
     "Add group" : "Shto grupin",
     "Members" : "Anëtar",
     "Folder name" : "Emër dosjeje",
+    "Name" : "Emër",
     "Read" : "Lexoni",
     "Write" : "Shkruaj",
     "Create" : "Krijo",
     "Share" : "Ndaj",
     "Search" : "Kërko",
-    "Settings" : "Rregullimet"
+    "Member" : "Anëtar",
+    "Admin" : "Administrator",
+    "Settings" : "Rregullimet",
+    "Organization" : "Organizate",
+    "Resources" : "Burimet",
+    "Edit" : "Përpuno",
+    "Delete folder" : "Fshije dosjen",
+    "Permissions" : "Lejet"
 },
 "nplurals=2; plural=(n != 1);");

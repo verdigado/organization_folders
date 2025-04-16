@@ -9,6 +9,7 @@ OC.L10N.register(
     "Add group" : "Grup ekle",
     "Members" : "Üyeler",
     "Folder name" : "Klasör adı",
+    "Name" : "Ad",
     "Read" : "Okuma",
     "Write" : "Yazma",
     "Create" : "Ekleme",
@@ -18,6 +19,13 @@ OC.L10N.register(
     "Denied" : "Reddedildi",
     "Allowed" : "İzin verildi",
     "Search" : "Ara",
-    "Settings" : "Ayarlar"
+    "Manager" : "Yönetici",
+    "Settings" : "Ayarlar",
+    "Invalid name" : "Ad geçersiz",
+    "Organization" : "Kuruluş",
+    "Resources" : "Kaynaklar",
+    "Edit" : "Düzenle",
+    "Delete folder" : "Klasörü sil",
+    "Permissions" : "İzinler"
 },
 "nplurals=2; plural=(n > 1);");

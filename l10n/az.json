@@ -1,6 +1,9 @@
 { "translations": {
     "Delete" : "Sil",
+    "Folder name" : "Qovluq adı",
     "Read" : "Oxu",
-    "Share" : "Yayımla"
+    "Share" : "Yayımla",
+    "Search" : "Axtarış",
+    "Settings" : "Quraşdırmalar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

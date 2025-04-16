@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "添加群组",
     "Members" : "成员",
     "Folder name" : "文件夹名称",
+    "Name" : "名称",
     "Read" : "读取",
     "Write" : "写入",
     "Create" : "创建",
@@ -16,6 +17,13 @@ OC.L10N.register(
     "Denied" : "拒绝",
     "Allowed" : "允许",
     "Search" : "搜索",
-    "Settings" : "设置"
+    "Manager" : "管理者",
+    "Admin" : "管理",
+    "Settings" : "设置",
+    "Invalid name" : "无效名称",
+    "Resources" : "资源",
+    "Edit" : "编辑",
+    "Delete folder" : "删除文件夹",
+    "Permissions" : "权限"
 },
 "nplurals=1; plural=0;");

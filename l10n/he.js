@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "הוספת קבוצה",
     "Members" : "חברים",
     "Folder name" : "שם התיקייה",
+    "Name" : "שם",
     "Read" : "קריאה",
     "Write" : "כתיבה",
     "Share" : "שתף",
@@ -15,6 +16,12 @@ OC.L10N.register(
     "Denied" : "חסום",
     "Allowed" : "מורשה",
     "Search" : "חיפוש",
-    "Settings" : "הגדרות"
+    "Member" : "חבר",
+    "Admin" : "מנהל",
+    "Settings" : "הגדרות",
+    "Resources" : "משאבים",
+    "Edit" : "עריכה",
+    "Delete folder" : "מחק תיקייה",
+    "Permissions" : "הרשאות"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

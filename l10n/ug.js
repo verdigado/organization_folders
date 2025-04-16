@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "گۇرۇپپا قوشۇڭ",
     "Members" : "ئەزالار",
     "Folder name" : "ھۆججەت قىسقۇچنىڭ ئىسمى",
+    "Name" : "ئاتى",
     "Read" : "ئوقۇ",
     "Write" : "يېزىڭ",
     "Create" : "قۇر",
@@ -16,6 +17,14 @@ OC.L10N.register(
     "Denied" : "رەت قىلىندى",
     "Allowed" : "رۇخسەت قىلىندى",
     "Search" : "ئىزدەش",
-    "Settings" : "تەڭشەكلەر"
+    "Member" : "ئەزا",
+    "Manager" : "باشقۇرغۇچى",
+    "Admin" : "باشقۇرغۇچى",
+    "Settings" : "تەڭشەكلەر",
+    "Invalid name" : "ئىناۋەتسىز ئىسىم",
+    "Resources" : "بايلىق",
+    "Edit" : "تەھرىر",
+    "Delete folder" : "ھۆججەت قىسقۇچنى ئۆچۈرۈڭ",
+    "Permissions" : "ئىجازەت"
 },
 "nplurals=2; plural=(n != 1);");
