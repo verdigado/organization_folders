@@ -1,11 +1,17 @@
 <script setup>
 import { computed } from "vue";
+
+import HelpCircle from "vue-material-design-icons/HelpCircle.vue";
+
 import { calcBits, toggleBit } from "../../helpers/permission-helpers.js";
 
 const props = defineProps({
 	label: {
 		type: String,
 		default: "",
+	},
+	explanation: {
+		type: String,
 	},
 	mask: {
 		type: Number,
@@ -52,8 +58,14 @@ const onClick = (bitName) => emit("change", toggleBit(props.value, bitName));
 
 <template>
 	<tr>
-		<td v-tooltip="props.label">
-			{{ props.label }}
+		<td>
+			<div style="display: flex; align-items: center;">
+				<span>{{ props.label }}</span>
+				<HelpCircle v-if="props.explanation"
+					v-tooltip="props.explanation"
+					style="margin-left: 5px;"
+					:size="15" />
+			</div>
 		</td>
 
 		<td v-for="({ bitName, className, tooltipText }) in bitButtonProps" :key="bitName">

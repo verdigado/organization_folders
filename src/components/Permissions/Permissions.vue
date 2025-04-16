@@ -14,23 +14,27 @@ const emit = defineEmits(["permissionUpdated"]);
 const permissionGroups = computed(() => {
   return [
 	{
-	  field: "managersAclPermission",
-	  label: t("organization_folders", "Managers"),
-	  value: props.resource.managersAclPermission,
-	  mask: 31,
+		field: "managersAclPermission",
+		label: t("organization_folders", "Managers"),
+		explanation: props.resource.inheritManagers ?
+			t("organization_folders", "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above") :
+			t("organization_folders", "These permissions apply to any member added in the next section with the manager permission level"),
+		value: props.resource.managersAclPermission,
+		mask: 31,
 	},
 	{
-	  field: "membersAclPermission",
-	  label: t("organization_folders", "Members"),
-	  explanation: t("organization_folders", "These permissions apply to any member added in the next section with the member permission level"),
-	  value: props.resource.membersAclPermission,
-	  mask: 31,
+		field: "membersAclPermission",
+		label: t("organization_folders", "Members"),
+		explanation: t("organization_folders", "These permissions apply to any member added in the next section with the member permission level"),
+		value: props.resource.membersAclPermission,
+		mask: 31,
 	},
 	{
-	  field: "inheritedAclPermission",
-	  label: t("organization_folders", "Inherited Permissions"),
-	  value: props.resource.inheritedAclPermission,
-	  mask: 31,
+		field: "inheritedAclPermission",
+		label: t("organization_folders", "Inherited Permissions"),
+		explanation: t("organization_folders", "These permissions apply to anyone, that has at least read access on the level above"),
+		value: props.resource.inheritedAclPermission,
+		mask: 31,
 	},
   ]
 });
@@ -69,9 +73,10 @@ const permissionUpdated = async (field, value) => {
 			</tr>
 		</thead>
 		<tbody>
-			<PermissionsInputRow v-for="{ field, label, mask, value} in permissionGroups"
+			<PermissionsInputRow v-for="{ field, label, explanation, mask, value } in permissionGroups"
 				:key="field"
 				:label="label"
+				:explanation="explanation"
 				:mask="mask"
 				:value="value"
 				@change="(val) => permissionUpdated(field, val)" />
