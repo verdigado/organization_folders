@@ -23,6 +23,7 @@ OC.L10N.register(
     "Invalid name" : "Virheellinen nimi",
     "Resources" : "Resurssit",
     "Edit" : "Muokkaa",
+    "Delete folder" : "Poista kansio",
     "Permissions" : "Oikeudet"
 },
 "nplurals=2; plural=(n != 1);");

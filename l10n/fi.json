@@ -21,6 +21,7 @@
     "Invalid name" : "Virheellinen nimi",
     "Resources" : "Resurssit",
     "Edit" : "Muokkaa",
+    "Delete folder" : "Poista kansio",
     "Permissions" : "Oikeudet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

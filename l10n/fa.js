@@ -24,6 +24,7 @@ OC.L10N.register(
     "Organization" : "سازمانی",
     "Resources" : "منابع",
     "Edit" : "ویرایش",
+    "Delete folder" : "حذف پوشه",
     "Permissions" : "مجوزها"
 },
 "nplurals=2; plural=(n > 1);");

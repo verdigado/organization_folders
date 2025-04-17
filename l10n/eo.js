@@ -5,6 +5,7 @@ OC.L10N.register(
     "Add group" : "Aldoni grupon",
     "Members" : "Membroj",
     "Folder name" : "Dosierujnomo",
+    "Name" : "Nomo",
     "Read" : "Legi",
     "Write" : "Skribi",
     "Denied (Inherited permission)" : "Rifuzita (heredita permeso)",
@@ -12,7 +13,10 @@ OC.L10N.register(
     "Denied" : "Rifuzita",
     "Allowed" : "Permesita",
     "Search" : "Serĉi",
+    "Member" : "Membro",
+    "Admin" : "Administranto",
     "Settings" : "Agordoj",
-    "Resources" : "Rimedoj"
+    "Resources" : "Rimedoj",
+    "Edit" : "Modifi"
 },
 "nplurals=2; plural=(n != 1);");

@@ -9,6 +9,7 @@ OC.L10N.register(
     "Add group" : "إضافة مجموعة",
     "Members" : "الاعضاء",
     "Folder name" : "اسم المجلد",
+    "Name" : "الاسم",
     "Read" : "قراءة",
     "Write" : "كتابة",
     "Create" : "إنشاء",
@@ -18,6 +19,15 @@ OC.L10N.register(
     "Denied" : "مرفوض",
     "Allowed" : "مسموح",
     "Search" : "بحث",
-    "Settings" : "الإعدادات"
+    "Member" : "عضو",
+    "Manager" : "مدير",
+    "Admin" : "مدير",
+    "Settings" : "الإعدادات",
+    "Invalid name" : "اسم غير صالح",
+    "Organization" : "المنظمة",
+    "Resources" : "الموارد",
+    "Edit" : "تحرير",
+    "Delete folder" : "حذف مجلد",
+    "Permissions" : "الصلاحيّات"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

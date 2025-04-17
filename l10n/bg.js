@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Нова група",
     "Members" : "Членове",
     "Folder name" : "Име на папка",
+    "Name" : "Име",
     "Read" : "Прочитане",
     "Write" : "Писане",
     "Create" : "Създаване",
@@ -16,6 +17,13 @@ OC.L10N.register(
     "Denied" : "Отказан",
     "Allowed" : "Позволен",
     "Search" : "Търсене",
-    "Settings" : "Настройки"
+    "Admin" : "Админ",
+    "Settings" : "Настройки",
+    "Invalid name" : "Невалидно име",
+    "Organization" : "Организиране",
+    "Resources" : "Ресурси",
+    "Edit" : "Редактиране",
+    "Delete folder" : "Изтриване на папка",
+    "Permissions" : "Права"
 },
 "nplurals=2; plural=(n != 1);");

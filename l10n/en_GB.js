@@ -9,6 +9,7 @@ OC.L10N.register(
     "Add group" : "Add group",
     "Members" : "Members",
     "Folder name" : "Folder name",
+    "Name" : "Surname",
     "Read" : "Read",
     "Write" : "Write",
     "Create" : "Create",
@@ -18,9 +19,14 @@ OC.L10N.register(
     "Denied" : "Denied",
     "Allowed" : "Allowed",
     "Search" : "Search",
+    "Member" : "Member",
     "Manager" : "Manager",
+    "Admin" : "Admin",
     "Settings" : "Settings",
+    "Invalid name" : "Invalid name",
     "Resources" : "Resources",
+    "Edit" : "Edit",
+    "Delete folder" : "Delete folder",
     "Permissions" : "Permissions"
 },
 "nplurals=2; plural=(n != 1);");

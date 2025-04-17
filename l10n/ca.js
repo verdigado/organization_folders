@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Afegeix un grup",
     "Members" : "Membres",
     "Folder name" : "Nom de la carpeta",
+    "Name" : "Nom",
     "Read" : "Lectura",
     "Write" : "Escriu",
     "Create" : "Crea",
@@ -16,7 +17,13 @@ OC.L10N.register(
     "Denied" : "Denegat",
     "Allowed" : "Permès",
     "Search" : "Cercar",
+    "Manager" : "Gestor",
+    "Admin" : "Administració",
     "Settings" : "Paràmetres",
-    "Resources" : "Recursos"
+    "Invalid name" : "Nom invàlid",
+    "Resources" : "Recursos",
+    "Edit" : "Edició",
+    "Delete folder" : "Suprimeix la carpeta",
+    "Permissions" : "Permisos"
 },
 "nplurals=2; plural=(n != 1);");

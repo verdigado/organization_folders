@@ -11,6 +11,7 @@ OC.L10N.register(
     "Write" : "Escribir",
     "Search" : "Buscar",
     "Member" : "Miembro",
+    "Admin" : "Admin",
     "Settings" : "Configuraciones ",
     "Organization" : "Organización",
     "Resources" : "Recursos",

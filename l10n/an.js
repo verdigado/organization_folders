@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Delete" : "Borrar",
     "Folder name" : "Nombre de carpeta",
+    "Name" : "Nombre",
     "Read" : "Leyer",
     "Write" : "Escribir",
     "Create" : "Crear",
@@ -12,6 +13,7 @@ OC.L10N.register(
     "Denied" : "Denegau",
     "Allowed" : "Permitiu",
     "Search" : "Buscar",
+    "Admin" : "Administrador",
     "Settings" : "Configuración"
 },
 "nplurals=2; plural=(n != 1);");

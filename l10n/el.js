@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Προσθήκη ομάδας",
     "Members" : "Μέλη",
     "Folder name" : "Όνομα φακέλου",
+    "Name" : "Όνομα",
     "Read" : "Ανάγνωση",
     "Write" : "Εγγραφή",
     "Create" : "Δημιουργία",
@@ -16,10 +17,15 @@ OC.L10N.register(
     "Denied" : "Απαγορεύτηκε",
     "Allowed" : "Επετράπη",
     "Search" : "Αναζήτηση",
+    "Member" : "Μέλος",
     "Manager" : "Διαχειριστής",
+    "Admin" : "Διαχειριστής",
     "Settings" : "Ρυθμίσεις",
+    "Invalid name" : "Μη έγκυρο όνομα",
     "Organization" : "Οργανισμός",
     "Resources" : "Πηγές",
+    "Edit" : "Επεξεργασία",
+    "Delete folder" : "Διαγραφή φακέλου",
     "Permissions" : "Δικαιώματα"
 },
 "nplurals=2; plural=(n != 1);");

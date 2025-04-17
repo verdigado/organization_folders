@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Delete" : "Skrap",
     "Search" : "Soek",
-    "Settings" : "Instellings"
+    "Admin" : "Admin",
+    "Settings" : "Instellings",
+    "Resources" : "Hulpbronne"
 },
 "nplurals=2; plural=(n != 1);");

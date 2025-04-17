@@ -14,6 +14,7 @@ OC.L10N.register(
     "Members" : "Členové",
     "Create folder" : "Vytvořit složku",
     "Folder name" : "Název složky",
+    "Name" : "Název",
     "Read" : "Nastavit jako přečtené",
     "Write" : "Zapisovat",
     "Create" : "Vytvářet",
@@ -23,11 +24,17 @@ OC.L10N.register(
     "Denied" : "Odepřeno",
     "Allowed" : "Umožněno",
     "Search" : "Hledat",
+    "Manager" : "Nástroj pro správu",
+    "Admin" : "Správa",
     "Managers have access to the settings of top-level resources with manager inheritance enabled. Admins have access to the settings of all resources, regardless of their inheritance setting." : "Spravující mají přístup k nastavením prostředkům na nejvyšší úrovni se zapnutou dědičností spravujícího. Správci mají přístup k nastavením všech zdrojů, nezávisle na nastavení dědičnosti.",
     "Settings" : "Settings",
+    "Invalid name" : "Neplatné jméno",
     "Organization" : "Organizování",
     "Resources" : "Prostředky",
+    "Edit" : "Upravit",
     "Folder Settings" : "Nastavení složky",
-    "Managers have access to the settings of this folder" : "Spravující mají přístup k nastavením této složky"
+    "Managers have access to the settings of this folder" : "Spravující mají přístup k nastavením této složky",
+    "Delete folder" : "Smazat složku",
+    "Permissions" : "Oprávnění"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

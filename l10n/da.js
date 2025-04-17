@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add group" : "Tilføj gruppe",
     "Members" : "Medlemmer",
     "Folder name" : "Mappenavn",
+    "Name" : "Navn",
     "Read" : "Læs",
     "Write" : "Skriv",
     "Create" : "Opret",
@@ -16,8 +17,12 @@ OC.L10N.register(
     "Denied" : "Afvist",
     "Allowed" : "Tilladt",
     "Search" : "Søg",
+    "Manager" : "Administrer",
     "Settings" : "Indstillinger",
     "Organization" : "Organisering",
-    "Resources" : "Resourcer"
+    "Resources" : "Resourcer",
+    "Edit" : "Rediger",
+    "Delete folder" : "Slet mappe",
+    "Permissions" : "Tilladelser"
 },
 "nplurals=2; plural=(n != 1);");

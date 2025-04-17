@@ -4,8 +4,8 @@
     "Delete" : "Excluir",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Digite \"{markupStart}{text}{markupEnd}\" para confirmar.",
     "Select an account" : "Selecionar uma conta",
-    "Select a group" : "Selecione um grupo",
-    "Select an organization role" : "Selecione uma função na organização",
+    "Select a group" : "Selecionar um grupo",
+    "Select an organization role" : "Selecionar uma função na organização",
     "Add account" : "Adicionar conta",
     "Add group" : "Adicionar grupo",
     "Add {organizationProvider} organization members or role" : "Adicionar membros ou função da organização {organizationProvider}",
@@ -29,8 +29,8 @@
     "Invalid name" : "Nome inválido",
     "Resources" : "Recursos",
     "Edit" : "Editar",
-    "Folder Settings" : "Configurações de Pastas",
-    "Managers have access to the settings of this folder" : "Gerentes têm acesso às configurações dessa pasta",
+    "Folder Settings" : "Configurações da Pasta",
+    "Managers have access to the settings of this folder" : "Gerentes têm acesso às configurações desta pasta",
     "Delete folder" : "Excluir pasta",
     "Permissions" : "Permissões"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

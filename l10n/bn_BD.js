@@ -3,8 +3,11 @@ OC.L10N.register(
     {
     "Delete" : "মুছে",
     "Folder name" : "ফোলডারের নাম",
+    "Name" : "নাম",
     "Read" : "পড়",
     "Search" : "Search",
-    "Settings" : "সেটিংস"
+    "Admin" : "প্রশাসন",
+    "Settings" : "সেটিংস",
+    "Edit" : "সম্পাদনা"
 },
 "nplurals=2; plural=(n != 1);");

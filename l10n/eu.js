@@ -24,6 +24,7 @@ OC.L10N.register(
     "Organization" : "Antolakuntza",
     "Resources" : "Baliabideak",
     "Edit" : "Editatu",
+    "Delete folder" : "Ezabatu karpeta",
     "Permissions" : "Baimenak"
 },
 "nplurals=2; plural=(n != 1);");

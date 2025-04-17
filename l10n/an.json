@@ -1,6 +1,7 @@
 { "translations": {
     "Delete" : "Borrar",
     "Folder name" : "Nombre de carpeta",
+    "Name" : "Nombre",
     "Read" : "Leyer",
     "Write" : "Escribir",
     "Create" : "Crear",
@@ -10,6 +11,7 @@
     "Denied" : "Denegau",
     "Allowed" : "Permitiu",
     "Search" : "Buscar",
+    "Admin" : "Administrador",
     "Settings" : "Configuración"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

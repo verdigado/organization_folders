@@ -6,10 +6,20 @@ OC.L10N.register(
     "Add group" : "Amestar un grupu",
     "Members" : "Miembros",
     "Folder name" : "Nome de la carpeta",
+    "Name" : "Nome",
     "Read" : "Lleer",
     "Create" : "Crear",
     "Share" : "Compartir",
     "Search" : "Buscar",
-    "Settings" : "Configuración"
+    "Member" : "Miembru",
+    "Manager" : "Xestor",
+    "Admin" : "Alministración",
+    "Settings" : "Configuración",
+    "Invalid name" : "El nome ye inválidu",
+    "Organization" : "Organización",
+    "Resources" : "Recursos",
+    "Edit" : "Editar",
+    "Delete folder" : "Desaniciar la carpeta",
+    "Permissions" : "Permisos"
 },
 "nplurals=2; plural=(n != 1);");

@@ -3,9 +3,13 @@ OC.L10N.register(
     {
     "Delete" : "Sil",
     "Folder name" : "Qovluq adı",
+    "Name" : "Ad",
     "Read" : "Oxu",
     "Share" : "Yayımla",
     "Search" : "Axtarış",
-    "Settings" : "Quraşdırmalar"
+    "Admin" : "İnzibatçı",
+    "Settings" : "Quraşdırmalar",
+    "Resources" : "Resurslar",
+    "Edit" : "Dəyişiklik et"
 },
 "nplurals=2; plural=(n != 1);");

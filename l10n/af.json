@@ -1,6 +1,8 @@
 { "translations": {
     "Delete" : "Skrap",
     "Search" : "Soek",
-    "Settings" : "Instellings"
+    "Admin" : "Admin",
+    "Settings" : "Instellings",
+    "Resources" : "Hulpbronne"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
