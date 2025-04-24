@@ -4,14 +4,14 @@
 			:key="'level-' + levelIndex"
 			style="display: flex; flex-direction: row;">
 			<SubdirectoryArrowRight v-if="levelIndex !== 0" :size="30" />
-			<select :value="selections[levelIndex]"
-				style="flex-grow: 100;"
-				@input="event => onSelection(levelIndex, event.target.value)">
-				<option value="" selected />
-				<option v-for="(item, itemIndex) in level" :key="'option-' + itemIndex + '-' + item.prefix" :value="item.type + '_' + item.id" :disabled="item.disabled === true">
-					{{ item.friendlyName }}
-				</option>
-			</select>
+			<NcSelect style="flex-grow: 100;"
+				label="friendlyName"
+				:modelValue="selections[levelIndex]"
+				:options="level"
+				:getOptionKey="(item) => item.type + '_' + item.id"
+				:reduce="(item) => item.type + '_' + item.id"
+				:selectable="(item) => item.disabled !== true"
+				@input="newValue => onSelection(levelIndex, newValue)" />
 		</div>
 	</div>
 </template>
@@ -20,6 +20,7 @@
 import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 import NcButton from "@nextcloud/vue/components/NcButton";
+import NcSelect from "@nextcloud/vue/components/NcSelect";
 
 import Plus from "vue-material-design-icons/Plus.vue"
 import SubdirectoryArrowRight from "vue-material-design-icons/SubdirectoryArrowRight.vue"
@@ -29,6 +30,7 @@ import api from "../../api.js"
 export default {
   components: {
 	NcButton,
+	NcSelect,
 	Plus,
 	SubdirectoryArrowRight,
   },
@@ -94,6 +96,7 @@ export default {
 				results.push(
 					{
 						type: "seperator",
+						id: 1,
 						friendlyName: "──────────",
 						disabled: true,
 					},
@@ -122,6 +125,7 @@ export default {
 				results.push(
 					{
 						type: "seperator",
+						id: 2,
 						friendlyName: "──────────",
 						disabled: true,
 					},
