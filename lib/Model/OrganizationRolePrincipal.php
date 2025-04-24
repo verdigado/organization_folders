@@ -54,11 +54,19 @@ class OrganizationRolePrincipal extends PrincipalBackedByGroup {
 
 		if($this->valid) {
 			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
-			$organization = $organizationProvider->getOrganization($this->role->getOrganizationId());
-			$result[] = $organization->getFriendlyName();
-
-			while($organization->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
+			
+			try {
+				$organization = $organizationProvider->getOrganization($this->role->getOrganizationId());
 				$result[] = $organization->getFriendlyName();
+	
+				while($organization->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
+					$result[] = $organization->getFriendlyName();
+				}
+
+				$result[] = $organizationProvider->getFriendlyName();
+			} catch (\Exception $e) {
+				// fall back to without hierarchy
+				$result = [$this->getFriendlyName()];
 			}
 		}
 

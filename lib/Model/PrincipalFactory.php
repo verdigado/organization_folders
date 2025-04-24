@@ -6,15 +6,17 @@ namespace OCA\OrganizationFolders\Model;
 
 use OCP\IUserManager;
 use OCP\IGroupManager;
+use OCP\IL10N;
 
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 class PrincipalFactory {
 	public function __construct(
-		protected IUserManager $userManager,
-		protected IGroupManager $groupManager,
-		protected OrganizationProviderManager $organizationProviderManager,
+		protected readonly IUserManager $userManager,
+		protected readonly IGroupManager $groupManager,
+		protected readonly IL10N $l10n,
+		protected readonly OrganizationProviderManager $organizationProviderManager,
 	) {
 	}
 
@@ -45,7 +47,7 @@ class PrincipalFactory {
 	}
 
 	public function buildOrganizationMemberPrincipal(string $organizationProviderId, int $organizationId): OrganizationMemberPrincipal {
-		return new OrganizationMemberPrincipal($this->organizationProviderManager, $organizationProviderId, $organizationId);
+		return new OrganizationMemberPrincipal($this->organizationProviderManager, $this->l10n, $organizationProviderId, $organizationId);
 	}
 
 	public function buildOrganizationRolePrincipal(string $organizationProviderId, string $roleId): OrganizationRolePrincipal {

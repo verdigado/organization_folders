@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
+use OCP\IL10N;
+
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
@@ -11,7 +13,8 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 	private ?Organization $organization = null;
 
 	public function __construct(
-		private OrganizationProviderManager $organizationProviderManager,
+		private readonly OrganizationProviderManager $organizationProviderManager,
+		private readonly IL10N $l10n,
 		private string $providerId,
 		private int $organizationId,
 	) {
@@ -48,23 +51,28 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 	}
 
 	public function getFullHierarchyNames(): array {
-		$result = [];
-
-		$result[] = "Members";
-
-		$result[] = $this->getFriendlyName();
+		$membersTranslation =$this->l10n->t('Members');
 
 		if($this->valid) {
 			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
 
-            $organization = null;
+			$result = [$membersTranslation, $this->getFriendlyName(), $organizationProvider->getFriendlyName()];
 
-			while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
-				$result[] = $organization->getFriendlyName();
+			try {
+				$organization = null;
+
+				while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
+					$result[] = $organization->getFriendlyName();
+				}
+			} catch (\Exception $e) {
+				// fall back to without hierarchy
+				return [$organizationProvider->getFriendlyName(), $this->getFriendlyName(), $membersTranslation];
 			}
-		}
 
-		return array_reverse($result);
+			return array_reverse($result);
+		} else {
+			return [$this->getFriendlyName(), $membersTranslation];
+		}
 	}
 
 	public function getBackingGroup(): ?string {
