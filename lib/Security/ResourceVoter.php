@@ -75,13 +75,15 @@ class ResourceVoter extends Voter {
 			if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
 				$principal = $resourceMember->getPrincipal();
 
-				if($principal instanceof UserPrincipal) {
-					if($principal->getId() === $user->getUID()) {
-						return true;
-					}
-				} else if($principal instanceof PrincipalBackedByGroup) {
-					if($this->userIsInGroup($user, $principal->getBackingGroup())) {
-						return true;
+				if($principal->isValid()) {
+					if($principal instanceof UserPrincipal) {
+						if($principal->getId() === $user->getUID()) {
+							return true;
+						}
+					} else if($principal instanceof PrincipalBackedByGroup) {
+						if($this->userIsInGroup($user, $principal->getBackingGroup())) {
+							return true;
+						}
 					}
 				}
 			}

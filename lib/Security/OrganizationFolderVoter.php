@@ -170,11 +170,15 @@ class OrganizationFolderVoter extends Voter {
 	}
 
 	private function userIsPrincipal(IUser $user, Principal $principal): bool {
-		if($principal instanceof PrincipalBackedByGroup) {
-			return $this->userIsInGroup($user, $principal->getBackingGroup());
+		if($principal->isValid()) {
+			if($principal instanceof PrincipalBackedByGroup) {
+				return $this->userIsInGroup($user, $principal->getBackingGroup());
+			} else {
+				// user principals are not supported by Organization Folder Members and
+				// a principal object with that type should have never been put into this function
+				return false;
+			}
 		} else {
-			// user principals are not supported by Organization Folder Members and
-			// a principal object with that type should have never been put into this function
 			return false;
 		}
 	}
