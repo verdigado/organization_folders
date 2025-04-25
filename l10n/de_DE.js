@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Mitglieder",
     "Organization Folders" : "Ordner der Organisation",
     "Managed group folders for your organization" : "Verwaltete Gruppenordner für Ihre Organisation",
     "Delete" : "Löschen",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Add account" : "Konto hinzufügen",
     "Add group" : " Gruppe hinzufügen ",
     "Add {organizationProvider} organization members or role" : "{organizationProvider} Organisationsmitglieder oder Rolle hinzufügen",
-    "Members" : "Mitglieder",
     "Create folder" : "Ordner erstellen",
     "Folder name" : "Ordnername",
     "No members yet" : "Noch keine Mitglieder",

@@ -1,10 +1,10 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Meðlimir",
     "Delete" : "Eyða",
     "Select an account" : "Veldu aðgang",
     "Add group" : "Bæta við hópi",
-    "Members" : "Meðlimir",
     "Folder name" : "Nafn möppu",
     "Name" : "Heiti",
     "Read" : "Lesa",

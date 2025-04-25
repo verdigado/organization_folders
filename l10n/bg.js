@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Членове",
     "Delete" : "Изтриване",
     "Select an account" : "Избор на профил",
     "Add account" : "Добавяне на регистрация",
     "Add group" : "Нова група",
-    "Members" : "Членове",
     "Folder name" : "Име на папка",
     "Name" : "Име",
     "Read" : "Прочитане",

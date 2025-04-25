@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Membros",
     "Organization Folders" : "Pastas da Organização",
     "Managed group folders for your organization" : "Pastas de grupo gerenciadas para sua organização",
     "Delete" : "Excluir",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Add account" : "Adicionar conta",
     "Add group" : "Adicionar grupo",
     "Add {organizationProvider} organization members or role" : "Adicionar membros ou função da organização {organizationProvider}",
-    "Members" : "Membros",
     "Create folder" : "Criar pasta",
     "Folder name" : "Nome da pasta",
     "No members yet" : "Sem membros ainda",

@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Nariai",
     "Delete" : "Ištrinti",
     "Select an account" : "Pasirinkti paskyrą",
     "Add account" : "Pridėti paskyrą",
     "Add group" : "Pridėti grupę",
-    "Members" : "Nariai",
     "Folder name" : "Aplanko pavadinimas",
     "Name" : "Pavadinimas",
     "Read" : "Skaityti",

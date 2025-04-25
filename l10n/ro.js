@@ -1,9 +1,9 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Membri",
     "Delete" : "Șterge",
     "Add group" : "Adaugă grup",
-    "Members" : "Membri",
     "Folder name" : "Denumire director",
     "Name" : "Nume",
     "Read" : "Citit",

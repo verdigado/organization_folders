@@ -1,11 +1,11 @@
 { "translations": {
+    "Members" : "成員",
     "Organization Folders" : "機構資料夾",
     "Managed group folders for your organization" : "為您機構管理的群組資料夾",
     "Delete" : "刪除",
     "Select an account" : "選擇一個賬號",
     "Add account" : "新增帳戶",
     "Add group" : "新增群組",
-    "Members" : "成員",
     "Folder name" : "資料夾名稱",
     "Name" : "名字",
     "Read" : "讀取",

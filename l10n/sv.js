@@ -1,13 +1,13 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Medlemmar",
     "Organization Folders" : "Organisationsmappar",
     "Managed group folders for your organization" : "Hanterade gruppmappar för din organisation",
     "Delete" : "Radera",
     "Select an account" : "Välj ett konto",
     "Add account" : "Lägg till konto",
     "Add group" : "Lägg till grupp",
-    "Members" : "Medlemmar",
     "Folder name" : "Mappnamn",
     "Name" : "Namn",
     "Read" : "Läs",

@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Člani",
     "Delete" : "Izbriši",
     "Select an account" : "Izbor računa",
     "Add account" : "Dodaj račun",
     "Add group" : "Dodaj skupino",
-    "Members" : "Člani",
     "Folder name" : "Ime mape",
     "Name" : "Ime podpisnika",
     "Read" : "Branje",

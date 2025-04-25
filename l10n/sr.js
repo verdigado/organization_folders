@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Чланови",
     "Organization Folders" : "фолдери организације",
     "Managed group folders for your organization" : "Фолдери групе за вашу организацију којима се управља",
     "Delete" : "Избриши",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Add account" : "Додај налог",
     "Add group" : "Додај групу",
     "Add {organizationProvider} organization members or role" : "Додавање чланова {organizationProvider} организације или улоге",
-    "Members" : "Чланови",
     "Create folder" : "Креирај фолдер",
     "Folder name" : "Назив фасцикле",
     "No members yet" : "Још увек нема чланова",

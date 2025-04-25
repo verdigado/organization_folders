@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "メンバー",
     "Delete" : "削除",
     "Select an account" : "アカウントを選択",
     "Add account" : "アカウントを追加",
     "Add group" : "グループを追加",
-    "Members" : "メンバー",
     "Folder name" : "フォルダー名",
     "Name" : "名前",
     "Read" : "読み込み",

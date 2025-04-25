@@ -1,13 +1,13 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Members",
     "Organization Folders" : "Organisation Folders",
     "Managed group folders for your organization" : "Managed group folders for your organization",
     "Delete" : "Delete",
     "Select an account" : "Select an account",
     "Add account" : "Add account",
     "Add group" : "Add group",
-    "Members" : "Members",
     "Folder name" : "Folder name",
     "Name" : "Surname",
     "Read" : "Read",

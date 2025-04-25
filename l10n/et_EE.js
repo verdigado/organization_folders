@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Liikmed",
     "Organization Folders" : "Organisatsiooni kaustad",
     "Managed group folders for your organization" : "Hallatud grupikaustad sinu organisatsiooni jaoks",
     "Delete" : "Kustuta",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Add account" : "Lisa kasutajakonto",
     "Add group" : "Lisa grupp",
     "Add {organizationProvider} organization members or role" : "Lisa {organizationProvider} organisatsiooni liikmeid või rolle",
-    "Members" : "Liikmed",
     "Create folder" : "Loo kaust",
     "Folder name" : "Kausta nimi",
     "No members yet" : "Liikmeid veel pole",

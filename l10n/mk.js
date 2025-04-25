@@ -1,9 +1,9 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Членови",
     "Delete" : "Избриши",
     "Add group" : "Додади група",
-    "Members" : "Членови",
     "Folder name" : "Име на папка",
     "Name" : "Име",
     "Read" : "Прочитана",

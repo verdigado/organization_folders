@@ -1,9 +1,9 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Membroj",
     "Delete" : "Forigi",
     "Add group" : "Aldoni grupon",
-    "Members" : "Membroj",
     "Folder name" : "Dosierujnomo",
     "Name" : "Nomo",
     "Read" : "Legi",

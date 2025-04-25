@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Medlemmer",
     "Organization Folders" : "Organisations mapper",
     "Managed group folders for your organization" : "Administrerede gruppe mapper for din organisation",
     "Delete" : "Slet",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Add account" : "Tilføj konto",
     "Add group" : "Tilføj gruppe",
     "Add {organizationProvider} organization members or role" : "Tilføj {organizationProvider} organisationsmedlemmer eller rolle",
-    "Members" : "Medlemmer",
     "Create folder" : "Opret mappe",
     "Folder name" : "Mappenavn",
     "No members yet" : "Ingen medlemmer endnu",

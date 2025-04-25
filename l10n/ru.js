@@ -1,12 +1,12 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Участники",
     "Organization Folders" : "Папки организации",
     "Delete" : "Удалить",
     "Select an account" : "Выберите учётную запись",
     "Add account" : "Добавить счёт",
     "Add group" : "Добавить группу",
-    "Members" : "Участники",
     "Folder name" : "Имя папки",
     "Name" : "Имя",
     "Read" : "Чтение",

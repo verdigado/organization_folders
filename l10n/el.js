@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Μέλη",
     "Delete" : "Διαγραφή",
     "Select an account" : "Επιλογή λογαριασμού",
     "Add account" : "Προσθήκη λογαριασμού",
     "Add group" : "Προσθήκη ομάδας",
-    "Members" : "Μέλη",
     "Folder name" : "Όνομα φακέλου",
     "Name" : "Όνομα",
     "Read" : "Ανάγνωση",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Členovia",
     "Organization Folders" : "Adresáre organizácie",
     "Managed group folders for your organization" : "Spravované skupinové adresáre pre vašu organizáciu",
     "Delete" : "Vymazať",
     "Select an account" : "Zvoľte si účet",
     "Add account" : "Pridať účet",
     "Add group" : "Pridať skupinu",
-    "Members" : "Členovia",
     "Folder name" : "Názov priečinka",
     "Name" : "Názov",
     "Read" : "Čítanie",

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Baill",
     "Organization Folders" : "Fillteáin Eagraíochta",
     "Managed group folders for your organization" : "Fillteáin ghrúpa bainistithe do d'eagraíocht",
     "Delete" : "Scrios",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Add account" : "Cuir cuntas leis",
     "Add group" : "Cuir grúpa leis",
     "Add {organizationProvider} organization members or role" : "Cuir ball nó ról eagraíochta leis {organizationProvider} leis",
-    "Members" : "Baill",
     "Create folder" : "Cruthaigh fillteán",
     "Folder name" : "Ainm fillteáin",
     "No members yet" : "Níl aon bhall fós",

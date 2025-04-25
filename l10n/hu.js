@@ -1,12 +1,12 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Tagok",
     "Organization Folders" : "Szervezeti mappák",
     "Delete" : "Törlés",
     "Select an account" : "Fiók kiválasztása",
     "Add account" : "Fiók hozzáadása",
     "Add group" : "Csoport hozzáadása",
-    "Members" : "Tagok",
     "Folder name" : "Mappanév",
     "Name" : "Név",
     "Read" : "Olvasás",

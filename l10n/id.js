@@ -1,9 +1,9 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Anggota",
     "Delete" : "Hapus",
     "Add group" : "Tambah grup",
-    "Members" : "Anggota",
     "Folder name" : "Nama folder",
     "Name" : "Nama",
     "Read" : "Baca",

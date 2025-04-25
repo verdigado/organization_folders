@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "ئەزالار",
     "Delete" : "ئۆچۈر",
     "Select an account" : "ھېسابات تاللاڭ",
     "Add account" : "ھېسابات قوشۇڭ",
     "Add group" : "گۇرۇپپا قوشۇڭ",
-    "Members" : "ئەزالار",
     "Folder name" : "ھۆججەت قىسقۇچنىڭ ئىسمى",
     "Name" : "ئاتى",
     "Read" : "ئوقۇ",

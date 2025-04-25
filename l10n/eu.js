@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Partaideak",
     "Delete" : "Ezabatu",
     "Select an account" : "Hautatu kontua bat",
     "Add account" : "Gehitu kontua",
     "Add group" : "Taldea gehitu",
-    "Members" : "Partaideak",
     "Folder name" : "Karpetaren izena",
     "Name" : "Izena",
     "Read" : "Irakurri",

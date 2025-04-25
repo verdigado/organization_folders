@@ -1,9 +1,9 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Biedri",
     "Delete" : "Izdzēst",
     "Add group" : "Pievienot grupu",
-    "Members" : "Biedri",
     "Folder name" : "Mapes nosaukums",
     "Name" : "Nosaukums",
     "Read" : "Lasīt",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Üyeler",
     "Organization Folders" : "Kuruluş klasörleri",
     "Managed group folders for your organization" : "Kuruluşunuzun için yönetebileceğiniz grup klasörleri",
     "Delete" : "Silme",
     "Select an account" : "Bir hesap seçin",
     "Add account" : "Hesap ekle",
     "Add group" : "Grup ekle",
-    "Members" : "Üyeler",
     "Folder name" : "Klasör adı",
     "Name" : "Ad",
     "Read" : "Okuma",

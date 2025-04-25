@@ -1,8 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
-    "Delete" : "Obriši",
     "Members" : "Članovi",
+    "Delete" : "Obriši",
     "Name" : "Ime",
     "Create" : "Kreiraj",
     "Share" : "Podijeli",

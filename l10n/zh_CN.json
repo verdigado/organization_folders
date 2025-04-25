@@ -1,9 +1,9 @@
 { "translations": {
+    "Members" : "成员",
     "Delete" : "删除",
     "Select an account" : "选择一个账号",
     "Add account" : "添加账号",
     "Add group" : "添加群组",
-    "Members" : "成员",
     "Folder name" : "文件夹名称",
     "Name" : "名称",
     "Read" : "读取",

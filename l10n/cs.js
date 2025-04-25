@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Členové",
     "Organization Folders" : "Organizační složky",
     "Managed group folders for your organization" : "Spravované skupinové složky pro vaší organizaci",
     "Delete" : "Smazat",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Add account" : "Přidat účet",
     "Add group" : "Přidat skupinu",
     "Add {organizationProvider} organization members or role" : "Přidat {organizationProvider} člena organizace či roli",
-    "Members" : "Členové",
     "Create folder" : "Vytvořit složku",
     "Folder name" : "Název složky",
     "No members yet" : "Doposud žádní členové",

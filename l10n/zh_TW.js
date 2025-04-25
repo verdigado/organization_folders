@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "成員",
     "Organization Folders" : "組織資料夾",
     "Managed group folders for your organization" : "為您的組織管理群組資料夾",
     "Delete" : "刪除",
@@ -11,7 +12,6 @@ OC.L10N.register(
     "Add account" : "新增帳號",
     "Add group" : "新增群組",
     "Add {organizationProvider} organization members or role" : "新增 {organizationProvider} 組織成員或角色",
-    "Members" : "成員",
     "Create folder" : "建立資料夾",
     "Folder name" : "資料夾名稱",
     "No members yet" : "尚無成員",

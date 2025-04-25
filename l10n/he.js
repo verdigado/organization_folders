@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "חברים",
     "Delete" : "מחיקה",
     "Select an account" : "בחירת חשבון",
     "Add account" : "הוספת חשבון",
     "Add group" : "הוספת קבוצה",
-    "Members" : "חברים",
     "Folder name" : "שם התיקייה",
     "Name" : "שם",
     "Read" : "קריאה",

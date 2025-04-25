@@ -1,12 +1,12 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Jäsenet",
     "Organization Folders" : "Organisaatiokansiot",
     "Delete" : "Poista",
     "Select an account" : "Valitse tili",
     "Add account" : "Lisää tili",
     "Add group" : "Lisää ryhmä",
-    "Members" : "Jäsenet",
     "Folder name" : "Kansion nimi",
     "Name" : "Nimi",
     "Read" : "Lue",

@@ -1,11 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Członkowie",
     "Delete" : "Usuń",
     "Select an account" : "Wybierz konto",
     "Add account" : "Dodaj konto",
     "Add group" : "Dodaj grupę",
-    "Members" : "Członkowie",
     "Folder name" : "Nazwa katalogu",
     "Name" : "Nazwa",
     "Read" : "Czytaj",

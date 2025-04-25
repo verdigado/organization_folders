@@ -1,9 +1,9 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Гишүүд",
     "Delete" : "Устгах",
     "Add group" : "Бүлэг нэмэх",
-    "Members" : "Гишүүд",
     "Folder name" : "Хавтасны нэр",
     "Name" : "Нэр",
     "Create" : "үүсгэх",

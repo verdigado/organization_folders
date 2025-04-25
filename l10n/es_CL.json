@@ -1,8 +1,8 @@
 { "translations": {
+    "Members" : "Miembros",
     "Delete" : "Eliminar",
     "Select an account" : "Seleccionar una cuenta",
     "Add group" : "Agregar grupo",
-    "Members" : "Miembros",
     "Folder name" : "Nombre de la carpeta",
     "Name" : "Nombre",
     "Read" : "Leer",

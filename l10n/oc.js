@@ -1,10 +1,10 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Members" : "Membres",
     "Delete" : "Suprimir",
     "Add account" : "Apondre compte",
     "Add group" : "Apondre grop",
-    "Members" : "Membres",
     "Folder name" : "Nom del dorsièr",
     "Name" : "Nom",
     "Read" : "Legit",
