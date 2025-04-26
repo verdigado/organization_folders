@@ -22,7 +22,7 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "Diese Berechtigungen gelten für alle Mitglieder, die im nächsten Abschnitt mit der Berechtigungsstufe „Manager“ hinzugefügt werden",
     "These permissions apply to any member added in the next section with the member permission level" : "Diese Berechtigungen gelten für alle Mitglieder, die im nächsten Abschnitt mit der Berechtigungsstufe „Mitglied“ hinzugefügt wurden.",
     "Inherited Permissions" : "Vererbte Berechtigungen",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Diese Berechtigungen gelten für jeden, der mindestens Lesezugriff auf der Ebene darüber hat",
+    "These permissions apply to anyone, that has at least read access on the level above" : "Diese Berechtigungen gelten für jeden, der mindestens Lesezugriff auf die darüber liegende Ebene hat",
     "Read" : "Lesen",
     "Write" : "Schreiben",
     "Create" : "Erstellen",
