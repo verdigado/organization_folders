@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "Biedri",
     "Delete" : "Izdzēst",
+    "Add account" : "Pievienot kontu",
     "Add group" : "Pievienot grupu",
     "Folder name" : "Mapes nosaukums",
     "Name" : "Nosaukums",
@@ -18,6 +19,7 @@ OC.L10N.register(
     "Settings" : "Iestatījumi",
     "Resources" : "Resursi",
     "Edit" : "Labot",
+    "Folder Settings" : "Mapes iestatījumi",
     "Delete folder" : "Izdzēst mapi",
     "Permissions" : "Atļaujas"
 },

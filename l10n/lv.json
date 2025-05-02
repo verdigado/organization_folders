@@ -1,6 +1,7 @@
 { "translations": {
     "Members" : "Biedri",
     "Delete" : "Izdzēst",
+    "Add account" : "Pievienot kontu",
     "Add group" : "Pievienot grupu",
     "Folder name" : "Mapes nosaukums",
     "Name" : "Nosaukums",
@@ -16,6 +17,7 @@
     "Settings" : "Iestatījumi",
     "Resources" : "Resursi",
     "Edit" : "Labot",
+    "Folder Settings" : "Mapes iestatījumi",
     "Delete folder" : "Izdzēst mapi",
     "Permissions" : "Atļaujas"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
