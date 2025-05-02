@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace OCA\OrganizationFolders\Listener;
 
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\AppFramework\Services\IInitialState;
@@ -41,6 +42,7 @@ class LoadAdditionalScripts implements IEventListener {
 	public function __construct(
 		private IAppManager $appManager,
 		private IInitialState $initialState,
+		private IAppConfig $appConfig,
 	) {}
 
 	public function handle(Event $event): void {
@@ -51,5 +53,6 @@ class LoadAdditionalScripts implements IEventListener {
 		Util::addScript(Application::APP_ID, 'organization_folders-main', 'files');
 
 		$this->initialState->provideInitialState('snapshot_integration_active', $this->appManager->isEnabledForUser("groupfolder_filesystem_snapshots"));
+		$this->initialState->provideInitialState('subresources_enabled', $this->appConfig->getAppValueBool('subresources_enabled'));
 	}
 }

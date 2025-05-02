@@ -117,6 +117,7 @@ const deleteMember = async (memberId) => {
 };
 
 const snapshotIntegrationActive = loadState('organization_folders', 'snapshot_integration_active', false);
+const subfoldersEnabled = loadState('organization_folders', 'subresources_enabled', false);
 
 const router = useRouter();
 
@@ -334,7 +335,7 @@ const deleteResourceExplanation = computed(() => {
 				</ConfirmDeleteDialog>
 			</div>
 		</Section>
-		<Section>
+		<Section v-if="subfoldersEnabled">
 			<template #header>
 				<HeaderButtonGroup :text="t('organization_folders', 'Sub-Resources')">
 					<CreateResourceButton v-if="!resourcePermissionsLimited" @create="createSubResource" />
