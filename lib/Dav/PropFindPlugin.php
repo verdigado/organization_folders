@@ -9,6 +9,8 @@ use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 
+use OCP\Files\Folder;
+
 use OCA\DAV\Connector\Sabre\Node;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\GroupMountPoint;
@@ -38,12 +40,18 @@ class PropFindPlugin extends ServerPlugin {
 		$server->on('propFind', $this->propFind(...));
 	}
 
-	public function propFind(PropFind $propFind, INode $node): void {
-		if (!$node instanceof Node) {
+	public function propFind(PropFind $propFind, INode $sabreNode): void {
+		if (!$sabreNode instanceof Node) {
 			return;
 		}
 
-		$fileInfo = $node->getFileInfo();
+		$node = $sabreNode->getNode();
+
+		if (!$node instanceof Folder) {
+			return;
+		}
+
+		$fileInfo = $sabreNode->getFileInfo();
 		$mount = $fileInfo->getMountPoint();
 
 		if (!$mount instanceof GroupMountPoint) {
@@ -62,10 +70,10 @@ class PropFindPlugin extends ServerPlugin {
 
 		$userHasOrganizationFolderUpdatePermissions = null;
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use (&$fileInfo, &$organizationFolder): ?int {
+		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use (&$node, &$fileInfo, &$organizationFolder): ?int {
 			try {
 				if(!isset($organizationFolder)) {
-					$organizationFolder = $this->getOrganizationFolderFromPath($fileInfo->getPath());
+					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($node);
 				}
 
 				return $organizationFolder->getId();
@@ -74,10 +82,10 @@ class PropFindPlugin extends ServerPlugin {
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$fileInfo, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
 			try {
 				if(!isset($organizationFolder)) {
-					$organizationFolder = $this->getOrganizationFolderFromPath($fileInfo->getPath());
+					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($node);
 				}
 
 				$userHasOrganizationFolderUpdatePermissions = $this->authorizationService->isGranted(["UPDATE"], $organizationFolder);
@@ -88,7 +96,7 @@ class PropFindPlugin extends ServerPlugin {
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$fileInfo, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
 			try {
 				// use cannot have update permissions and read only permissions at the same time, skip expensive READ_LIMITED check
 				if(isset($userHasOrganizationFolderUpdatePermissions) && $userHasOrganizationFolderUpdatePermissions) {
@@ -96,7 +104,7 @@ class PropFindPlugin extends ServerPlugin {
 				}
 
 				if(!isset($organizationFolder)) {
-					$organizationFolder = $this->getOrganizationFolderFromPath($fileInfo->getPath());
+					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($node);
 				}
 
 				return $this->authorizationService->isGranted(["READ_LIMITED"], $organizationFolder) ? 'true' : 'false';
@@ -108,7 +116,7 @@ class PropFindPlugin extends ServerPlugin {
 		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME, function () use ($node, &$resource): ?int {
 			try {
 				if(!isset($resource)) {
-					$resource = $this->resourceService->findByFileId($node->getId());
+					$resource = $this->resourceService->findByFilesystemNode($node);
 				}
 
 				return $resource->getId();
@@ -120,7 +128,7 @@ class PropFindPlugin extends ServerPlugin {
 		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, &$resource) {
 			try {
 				if(!isset($resource)) {
-					$resource = $this->resourceService->findByFileId($node->getId());
+					$resource = $this->resourceService->findByFilesystemNode($node);
 				}
 
 				return $this->authorizationService->isGranted(["UPDATE"], $resource) ? 'true' : 'false';
@@ -128,15 +136,5 @@ class PropFindPlugin extends ServerPlugin {
 				return null;
 			}
 		});
-	}
-
-	private function getOrganizationFolderFromPath($path): ?OrganizationFolder {
-		$organizationFolderId = $this->folderManager->getFolderByPath($path);
-
-		if(isset($organizationFolderId)) {
-			return $this->organizationFolderService->find($organizationFolderId);
-		} else {
-			return null;
-		}
 	}
 }
