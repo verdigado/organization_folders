@@ -19,6 +19,7 @@ class ResourceMapper extends QBMapper {
 
 	private const updateableResourceProperties = ["parentResource", "active", "name", "inheritManagers", "lastUpdatedTimestamp"];
 	private const updateableFolderResourceProperties = ["membersAclPermission", "managersAclPermission", "inheritedAclPermission", "fileId"];
+	private const tableColumnsToSelect = ['resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id'];
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::RESOURCES_TABLE, Resource::class);
@@ -42,7 +43,7 @@ class ResourceMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id')
+		$qb->select(self::tableColumnsToSelect)
 			->from(self::RESOURCES_TABLE, "resource")
 			->where($qb->expr()->eq('resource.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
@@ -55,12 +56,33 @@ class ResourceMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id')
+		$qb->select(self::tableColumnsToSelect)
 			->from(self::RESOURCES_TABLE, "resource");
 
 		$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'),);
 
 		$qb->where($qb->expr()->eq('folder.file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+
+		return $this->findEntity($qb);
+	}
+
+	public function findByName(int $organizationFolderId, ?int $parentResourceId, string $name) {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select(self::tableColumnsToSelect)
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
+
+		if(is_null($parentResourceId)) {
+			$qb->andWhere($qb->expr()->isNull('resource.parent_resource'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('resource.parent_resource', $qb->createNamedParameter($parentResourceId, IQueryBuilder::PARAM_INT)));
+		}
+
+		$qb->andWhere($qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)));
+
+		$qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'),);
 
 		return $this->findEntity($qb);
 	}
