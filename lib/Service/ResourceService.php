@@ -13,6 +13,9 @@ use OCP\IDBConnection;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\TTransactional;
+use OCP\Files\Folder;
+
+use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
@@ -27,6 +30,7 @@ use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\InvalidResourceName;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
 use OCA\OrganizationFolders\Errors\ResourceNameNotUnique;
+use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
@@ -60,10 +64,10 @@ class ResourceService {
 		return $this->mapper->findAll($organizationFolderId, $parentResourceId, $filters);
 	}
 
-	private function handleException(Exception $e, int $id): void {
+	private function handleException(Exception $e, array $criteria): void {
 		if ($e instanceof DoesNotExistException ||
 			$e instanceof MultipleObjectsReturnedException) {
-			throw new ResourceNotFound($id);
+			throw new ResourceNotFound($criteria);
 		} else {
 			throw $e;
 		}
@@ -73,13 +77,100 @@ class ResourceService {
 		try {
 			return $this->mapper->find($id);
 		} catch (Exception $e) {
-			$this->handleException($e, $id);
+			$this->handleException($e, ["id" => $id]);
 		}
 	}
 
 	public function findByFileId(int $fileId): FolderResource {
-		// TODO: improve error handling
-		return $this->mapper->findByFileId($fileId);
+		try {
+			return $this->mapper->findByFileId($fileId);
+		} catch (Exception $e) {
+			$this->handleException($e, ["fileId" => $fileId]);
+		}
+	}
+
+	public function findByName(int $organizationFolderId, ?int $parentResourceId, string $name): Resource {
+		try {
+			return $this->mapper->findByName($organizationFolderId, $parentResourceId, $name);
+		} catch (Exception $e) {
+			$this->handleException($e, [
+				"organizationFolderId" => $organizationFolderId,
+				"parentResourceId" => $parentResourceId,
+				"name" => $name,
+			]);
+		}
+	}
+
+	/**
+	 * Find a resource within organization folder by it's path relative to the organization folder
+	 */
+	public function findByRelativePath(int $organizationFolderId, string $relativePath): Resource {
+		$relativePathParts = explode("/", $relativePath);
+
+		/** @var ?Resource */
+		$subresource = null;
+
+		try {
+			for($i = 0; $i < (count($relativePathParts) - 1); $i++) {
+				$subresource = $this->mapper->findByName($organizationFolderId, $subresource?->getId(), $relativePathParts[$i]);
+
+				if($subresource->getType() !== "folder") {
+					throw new ResourceNotFound([
+						"organizationFolderId" => $organizationFolderId,
+						"relativePath" => $relativePath,
+					]);
+				}
+			}
+
+			$subresource = $this->mapper->findByName($organizationFolderId, $subresource?->getId(), end($relativePathParts));
+			
+			return $subresource;
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			throw new ResourceNotFound([
+				"organizationFolderId" => $organizationFolderId,
+				"relativePath" => $relativePath,
+			]);
+		}
+	}
+
+	public function findByFilesystemNode(Folder $folder): FolderResource {
+		$mount = $folder->getMountPoint();
+
+		if (!$mount instanceof GroupMountPoint) {
+			// ignore if the target file is not part of group folder storage
+			throw new ResourceNotFound([
+				"path" => $folder->getPath(),
+			]);
+		}
+
+		try {
+			return $this->mapper->findByFileId($folder->getId());
+		} catch (DoesNotExistException|MultipleObjectsReturnedException $e) {
+			// Either
+			// - this Folder node is not a resource
+			// - or the fileId of the filesystem folder of the resource has changed
+			//   This should not happen, but could be caused by bugs in the core or other apps
+
+			try {
+				$organizationFolder = $this->organizationFolderService->findByFilesystemNode($folder);
+
+				$relativeResourcePath = $mount->getInternalPath($folder->getPath());
+			
+				$resource = $this->findByRelativePath($organizationFolder->getId(), $relativeResourcePath);
+
+				$this->logger->warning(
+					"The resource "
+					. json_encode($resource)
+					. "was just found by it's path, but not by it's fileId. This should not happen, investigate the cause! Proceeding normally."
+				);
+
+				return $resource;
+			} catch (OrganizationFolderNotFound|ResourceNotFound $e) {
+				throw new ResourceNotFound([
+					"path" => $folder->getPath(),
+				]);
+			}
+		}
 	}
 
 	public function isValidResourceName(string $name): bool {
@@ -444,7 +535,7 @@ class ResourceService {
 			$resource = $this->mapper->find($id);
 			return $this->delete($resource);
 		} catch (Exception $e) {
-			$this->handleException($e, $resource->getId());
+			$this->handleException($e, ["id" => $id]);
 		}
 	}
 

@@ -8,11 +8,13 @@ use Psr\Container\ContainerInterface;
 
 use OCP\AppFramework\Db\TTransactional;
 use OCP\IDBConnection;
+use OCP\Files\Node;
 
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupfolderTags\Service\TagService;
 use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 use OCA\GroupFolders\ACL\Rule;
+use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
@@ -66,7 +68,7 @@ class OrganizationFolderService {
 		], ["organization_provider", "organization_id"]);
 
 		if(is_null($groupfolder)) {
-			throw new OrganizationFolderNotFound($id);
+			throw new OrganizationFolderNotFound(["id" => $id]);
 		}
 
 		return new OrganizationFolder(
@@ -76,6 +78,25 @@ class OrganizationFolderService {
 			organizationProvider: $groupfolder["organization_provider"],
 			organizationId: (int)$groupfolder["organization_id"],
 		);
+	}
+
+	/**
+	 * Get an OrganizationFolder by it's filesystem node (or of any folder or file within it)
+	 * Important: The node needs to be within the groupfolder jail (meaning it has a path like "/some_user/files/groupfoler_mountpoint/" not "/__groupfolders/9/")
+	 * @param Node $node
+	 * @throws OrganizationFolderNotFound
+	 * @return OrganizationFolder
+	 */
+	public function findByFilesystemNode(Node $node): OrganizationFolder {
+		$mountPoint = $node->getMountPoint();
+
+		if ($mountPoint instanceof GroupMountPoint) {
+			$groupFolderId = $mountPoint->getFolderId();
+
+			return $this->find($groupFolderId);
+		} else {
+			throw new OrganizationFolderNotFound(["path" => $node->getPath()]);
+		}
 	}
 
 	public function create(
