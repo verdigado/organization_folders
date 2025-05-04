@@ -7,10 +7,12 @@ namespace OCA\OrganizationFolders\Service;
 use Exception;
 
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 
+use OCP\IDBConnection;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
-use \OCP\Files\Folder;
+use OCP\AppFramework\Db\TTransactional;
 
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
@@ -30,7 +32,11 @@ use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 class ResourceService {
+	use TTransactional;
+
 	public function __construct(
+		protected readonly IDBConnection $db,
+		protected readonly LoggerInterface $logger,
 		protected readonly ResourceMapper $mapper,
 		protected readonly PathManager $pathManager,
 		protected readonly ACLManager $aclManager,
@@ -443,21 +449,32 @@ class ResourceService {
 	}
 
 	public function delete(Resource $resource): Resource {
-		// TODO: should this run in a transaction ?
-		// first delete all subresources recursively
-		$subResources = $this->getSubResources($resource);
-		
-		foreach($subResources as $subResource) {
-			$this->delete($subResource);
-		}
+		return $this->atomic(function () use ($resource): Resource {
+			// first delete all subresources recursively
+			$subResources = $this->getSubResources($resource);
+			
+			foreach($subResources as $subResource) {
+				$this->delete($subResource);
+			}
 
-		// delete in filesystem if type folder
-		if($resource->getType() === "folder") {
-			$this->getFolderResourceFilesystemNode($resource)->delete();
-		}
-		
-		// delete in database
-		$this->mapper->delete($resource);
-		return $resource;
+			// delete in filesystem if type folder
+			if($resource->getType() === "folder") {
+				$node = $this->getFolderResourceFilesystemNode($resource);
+				
+				if(isset($node)) {
+					$node->delete();
+				} else {
+					$this->logger->warning(
+						"Tried deleting filesystem node of resource "
+						. json_encode($resource)
+						. ", but it did not exist. This should not happen, investigate the cause! Proceeding normally."
+					);
+				}
+			}
+			
+			// delete in database
+			$this->mapper->delete($resource);
+			return $resource;
+		}, $this->db);
 	}
 }
