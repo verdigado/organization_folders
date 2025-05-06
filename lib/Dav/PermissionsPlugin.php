@@ -100,10 +100,6 @@ class PermissionsPlugin extends ServerPlugin {
 
 		if ($sourceFileInfo instanceof GroupTrashItem) {
 			// file getting restored from trash
-			$this->logger->warning(
-				"beforeMove instanceof GroupTrashItem",
-				['app' => 'organization_folders']
-			);
 
 			/** @var GroupMountPoint $mount */
 			$sourceMount = $sourceFileInfo->getMountPoint();
@@ -119,16 +115,6 @@ class PermissionsPlugin extends ServerPlugin {
 
 			$relativePath = $sourceFileInfo->getInternalOriginalLocation();
 			$relativePathParts = array_filter(explode('/', trim($relativePath, '/')));
-
-			$this->logger->warning(
-				"beforeMove mountpoint " . json_encode(get_class($sourceMount))
-				. "mountpoint path " . $sourceMount->getMountPoint()
-				. " groupFolderId " . $groupFolderId
-				//. " original location \"" . $originalLocation
-				. "\" relativePath \"" . $relativePath
-				. "\" relativePathParts " . json_encode($relativePathParts),
-				['app' => 'organization_folders']
-			);
 
 			if(count($relativePathParts) < 2) {
 				// tried to restore to root of organzation folder, where only resources can exist
@@ -155,11 +141,6 @@ class PermissionsPlugin extends ServerPlugin {
 
 			return $this->restoreAncestorPath($organizationFolder, $relativePath);
 		} elseif ($sourceFileInfo instanceof \OC\Files\FileInfo) {
-			$this->logger->warning(
-				"beforeMove instanceof FileInfo, destination: " . $destination,
-				['app' => 'organization_folders']
-			);
-
 			$sourceMount = $sourceFileInfo->getMountPoint();
 
 			if (!$sourceMount instanceof GroupMountPoint) {
@@ -249,20 +230,11 @@ class PermissionsPlugin extends ServerPlugin {
 	 * @param string $target
 	 */
 	public function beforeBind($target): bool {
-		$this->logger->warning(
-			"permissions plugin beforeBind $target",
-			['app' => 'organization_folders']
-		);
-
 		[$parentPath, ] = \Sabre\Uri\split($target);
 
 		$parentSabreNode = $this->server->tree->getNodeForPath($parentPath);
 
 		if (!$parentSabreNode instanceof Node) {
-			$this->logger->warning(
-				"permissions plugin not instanceof Node, allowing",
-				['app' => 'organization_folders']
-			);
 			return true;
 		}
 
@@ -271,10 +243,6 @@ class PermissionsPlugin extends ServerPlugin {
 		try {
 			$this->organizationFolderService->findByFilesystemNode($parentNode);
 		} catch (OrganizationFolderNotFound $e) {
-			$this->logger->warning(
-				"permissions plugin either not even a groupfolder or a groupfolder that is not an organization folder, allowing",
-				['app' => 'organization_folders']
-			);
 			// either not even a groupfolder or a groupfolder that is not an organization folder
 			return true;
 		}
