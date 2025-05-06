@@ -1,5 +1,6 @@
 import axios from "@nextcloud/axios"
 import { generateUrl } from "@nextcloud/router"
+import { showError } from "@nextcloud/dialogs";
 
 /**
  * @typedef {number} PrincipalType
@@ -56,7 +57,7 @@ var ResourceMemberPermissionLevels = {
  * id: string
  * friendlyName: string
  * }} OrganizationProvider
- * 
+ *
  * @typedef {{
  * id: number
  * name: string
@@ -66,7 +67,7 @@ var ResourceMemberPermissionLevels = {
  * members: Array<OrganizationFolderMember>|undefined
  * resources: Array<Resource>|undefined
  * }} OrganizationFolder
- * 
+ *
  * @typedef {{
  * id: number
  * organizationFolderId: number
@@ -90,16 +91,16 @@ var ResourceMemberPermissionLevels = {
  * members: Array<ResourceMember>|undefined
  * subResources: Array<Resource>|undefined
  * }} FolderResource
- * 
+ *
  * @typedef {(FolderResource)} Resource
- * 
+ *
  * @typedef {{
  * type: PrincipalType,
  * id: string,
  * friendlyName: string
  * fullHierarchyNames: string[]
  * }} Principal
- * 
+ *
  * @typedef {{
  * id: number
  * resourceId: number
@@ -108,16 +109,20 @@ var ResourceMemberPermissionLevels = {
  * createdTimestamp: number,
  * lastUpdatedTimestamp: number,
  * }} ResourceMember
- * 
+ *
  * @typedef {{
  * id: number,
  * friendlyName: string,
  * membersGroup: string,
  * }} Organization
- * 
+ *
  */
 
 axios.defaults.baseURL = generateUrl("/apps/organization_folders")
+axios.interceptors.response.use(r => r, function (error) {
+	showError(error.response?.data?.message);
+	return Promise.reject(error);
+});
 
 export default {
 	PrincipalTypes,
@@ -129,7 +134,7 @@ export default {
 
 	/**
 	 * ADMIN ONLY
-	 * 
+	 *
 	 * @return {Promise<Array<OrganizationFolder>>}
 	 */
 	getOrganizationFolders() {
@@ -139,7 +144,7 @@ export default {
 	/**
 	 *
 	 * @param {number|string} id Organization folder id
-	 * @param {string} include 
+	 * @param {string} include
 	 * @return {Promise<OrganizationFolder>}
 	 */
 	getOrganizationFolder(organizationFolderId, include = "model") {
@@ -240,7 +245,7 @@ export default {
 	 * parentResourceId: number|undefined
 	 * active: bool
 	 * inheritManagers: bool
-	 * 
+	 *
 	 * membersAclPermission: number|undefined
 	 * managersAclPermission: number|undefined
 	 * inheritedAclPermission: number|undefined
@@ -265,7 +270,7 @@ export default {
 
 	/**
 	 * Search for groups, that could be added to the resource as members
-	 * 
+	 *
 	 * @param {number|string} resourceId Resource id
 	 * @param {string} search
 	 * @param {number} limit
@@ -276,7 +281,7 @@ export default {
 
 	/**
 	 * Search for users, that could be added to the resource as members
-	 * 
+	 *
 	 * @param {number|string} resourceId Resource id
 	 * @param {string} search
 	 * @param {number} limit
@@ -356,7 +361,7 @@ export default {
 		} else {
 			return axios.get(`/organizationProviders/${organizationProviderId}/subOrganizations`, { }).then((res) => res.data);
 		}
-		
+
 	},
 
 	/**

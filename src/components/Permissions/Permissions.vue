@@ -15,7 +15,7 @@ const permissionGroups = computed(() => {
   return [
 	{
 		field: "managersAclPermission",
-		label: t("organization_folders", "Managers"),
+		label: t("organization_folders", "Folder Managers"),
 		explanation: props.resource.inheritManagers ?
 			t("organization_folders", "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above") :
 			t("organization_folders", "These permissions apply to any member added in the next section with the manager permission level"),
@@ -24,7 +24,7 @@ const permissionGroups = computed(() => {
 	},
 	{
 		field: "membersAclPermission",
-		label: t("organization_folders", "Members"),
+		label: t("organization_folders", "Folder Members"),
 		explanation: t("organization_folders", "These permissions apply to any member added in the next section with the member permission level"),
 		value: props.resource.membersAclPermission,
 		mask: 31,

@@ -54,7 +54,7 @@ const memberPermissionLevelOptions = [
 const currentResourceName = ref(false);
 
 const resourceNameValid = computed(() => {
-    return validResourceName(currentResourceName.value); 
+    return validResourceName(currentResourceName.value);
 });
 
 const saveName = async () => {
@@ -66,7 +66,7 @@ const saveInheritManagers = async (inheritManagers) => {
 };
 
 const resourcePermissionsLimited = computed(() => {
-	return resource.value?.permissions?.level === "limited"; 
+    return resource.value?.permissions?.level === "limited";
 });
 
 watch(() => props.resourceId, async (newResourceId) => {
@@ -117,6 +117,7 @@ const deleteMember = async (memberId) => {
 };
 
 const snapshotIntegrationActive = loadState('organization_folders', 'snapshot_integration_active', false);
+const subfoldersEnabled = loadState('organization_folders', 'subresources_enabled', false);
 
 const router = useRouter();
 
@@ -163,7 +164,7 @@ const findUserMemberOptions = (search) => {
 
 const title = computed(() =>{
 	if(resource.value?.type === api.ResourceTypes.FOLDER) {
-		return t("organization_folders", "Folder Settings");
+		return `${t("organization_folders", "Folder Management")} ${resource.value.name}`;
 	} else {
 		return t("organization_folders", "Settings");
 	}
@@ -235,7 +236,7 @@ const deleteResourceExplanation = computed(() => {
 			:text="noPermissionExplanation" />
 		<Section>
 			<template #header>
-				<SectionHeader :text="t('organization_folders', 'Settings')"></SectionHeader>
+				<SectionHeader :text="t('organization_folders', 'Folder Name')"></SectionHeader>
 			</template>
 			<NcTextField :value.sync="currentResourceName"
 				:disabled="resourcePermissionsLimited"
@@ -334,7 +335,7 @@ const deleteResourceExplanation = computed(() => {
 				</ConfirmDeleteDialog>
 			</div>
 		</Section>
-		<Section>
+		<Section v-if="subfoldersEnabled">
 			<template #header>
 				<HeaderButtonGroup :text="t('organization_folders', 'Sub-Resources')">
 					<CreateResourceButton v-if="!resourcePermissionsLimited" @create="createSubResource" />

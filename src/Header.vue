@@ -1,6 +1,7 @@
 <script setup>
 import { ref, inject, watch, computed, nextTick } from "vue";
 import { getCurrentUser } from "@nextcloud/auth";
+import { loadState } from "@nextcloud/initial-state";
 
 import NcButton from "@nextcloud/vue/components/NcButton";
 import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
@@ -16,9 +17,17 @@ const currentDir = useCurrentDirStore();
 const modalOpen = ref(false);
 
 const userIsAdmin = ref(getCurrentUser().isAdmin);
+const subresourcesEnabled = loadState('organization_folders', 'subresources_enabled', false);
 
 const folderLevel = computed(() => {
 	return currentDir.path.split("/").filter(Boolean).length;
+});
+
+const showHeader = computed(() => {
+	return ((currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderReadLimitedPermissions ) && folderLevel.value === 1)
+		|| (currentDir.organizationFolderResourceUpdatePermissions && folderLevel.value <= 2)
+		|| (userIsAdmin.value && folderLevel.value === 0)
+		|| (currentDir.organizationFolderResourceUpdatePermissions && folderLevel.value > 2 && subresourcesEnabled)
 });
 
 const buttonText = computed(() => {
@@ -53,7 +62,7 @@ function openModal() {
 </script>
 
 <template>
-    <div v-if="((currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderReadLimitedPermissions ) && folderLevel === 1) || currentDir.organizationFolderResourceUpdatePermissions || (userIsAdmin && folderLevel === 0)" class="toolbar">
+    <div v-if="showHeader" class="toolbar">
         <NcButton :disabled="currentDir.loading"
             type="primary"
             @click="openModal">
