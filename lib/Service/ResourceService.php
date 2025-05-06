@@ -105,7 +105,7 @@ class ResourceService {
 	 * Find a resource within organization folder by it's path relative to the organization folder
 	 */
 	public function findByRelativePath(int $organizationFolderId, string $relativePath): Resource {
-		$relativePathParts = explode("/", $relativePath);
+		$relativePathParts = explode('/', trim($relativePath, '/'));
 
 		/** @var ?Resource */
 		$subresource = null;
@@ -133,6 +133,12 @@ class ResourceService {
 		}
 	}
 
+	/**
+	 * Find a folder resource by it's node in the filesystem
+	 * @param Folder $folder
+	 * @throws ResourceNotFound
+	 * @return FolderResource
+	 */
 	public function findByFilesystemNode(Folder $folder): FolderResource {
 		$mount = $folder->getMountPoint();
 

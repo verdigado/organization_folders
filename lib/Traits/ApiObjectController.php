@@ -10,7 +10,7 @@ trait ApiObjectController {
 	 *
 	 * @return array
 	 */
-	public function parseIncludesString(?string $include): array {
+	public function parseIncludesString(?string $include = null): array {
 		if (isset($include)) {
 			$includes = array_filter(explode('+', $include));
 

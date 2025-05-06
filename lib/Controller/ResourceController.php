@@ -31,7 +31,7 @@ class ResourceController extends BaseController {
 		parent::__construct();
 	}
 
-	private function getApiObjectFromEntity(Resource $resource, bool $limited, ?string $include): array {
+	private function getApiObjectFromEntity(Resource $resource, bool $limited, ?string $include = null): array {
 		$includes = $this->parseIncludesString($include);
 
 		$result = [];
@@ -68,7 +68,7 @@ class ResourceController extends BaseController {
 	}
 
 	#[NoAdminRequired]
-	public function show(int $resourceId, ?string $include): JSONResponse {
+	public function show(int $resourceId, ?string $include = null): JSONResponse {
 		return $this->handleNotFound(function () use ($resourceId, $include) {
 			$resource = $this->service->find($resourceId);
 
@@ -98,7 +98,7 @@ class ResourceController extends BaseController {
 		?int $managersAclPermission = null,
 		?int $inheritedAclPermission = null,
 
-		?string $include,
+		?string $include = null,
 	): JSONResponse {
 		return $this->handleErrors(function () use ($organizationFolderId, $type, $name, $parentResourceId, $active, $inheritManagers, $membersAclPermission, $managersAclPermission, $inheritedAclPermission, $include) {
 			$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
@@ -140,7 +140,7 @@ class ResourceController extends BaseController {
 		?int $managersAclPermission = null,
 		?int $inheritedAclPermission = null,
 
-		?string $include,
+		?string $include = null,
 	): JSONResponse {
 		return $this->handleErrors(function () use ($resourceId, $name, $active, $inheritManagers, $membersAclPermission, $managersAclPermission, $inheritedAclPermission, $include) {
 			$resource = $this->service->find($resourceId);

@@ -125,7 +125,7 @@ class OrganizationFolderController extends BaseController {
 		?string $organizationProviderId = null,
 		?int $organizationId = null,
 
-		?string $include,
+		?string $include = null,
 	): JSONResponse {
 		return $this->handleErrors(function () use ($organizationFolderId, $name, $quota, $organizationProviderId, $organizationId, $include) {
 			$organizationFolder = $this->service->find($organizationFolderId);

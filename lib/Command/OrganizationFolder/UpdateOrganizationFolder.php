@@ -31,6 +31,8 @@ class UpdateOrganizationFolder extends BaseCommand {
 
 		if(ctype_digit($input->getOption('organization-id'))) {
 			$organizationId = (int)$input->getOption('organization-id');
+		} else {
+			$organizationId = null;
 		}
 
 		try {
