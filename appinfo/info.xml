@@ -18,6 +18,11 @@
         <database>mysql</database>
         <nextcloud min-version="29" max-version="30"/>
     </dependencies>
+	<types>
+		<authentication/>
+		<filesystem/>
+        <dav/>
+	</types>
     <commands>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\GetOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\ListOrganizationFolders</command>
