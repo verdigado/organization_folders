@@ -103,7 +103,7 @@ class ResourceMapper extends QBMapper {
 
 		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id')
 			->from(self::RESOURCES_TABLE, "resource")
-			->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
 
 		if(is_null($parentResourceId)) {
 			$qb->andWhere($qb->expr()->isNull('resource.parent_resource'));

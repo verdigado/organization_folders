@@ -56,14 +56,16 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 		if($this->valid) {
 			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
 
-			$result = [$membersTranslation, $this->getFriendlyName(), $organizationProvider->getFriendlyName()];
+			$result = [$membersTranslation, $this->getFriendlyName()];
 
 			try {
-				$organization = null;
+				$organization = $this->organization;
 
 				while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
 					$result[] = $organization->getFriendlyName();
 				}
+
+				$result[] = $organizationProvider->getFriendlyName();
 			} catch (\Exception $e) {
 				// fall back to without hierarchy
 				return [$organizationProvider->getFriendlyName(), $this->getFriendlyName(), $membersTranslation];
