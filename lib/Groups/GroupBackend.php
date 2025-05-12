@@ -8,6 +8,7 @@ use OCP\IUserManager;
 use OCP\IUser;
 
 use OCA\OrganizationFolders\Service\ResourceMemberService;
+use OCA\OrganizationFolders\Service\SettingsService;
 
 class GroupBackend extends ABackend implements ICountUsersBackend {
 	public const EVERYONE_GROUP = "everyone";
@@ -20,6 +21,7 @@ class GroupBackend extends ABackend implements ICountUsersBackend {
 	public function __construct(
 		protected readonly IUserManager $userManager,
 		protected readonly ResourceMemberService $resourceMemberService,
+		protected readonly SettingsService $settingsService,
 	) {
 	}
 
@@ -94,6 +96,10 @@ class GroupBackend extends ABackend implements ICountUsersBackend {
 			$results[] = self::EVERYONE_GROUP;
 		}
 
+		if($this->settingsService->getAppValue("hide_virtual_groups")) {
+			// do not check if any of the virtual groups match
+			return $results;
+		}
 
 		$parts = array_values(array_filter(explode("_", $search)));
 

@@ -38,5 +38,11 @@ return [
 		['name' => 'organization#getSubOrganizations', 'url' => '/organizationProviders/{organizationProviderId}/organizations/{parentOrganizationId}/subOrganizations', 'verb' => 'GET'],
 		['name' => 'organization#getTopLevelOrganizations', 'url' => '/organizationProviders/{organizationProviderId}/subOrganizations', 'verb' => 'GET'],
 		['name' => 'organization#getRoles', 'url' => '/organizationProviders/{organizationProviderId}/organizations/{organizationId}/roles/', 'verb' => 'GET'],
+
+		/* Admin Settings */
+		['name' => 'AdminSettings#index', 'url' => '/adminSettings', 'verb' => 'GET'],
+		['name' => 'AdminSettings#show', 'url' => '/adminSettings/{key}', 'verb' => 'GET'],
+		['name' => 'AdminSettings#update', 'url' => '/adminSettings/{key}', 'verb' => 'PATCH'],
+
 	],
 ];
