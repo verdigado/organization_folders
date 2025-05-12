@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Service;
 
+use OCA\OrganizationFolders\Enum\PrincipalType;
 use Psr\Container\ContainerInterface;
 
 use OCP\AppFramework\Db\TTransactional;
@@ -19,12 +20,14 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Model\Prinicpal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\GroupfolderManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
+use OCA\OrganizationFolders\Groups\GroupBackend;
 
 class OrganizationFolderService {
 	use TTransactional;
@@ -191,21 +194,42 @@ class OrganizationFolderService {
 	}
 
 	public function applyPermissions(OrganizationFolder $organizationFolder): void {
+		$groupfolderMemberGroups = [];
 
 		[$memberPrincipals, $managerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
 
-		$memberGroups = [];
-
-		foreach($memberPrincipals as $memberPrincipal) {
-			$backingGroup = $memberPrincipal->getBackingGroup();
+		foreach([...$memberPrincipals, ...$managerPrincipals] as $principal) {
+			$backingGroup = $principal->getBackingGroup();
 
 			if(isset($backingGroup)) {
-				$memberGroups[] = $backingGroup;
+				$groupfolderMemberGroups[] = $backingGroup;
 			}
 		}
 
-		$this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $memberGroups);
-		$this->setRootFolderACLs($organizationFolder, $memberGroups);
+		$impliedMemberPrincipals = $this->getImpliedMemberPrincipals($organizationFolder);
+
+		$hasIndividualImpliedMembers = false;
+
+		foreach($impliedMemberPrincipals as $principal) {
+			if($principal instanceof PrincipalBackedByGroup) {
+				$backingGroup = $principal->getBackingGroup();
+
+				if(isset($backingGroup)) {
+					$groupfolderMemberGroups[] = $backingGroup;
+				}
+			} else {
+				$hasIndividualImpliedMembers = true;
+			}
+		}
+
+		if($hasIndividualImpliedMembers) {
+			$groupfolderMemberGroups[] = GroupBackend::ORGANIZATION_FOLDER_GROUP_START . $organizationFolder->getId() . GroupBackend::IMPLIED_INDIVIDUAL_GROUP_END;
+		}
+
+		$groupfolderMemberGroups = array_unique($groupfolderMemberGroups);
+
+		$this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $groupfolderMemberGroups);
+		$this->setRootFolderACLs($organizationFolder, ["everyone", ...$groupfolderMemberGroups]);
 
 		/** @var ResourceService */
 		$resourceService = $this->container->get(ResourceService::class);
@@ -247,6 +271,31 @@ class OrganizationFolderService {
 		}
 
 		return [$memberPrincipals, $managerPrincipals];
+	}
+
+	/**
+	 * @param OrganizationFolder $organizationFolder
+	 * @return Prinicpal[]
+	 */
+	protected function getImpliedMemberPrincipals(OrganizationFolder $organizationFolder): array {
+		$principals = [];
+
+		// avoids circular dependency autowire
+		// TODO: find better solution
+		/**
+		 * @var ResourceMemberService
+		 */
+		$resourceMemberService = \OC::$server->get(ResourceMemberService::class);
+
+		$topLevelResourceMembers = $resourceMemberService->findAllTopLevelResourcesMembersOfOrganizationFolder(
+			organizationFolderId: $organizationFolder->getId(),
+		);
+
+		foreach($topLevelResourceMembers as $member) {
+			$principals[] = $member->getPrincipal();
+		}
+
+		return $principals;
 	}
 
 	protected function setGroupsAsGroupfolderMembers($groupfolderId, array $groups) {

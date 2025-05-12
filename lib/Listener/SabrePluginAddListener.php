@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Listener;
 
-use OCA\DAV\Events\SabrePluginAddEvent;
-use OCA\OrganizationFolders\Dav\PropFindPlugin;
-use OCA\OrganizationFolders\Dav\PermissionsPlugin;
+use Psr\Container\ContainerInterface;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 
-use Psr\Container\ContainerInterface;
+use OCA\DAV\Events\SabrePluginAddEvent;
+
+use OCA\OrganizationFolders\Dav\PropFindPlugin;
+use OCA\OrganizationFolders\Dav\PermissionsPlugin;
 
 class SabrePluginAddListener implements IEventListener {
-	public function __construct(private ContainerInterface $container) {}
+	public function __construct(
+		private readonly ContainerInterface $container,
+	) {}
 
 	public function handle(Event $event): void {
 		if ($event instanceof SabrePluginAddEvent) {

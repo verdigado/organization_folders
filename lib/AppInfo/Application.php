@@ -9,6 +9,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\IUserSession;
+use OCP\IGroupManager;
 
 use OCA\DAV\Events\SabrePluginAddEvent;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
@@ -18,6 +19,7 @@ use OCA\OrganizationFolders\Listener\LoadAdditionalScripts;
 use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Security\ResourceVoter;
 use OCA\OrganizationFolders\Security\OrganizationFolderVoter;
+use OCA\OrganizationFolders\Groups\GroupBackend;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'organization_folders';
@@ -39,5 +41,10 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
+		$context->injectFn([$this, 'registerGroupManager']);
+	}
+
+	public function registerGroupManager(IGroupManager $groupManager, GroupBackend $backend) {
+		$groupManager->addBackend($backend);
 	}
 }

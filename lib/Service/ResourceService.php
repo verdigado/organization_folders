@@ -16,6 +16,7 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\Files\Folder;
 
 use OCA\GroupFolders\Mount\GroupMountPoint;
+use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
@@ -34,6 +35,7 @@ use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Groups\GroupBackend;
 
 class ResourceService {
 	use TTransactional;
@@ -361,16 +363,16 @@ class ResourceService {
 	 */
 	public function setAllFolderResourceAclsInOrganizationFolder(
 		OrganizationFolder $organizationFolder,
-		array $inheritedMemberPrincipals,
-		array $inheritedManagerPrincipals,
+		array $memberPrincipals,
+		array $managerPrincipals,
 	): void {
         $topLevelFolderResources = $this->findAll($organizationFolder->getId(), null, ["type" => "folder"]);
 
 		$this->recursivelySetFolderResourceALCs(
 			folderResources: $topLevelFolderResources,
 			path: "",
-			inheritedMemberPrincipals: $inheritedMemberPrincipals,
-			inheritedManagerPrincipals: $inheritedManagerPrincipals,
+			inheritedMemberPrincipals: $memberPrincipals,
+			inheritedManagerPrincipals: $managerPrincipals,
 		);
     }
 
@@ -407,6 +409,13 @@ class ResourceService {
 			}
 			
 			$acls = new AclList($resourceFileId);
+
+			// add default deny
+			$acls->addRule(
+				userMapping: new UserMapping(type: "group", id: GroupBackend::EVERYONE_GROUP, displayName: null),
+				mask: 31,
+				permissions: 0,
+			);
 
 			// inherited Member ACLs
 			foreach($inheritedMemberPrincipals as $inheritedMemberPrincipal) {

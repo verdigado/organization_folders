@@ -12,6 +12,7 @@ use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 
 class ResourceMemberMapper extends QBMapper {
+	public const RESOURCES_TABLE = "organizationfolders_resources";
 	public const RESOURCE_MEMBERS_TABLE = "organizationfolders_resource_members";
 
 	public function __construct(
@@ -107,6 +108,126 @@ class ResourceMemberMapper extends QBMapper {
 		}
 		
 		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param int $organizationFolderId
+	 * @param array{principalType: int} $filters
+	 * @return array
+	 * @psalm-return ResourceMember[]
+	 */
+	public function findAllTopLevelResourcesMembersOfOrganizationFolder(int $organizationFolderId, array $filters = []): array {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('member.*')
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->isNull('resource.parent_resource'));
+		
+		$qb->innerJoin('resource', self::RESOURCE_MEMBERS_TABLE, 'member', $qb->expr()->eq('resource.id', 'member.resource_id'));
+
+		if(isset($filters["principalType"])) {
+			$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter($filters["principalType"], IQueryBuilder::PARAM_INT)));
+		}
+
+		return $this->findEntities($qb);
+	}
+
+	public function countOrganizationFolderTopLevelResourceIndividualMembers(int $organizationFolderId): int {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select($qb->createFunction('COUNT(DISTINCT `member`.`principal_id`)'))
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->isNull('resource.parent_resource'));
+		
+		$qb->innerJoin('resource', self::RESOURCE_MEMBERS_TABLE, 'member', $qb->expr()->eq('resource.id', 'member.resource_id'));
+
+		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
+
+		return $qb->executeQuery()->fetch(\PDO::FETCH_NUM)[0];
+	}
+
+	public function hasOrganizationFolderTopLevelResourceIndividualMembers(int $organizationFolderId): bool {
+		// This would be faster using EXISTS() and a subquery, but that does not seem possible with the QueryBuilder
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select($qb->createFunction('COUNT(1)'))
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->isNull('resource.parent_resource'));
+		
+		$qb->innerJoin('resource', self::RESOURCE_MEMBERS_TABLE, 'member', $qb->expr()->eq('resource.id', 'member.resource_id'));
+
+		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
+
+		return $qb->executeQuery()->fetch()["COUNT(1)"] >= 1;
+	}
+
+	public function isUserIndividualMemberOfTopLevelResourceOfOrganizationFolder(int $organizationFolderId, string $userId): bool {
+		// This would be faster using EXISTS() and a subquery, but that does not seem possible with the QueryBuilder
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select($qb->createFunction('COUNT(1)'))
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->isNull('resource.parent_resource'));
+		
+		$qb->innerJoin('resource', self::RESOURCE_MEMBERS_TABLE, 'member', $qb->expr()->eq('resource.id', 'member.resource_id'));
+
+		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
+		$qb->andWhere($qb->expr()->eq('member.principal_id', $qb->createNamedParameter($userId)));
+
+		return $qb->executeQuery()->fetch()["COUNT(1)"] >= 1;
+	}
+
+	public function getIdsOfOrganizationFoldersUserIsTopLevelResourceIndividualMemberIn(string $userId): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->selectDistinct("resource.organization_folder_id")
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->isNull('resource.parent_resource'));
+		
+		$qb->innerJoin('resource', self::RESOURCE_MEMBERS_TABLE, 'member', $qb->expr()->eq('resource.id', 'member.resource_id'));
+
+		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
+		$qb->andWhere($qb->expr()->eq('member.principal_id', $qb->createNamedParameter($userId)));
+
+		//return $qb->getSQL();
+		return $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+	}
+
+	public function getIdsOfOrganizationFoldersWithTopLevelResourceIndividualMembers(): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->selectDistinct("resource.organization_folder_id")
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->isNull('resource.parent_resource'));
+		
+		$qb->innerJoin('resource', self::RESOURCE_MEMBERS_TABLE, 'member', $qb->expr()->eq('resource.id', 'member.resource_id'));
+
+		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
+
+		return $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+	}
+
+	public function getUserIdsOfOrganizationFolderTopLevelResourceIndividualMembers(int $organizationFolderId, ?int $limit = null, int $offset = 0): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->selectDistinct("member.principal_id")
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->isNull('resource.parent_resource'));
+		
+		$qb->innerJoin('resource', self::RESOURCE_MEMBERS_TABLE, 'member', $qb->expr()->eq('resource.id', 'member.resource_id'));
+
+		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
+
+		$qb->setMaxResults($limit);
+		$qb->setFirstResult($offset);
+
+		return $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
 	}
 
 	public function exists(int $resourceId, int $principalType, string $principalId): bool {

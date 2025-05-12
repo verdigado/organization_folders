@@ -49,6 +49,44 @@ class ResourceMemberService {
 		return $this->mapper->findAll($resourceId, $mapperFilters);
 	}
 
+	/**
+	 * @param int $organizationFolderId
+	 * @param array{principalType: PrincipalType} $filters
+	 * @return array
+	 * @psalm-return ResourceMember[]
+	 */
+	public function findAllTopLevelResourcesMembersOfOrganizationFolder(int $organizationFolderId, array $filters = []) {
+		$mapperFilters = [
+			"principalType" => $filters['principalType']?->value ?? null,
+        ];
+
+		return $this->mapper->findAllTopLevelResourcesMembersOfOrganizationFolder($organizationFolderId, $mapperFilters);
+	}
+
+	public function isUserIndividualMemberOfTopLevelResourceOfOrganizationFolder(int $organizationFolderId, string $userId)/*: bool*/ {
+		return $this->mapper->isUserIndividualMemberOfTopLevelResourceOfOrganizationFolder($organizationFolderId, $userId);
+	}
+
+	public function getIdsOfOrganizationFoldersUserIsTopLevelResourceIndividualMemberIn(string $userId): array {
+		return $this->mapper->getIdsOfOrganizationFoldersUserIsTopLevelResourceIndividualMemberIn($userId);
+	}
+
+	public function countOrganizationFolderTopLevelResourceIndividualMembers(int $organizationFolderId): int {
+		return $this->mapper->countOrganizationFolderTopLevelResourceIndividualMembers($organizationFolderId);
+	}
+
+	public function hasOrganizationFolderTopLevelResourceIndividualMembers(int $organizationFolderId): bool {
+		return $this->mapper->hasOrganizationFolderTopLevelResourceIndividualMembers($organizationFolderId);
+	}
+
+	public function getIdsOfOrganizationFoldersWithTopLevelResourceIndividualMembers(): array {
+		return $this->mapper->getIdsOfOrganizationFoldersWithTopLevelResourceIndividualMembers();
+	}
+
+	public function getUserIdsOfOrganizationFolderTopLevelResourceIndividualMembers(int $organizationFolderId, ?int $limit = null, int $offset = 0): array {
+		return $this->mapper->getUserIdsOfOrganizationFolderTopLevelResourceIndividualMembers($organizationFolderId, $limit, $offset);
+	}
+
 	private function handleException(Exception $e, array $criteria): void {
 		if ($e instanceof DoesNotExistException ||
 			$e instanceof MultipleObjectsReturnedException) {
