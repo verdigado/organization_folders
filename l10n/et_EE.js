@@ -4,6 +4,8 @@ OC.L10N.register(
     "Members" : "Liikmed",
     "Organization Folders" : "Organisatsiooni kaustad",
     "Managed group folders for your organization" : "Hallatud grupikaustad sinu organisatsiooni jaoks",
+    "Subresources Feature Enabled" : "Alamressursside funktsionaalsus on kasutusel",
+    "Hide Virtual Groups" : "Peida virtuaalsed grupid",
     "Delete" : "Kustuta",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Kinnitamiseks sisesta: „{markupStart}{text}{markupEnd}“.",
     "Select an account" : "Vali kasutajakonto",

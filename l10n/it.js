@@ -4,6 +4,8 @@ OC.L10N.register(
     "Members" : "Partecipanti",
     "Organization Folders" : "Cartelle dell'organizzazione",
     "Managed group folders for your organization" : "Cartelle di gruppo gestite per la tua organizzazione",
+    "Subresources Feature Enabled" : "Funzionalità delle risorse secondarie abilitata",
+    "Hide Virtual Groups" : "Nascondi gruppi virtuali",
     "Delete" : "Elimina",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Digitare \"{markupStart}{text}{markupEnd}\" per confermare.",
     "Select an account" : "Seleziona account",

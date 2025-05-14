@@ -2,6 +2,8 @@
     "Members" : "成員",
     "Organization Folders" : "組織資料夾",
     "Managed group folders for your organization" : "為您的組織管理群組資料夾",
+    "Subresources Feature Enabled" : "啟用子資源功能",
+    "Hide Virtual Groups" : "隱藏虛擬群組",
     "Delete" : "刪除",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "輸入「{markupStart}{text}{markupEnd}」以確認。",
     "Select an account" : "選擇一個帳號",
