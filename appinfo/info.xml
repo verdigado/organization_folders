@@ -24,9 +24,9 @@
         <dav/>
 	</types>
 	<settings>
-        <admin>OCA\OrganizationFolders\Settings\Admin</admin>
-        <admin-section>OCA\OrganizationFolders\Settings\Section</admin-section>
-    </settings>
+		<admin>OCA\OrganizationFolders\Settings\Admin</admin>
+		<admin-section>OCA\OrganizationFolders\Settings\Section</admin-section>
+	</settings>
     <commands>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\GetOrganizationFolder</command>
         <command>OCA\OrganizationFolders\Command\OrganizationFolder\ListOrganizationFolders</command>

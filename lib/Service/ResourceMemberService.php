@@ -63,7 +63,7 @@ class ResourceMemberService {
 		return $this->mapper->findAllTopLevelResourcesMembersOfOrganizationFolder($organizationFolderId, $mapperFilters);
 	}
 
-	public function isUserIndividualMemberOfTopLevelResourceOfOrganizationFolder(int $organizationFolderId, string $userId)/*: bool*/ {
+	public function isUserIndividualMemberOfTopLevelResourceOfOrganizationFolder(int $organizationFolderId, string $userId): bool {
 		return $this->mapper->isUserIndividualMemberOfTopLevelResourceOfOrganizationFolder($organizationFolderId, $userId);
 	}
 
