@@ -276,14 +276,14 @@ const deleteResourceExplanation = computed(() => {
 				@trailing-button-click="saveName"
 				@blur="() => currentResourceName = currentResourceName.trim()"
 				@keyup.enter="saveName" />
-			<NcCheckboxRadioSwitch
+			<!--<NcCheckboxRadioSwitch
 				:checked="resource.inheritManagers"
 				:disabled="resourcePermissionsLimited"
 				:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
 				style="margin-top: 12px;"
 				@update:checked="saveInheritManagers">
 				{{ t("organization_folders", "Inherit managers from the level above") }}
-			</NcCheckboxRadioSwitch>
+			</NcCheckboxRadioSwitch>-->
 		</Section>
 		<Section v-if="!resourcePermissionsLimited">
 			<template #header>
