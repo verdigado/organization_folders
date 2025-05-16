@@ -45,6 +45,7 @@ class Organization implements \JsonSerializable, TableSerializable {
 			'Id' => $this->id,
 			'Friendly Name' => $this->friendlyName,
 			'Members Group' => $this->membersGroup,
+			'Parent Organization Id' => $this->parentOrganizationId,
 		];
 	}
 }
