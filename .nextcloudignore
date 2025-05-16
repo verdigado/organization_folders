@@ -1,0 +1,16 @@
+/.git/
+/.gitignore
+/.nextcloudignore
+/krankerl.toml
+/.eslintrc.js
+/.vscode/
+/.editorconfig
+node_modules/
+/Makefile
+/src/
+/.php-cs-fixer.cache
+/.php-cs-fixer.dist.php
+/package.json
+/package-lock.json
+/stylelint.config.js
+/webpack.config.js
