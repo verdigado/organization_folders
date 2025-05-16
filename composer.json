@@ -1,0 +1,29 @@
+{
+    "name": "verdigado/organization_folders",
+    "type": "project",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Jonathan Treffler",
+			"email": "mail@jonathan-treffler.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "OCA\\OrganizationFolders\\": "lib/"
+        }
+    },
+    "require": {},
+    "config": {
+        "optimize-autoloader": true,
+        "autoloader-suffix": "OrganizationFolders"
+	},
+    "scripts": {
+        "post-install-cmd": [
+            "composer dump-autoload"
+        ],
+        "post-update-cmd": [
+            "composer dump-autoload"
+        ]
+    }
+}
