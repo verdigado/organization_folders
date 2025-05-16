@@ -9,35 +9,29 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\OrganizationFolders\Command\BaseCommand;
 
-class ListOrganizations extends BaseCommand {
+class GetOrganization extends BaseCommand {
 	protected function configure(): void {
 		$this
-			->setName('organization-folders:organizations:list')
-			->setDescription('List all organizations provided by a specific organization provider')
+			->setName('organization-folders:organizations:get')
+			->setDescription('Get a specific organization by id')
 			->addArgument('provider-id', InputArgument::REQUIRED, 'provider to query')
-			->addArgument('parent-organization-id', InputArgument::OPTIONAL, 'parent organization to fetch child organizations of. Using top-level if omitted');
+			->addArgument('organization-id', InputArgument::REQUIRED, '');
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$providerId = $input->getArgument('provider-id');
-
-			if(ctype_digit($input->getArgument('parent-organization-id'))) {
-				$parentOrganizationId = (int)$input->getArgument('parent-organization-id');
-			} else {
-				$parentOrganizationId = null;
-			}
-			
+			$organizationId = (int)$input->getArgument('organization-id');
 
 			if(!$this->organizationProviderManager->hasOrganizationProvider($providerId)) {
 				$output->writeln("<error>organization provider not found</error>");
 				return 1;
 			}
 
-			$organizations = $this->organizationProviderManager->getOrganizationProvider($providerId)->getSubOrganizations($parentOrganizationId);
+			$organization = $this->organizationProviderManager->getOrganizationProvider($providerId)->getOrganization($organizationId);
 
-			$this->writeTableInOutputFormat($input, $output, $this->formatTableSerializables($organizations));
+			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($organization)]);
 			return 0;
 		} catch (Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");
