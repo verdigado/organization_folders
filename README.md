@@ -13,12 +13,11 @@ Organization Folders are Team Folders (formerly Group Folders) designed for larg
 
 ## Features
   - ✨ No need to create any ACL rules manually anymore
-  - :closed_lock_with_key: Fine management rights delegation support
+  - :closed_lock_with_key: Fine-grained management rights delegation support
   - :wrench: Management in the web interface and using occ commands
   - :office: Support for adding your organizations structure/hierarchy, to allow roles within them to be picked in a structured and intuitive way
 
 ## How it works
-
   - Organization Folders are Team Folders managed by this app
   - Within Organization Folders, there are Resources
     - Currently the only type of resource is folders, but there may be others in the future (like calendars)
@@ -48,11 +47,22 @@ Organization Folders are Team Folders (formerly Group Folders) designed for larg
     - The usage of this system is entirely optional. The app works fine without any registered organization provider. But all members will then be individual users or regular nextcloud groups, which are unstructured and therefore not easy to work with in very large organizations.
   - If you use a filesystem with snapshot capabilities, Organization Folders can be integrated with it to offer a self-service restore-from-backups UI to folder resource managers. (This function is currently still WIP)
 
-# How to install
+## How to install
 - Install the [Team folders](https://apps.nextcloud.com/apps/groupfolders) app from the nextcloud app store
 - Install the [Groupfolder Tags](https://apps.nextcloud.com/apps/groupfolder_tags) app from the nextcloud app store
-- (OPTIONAL !) Install the [Groupfolder Filesystem Snapshots](https://apps.nextcloud.com/apps/groupfolder_filesystem_snapshots) app from the nextcloud app store
+- (OPTIONAL) Install and configure the [Groupfolder Filesystem Snapshots](https://apps.nextcloud.com/apps/groupfolder_filesystem_snapshots) app from the nextcloud app store
 - Install this app from the nextcloud app store
+
+## How to Use
+1. Open the files app.
+2. If you are a Nextcloud admin, you will see a management button above your file list in the home folder.
+4. Click the management button to open the Organization Folder management modal.
+5. In the modal, you can create your first Organization Folder.
+   
+   ⚠️ **Note:** This feature is not yet available in the beta release. To create Organization Folders in the beta, you must use the organization-folders:create occ command.
+7. Once created, you can add members and resources to the Organization Folder.
+8. When navigating to a folder whose permissions are managed by this app, the management button will also appear — if you are a Nextcloud admin or have management permissions for that Organization Folder or Resource.
+9. Use the modal to configure the Resource permissions as needed.
 
 ## Config options
 - Per default sub-resources are enabled. To disable the ability of users to create nested resources run:
