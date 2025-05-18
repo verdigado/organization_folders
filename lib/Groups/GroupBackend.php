@@ -4,6 +4,7 @@ namespace OCA\OrganizationFolders\Groups;
 
 use OCP\Group\Backend\ABackend;
 use OCP\Group\Backend\ICountUsersBackend;
+use OCP\ICacheFactory;
 use OCP\IUserManager;
 use OCP\IUser;
 
@@ -22,6 +23,7 @@ class GroupBackend extends ABackend implements ICountUsersBackend {
 		protected readonly IUserManager $userManager,
 		protected readonly ResourceMemberService $resourceMemberService,
 		protected readonly SettingsService $settingsService,
+		protected ICacheFactory $cacheFactory,
 	) {
 	}
 
@@ -66,6 +68,12 @@ class GroupBackend extends ABackend implements ICountUsersBackend {
 			return [];
 		}
 
+		$cache = $this->cacheFactory->createLocal('organization_folders_group_backend_get_user_groups');
+		$result = $cache->get($uid);
+		if ($result !== null) {
+			return json_decode($result);
+		}
+
 		$result = [self::EVERYONE_GROUP];
 
 		$organizationFolderIds = $this->resourceMemberService->getIdsOfOrganizationFoldersUserIsTopLevelResourceIndividualMemberIn($uid);
@@ -74,6 +82,7 @@ class GroupBackend extends ABackend implements ICountUsersBackend {
 			$result[] = self::ORGANIZATION_FOLDER_GROUP_START . $organizationFolderId . self::IMPLIED_INDIVIDUAL_GROUP_END;
 		}
 
+		$cache->set($uid, json_encode($result), 300);
 		return $result;
 	}
 
