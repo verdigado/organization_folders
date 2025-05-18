@@ -1,4 +1,4 @@
-# organization_folders
+# Organization Folders
 
 ## Config options
 Per default sub-resources are enabbled. To disable sub-resource management run:
