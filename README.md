@@ -1,3 +1,6 @@
+![Development stage: alpha](https://img.shields.io/badge/development%20stage-alpha-blue)
+[![Software License](https://img.shields.io/badge/license-AGPL-brightgreen.svg)](LICENSE)
+
 # Organization Folders
 
 ## Config options
