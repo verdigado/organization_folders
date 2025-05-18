@@ -4,6 +4,7 @@ OC.L10N.register(
     "Members" : "Membros",
     "Organization Folders" : "Pastas da Organização",
     "Managed group folders for your organization" : "Pastas de grupo gerenciadas para sua organização",
+    "Subresources Feature Enabled" : "Recurso de sub-recursos ativado",
     "Hide Virtual Groups" : "Ocultar Grupos Virtuais",
     "Delete" : "Excluir",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Digite \"{markupStart}{text}{markupEnd}\" para confirmar.",

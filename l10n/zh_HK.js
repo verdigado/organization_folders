@@ -4,6 +4,8 @@ OC.L10N.register(
     "Members" : "成員",
     "Organization Folders" : "機構資料夾",
     "Managed group folders for your organization" : "為您機構管理的群組資料夾",
+    "Subresources Feature Enabled" : "啟用子資源功能",
+    "Hide Virtual Groups" : "隱藏虛擬群組",
     "Delete" : "刪除",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "請輸入 \"{markupStart}{text}{markupEnd}\" 以確認。",
     "Select an account" : "選擇一個賬號",
