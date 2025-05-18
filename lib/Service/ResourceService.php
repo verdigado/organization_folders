@@ -182,7 +182,7 @@ class ResourceService {
 	}
 
 	public function isValidResourceName(string $name): bool {
-		return !preg_match('/[`!@#$%^*+=\[\]{};\'"\\\\|<>\/?~]/', $name);
+		return !preg_match('/[`$%^*={};"\\\\|<>\/?~]/', $name);
 	}
 
 	/* Use named arguments to call this function */
