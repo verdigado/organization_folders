@@ -3,8 +3,15 @@
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>organization_folders</id>
     <name>Organization Folders</name>
-    <summary>Managed group folders for your organization</summary>
-    <description><![CDATA[]]></description>
+    <summary>Group folders for your organization, that are easy and intuitive to manage.</summary>
+    <description><![CDATA[
+	    Features:
+	      - No need to create any ACL rules manually anymore
+	      - Fine management delegation support
+	      - Management in the web interface and with occ commands
+	      - Support for adding your organizations structure/hierarchy, to allow roles within them (backed by nextcloud groups) to be picked in an intuitive way (instead of a flat long list of groups) 
+	        (this feature requires you to create a small companion nextcloud app, that registers itself as an organization provider to this app and answers queries about your organizations structure).
+    ]]></description>
     <version>0.0.1</version>
     <licence>agpl</licence>
     <author mail="mail@jonathan-treffler.de">Jonathan Treffler</author>
