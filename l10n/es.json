@@ -1,7 +1,6 @@
 { "translations": {
     "Members" : "Miembros",
     "Organization Folders" : "Carpetas de Organización",
-    "Managed group folders for your organization" : "Carpetas de grupo gestionadas para su organización.",
     "Delete" : "Eliminar",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Escriba \"{markupStart}{text}{markupEnd}\" para confirmar.",
     "Select an account" : "Seleccione una cuenta",

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "Membros",
     "Organization Folders" : "Cartafoles da organización",
-    "Managed group folders for your organization" : "Cartafoles de grupo xestionados para a súa organización",
     "Delete" : "Eliminar",
     "Select an account" : "Seleccione unha conta",
     "Add account" : "Engadir unha conta",

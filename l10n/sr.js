@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "Чланови",
     "Organization Folders" : "фолдери организације",
-    "Managed group folders for your organization" : "Фолдери групе за вашу организацију којима се управља",
     "Delete" : "Избриши",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Откуцајте „{markupStart}{text}{markupEnd}” да потврдите.",
     "Select an account" : "Изаберите налог",

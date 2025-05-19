@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "الاعضاء",
     "Organization Folders" : "مُجلَّدات المؤسسة",
-    "Managed group folders for your organization" : "مجلدات عامّة مُدارة لمؤسستك",
     "Delete" : "حذف",
     "Select an account" : "اختيار حساب",
     "Add account" : "أضف حساباً",

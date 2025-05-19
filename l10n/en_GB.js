@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "Members",
     "Organization Folders" : "Organisation Folders",
-    "Managed group folders for your organization" : "Managed group folders for your organization",
     "Subresources Feature Enabled" : "Subresources Feature Enabled",
     "Hide Virtual Groups" : "Hide Virtual Groups",
     "Delete" : "Delete",

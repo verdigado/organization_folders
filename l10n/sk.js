@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "Členovia",
     "Organization Folders" : "Adresáre organizácie",
-    "Managed group folders for your organization" : "Spravované skupinové adresáre pre vašu organizáciu",
     "Delete" : "Vymazať",
     "Select an account" : "Zvoľte si účet",
     "Add account" : "Pridať účet",

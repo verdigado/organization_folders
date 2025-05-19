@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "Üyeler",
     "Organization Folders" : "Kuruluş klasörleri",
-    "Managed group folders for your organization" : "Kuruluşunuzun için yönetebileceğiniz grup klasörleri",
     "Delete" : "Sil",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Onaylamak için \"{markupStart}{text}{markupEnd}\" yazın.",
     "Select an account" : "Bir hesap seçin",

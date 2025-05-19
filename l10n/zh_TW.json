@@ -1,7 +1,6 @@
 { "translations": {
     "Members" : "成員",
     "Organization Folders" : "組織資料夾",
-    "Managed group folders for your organization" : "為您的組織管理群組資料夾",
     "Subresources Feature Enabled" : "啟用子資源功能",
     "Hide Virtual Groups" : "隱藏虛擬群組",
     "Delete" : "刪除",

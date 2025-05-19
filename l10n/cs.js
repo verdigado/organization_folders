@@ -3,7 +3,8 @@ OC.L10N.register(
     {
     "Members" : "Členové",
     "Organization Folders" : "Organizační složky",
-    "Managed group folders for your organization" : "Spravované skupinové složky pro vaší organizaci",
+    "Subresources Feature Enabled" : "Funkce dílčích prostředků zapnuta",
+    "Hide Virtual Groups" : "Skrýt virtuální skupiny",
     "Delete" : "Smazat",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Potvrďte napsáním „{markupStart}{text}{markupEnd}“.",
     "Select an account" : "Vybrat účet",

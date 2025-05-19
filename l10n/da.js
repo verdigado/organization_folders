@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "Medlemmer",
     "Organization Folders" : "Organisations mapper",
-    "Managed group folders for your organization" : "Administrerede gruppe mapper for din organisation",
     "Delete" : "Slet",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Indtast \"{markupStart}{text}{markupEnd}\" for at bekræfte.",
     "Select an account" : "Vælg konto",

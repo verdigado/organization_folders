@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "Baill",
     "Organization Folders" : "Fillteáin Eagraíochta",
-    "Managed group folders for your organization" : "Fillteáin ghrúpa bainistithe do d'eagraíocht",
     "Subresources Feature Enabled" : "Gné Fo-Acmhainní Cumasaithe",
     "Hide Virtual Groups" : "Folaigh Grúpaí Fíorúla",
     "Delete" : "Scrios",

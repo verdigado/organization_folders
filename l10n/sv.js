@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Members" : "Medlemmar",
     "Organization Folders" : "Organisationsmappar",
-    "Managed group folders for your organization" : "Hanterade gruppmappar för din organisation",
     "Delete" : "Radera",
     "Select an account" : "Välj ett konto",
     "Add account" : "Lägg till konto",
