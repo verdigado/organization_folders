@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "Členové",
     "Organization Folders" : "Organizační složky",
+    "Group folders for your organization, that are easy and intuitive to manage." : "Skupinové složky pro vaší organizaci, které jsou snadné a intuitivní na správu.",
     "Subresources Feature Enabled" : "Funkce dílčích prostředků zapnuta",
     "Hide Virtual Groups" : "Skrýt virtuální skupiny",
     "Delete" : "Smazat",
