@@ -17,6 +17,12 @@ Organization Folders are Team Folders (formerly Group Folders) designed for larg
   - :wrench: Management in the web interface and using occ commands
   - :office: Support for adding your organizations structure/hierarchy, to allow roles within them to be picked in a structured and intuitive way
 
+## Screenshots
+
+![Organization Folder management UI](https://raw.githubusercontent.com/verdigado/organization_folders/main/screenshots/1.png)
+![Resource management UI](https://raw.githubusercontent.com/verdigado/organization_folders/main/screenshots/2.png)
+![Folder Resources in files app](https://raw.githubusercontent.com/verdigado/organization_folders/main/screenshots/3.png)
+
 ## How it works
   - Organization Folders are Team Folders managed by this app
   - Within Organization Folders, there are Resources
