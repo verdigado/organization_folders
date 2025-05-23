@@ -9,9 +9,11 @@ Organization Folders are Team Folders (formerly Group Folders) designed for larg
 
 **This app is currently released as a beta! It's stable, but not yet feature-complete.**
 
+
 To install follow these instructions: https://github.com/verdigado/organization_folders?tab=readme-ov-file#how-to-install 
 
-## Features:
+
+**Features**:
   - ✨ No need to create ACL rules manually anymore
   - 🔐 Fine-grained management rights delegation support
   - 🔧 Management in the web interface and using occ commands
@@ -26,6 +28,9 @@ To install follow these instructions: https://github.com/verdigado/organization_
 	<documentation>
 		<admin>https://github.com/verdigado/organization_folders#readme</admin>
 	</documentation>
+	<screenshot>https://raw.githubusercontent.com/verdigado/organization_folders/main/screenshots/1.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/verdigado/organization_folders/main/screenshots/2.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/verdigado/organization_folders/main/screenshots/3.png</screenshot>
 	<dependencies>
 		<php min-version="8.2" />
 		<database>pgsql</database>
