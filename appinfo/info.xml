@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-    <id>organization_folders</id>
-    <name>Organization Folders</name>
-    <summary>Group folders for your organization, that are easy and intuitive to manage.</summary>
-    <description><![CDATA[
+	xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>organization_folders</id>
+	<name>Organization Folders</name>
+	<summary>Group folders for your organization, that are easy and intuitive to manage.</summary>
+	<description><![CDATA[
 Organization Folders are Team Folders (formerly Group Folders) designed for large organizations, with permissions managed via an intuitive web interface.
 
 **This app is currently released as a beta! It's stable, but not yet feature-complete.**
@@ -16,54 +16,55 @@ To install follow these instructions: https://github.com/verdigado/organization_
   - 🔐 Fine-grained management rights delegation support
   - 🔧 Management in the web interface and using occ commands
   - 🏢 Support for adding your organizations structure/hierarchy, to allow roles within them to be picked in a structured and intuitive way
-    ]]></description>
-    <version>0.0.1</version>
-    <licence>agpl</licence>
-    <author mail="mail@jonathan-treffler.de">Jonathan Treffler</author>
-    <namespace>OrganizationFolders</namespace>
-    <category>files</category>
-    <bugs>https://github.com/verdigado/organization_folders/issues</bugs>
-    <documentation>
-	<admin>https://github.com/verdigado/organization_folders#readme</admin>
-    </documentation>
-    <dependencies>
-        <php min-version="8.2" />
-        <database>pgsql</database>
-        <database>sqlite</database>
-        <database>mysql</database>
-        <nextcloud min-version="29" max-version="30"/>
-    </dependencies>
+	]]></description>
+	<version>0.0.1</version>
+	<licence>agpl</licence>
+	<author mail="mail@jonathan-treffler.de">Jonathan Treffler</author>
+	<namespace>OrganizationFolders</namespace>
+	<category>files</category>
+	<bugs>https://github.com/verdigado/organization_folders/issues</bugs>
+	<documentation>
+		<admin>https://github.com/verdigado/organization_folders#readme</admin>
+	</documentation>
+	<dependencies>
+		<php min-version="8.2" />
+		<database>pgsql</database>
+		<database>sqlite</database>
+		<database>mysql</database>
+		<nextcloud min-version="29" max-version="30"/>
+	</dependencies>
 	<types>
 		<authentication/>
 		<filesystem/>
-        <dav/>
+		<dav/>
 	</types>
 	<settings>
 		<admin>OCA\OrganizationFolders\Settings\Admin</admin>
 		<admin-section>OCA\OrganizationFolders\Settings\Section</admin-section>
 	</settings>
-    <commands>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolder\GetOrganizationFolder</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolder\ListOrganizationFolders</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolder\CreateOrganizationFolder</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolder\UpdateOrganizationFolder</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolder\DeleteOrganizationFolder</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolder\FixACLsOfOrganizationFolder</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolderMember\CreateOrganizationFolderMember</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolderMember\ListOrganizationFolderMembers</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolderMember\UpdateOrganizationFolderMember</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationFolderMember\DeleteOrganizationFolderMember</command>
-        <command>OCA\OrganizationFolders\Command\Resource\CreateResource</command>
-        <command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
-        <command>OCA\OrganizationFolders\Command\Resource\UpdateResource</command>
-        <command>OCA\OrganizationFolders\Command\Resource\DeleteResource</command>
-        <command>OCA\OrganizationFolders\Command\ResourceMember\CreateResourceMember</command>
-        <command>OCA\OrganizationFolders\Command\ResourceMember\ListResourceMembers</command>
-        <command>OCA\OrganizationFolders\Command\ResourceMember\DeleteResourceMember</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationProviders</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizations</command>
-	<command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganization</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationRoles</command>
-        <command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganizationRole</command>
-    </commands>
+	<commands>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolder\GetOrganizationFolder</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolder\ListOrganizationFolders</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolder\CreateOrganizationFolder</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolder\UpdateOrganizationFolder</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolder\DeleteOrganizationFolder</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolder\FixACLsOfOrganizationFolder</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolderMember\CreateOrganizationFolderMember</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolderMember\ListOrganizationFolderMembers</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolderMember\UpdateOrganizationFolderMember</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationFolderMember\DeleteOrganizationFolderMember</command>
+		<command>OCA\OrganizationFolders\Command\Resource\CreateResource</command>
+		<command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
+		<command>OCA\OrganizationFolders\Command\Resource\UpdateResource</command>
+		<command>OCA\OrganizationFolders\Command\Resource\DeleteResource</command>
+		<command>OCA\OrganizationFolders\Command\ResourceMember\CreateResourceMember</command>
+		<command>OCA\OrganizationFolders\Command\ResourceMember\ListResourceMembers</command>
+		<command>OCA\OrganizationFolders\Command\ResourceMember\DeleteResourceMember</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationProviders</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizations</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganization</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationRoles</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganizationRole</command>
+		<command>OCA\OrganizationFolders\Command\TestCommand</command>
+	</commands>
 </info>
