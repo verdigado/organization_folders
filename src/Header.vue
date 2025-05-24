@@ -2,6 +2,7 @@
 import { ref, inject, watch, computed, nextTick } from "vue";
 import { getCurrentUser } from "@nextcloud/auth";
 import { loadState } from "@nextcloud/initial-state";
+import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 import NcButton from "@nextcloud/vue/components/NcButton";
 import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
@@ -32,9 +33,9 @@ const showHeader = computed(() => {
 
 const buttonText = computed(() => {
     if(currentDir.organizationFolderId) {
-        return "Ordner und Berechtigungen verwalten";
+        return t("organization_folders", "Manage Folder and Permissions");
     } else if (userIsAdmin) {
-        return "Organization Folders verwalten";
+        return t("organization_folders", "Manage Organization Folders");
     } else {
         return "";
     }
