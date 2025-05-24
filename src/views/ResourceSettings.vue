@@ -44,13 +44,6 @@ const resource = ref(null);
 const loading = ref(false);
 const resourceActiveLoading = ref(false);
 
-const memberPermissionLevelOptions = [
-  // TRANSLATORS This a permission level of members of organization folders and resources
-  { label: t("organization_folders", "Member"), value: 1 },
-  // TRANSLATORS This a permission level of members of organization folders and resources
-  { label: t("organization_folders", "Manager"), value: 2 },
-];
-
 const currentResourceName = ref(false);
 
 const resourceNameValid = computed(() => {
@@ -174,6 +167,24 @@ const title = computed(() =>{
 		);
 	} else {
 		return t("organization_folders", "Settings");
+	}
+});
+
+const memberPermissionLevelOptions = computed(() => {
+	if(resource.value?.type === api.ResourceTypes.FOLDER) {
+		return [
+			// TRANSLATORS This a permission level of members of folder resources
+			{ label: t("organization_folders", "Folder member"), value: 1 },
+			// TRANSLATORS This a permission level of members of folder resources
+			{ label: t("organization_folders", "Folder manager"), value: 2 },
+		];
+	} else {
+		return [
+			// TRANSLATORS This a permission level of members of organization folders and resources
+			{ label: t("organization_folders", "Member"), value: 1 },
+			// TRANSLATORS This a permission level of members of organization folders and resources
+			{ label: t("organization_folders", "Manager"), value: 2 },
+		];
 	}
 });
 
