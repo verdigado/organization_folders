@@ -4,7 +4,6 @@ OC.L10N.register(
     "Members" : "成員",
     "Organization Folders" : "組織資料夾",
     "Group folders for your organization, that are easy and intuitive to manage." : "為您的組織建立群組資料夾，方便直覺地進行管理。",
-    "Features:\n\t      - No need to create any ACL rules manually anymore\n\t      - Fine-grained management delegation support\n\t      - Management in the web interface and with occ commands\n\t      - Support for adding your organizations structure/hierarchy, to allow roles within them (backed by nextcloud groups) to be picked in an intuitive way (instead of a flat long list of groups) \n\t        (this feature requires you to create a small companion nextcloud app, that registers itself as an organization provider to this app and answers queries about your organizations structure)." : "功能\n\t      - 不再需要手動建立任何 ACL 規則\n\t      - 支援精細的管理委派\n\t      - 透過網頁介面與 occ 命令管理\n\t      - 支援新增組織結構/層級，讓組織內的角色（透過 Nextcloud 群組支援）可以直覺的方式選取（而非扁平的長群組清單）\n\t        （此功能需要您建立一個小型的 Nextcloud 應用程式，將自己註冊為此應用程式的組織提供者，並回應關於組織結構的查詢）。",
     "Subresources Feature Enabled" : "啟用子資源功能",
     "Hide Virtual Groups" : "隱藏虛擬群組",
     "Delete" : "刪除",

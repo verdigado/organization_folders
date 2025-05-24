@@ -2,7 +2,6 @@
     "Members" : "Members",
     "Organization Folders" : "Organisation Folders",
     "Group folders for your organization, that are easy and intuitive to manage." : "Group folders for your organization, that are easy and intuitive to manage.",
-    "Features:\n\t      - No need to create any ACL rules manually anymore\n\t      - Fine-grained management delegation support\n\t      - Management in the web interface and with occ commands\n\t      - Support for adding your organizations structure/hierarchy, to allow roles within them (backed by nextcloud groups) to be picked in an intuitive way (instead of a flat long list of groups) \n\t        (this feature requires you to create a small companion nextcloud app, that registers itself as an organization provider to this app and answers queries about your organizations structure)." : "Features:\n\t      - No need to create any ACL rules manually anymore\n\t      - Fine-grained management delegation support\n\t      - Management in the web interface and with occ commands\n\t      - Support for adding your organizations structure/hierarchy, to allow roles within them (backed by nextcloud groups) to be picked in an intuitive way (instead of a flat long list of groups) \n\t        (this feature requires you to create a small companion nextcloud app, that registers itself as an organization provider to this app and answers queries about your organizations structure).",
     "Subresources Feature Enabled" : "Subresources Feature Enabled",
     "Hide Virtual Groups" : "Hide Virtual Groups",
     "Delete" : "Delete",
