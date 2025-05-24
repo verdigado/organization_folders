@@ -164,7 +164,14 @@ const findUserMemberOptions = (search) => {
 
 const title = computed(() =>{
 	if(resource.value?.type === api.ResourceTypes.FOLDER) {
-		return `${t("organization_folders", "Folder Management")} ${resource.value.name}`;
+		// TRANSLATORS This is a modal header for the settings of a folder called folderName
+		return t(
+			"organization_folders",
+			'Folder Management "{folderName}"',
+			{
+				folderName: resource.value?.name,
+			}
+		);
 	} else {
 		return t("organization_folders", "Settings");
 	}
