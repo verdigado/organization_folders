@@ -9,7 +9,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
 use OCA\OrganizationFolders\Model\OrganizationFolder;
-use OCA\OrganizationFolders\Model\PrincipalFactory;
+use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
@@ -28,7 +28,7 @@ class OrganizationFolderController extends BaseController {
 		private OrganizationFolderService $service,
 		private OrganizationFolderMemberService $memberService,
 		private ResourceService $resourceService,
-		private PrincipalFactory $principalFactory,
+		private OrganizationProviderManager $organizationProviderManager,
 		private string $userId,
 	) {
 		parent::__construct();
@@ -52,10 +52,22 @@ class OrganizationFolderController extends BaseController {
 				$result = $organizationFolder->jsonSerialize();
 			}
 
-			$result["organizationPrincipal"] = $this->principalFactory->buildOrganizationMemberPrincipal(
-				organizationProviderId: $organizationFolder->getOrganizationProvider(),
-				organizationId: $organizationFolder->getOrganizationId(),
-			);
+			try {
+				$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProvider());
+				$organization = $organizationProvider->getOrganization($organizationFolder->getOrganizationId());
+
+				$organizationFullHierarchyNames = [$organization->getFriendlyName()];
+
+				while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
+					$organizationFullHierarchyNames[] = $organization->getFriendlyName();
+				}
+
+				$organizationFullHierarchyNames[] = $organizationProvider->getFriendlyName();
+
+				$result["organizationFullHierarchyNames"] = array_reverse($organizationFullHierarchyNames);
+			} catch (\Throwable $e) {
+				$result["organizationFullHierarchyNames"] = ["Invalid organization"];
+			}
 		}
 
 		if ($this->shouldInclude(self::PERMISSIONS_INCLUDE, $includes)) {

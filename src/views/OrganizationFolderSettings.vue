@@ -13,7 +13,7 @@ import Pencil from "vue-material-design-icons/Pencil.vue";
 import Section from "../components/Section.vue";
 import SectionHeader from "../components/SectionHeader.vue";
 import HeaderButtonGroup from "../components/SectionHeaderButtonGroup.vue";
-import Principal from "../components/Principal.vue";
+import Hierarchy from "../components/Hierarchy.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
 import MembersList from "../components/MemberList/MembersList.vue";
@@ -141,8 +141,6 @@ const openOrganizationPicker = () => {
 const permissionLevelExplanation = t(
 	"organization_folders",
 	"Managers have access to the settings of top-level resources with manager inheritance enabled. Admins have access to the settings of all resources, regardless of their inheritance setting.",
-	{},
-	{ escape: false }
 );
 
 </script>
@@ -178,7 +176,7 @@ const permissionLevelExplanation = t(
 				<SectionHeader :text="t('organization_folders', 'Organization')"></SectionHeader>
 			</template>
 			<div style="display: flex; flex-direction: row; align-items: center;">
-				<Principal :principal="organizationFolder?.organizationPrincipal" />
+				<Hierarchy :hierarchy-names="organizationFolder?.organizationFullHierarchyNames" />
 				<NcActions>
 					<NcActionButton @click="openOrganizationPicker">
 						<template #icon>
