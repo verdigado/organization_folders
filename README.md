@@ -35,8 +35,10 @@ Organization Folders are Team Folders (formerly Group Folders) designed for larg
     - These are groups, roles or individual users with specific rights in that resource
     - Each of them has a permission level (Member or Manager)
     - Managers can change the settings of the resource
-    - In each resource you can choose if managers from the level above (again for top level resources that is the organization folder, otherwise it's the parent resource) should be inherited and also have management access to the resource
+    - In each resource you can choose if managers from the level above (for top level resources that is the organization folder, otherwise it's the parent resource) should be inherited and also have management access to the resource
       - Admin members in the organization folder are not subject to this inheritance setting, they have full management rights within all resources of the Organization Folder
+      - Nextcloud instance admins have management permissions in every resource of every organization folder regardless of the inheritance setting
+        - Nextcloud admins, unlike organization folder admins do not see the organization folder in the filesystem. Instead they see the "Manage Folder and Permissions" button in their home folder too instead in organization folders only, which when clicked shows a list of all organization folders, which allows them to open the management UI for any organization folder.
     - Folder/File rights:
       - For resources of the type folder you can choose for each permission level the rights people within them should have inside that folder: Read, Write, Create, Delete and Share
       - Additionally you can choose which rights people with at least read access to the folder level above (for top level resources that is the organization folder, otherwise it's the parent resource) should have within the folder
