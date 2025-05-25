@@ -47,7 +47,6 @@ OC.L10N.register(
     "Edit" : "Muuda",
     "Organization Folders Admin Settings" : "Organisatsioonikaustade haldusseadistused",
     "No organization folders yet" : "Organisatsioonikaustu veel ei leidu",
-    "Folder Management" : "Kausta haldus",
     "Managers have access to the settings of this folder" : "Haldajatel on ligipääs selle kausta seadistustele",
     "You do not have the permissions to manage this folder" : "Sul puuduvad õigused selle kausta haldamiseks",
     "Delete folder" : "Kustuta kaust",

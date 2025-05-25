@@ -47,7 +47,6 @@ OC.L10N.register(
     "Edit" : "Upravit",
     "Organization Folders Admin Settings" : "Nastavení správy organizačních složek",
     "No organization folders yet" : "Doposud žádné organizační složky",
-    "Folder Management" : "Správa složky",
     "Managers have access to the settings of this folder" : "Spravující mají přístup k nastavením této složky",
     "You do not have the permissions to manage this folder" : "Nemáte oprávnění spravovat tuto složku",
     "Delete folder" : "Smazat složku",

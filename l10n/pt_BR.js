@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "Membros",
     "Organization Folders" : "Pastas da Organização",
+    "Group folders for your organization, that are easy and intuitive to manage." : "Pastas de grupos para sua organização, que são fáceis e intuitivas de gerenciar.",
     "Subresources Feature Enabled" : "Recurso de sub-recursos ativado",
     "Hide Virtual Groups" : "Ocultar Grupos Virtuais",
     "Delete" : "Excluir",
@@ -46,7 +47,6 @@ OC.L10N.register(
     "Edit" : "Editar",
     "Organization Folders Admin Settings" : "Configurações de Administração de Pastas da Organização",
     "No organization folders yet" : "Sem pastas da organização ainda",
-    "Folder Management" : "Gerenciamento da Pasta",
     "Managers have access to the settings of this folder" : "Gerentes têm acesso às configurações desta pasta",
     "You do not have the permissions to manage this folder" : "Você não tem permissões para gerenciar esta pasta",
     "Delete folder" : "Excluir pasta",
