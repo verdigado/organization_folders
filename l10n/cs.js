@@ -49,7 +49,7 @@ OC.L10N.register(
     "Edit" : "Upravit",
     "Organization Folders Admin Settings" : "Nastavení správy organizačních složek",
     "No organization folders yet" : "Doposud žádné organizační složky",
-    "Folder Management \"{folderName}\"" : "Správa složky \"{folderName}\"",
+    "Folder Management \"{folderName}\"" : "Správa složky „{folderName}“",
     "Folder member" : "Člen složky",
     "Folder manager" : "Správce složky",
     "Managers have access to the settings of this folder" : "Spravující mají přístup k nastavením této složky",
