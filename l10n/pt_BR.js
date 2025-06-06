@@ -6,6 +6,8 @@ OC.L10N.register(
     "Group folders for your organization, that are easy and intuitive to manage." : "Pastas de grupos para sua organização, que são fáceis e intuitivas de gerenciar.",
     "Subresources Feature Enabled" : "Recurso de sub-recursos ativado",
     "Hide Virtual Groups" : "Ocultar Grupos Virtuais",
+    "Manage Folder and Permissions" : "Gerenciar Pastas e Permissões",
+    "Manage Organization Folders" : "Gerenciar Pastas da Organização",
     "Delete" : "Excluir",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Digite \"{markupStart}{text}{markupEnd}\" para confirmar.",
     "Select an account" : "Selecionar uma conta",
