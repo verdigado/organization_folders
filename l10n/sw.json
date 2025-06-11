@@ -1,6 +1,8 @@
 { "translations": {
+    "Members" : "Wanachama",
     "Delete" : "Futa",
     "Name" : "Jina",
+    "Share" : "Shirikisha",
     "Resources" : "Rasilimali",
     "Edit" : "Hariri"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
