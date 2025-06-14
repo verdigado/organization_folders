@@ -5,7 +5,10 @@ OC.L10N.register(
     "Delete" : "Futa",
     "Name" : "Jina",
     "Share" : "Shirikisha",
+    "Search" : "Tafuta",
+    "Settings" : "Mipangilio",
     "Resources" : "Rasilimali",
-    "Edit" : "Hariri"
+    "Edit" : "Hariri",
+    "Permissions" : "Ruhusa"
 },
 "nplurals=2; plural=(n != 1);");
