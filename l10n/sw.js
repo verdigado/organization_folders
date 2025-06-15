@@ -3,12 +3,15 @@ OC.L10N.register(
     {
     "Members" : "Wanachama",
     "Delete" : "Futa",
+    "Folder name" : "Jina la kisanduku",
     "Name" : "Jina",
+    "Create" : "Tengeneza",
     "Share" : "Shirikisha",
     "Search" : "Tafuta",
     "Settings" : "Mipangilio",
     "Resources" : "Rasilimali",
     "Edit" : "Hariri",
+    "Delete folder" : "Futa kisanduku",
     "Permissions" : "Ruhusa"
 },
 "nplurals=2; plural=(n != 1);");
