@@ -8,6 +8,7 @@ OC.L10N.register(
     "Create" : "Tengeneza",
     "Share" : "Shirikisha",
     "Search" : "Tafuta",
+    "Admin" : "Msimamizi",
     "Settings" : "Mipangilio",
     "Resources" : "Rasilimali",
     "Edit" : "Hariri",
