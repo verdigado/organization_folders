@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "Membres",
     "Hide Virtual Groups" : "Cacher les groupes virtuels",
+    "Manage Folder and Permissions" : "Gérer les dossiers et les autorisations",
     "Manage Organization Folders" : "Gérer les Dossiers des Organisations",
     "Delete" : "Supprimer",
     "Select an account" : "Choisissez un compte",
@@ -37,11 +38,13 @@ OC.L10N.register(
     "Folder Management \"{folderName}\"" : "Gestion du Dossier \"{folderName}\"",
     "Folder member" : "Membre du Dossier",
     "Folder manager" : "Gestionnaire du Dossier",
+    "You do not have the permissions to manage this folder" : "Vous n’êtes pas autorisés à gérer ce dossier",
     "Delete folder" : "Supprimer ce dossier",
     "Folder Name" : "Nom du Dossier",
     "Permissions" : "Autorisations",
     "Management Actions" : "Actions de gestion",
     "Sub-Resources" : "Sous-ressources",
+    "Restore files from a backup" : "Restaurer des fichiers depuis une sauvegarde",
     "Resource active" : "Ressource active"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
