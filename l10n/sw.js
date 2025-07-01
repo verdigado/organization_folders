@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "Wanachama",
     "Delete" : "Futa",
+    "Select an account" : "Chagua akaunti",
     "Add account" : "Ongeza akaunti",
     "Folder name" : "Jina la kisanduku",
     "Name" : "Jina",
