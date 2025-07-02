@@ -1,5 +1,6 @@
-import axios from "@nextcloud/axios"
-import { generateUrl } from "@nextcloud/router"
+import axios from "@nextcloud/axios";
+import { getRequestToken } from '@nextcloud/auth';
+import { generateUrl } from "@nextcloud/router";
 import { showError } from "@nextcloud/dialogs";
 
 /**
@@ -95,6 +96,12 @@ var ResourceMemberPermissionLevels = {
  * }} FolderResource
  *
  * @typedef {(FolderResource)} Resource
+ * 
+ * @typedef {{
+ * id: number
+ * name: string
+ * createdTimestamp: number
+ * }} ResourceSnapshot
  *
  * @typedef {{
  * type: PrincipalType,
@@ -120,7 +127,9 @@ var ResourceMemberPermissionLevels = {
  *
  */
 
-axios.defaults.baseURL = generateUrl("/apps/organization_folders")
+const baseURL = generateUrl("/apps/organization_folders");
+axios.defaults.baseURL = baseURL;
+
 axios.interceptors.response.use(r => r, function (error) {
 	showError(error.response?.data?.message);
 	return Promise.reject(error);
@@ -333,6 +342,84 @@ export default {
 	deleteResourceMember(resourceMemberId) {
 		return axios.delete(`/resources/members/${resourceMemberId}`, {}).then((res) => res.data);
 	},
+
+	/* Resource Snapshots */
+
+	/**
+	 * @param {number|string} resourceId Resource id
+	 * @return {Promise<Array<ResourceSnapshot>>}
+	 */
+	getResourceSnapshots(resourceId) {
+		return axios.get(`/resources/${resourceId}/snapshots`, {})
+		.then((res) => res.data)
+	},
+
+	/**
+	 * @param {number|string} resourceId Resource id
+	 * @return {Promise<Array<ResourceSnapshot>>}
+	 */
+	getResourceSnapshot(resourceId, snapshotId) {
+		return axios.get(`/resources/${resourceId}/snapshots/${snapshotId}`, {})
+		.then((res) => res.data)
+	},
+
+	createResourceSnapshotDiff(resourceId, snapshotId, eventHandler) {
+		let readerOffset = 0;
+
+		let xhr = new XMLHttpRequest();
+
+		xhr.open("POST", baseURL + `/resources/${resourceId}/snapshots/${snapshotId}/diff?streamed=true&includeResults=true`, true);
+		
+		xhr.setRequestHeader("requesttoken", getRequestToken());
+		
+		xhr.onprogress = (e) => {
+			let response = e.currentTarget.response;
+
+			let unparsedResponse = response.substring(readerOffset);
+
+			let nextNewlineOffset;
+
+			while((nextNewlineOffset = unparsedResponse.indexOf("\n")) !== -1) {
+				let event = unparsedResponse.substring(0, nextNewlineOffset);
+
+				if (event.endsWith(",")) {
+					event = event.slice(0, -1);
+				}
+
+				let parsedEvent;
+				try {
+					parsedEvent = JSON.parse(event);
+				} catch (e) {
+					parsedEvent = false;
+				}
+
+				if(parsedEvent) {
+					eventHandler(parsedEvent);
+				}
+
+				readerOffset += nextNewlineOffset + 1; // +1 to not include the \n of the last event
+				unparsedResponse = response.substring(readerOffset);
+			}
+		}
+		xhr.onreadystatechange = function() {
+			const status = xhr.status;
+			if (xhr.readyState === 4 && status !== 200) {
+				eventHandler({
+					status: "error",
+					errorMessage: "Fehler " + status,
+				});
+			}
+		}
+
+		xhr.send();
+
+		return xhr;
+	},
+
+	revertResourceSnapshotDiffItem(resourceId, snapshotId, diffTaskId, diffTaskResultId) {
+		return axios.post(`/resources/${resourceId}/snapshots/${snapshotId}/diff/${diffTaskId}/${diffTaskResultId}/revert`).then((res) => res.data)
+	},
+
 
 	/* Organization Providers / Organizations / Organization Roles */
 

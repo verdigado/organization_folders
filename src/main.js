@@ -31,7 +31,7 @@ Vue.directive("tooltip", Tooltip);
 // Pinia
 Vue.use(PiniaVuePlugin);
 
-window.api = api;
+window.organization_folders_api = api;
 
 window.addEventListener('DOMContentLoaded', () => {
     initFilesClient(OC.Files.getClient());
