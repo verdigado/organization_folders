@@ -25,6 +25,7 @@ class FolderResource extends Resource {
 		$instance->setName($row["name"]);
 		$instance->setActive($row["active"]);
 		$instance->setInheritManagers($row["inherit_managers"]);
+		$instance->setCreatedTimestamp($row["created_timestamp"]);
 		$instance->setLastUpdatedTimestamp($row["last_updated_timestamp"]);
 		$instance->setMembersAclPermission($row["members_acl_permission"]);
 		$instance->setManagersAclPermission($row["managers_acl_permission"]);
@@ -45,6 +46,7 @@ class FolderResource extends Resource {
 			'name' => $this->name,
 			'active' => $this->active,
 			'inheritManagers' => $this->inheritManagers,
+			'createdTimestamp' => $this->createdTimestamp,
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 
 			'membersAclPermission' => $this->membersAclPermission,

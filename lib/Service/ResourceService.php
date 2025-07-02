@@ -499,7 +499,7 @@ class ResourceService {
 		}
 	}
 
-	public function getResourcePath(FolderResource $resource): array {
+	public function getResourcePath(Resource $resource): array {
 		$currentResource = $resource;
 		
 		$invertedPath = [];

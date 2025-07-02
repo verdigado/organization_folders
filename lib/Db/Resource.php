@@ -13,6 +13,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	protected $name;
 	protected $active;
 	protected $inheritManagers;
+	protected $createdTimestamp;
 	protected $lastUpdatedTimestamp;
 	
 	public function __construct() {
@@ -20,6 +21,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 		$this->addType('parentResource','integer');
 		$this->addType('active','bool');
 		$this->addType('inheritManagers','bool');
+		$this->addType('createdTimestamp','integer');
 		$this->addType('lastUpdatedTimestamp','integer');
 	}
 
@@ -34,6 +36,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 			'name' => $this->name,
 			'active' => $this->active,
 			'inheritManagers' => $this->inheritManagers,
+			'createdTimestamp' => $this->createdTimestamp,
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 		];
 	}

@@ -85,6 +85,8 @@ var ResourceMemberPermissionLevels = {
  * parentResource: number
  * active: bool
  * inheritManagers: bool
+ * createdTimestamp: number
+ * lastUpdatedTimestamp: number
  * membersAclPermission: number
  * managersAclPermission: number
  * inheritedAclPermission: number

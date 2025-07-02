@@ -51,7 +51,7 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 	}
 
 	public function getFullHierarchyNames(): array {
-		$membersTranslation =$this->l10n->t('Members');
+		$membersTranslation = $this->l10n->t('Members');
 
 		if($this->valid) {
 			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
