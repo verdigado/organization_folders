@@ -44,7 +44,7 @@ const buttonText = computed(() => {
 function openModal() {
     if(currentDir.organizationFolderResourceId && currentDir.organizationFolderResourceUpdatePermissions) {
         router.push({
-            path: '/resource/' + currentDir.organizationFolderResourceId,
+            path: '/organizationFolder/' + currentDir.organizationFolderId + '/resource/' + currentDir.organizationFolderResourceId,
         });
         modalOpen.value = true;
     } else if(currentDir.organizationFolderId && (currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderReadLimitedPermissions)) {

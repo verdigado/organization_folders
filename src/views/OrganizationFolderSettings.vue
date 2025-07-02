@@ -27,9 +27,9 @@ import { validOrganizationFolderName } from "../helpers/validation.js";
 
 const props = defineProps({
 	organizationFolderId: {
-	  type: Number,
-	  required: true,
-  },
+		type: Number,
+		required: true,
+	},
 });
 
 const organizationProviders = useOrganizationProvidersStore();
@@ -94,7 +94,7 @@ const deleteMember = async (organizationFolderMemberId) => {
 
 const resourceClicked = (resource) => {
 	router.push({
-		path: '/resource/' + resource.id,
+		path: '/organizationFolder/' + resource.organizationFolderId + '/resource/' + resource.id,
 	});
 };
 
@@ -148,7 +148,7 @@ const permissionLevelExplanation = t(
 	<ModalView
 		:has-back-button="userIsAdmin"
 		:has-next-step-button="false"
-		:has-last-step-button="false"
+		:has-previous-step-button="false"
 		:title="t('organization_folders', 'Organization Folder Settings')"
 		:loading="loading"
 		v-slot=""

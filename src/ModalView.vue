@@ -2,6 +2,8 @@
 import NcButton from "@nextcloud/vue/components/NcButton";
 import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
 
+import { translate as t } from "@nextcloud/l10n";
+
 import KeyboardBackspace from "vue-material-design-icons/KeyboardBackspace.vue";
 
 const props = defineProps({
@@ -21,7 +23,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  hasLastStepButton: {
+  hasPreviousStepButton: {
     type: Boolean,
     default: false,
   },
@@ -29,13 +31,21 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  lastStepButtonEnabled: {
+  previousStepButtonEnabled: {
     type: Boolean,
     default: false,
   },
+  previousStepButtonText: {
+    type: String,
+    default: t("organization_folders", "Back"),
+  },
+  nextStepButtonText: {
+    type: String,
+    default: t("organization_folders", "Next"),
+  },
 });
 
-const emit = defineEmits(["back-button-pressed", "next-step-button-pressed", "last-step-button-pressed"]);
+const emit = defineEmits(["back-button-pressed", "next-step-button-pressed", "previous-step-button-pressed"]);
 
 const backButtonPressed = () => {
     emit("back-button-pressed");
@@ -45,8 +55,8 @@ const nextStepButtonPressed = () => {
     emit("next-step-button-pressed");
 };
 
-const lastStepButtonPressed = () => {
-    emit("last-step-button-pressed");
+const previousStepButtonPressed = () => {
+    emit("previous-step-button-pressed");
 };
 
 </script>
@@ -72,22 +82,22 @@ const lastStepButtonPressed = () => {
         <div v-if="!loading" class="modal__main ignoreForLayout">
             <slot></slot>
         </div>
-        <div v-if="!loading && (hasLastStepButton || nextStepButtonEnabled)" class="modal__footer">
+        <div v-if="!loading && (hasPreviousStepButton || hasNextStepButton)" class="modal__footer">
             <NcButton
-                :style="{visibility: hasLastStepButton ? 'visible' : 'hidden'}"
+                :style="{visibility: hasPreviousStepButton ? 'visible' : 'hidden'}"
                 type="secondary"
-                :disabled="!lastStepButtonEnabled"
-                aria-label="Zurück"
-                @click="lastStepButtonPressed">
-                Zurück
+                :disabled="!previousStepButtonEnabled"
+                :aria-label="previousStepButtonText"
+                @click="previousStepButtonPressed">
+                {{ previousStepButtonText }}
             </NcButton>
             <NcButton
                 v-if="hasNextStepButton"
                 type="primary"
                 :disabled="!nextStepButtonEnabled"
-                aria-label="Weiter"
+                :aria-label="nextStepButtonText"
                 @click="nextStepButtonPressed">
-                Weiter
+                {{ nextStepButtonText }}
             </NcButton>
         </div>
     </div>
@@ -109,9 +119,6 @@ const lastStepButtonPressed = () => {
 	margin-top: 16px;
 	height: 50px;
 	flex-grow: 0;
-}
-
-.modal__footer__restore {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;

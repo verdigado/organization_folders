@@ -30,10 +30,14 @@ import { useOrganizationProvidersStore } from "../stores/organization-providers.
 import { validResourceName } from "../helpers/validation.js";
 
 const props = defineProps({
-  resourceId: {
-    type: Number,
-    required: true,
-  },
+	organizationFolderId: {
+		type: Number,
+		required: true,
+	},
+	resourceId: {
+		type: Number,
+		required: true,
+	},
 });
 
 const organizationProviders = useOrganizationProvidersStore();
@@ -88,7 +92,9 @@ const deleteResource = async (closeDialog) => {
 }
 
 const switchToSnapshotRestoreView = ()  => {
-
+	router.push({
+		path: '/organizationFolder/' + props.organizationFolderId + '/resource/' + props.resourceId + "/restoreFromSnapshot",
+	});
 };
 
 const addMember = async (principalType, principalId) => {
@@ -116,18 +122,18 @@ const router = useRouter();
 
 const subResourceClicked = (resource) => {
 	router.push({
-		path: '/resource/' + resource.id,
+		path: '/organizationFolder/' + resource.organizationFolderId + '/resource/' + resource.id,
 	});
 };
 
 const backButtonClicked = () => {
 	if(resource.value?.parentResource) {
 		router.push({
-			path: '/resource/' + resource.value.parentResource,
+			path: '/organizationFolder/' + props.organizationFolderId + '/resource/' + resource.value.parentResource,
 		});
 	} else {
 		router.push({
-			path: '/organizationFolder/' + resource.value.organizationFolderId
+			path: '/organizationFolder/' + props.organizationFolderId
 		});
 	}
 };
@@ -244,7 +250,7 @@ const deleteResourceExplanation = computed(() => {
     <ModalView
 		:has-back-button="true"
 		:has-next-step-button="false"
-		:has-last-step-button="false"
+		:has-previous-step-button="false"
 		:title="title"
 		:loading="loading"
 		v-slot=""

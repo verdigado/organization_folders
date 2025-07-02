@@ -26,7 +26,7 @@ api.getOrganizationFolders().then((result) => {
 
 const organizationFolderClicked = (organizationFolder) => {
 	router.push({
-		path: '/OrganizationFolder/' + organizationFolder.id,
+		path: '/organizationFolder/' + organizationFolder.id,
 	});
 };
 
@@ -36,7 +36,7 @@ const organizationFolderClicked = (organizationFolder) => {
 	<ModalView
 		:has-back-button="false"
 		:has-next-step-button="false"
-		:has-last-step-button="false"
+		:has-previous-step-button="false"
 		:title="t('organization_folders', 'Organization Folders Admin Settings')"
 		:loading="loading"
 		v-slot="">

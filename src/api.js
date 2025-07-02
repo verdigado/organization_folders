@@ -351,7 +351,7 @@ export default {
 	 */
 	getResourceSnapshots(resourceId) {
 		return axios.get(`/resources/${resourceId}/snapshots`, {})
-		.then((res) => res.data)
+			.then((res) => (res.data.map((snapshot) => ({...snapshot, createdTimestamp: new Date(snapshot.createdTimestamp * 1000)}))));
 	},
 
 	/**
@@ -360,7 +360,7 @@ export default {
 	 */
 	getResourceSnapshot(resourceId, snapshotId) {
 		return axios.get(`/resources/${resourceId}/snapshots/${snapshotId}`, {})
-		.then((res) => res.data)
+			.then((res) => ({...res.data, createdTimestamp: new Date(res.data.createdTimestamp * 1000)}));
 	},
 
 	createResourceSnapshotDiff(resourceId, snapshotId, eventHandler) {
