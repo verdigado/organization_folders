@@ -49,6 +49,7 @@ class ResourceVoter extends Voter {
 			'DELETE' => $this->isGranted($user, $resource),
 			'UPDATE_MEMBERS' => $this->isGranted($user, $resource),
 			'CREATE_SUBRESOURCE' => $this->isGranted($user, $resource),
+			'RESTORE_FROM_SNAPSHOT' => $this->isGranted($user, $resource),
 			default => throw new \LogicException('This code should not be reached!')
 		};
 	}

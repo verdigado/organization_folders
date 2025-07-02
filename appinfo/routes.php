@@ -32,6 +32,14 @@ return [
 		['name' => 'resource_member#update', 'url' => '/resources/members/{id}', 'verb' => 'PUT'],
 		['name' => 'resource_member#destroy', 'url' => '/resources/members/{id}', 'verb' => 'DELETE'],
 
+		/* Resource Snapshots */
+		['name' => 'resource_snapshot#index', 'url' => '/resources/{resourceId}/snapshots', 'verb' => 'GET'],
+		['name' => 'resource_snapshot#show', 'url' => '/resources/{resourceId}/snapshots/{snapshotId}', 'verb' => 'GET'],
+		['name' => 'resource_snapshot_diff#create', 'url' => '/resources/{resourceId}/snapshots/{snapshotId}/diff', 'verb' => 'POST'],
+		['name' => 'resource_snapshot_diff#show', 'url' => '/resources/{resourceId}/snapshots/{snapshotId}/diff/{diffTaskId}', 'verb' => 'GET'],
+		['name' => 'resource_snapshot_diff_result#show','url' => '/resources/{resourceId}/snapshots/{snapshotId}/diff/{diffTaskId}/{diffTaskResultId}', 'verb' => 'GET'],
+		['name' => 'resource_snapshot_diff_result#revert', 'url' => '/resources/{resourceId}/snapshots/{snapshotId}/diff/{diffTaskId}/{diffTaskResultId}/revert', 'verb' => 'POST'],
+
 		/* Organizations */
 		['name' => 'organization#getOrganizationProviders', 'url' => '/organizationProviders', 'verb' => 'GET'],
 		['name' => 'organization#getOrganization', 'url' => '/organizationProviders/{organizationProviderId}/organizations/{organizationId}', 'verb' => 'GET'],

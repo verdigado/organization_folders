@@ -12,7 +12,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCA\OrganizationFolders\Errors\NotFoundException;
 
 trait Errors {
-	private function errorResponse(\Exception $e, $status = Http::STATUS_BAD_REQUEST): JSONResponse {
+	protected function errorResponse(\Exception $e, $status = Http::STATUS_BAD_REQUEST): JSONResponse {
 		$response = ['error' => get_class($e), 'message' => $e->getMessage()];
 		return new JSONResponse($response, $status);
 	}
@@ -20,6 +20,16 @@ trait Errors {
 	protected function handleNotFound(Closure $callback): JSONResponse {
 		try {
 			return new JSONResponse($callback());
+		} catch (NotFoundException $e) {
+			return $this->errorResponse($e, Http::STATUS_NOT_FOUND);
+		} catch (\Exception $e) {
+			return $this->errorResponse($e);
+		}
+	}
+
+	protected function handleNotFoundWithoutResponseWrapping(Closure $callback) {
+		try {
+			return $callback();
 		} catch (NotFoundException $e) {
 			return $this->errorResponse($e, Http::STATUS_NOT_FOUND);
 		} catch (\Exception $e) {
