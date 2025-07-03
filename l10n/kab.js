@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "Retour",
+    "Next" : "Uḍfir",
     "Delete" : "Kkes",
     "Select an account" : "Fren amiḍan",
     "Add account" : "Rnu amiḍan",

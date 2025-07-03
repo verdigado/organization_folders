@@ -1,5 +1,7 @@
 { "translations": {
     "Members" : "Гишүүд",
+    "Back" : "Буцах",
+    "Next" : "Даараах",
     "Delete" : "Устгах",
     "Add group" : "Бүлэг нэмэх",
     "Folder name" : "Хавтасны нэр",
@@ -10,6 +12,7 @@
     "Member" : "Гишүүн",
     "Admin" : "Админ",
     "Settings" : "Тохиргоо",
-    "Edit" : "Өөрчлөх"
+    "Edit" : "Өөрчлөх",
+    "Finish" : "Бариа"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

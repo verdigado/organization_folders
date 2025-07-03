@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Leden",
+    "Back" : "Terug",
+    "Next" : "Volgende",
     "Delete" : "Verwijder",
     "Select an account" : "Selecteer een account",
     "Add account" : "Toevoegen account ",
     "Add group" : "Groep toevoegen",
     "Folder name" : "Mapnaam",
+    "File does not exist" : "Bestand bestaat niet",
     "Name" : "Naam",
     "Read" : "Lezen",
     "Write" : "Schrijven",
@@ -25,6 +28,7 @@ OC.L10N.register(
     "Organization" : "Organisatie",
     "Resources" : "Bronnen",
     "Edit" : "Bewerken",
+    "Finish" : "Afronden",
     "Delete folder" : "Map verwijderen",
     "Permissions" : "Rechten"
 },

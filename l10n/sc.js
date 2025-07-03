@@ -2,6 +2,8 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Membros",
+    "Back" : "In segus",
+    "Next" : "Imbeniente",
     "Delete" : "Cantzella",
     "Select an account" : "Seletziona unu contu",
     "Add account" : "Agiunge contu",

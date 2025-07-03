@@ -1,9 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Next" : "ถัดไป",
     "Delete" : "ลบ",
     "Add group" : "เพิ่มกลุ่ม",
     "Folder name" : "ชื่อโฟลเดอร์",
+    "File does not exist" : "ไม่มีไฟล์อยู่",
     "Name" : "ชื่อ",
     "Read" : "อ่าน",
     "Create" : "สร้าง",

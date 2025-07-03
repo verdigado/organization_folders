@@ -2,11 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "ئەزالار",
+    "Back" : "قايتىش",
     "Delete" : "ئۆچۈر",
     "Select an account" : "ھېسابات تاللاڭ",
     "Add account" : "ھېسابات قوشۇڭ",
     "Add group" : "گۇرۇپپا قوشۇڭ",
     "Folder name" : "ھۆججەت قىسقۇچنىڭ ئىسمى",
+    "File does not exist" : "ھۆججەت مەۋجۇت ئەمەس",
     "Name" : "ئاتى",
     "Read" : "ئوقۇ",
     "Write" : "يېزىڭ",
@@ -24,6 +26,8 @@ OC.L10N.register(
     "Invalid name" : "ئىناۋەتسىز ئىسىم",
     "Resources" : "بايلىق",
     "Edit" : "تەھرىر",
+    "Finish" : "تامام",
+    "No changes" : "ھېچقانداق ئۆزگەرتىش يوق",
     "Delete folder" : "ھۆججەت قىسقۇچنى ئۆچۈرۈڭ",
     "Permissions" : "ئىجازەت"
 },

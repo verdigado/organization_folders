@@ -2,10 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Meðlimir",
+    "Back" : "Til baka",
+    "Next" : "Næst",
     "Delete" : "Eyða",
     "Select an account" : "Veldu aðgang",
     "Add group" : "Bæta við hópi",
     "Folder name" : "Nafn möppu",
+    "File does not exist" : "Skráin er ekki til",
     "Name" : "Heiti",
     "Read" : "Lesa",
     "Write" : "Skrifa",
@@ -23,6 +26,7 @@ OC.L10N.register(
     "Organization" : "Stofnun/Samtök/Félag",
     "Resources" : "Tilföng",
     "Edit" : "Breyta",
+    "Finish" : "Ljúka",
     "Delete folder" : "Eyða möppu",
     "Permissions" : "Heimildir"
 },

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "Yzyna",
     "Delete" : "Pozmak",
     "Add account" : "Hasap goşuň",
     "Folder name" : "Papkanyň ady",

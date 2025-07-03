@@ -1,5 +1,6 @@
 { "translations": {
     "Members" : "Anggota",
+    "Next" : "Berikutnya",
     "Delete" : "Hapus",
     "Add group" : "Tambah grup",
     "Folder name" : "Nama folder",
@@ -10,6 +11,7 @@
     "Admin" : "Admin",
     "Settings" : "Setelan",
     "Resources" : "Sumber daya",
-    "Edit" : "Sunting"
+    "Edit" : "Sunting",
+    "Finish" : "Selesai"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

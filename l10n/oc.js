@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Membres",
+    "Next" : "Seguent",
     "Delete" : "Suprimir",
     "Add account" : "Apondre compte",
     "Add group" : "Apondre grop",

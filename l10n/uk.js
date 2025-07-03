@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Учасники",
+    "Back" : "Назад",
+    "Next" : "Далі",
     "Delete" : "Вилучати",
     "Select an account" : "Оберіть обліковий запис",
     "Add account" : "Додати обліковий запис",
     "Add group" : "Додати групу",
     "Folder name" : "Назва каталогу",
+    "File does not exist" : "Файл відсутній",
     "Name" : "Назва",
     "Read" : "Читати",
     "Write" : "Редагувати",
@@ -24,6 +27,7 @@ OC.L10N.register(
     "Organization" : "Організація роботи",
     "Resources" : "Ресурси",
     "Edit" : "Редагувати",
+    "Finish" : "Завершити",
     "Delete folder" : "Вилучити каталог",
     "Permissions" : "Дозволи "
 },

@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Nariai",
+    "Back" : "Atgal",
+    "Next" : "Kitas",
     "Delete" : "Ištrinti",
     "Select an account" : "Pasirinkti paskyrą",
     "Add account" : "Pridėti paskyrą",
     "Add group" : "Pridėti grupę",
     "Folder name" : "Aplanko pavadinimas",
+    "File does not exist" : "Failo nėra",
     "Name" : "Pavadinimas",
     "Read" : "Skaityti",
     "Write" : "Rašyti",
@@ -22,6 +25,7 @@ OC.L10N.register(
     "Organization" : "Organizavimas",
     "Resources" : "Ištekliai",
     "Edit" : "Taisyti",
+    "Finish" : "Užbaigti",
     "Delete folder" : "Ištrinti aplanką",
     "Permissions" : "Leidimai"
 },

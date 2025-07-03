@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Wanachama",
+    "Back" : "Rudi",
     "Delete" : "Futa",
     "Select an account" : "Chagua akaunti",
     "Add account" : "Ongeza akaunti",

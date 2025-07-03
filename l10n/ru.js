@@ -3,11 +3,14 @@ OC.L10N.register(
     {
     "Members" : "Участники",
     "Organization Folders" : "Папки организации",
+    "Back" : "Назад",
+    "Next" : "Далее",
     "Delete" : "Удалить",
     "Select an account" : "Выберите учётную запись",
     "Add account" : "Добавить счёт",
     "Add group" : "Добавить группу",
     "Folder name" : "Имя папки",
+    "File does not exist" : "Файл не существует",
     "Name" : "Имя",
     "Read" : "Чтение",
     "Write" : "Запись",
@@ -24,6 +27,7 @@ OC.L10N.register(
     "Organization" : "Организация",
     "Resources" : "Ресурсы",
     "Edit" : "Редактирование",
+    "Finish" : "Завершить",
     "Delete folder" : "Удалить папку",
     "Permissions" : "Права"
 },

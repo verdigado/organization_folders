@@ -3,11 +3,14 @@ OC.L10N.register(
     {
     "Members" : "Tagok",
     "Organization Folders" : "Szervezeti mappák",
+    "Back" : "Vissza",
+    "Next" : "Következő",
     "Delete" : "Törlés",
     "Select an account" : "Fiók kiválasztása",
     "Add account" : "Fiók hozzáadása",
     "Add group" : "Csoport hozzáadása",
     "Folder name" : "Mappanév",
+    "File does not exist" : "A fájl nem létezik",
     "Name" : "Név",
     "Read" : "Olvasás",
     "Write" : "Írás",
@@ -25,6 +28,7 @@ OC.L10N.register(
     "Organization" : "Szervezet",
     "Resources" : "Erőforrások",
     "Edit" : "Szerkesztés",
+    "Finish" : "Befejez",
     "Delete folder" : "Mappa törlése",
     "Permissions" : "Jogosultságok"
 },

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "Miembros",
     "Organization Folders" : "Carpetas de Organización",
+    "Back" : "Atrás",
     "Delete" : "Eliminar",
     "Type \"{markupStart}{text}{markupEnd}\" to confirm." : "Escriba \"{markupStart}{text}{markupEnd}\" para confirmar.",
     "Select an account" : "Seleccione una cuenta",
@@ -42,6 +43,8 @@ OC.L10N.register(
     "Edit" : "Editar",
     "Organization Folders Admin Settings" : "Configuraciones de administración de Carpetas de Organización",
     "No organization folders yet" : "No hay carpetas de organización todavía",
+    "Finish" : "Terminar",
+    "No changes" : "Sin cambios",
     "Managers have access to the settings of this folder" : "Los Managers tienen acceso a los ajustes de esta carpeta",
     "You do not have the permissions to manage this folder" : "No tiene permisos para gestionar esta carpeta",
     "Delete folder" : "Eliminar carpeta",

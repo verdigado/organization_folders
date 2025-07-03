@@ -1,10 +1,13 @@
 { "translations": {
     "Members" : "Leden",
+    "Back" : "Terug",
+    "Next" : "Volgende",
     "Delete" : "Verwijder",
     "Select an account" : "Selecteer een account",
     "Add account" : "Toevoegen account ",
     "Add group" : "Groep toevoegen",
     "Folder name" : "Mapnaam",
+    "File does not exist" : "Bestand bestaat niet",
     "Name" : "Naam",
     "Read" : "Lezen",
     "Write" : "Schrijven",
@@ -23,6 +26,7 @@
     "Organization" : "Organisatie",
     "Resources" : "Bronnen",
     "Edit" : "Bewerken",
+    "Finish" : "Afronden",
     "Delete folder" : "Map verwijderen",
     "Permissions" : "Rechten"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

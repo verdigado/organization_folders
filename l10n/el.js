@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Μέλη",
+    "Back" : "Επιστροφή",
     "Delete" : "Διαγραφή",
     "Select an account" : "Επιλογή λογαριασμού",
     "Add account" : "Προσθήκη λογαριασμού",
@@ -25,6 +26,7 @@ OC.L10N.register(
     "Organization" : "Οργανισμός",
     "Resources" : "Πηγές",
     "Edit" : "Επεξεργασία",
+    "Finish" : "Ολοκλήρωση",
     "Delete folder" : "Διαγραφή φακέλου",
     "Permissions" : "Δικαιώματα"
 },

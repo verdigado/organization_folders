@@ -3,11 +3,14 @@ OC.L10N.register(
     {
     "Members" : "Membros",
     "Organization Folders" : "Cartafoles da organización",
+    "Back" : "Atrás",
+    "Next" : "Seguinte",
     "Delete" : "Eliminar",
     "Select an account" : "Seleccione unha conta",
     "Add account" : "Engadir unha conta",
     "Add group" : "Engadir un grupo",
     "Folder name" : "Nome do cartafol",
+    "File does not exist" : "O ficheiro non existe",
     "Name" : "Nome",
     "Read" : "Ler",
     "Write" : "Escribir",
@@ -25,6 +28,8 @@ OC.L10N.register(
     "Invalid name" : "Nome incorrecto",
     "Resources" : "Recursos",
     "Edit" : "Editar",
+    "Finish" : "Rematar",
+    "No changes" : "Sen cambios",
     "Delete folder" : "Eliminar o cartafol",
     "Permissions" : "Permisos"
 },

@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Członkowie",
+    "Back" : "Poprzednia",
+    "Next" : "Następna",
     "Delete" : "Usuń",
     "Select an account" : "Wybierz konto",
     "Add account" : "Dodaj konto",
     "Add group" : "Dodaj grupę",
     "Folder name" : "Nazwa katalogu",
+    "File does not exist" : "Plik nie istnieje",
     "Name" : "Nazwa",
     "Read" : "Czytaj",
     "Write" : "Zapisz",
@@ -24,6 +27,7 @@ OC.L10N.register(
     "Organization" : "Organizacja",
     "Resources" : "Zasoby",
     "Edit" : "Edycja",
+    "Finish" : "Koniec",
     "Delete folder" : "Usuń katalog",
     "Permissions" : "Uprawnienia"
 },

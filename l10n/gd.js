@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "Air ais",
     "Delete" : "Sguab às",
     "Add account" : "Cuir cunntas ris",
     "Folder name" : "Ainm a’ phasgain",

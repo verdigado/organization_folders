@@ -1,5 +1,7 @@
 { "translations": {
     "Members" : "Anëtar",
+    "Back" : "Mbrapsht",
+    "Next" : "I ardhshëm",
     "Delete" : "Fshi",
     "Select an account" : "Zgjedh një llogari",
     "Add account" : "Shtoni llogari",
@@ -17,6 +19,7 @@
     "Organization" : "Organizate",
     "Resources" : "Burimet",
     "Edit" : "Përpuno",
+    "Finish" : "Përfundo",
     "Delete folder" : "Fshije dosjen",
     "Permissions" : "Lejet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

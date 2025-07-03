@@ -1,5 +1,7 @@
 { "translations": {
     "Members" : "Membros",
+    "Back" : "Voltar",
+    "Next" : "Seguinte",
     "Delete" : "Eliminar",
     "Select an account" : "Selecionar uma conta",
     "Add group" : "Adicionar grupo",
@@ -19,6 +21,7 @@
     "Settings" : "Definições",
     "Resources" : "Recursos",
     "Edit" : "Editar",
+    "Finish" : "Terminar",
     "Delete folder" : "Apagar pasta"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

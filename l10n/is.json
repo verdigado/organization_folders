@@ -1,9 +1,12 @@
 { "translations": {
     "Members" : "Meðlimir",
+    "Back" : "Til baka",
+    "Next" : "Næst",
     "Delete" : "Eyða",
     "Select an account" : "Veldu aðgang",
     "Add group" : "Bæta við hópi",
     "Folder name" : "Nafn möppu",
+    "File does not exist" : "Skráin er ekki til",
     "Name" : "Heiti",
     "Read" : "Lesa",
     "Write" : "Skrifa",
@@ -21,6 +24,7 @@
     "Organization" : "Stofnun/Samtök/Félag",
     "Resources" : "Tilföng",
     "Edit" : "Breyta",
+    "Finish" : "Ljúka",
     "Delete folder" : "Eyða möppu",
     "Permissions" : "Heimildir"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"

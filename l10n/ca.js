@@ -23,6 +23,7 @@ OC.L10N.register(
     "Invalid name" : "Nom invàlid",
     "Resources" : "Recursos",
     "Edit" : "Edició",
+    "No changes" : "Sense canvis",
     "Delete folder" : "Suprimeix la carpeta",
     "Permissions" : "Permisos"
 },

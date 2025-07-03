@@ -2,11 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Medlemmer",
+    "Back" : "Tilbake",
     "Delete" : "Slett",
     "Select an account" : "Velg en konto",
     "Add account" : "Legg til konto",
     "Add group" : "Legg til gruppe",
     "Folder name" : "Mappenavn",
+    "File does not exist" : "Fil finnes ikke",
     "Name" : "Navn",
     "Read" : "Les",
     "Write" : "Skriv",
@@ -25,6 +27,8 @@ OC.L10N.register(
     "Organization" : "Organisering",
     "Resources" : "Ressurser",
     "Edit" : "Rediger",
+    "Finish" : "Fullfør",
+    "No changes" : "Ingen endringer",
     "Delete folder" : "Slett mappe",
     "Permissions" : "Rettigheter"
 },

@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "メンバー",
+    "Back" : "戻る",
+    "Next" : "次へ",
     "Delete" : "削除",
     "Select an account" : "アカウントを選択",
     "Add account" : "アカウントを追加",
     "Add group" : "グループを追加",
     "Folder name" : "フォルダー名",
+    "File does not exist" : "ファイルが存在しません",
     "Name" : "名前",
     "Read" : "読み込み",
     "Write" : "編集",
@@ -24,6 +27,7 @@ OC.L10N.register(
     "Organization" : "共同作業",
     "Resources" : "リソース",
     "Edit" : "編集",
+    "Finish" : "完了",
     "Delete folder" : "フォルダーを削除",
     "Permissions" : "アクセス権限"
 },

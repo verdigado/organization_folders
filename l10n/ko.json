@@ -1,11 +1,14 @@
 { "translations": {
     "Members" : "구성원",
     "Organization Folders" : "조직 폴더",
+    "Back" : "뒤로",
+    "Next" : "다음",
     "Delete" : "삭제",
     "Select an account" : "계정 선택",
     "Add account" : "계정 추가",
     "Add group" : "그룹 추가",
     "Folder name" : "폴더 이름",
+    "File does not exist" : "파일이 존재하지 않음",
     "Name" : "이름",
     "Read" : "읽기",
     "Write" : "쓰기",
@@ -22,6 +25,8 @@
     "Organization" : "개인 정보 관리",
     "Resources" : "자원",
     "Edit" : "편집",
+    "Finish" : "끝내기",
+    "No changes" : "변경 없음",
     "Delete folder" : "폴더 삭제",
     "Permissions" : "권한"
 },"pluralForm" :"nplurals=1; plural=0;"

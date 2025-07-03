@@ -42,6 +42,7 @@ OC.L10N.register(
     "Edit" : "Rediger",
     "Organization Folders Admin Settings" : "Organisations Mappe Admin Indstillinger",
     "No organization folders yet" : "Ingen organisationsmapper endnu",
+    "No changes" : "Ingen ændringer",
     "Managers have access to the settings of this folder" : "Ledere har adgang til indstillingerne for denne mappe",
     "You do not have the permissions to manage this folder" : "Du har ikke tilladelserne til at administrere denne mappe",
     "Delete folder" : "Slet mappe",

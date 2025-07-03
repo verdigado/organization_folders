@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Partaideak",
+    "Back" : "Itzuli",
+    "Next" : "Hurrengoa",
     "Delete" : "Ezabatu",
     "Select an account" : "Hautatu kontua bat",
     "Add account" : "Gehitu kontua",
     "Add group" : "Taldea gehitu",
     "Folder name" : "Karpetaren izena",
+    "File does not exist" : "Fitxategia ez da existitzen",
     "Name" : "Izena",
     "Read" : "Irakurri",
     "Write" : "Idatzi",
@@ -24,6 +27,8 @@ OC.L10N.register(
     "Organization" : "Antolakuntza",
     "Resources" : "Baliabideak",
     "Edit" : "Editatu",
+    "Finish" : "Amaitu",
+    "No changes" : "Aldaketarik gabe",
     "Delete folder" : "Ezabatu karpeta",
     "Permissions" : "Baimenak"
 },

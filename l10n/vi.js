@@ -2,6 +2,8 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Thành viên",
+    "Back" : "Trở lại",
+    "Next" : "Tiếp theo",
     "Delete" : "Xóa",
     "Select an account" : "Chọn một tài khoản",
     "Add account" : "Thêm tài khoản",

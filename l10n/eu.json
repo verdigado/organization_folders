@@ -1,10 +1,13 @@
 { "translations": {
     "Members" : "Partaideak",
+    "Back" : "Itzuli",
+    "Next" : "Hurrengoa",
     "Delete" : "Ezabatu",
     "Select an account" : "Hautatu kontua bat",
     "Add account" : "Gehitu kontua",
     "Add group" : "Taldea gehitu",
     "Folder name" : "Karpetaren izena",
+    "File does not exist" : "Fitxategia ez da existitzen",
     "Name" : "Izena",
     "Read" : "Irakurri",
     "Write" : "Idatzi",
@@ -22,6 +25,8 @@
     "Organization" : "Antolakuntza",
     "Resources" : "Baliabideak",
     "Edit" : "Editatu",
+    "Finish" : "Amaitu",
+    "No changes" : "Aldaketarik gabe",
     "Delete folder" : "Ezabatu karpeta",
     "Permissions" : "Baimenak"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

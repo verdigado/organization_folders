@@ -1,5 +1,6 @@
 { "translations": {
     "Members" : "Μέλη",
+    "Back" : "Επιστροφή",
     "Delete" : "Διαγραφή",
     "Select an account" : "Επιλογή λογαριασμού",
     "Add account" : "Προσθήκη λογαριασμού",
@@ -23,6 +24,7 @@
     "Organization" : "Οργανισμός",
     "Resources" : "Πηγές",
     "Edit" : "Επεξεργασία",
+    "Finish" : "Ολοκλήρωση",
     "Delete folder" : "Διαγραφή φακέλου",
     "Permissions" : "Δικαιώματα"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

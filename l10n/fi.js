@@ -3,11 +3,14 @@ OC.L10N.register(
     {
     "Members" : "Jäsenet",
     "Organization Folders" : "Organisaatiokansiot",
+    "Back" : "Takaisin",
+    "Next" : "Seuraava",
     "Delete" : "Poista",
     "Select an account" : "Valitse tili",
     "Add account" : "Lisää tili",
     "Add group" : "Lisää ryhmä",
     "Folder name" : "Kansion nimi",
+    "File does not exist" : "Tiedostoa ei ole olemassa",
     "Name" : "Nimi",
     "Read" : "Lue",
     "Write" : "Kirjoita",
@@ -23,6 +26,7 @@ OC.L10N.register(
     "Invalid name" : "Virheellinen nimi",
     "Resources" : "Resurssit",
     "Edit" : "Muokkaa",
+    "Finish" : "Valmis",
     "Delete folder" : "Poista kansio",
     "Permissions" : "Oikeudet"
 },

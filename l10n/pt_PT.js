@@ -2,6 +2,8 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Membros",
+    "Back" : "Voltar",
+    "Next" : "Seguinte",
     "Delete" : "Eliminar",
     "Select an account" : "Selecionar uma conta",
     "Add group" : "Adicionar grupo",
@@ -21,6 +23,7 @@ OC.L10N.register(
     "Settings" : "Definições",
     "Resources" : "Recursos",
     "Edit" : "Editar",
+    "Finish" : "Terminar",
     "Delete folder" : "Apagar pasta"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

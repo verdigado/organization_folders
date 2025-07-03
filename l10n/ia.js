@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Membros",
+    "Next" : "Proxime",
     "Delete" : "Deler",
     "Add group" : "Adder gruppo",
     "Folder name" : "Nomine de dossier",

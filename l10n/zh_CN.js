@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "成员",
+    "Back" : "返回",
+    "Next" : "下一个",
     "Delete" : "删除",
     "Select an account" : "选择一个账号",
     "Add account" : "添加账号",
     "Add group" : "添加群组",
     "Folder name" : "文件夹名称",
+    "File does not exist" : "文件不存在",
     "Name" : "名称",
     "Read" : "读取",
     "Write" : "写入",
@@ -23,6 +26,7 @@ OC.L10N.register(
     "Invalid name" : "无效名称",
     "Resources" : "资源",
     "Edit" : "编辑",
+    "Finish" : "完成",
     "Delete folder" : "删除文件夹",
     "Permissions" : "权限"
 },

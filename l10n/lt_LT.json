@@ -1,10 +1,13 @@
 { "translations": {
     "Members" : "Nariai",
+    "Back" : "Atgal",
+    "Next" : "Kitas",
     "Delete" : "Ištrinti",
     "Select an account" : "Pasirinkti paskyrą",
     "Add account" : "Pridėti paskyrą",
     "Add group" : "Pridėti grupę",
     "Folder name" : "Aplanko pavadinimas",
+    "File does not exist" : "Failo nėra",
     "Name" : "Pavadinimas",
     "Read" : "Skaityti",
     "Write" : "Rašyti",
@@ -20,6 +23,7 @@
     "Organization" : "Organizavimas",
     "Resources" : "Ištekliai",
     "Edit" : "Taisyti",
+    "Finish" : "Užbaigti",
     "Delete folder" : "Ištrinti aplanką",
     "Permissions" : "Leidimai"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"

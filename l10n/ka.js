@@ -2,10 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Members",
+    "Back" : "უკან",
+    "Next" : "Next",
     "Delete" : "Delete",
     "Add account" : "Add account",
     "Add group" : "Add group",
     "Folder name" : "Folder name",
+    "File does not exist" : "File does not exist",
     "Name" : "სახელი",
     "Read" : "Read",
     "Write" : "Write",

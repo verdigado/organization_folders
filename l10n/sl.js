@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Člani",
+    "Back" : "Nazaj",
+    "Next" : "Naslednji",
     "Delete" : "Izbriši",
     "Select an account" : "Izbor računa",
     "Add account" : "Dodaj račun",
     "Add group" : "Dodaj skupino",
     "Folder name" : "Ime mape",
+    "File does not exist" : "Datoteka ne obstaja",
     "Name" : "Ime podpisnika",
     "Read" : "Branje",
     "Write" : "Zapiši",
@@ -24,6 +27,7 @@ OC.L10N.register(
     "Organization" : "Organizacija",
     "Resources" : "Viri",
     "Edit" : "Uredi",
+    "No changes" : "Ni sprememb",
     "Delete folder" : "Izbriši mapo",
     "Permissions" : "Dovoljenja"
 },

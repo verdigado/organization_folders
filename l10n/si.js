@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "ආපසු",
     "Select an account" : "ගිණුමක් තෝරන්න",
     "Folder name" : "බහාලුමේ නම",
     "Name" : "නම",

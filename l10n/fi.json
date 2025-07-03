@@ -1,11 +1,14 @@
 { "translations": {
     "Members" : "Jäsenet",
     "Organization Folders" : "Organisaatiokansiot",
+    "Back" : "Takaisin",
+    "Next" : "Seuraava",
     "Delete" : "Poista",
     "Select an account" : "Valitse tili",
     "Add account" : "Lisää tili",
     "Add group" : "Lisää ryhmä",
     "Folder name" : "Kansion nimi",
+    "File does not exist" : "Tiedostoa ei ole olemassa",
     "Name" : "Nimi",
     "Read" : "Lue",
     "Write" : "Kirjoita",
@@ -21,6 +24,7 @@
     "Invalid name" : "Virheellinen nimi",
     "Resources" : "Resurssit",
     "Edit" : "Muokkaa",
+    "Finish" : "Valmis",
     "Delete folder" : "Poista kansio",
     "Permissions" : "Oikeudet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

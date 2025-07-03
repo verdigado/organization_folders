@@ -2,6 +2,8 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Anëtar",
+    "Back" : "Mbrapsht",
+    "Next" : "I ardhshëm",
     "Delete" : "Fshi",
     "Select an account" : "Zgjedh një llogari",
     "Add account" : "Shtoni llogari",
@@ -19,6 +21,7 @@ OC.L10N.register(
     "Organization" : "Organizate",
     "Resources" : "Burimet",
     "Edit" : "Përpuno",
+    "Finish" : "Përfundo",
     "Delete folder" : "Fshije dosjen",
     "Permissions" : "Lejet"
 },

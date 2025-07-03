@@ -2,11 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "اعضا",
+    "Back" : "بازگشت",
     "Delete" : "حذف",
     "Select an account" : "یک حساب کاربری انتخاب کنید",
     "Add account" : "افزودن حساب",
     "Add group" : "افزودن گروه",
     "Folder name" : "نام پوشه",
+    "File does not exist" : "فایل وجود ندارد",
     "Name" : "نام",
     "Read" : "خواندن",
     "Write" : "نوشتن",

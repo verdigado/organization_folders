@@ -3,11 +3,14 @@ OC.L10N.register(
     {
     "Members" : "Členovia",
     "Organization Folders" : "Adresáre organizácie",
+    "Back" : "Späť",
+    "Next" : "Ďalšie",
     "Delete" : "Vymazať",
     "Select an account" : "Zvoľte si účet",
     "Add account" : "Pridať účet",
     "Add group" : "Pridať skupinu",
     "Folder name" : "Názov priečinka",
+    "File does not exist" : "Súbor neexistuje",
     "Name" : "Názov",
     "Read" : "Čítanie",
     "Write" : "Zapisovať",
@@ -24,6 +27,8 @@ OC.L10N.register(
     "Invalid name" : "Neplatné meno",
     "Resources" : "Zdroje",
     "Edit" : "Upraviť",
+    "Finish" : "Dokončiť",
+    "No changes" : "Žiadne zmeny",
     "Delete folder" : "Zmazať priečinok",
     "Permissions" : "Oprávnenia"
 },

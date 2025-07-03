@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "பின்னுக்கு",
     "Delete" : "நீக்குக",
     "Folder name" : "கோப்புறை பெயர்",
     "Name" : "பெயர்",

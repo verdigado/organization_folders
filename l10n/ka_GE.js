@@ -16,6 +16,7 @@ OC.L10N.register(
     "Settings" : "პარამეტრები",
     "Resources" : "რესურსები",
     "Edit" : "შეცვლა",
+    "Finish" : "დასრულება",
     "Delete folder" : "ფოლდერის წაშლა",
     "Permissions" : "უფლებები"
 },

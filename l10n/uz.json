@@ -1,4 +1,6 @@
 { "translations": {
+    "Back" : "Orqaga",
+    "Next" : "Keyingisi",
     "Delete" : "Delete",
     "Add account" : "Akkaunt qo'shish",
     "Folder name" : "Folder name",

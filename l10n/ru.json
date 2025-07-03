@@ -1,11 +1,14 @@
 { "translations": {
     "Members" : "Участники",
     "Organization Folders" : "Папки организации",
+    "Back" : "Назад",
+    "Next" : "Далее",
     "Delete" : "Удалить",
     "Select an account" : "Выберите учётную запись",
     "Add account" : "Добавить счёт",
     "Add group" : "Добавить группу",
     "Folder name" : "Имя папки",
+    "File does not exist" : "Файл не существует",
     "Name" : "Имя",
     "Read" : "Чтение",
     "Write" : "Запись",
@@ -22,6 +25,7 @@
     "Organization" : "Организация",
     "Resources" : "Ресурсы",
     "Edit" : "Редактирование",
+    "Finish" : "Завершить",
     "Delete folder" : "Удалить папку",
     "Permissions" : "Права"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Settings" : "Iestatījumi",
     "Resources" : "Resursi",
     "Edit" : "Labot",
+    "Finish" : "Pabeigt",
     "Delete folder" : "Izdzēst mapi",
     "Permissions" : "Atļaujas"
 },

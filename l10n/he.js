@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "חברים",
+    "Back" : "אחורה",
     "Delete" : "מחיקה",
     "Select an account" : "בחירת חשבון",
     "Add account" : "הוספת חשבון",
@@ -21,6 +22,7 @@ OC.L10N.register(
     "Settings" : "הגדרות",
     "Resources" : "משאבים",
     "Edit" : "עריכה",
+    "Finish" : "סיים",
     "Delete folder" : "מחק תיקייה",
     "Permissions" : "הרשאות"
 },

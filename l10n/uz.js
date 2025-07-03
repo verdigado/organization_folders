@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "Orqaga",
+    "Next" : "Keyingisi",
     "Delete" : "Delete",
     "Add account" : "Akkaunt qo'shish",
     "Folder name" : "Folder name",

@@ -1,11 +1,14 @@
 { "translations": {
     "Members" : "Členovia",
     "Organization Folders" : "Adresáre organizácie",
+    "Back" : "Späť",
+    "Next" : "Ďalšie",
     "Delete" : "Vymazať",
     "Select an account" : "Zvoľte si účet",
     "Add account" : "Pridať účet",
     "Add group" : "Pridať skupinu",
     "Folder name" : "Názov priečinka",
+    "File does not exist" : "Súbor neexistuje",
     "Name" : "Názov",
     "Read" : "Čítanie",
     "Write" : "Zapisovať",
@@ -22,6 +25,8 @@
     "Invalid name" : "Neplatné meno",
     "Resources" : "Zdroje",
     "Edit" : "Upraviť",
+    "Finish" : "Dokončiť",
+    "No changes" : "Žiadne zmeny",
     "Delete folder" : "Zmazať priečinok",
     "Permissions" : "Oprávnenia"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
