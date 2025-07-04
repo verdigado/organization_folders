@@ -2,11 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Членове",
+    "Next" : "Следващо",
     "Delete" : "Изтриване",
     "Select an account" : "Избор на профил",
     "Add account" : "Добавяне на регистрация",
     "Add group" : "Нова група",
     "Folder name" : "Име на папка",
+    "File does not exist" : "Файлът не съществува",
     "Name" : "Име",
     "Read" : "Прочитане",
     "Write" : "Писане",
@@ -23,6 +25,7 @@ OC.L10N.register(
     "Organization" : "Организиране",
     "Resources" : "Ресурси",
     "Edit" : "Редактиране",
+    "Finish" : "Край",
     "Delete folder" : "Изтриване на папка",
     "Permissions" : "Права"
 },

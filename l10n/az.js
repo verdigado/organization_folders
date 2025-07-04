@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "Geri",
     "Delete" : "Sil",
     "Folder name" : "Qovluq adı",
     "Name" : "Ad",

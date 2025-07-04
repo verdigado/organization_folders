@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "Μέλη",
     "Back" : "Επιστροφή",
+    "Next" : "Επόμενο",
     "Delete" : "Διαγραφή",
     "Select an account" : "Επιλογή λογαριασμού",
     "Add account" : "Προσθήκη λογαριασμού",

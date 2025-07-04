@@ -1,10 +1,12 @@
 { "translations": {
     "Members" : "Членове",
+    "Next" : "Следващо",
     "Delete" : "Изтриване",
     "Select an account" : "Избор на профил",
     "Add account" : "Добавяне на регистрация",
     "Add group" : "Нова група",
     "Folder name" : "Име на папка",
+    "File does not exist" : "Файлът не съществува",
     "Name" : "Име",
     "Read" : "Прочитане",
     "Write" : "Писане",
@@ -21,6 +23,7 @@
     "Organization" : "Организиране",
     "Resources" : "Ресурси",
     "Edit" : "Редактиране",
+    "Finish" : "Край",
     "Delete folder" : "Изтриване на папка",
     "Permissions" : "Права"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

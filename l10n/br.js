@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Next" : "War-lerc'h",
     "Delete" : "Dilemel",
     "Add account" : "Ouzhpenn ur c'hont",
     "Add group" : "Ouzhpenn strollad",

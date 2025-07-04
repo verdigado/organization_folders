@@ -2,10 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Miembros",
+    "Back" : "Atrás",
+    "Next" : "Siguiente",
     "Delete" : "Desaniciar",
     "Add account" : "Amestar una cuenta",
     "Add group" : "Amestar un grupu",
     "Folder name" : "Nome de la carpeta",
+    "File does not exist" : "El ficheru nun esiste",
     "Name" : "Nome",
     "Read" : "Lleer",
     "Create" : "Crear",
@@ -19,6 +22,8 @@ OC.L10N.register(
     "Organization" : "Organización",
     "Resources" : "Recursos",
     "Edit" : "Editar",
+    "Finish" : "Finar",
+    "No changes" : "Nun hai nengún cambéu",
     "Delete folder" : "Desaniciar la carpeta",
     "Permissions" : "Permisos"
 },

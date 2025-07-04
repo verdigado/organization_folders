@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "Ta zaga",
     "Delete" : "Borrar",
     "Folder name" : "Nombre de carpeta",
     "Name" : "Nombre",

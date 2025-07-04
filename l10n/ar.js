@@ -3,11 +3,14 @@ OC.L10N.register(
     {
     "Members" : "الاعضاء",
     "Organization Folders" : "مُجلَّدات المؤسسة",
+    "Back" : "عودة",
+    "Next" : "التالي",
     "Delete" : "حذف",
     "Select an account" : "اختيار حساب",
     "Add account" : "أضف حساباً",
     "Add group" : "إضافة مجموعة",
     "Folder name" : "اسم المجلد",
+    "File does not exist" : "الملف غير موجود",
     "Name" : "الاسم",
     "Read" : "قراءة",
     "Write" : "كتابة",
@@ -26,6 +29,8 @@ OC.L10N.register(
     "Organization" : "المنظمة",
     "Resources" : "الموارد",
     "Edit" : "تحرير",
+    "Finish" : "تم",
+    "No changes" : "No changes",
     "Delete folder" : "حذف مجلد",
     "Permissions" : "الصلاحيّات"
 },

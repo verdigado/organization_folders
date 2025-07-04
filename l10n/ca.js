@@ -2,11 +2,14 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Membres",
+    "Back" : "Torna",
+    "Next" : "Següent",
     "Delete" : "Suprimir",
     "Select an account" : "Selecciona un compte",
     "Add account" : "Afegeix un compte",
     "Add group" : "Afegeix un grup",
     "Folder name" : "Nom de la carpeta",
+    "File does not exist" : "El fitxer no existeix",
     "Name" : "Nom",
     "Read" : "Lectura",
     "Write" : "Escriu",
@@ -23,6 +26,7 @@ OC.L10N.register(
     "Invalid name" : "Nom invàlid",
     "Resources" : "Recursos",
     "Edit" : "Edició",
+    "Finish" : "Acabeu",
     "No changes" : "Sense canvis",
     "Delete folder" : "Suprimeix la carpeta",
     "Permissions" : "Permisos"

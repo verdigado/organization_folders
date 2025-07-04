@@ -1,11 +1,14 @@
 { "translations": {
     "Members" : "الاعضاء",
     "Organization Folders" : "مُجلَّدات المؤسسة",
+    "Back" : "عودة",
+    "Next" : "التالي",
     "Delete" : "حذف",
     "Select an account" : "اختيار حساب",
     "Add account" : "أضف حساباً",
     "Add group" : "إضافة مجموعة",
     "Folder name" : "اسم المجلد",
+    "File does not exist" : "الملف غير موجود",
     "Name" : "الاسم",
     "Read" : "قراءة",
     "Write" : "كتابة",
@@ -24,6 +27,8 @@
     "Organization" : "المنظمة",
     "Resources" : "الموارد",
     "Edit" : "تحرير",
+    "Finish" : "تم",
+    "No changes" : "No changes",
     "Delete folder" : "حذف مجلد",
     "Permissions" : "الصلاحيّات"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
