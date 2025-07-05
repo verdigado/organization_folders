@@ -24,6 +24,7 @@ OC.L10N.register(
     "Admin" : "管理",
     "Settings" : "设置",
     "Invalid name" : "无效名称",
+    "Organization" : "组织",
     "Resources" : "资源",
     "Edit" : "编辑",
     "Finish" : "完成",
