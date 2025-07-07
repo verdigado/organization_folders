@@ -36,7 +36,7 @@ To install follow these instructions: https://github.com/verdigado/organization_
 		<database>pgsql</database>
 		<database>sqlite</database>
 		<database>mysql</database>
-		<nextcloud min-version="29" max-version="30"/>
+		<nextcloud min-version="29" max-version="31"/>
 	</dependencies>
 	<types>
 		<authentication/>
