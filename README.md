@@ -53,7 +53,7 @@ Organization Folders are Team Folders (formerly Group Folders) designed for larg
       It is expected, that you connect your nextcloud instance to your organization members database (for example using https://github.com/nextcloud/user_saml/ or a custom group backend) or are manually assigning users to nextcloud groups
     - The structure of your organization must be provided to this app using a programmatic interface, by creating a small companion app, that registers itself as an organization provider. It can pull data for your organizations member database or just hardcoded values.
     - The usage of this system is entirely optional. The app works fine without any registered organization provider. But all members will then be individual users or regular nextcloud groups, which are unstructured and therefore not easy to work with in very large organizations.
-  - If you use a filesystem with snapshot capabilities, Organization Folders can be integrated with it to offer a self-service restore-from-backups UI to folder resource managers. (This function is currently still WIP)
+  - If you use a filesystem with snapshot capabilities, Organization Folders can be integrated with it to offer a self-service restore-from-backups UI to folder resource managers.
 
 ## How to install
 - Install the [Team folders](https://apps.nextcloud.com/apps/groupfolders) app from the nextcloud app store
