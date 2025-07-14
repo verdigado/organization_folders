@@ -3,12 +3,14 @@ import NcActions from "@nextcloud/vue/components/NcActions";
 import NcActionButton from "@nextcloud/vue/components/NcActionButton";
 import NcDialog from "@nextcloud/vue/components/NcDialog";
 import NcButton from "@nextcloud/vue/components/NcButton";
+import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
 
 import UserPrincipalSelector from "./UserPrincipalSelector.vue";
 import GroupPrincipalSelector from "./GroupPrincipalSelector.vue";
 import RoleOrMemberPrincipalSelector from "./RoleOrMemberPrincipalSelector.vue";
 
 import Plus from "vue-material-design-icons/Plus.vue";
+import ArrowRight from "vue-material-design-icons/ArrowRight.vue";
 
 import { computed, ref } from 'vue';
 
@@ -51,6 +53,7 @@ const emit = defineEmits(["add-member"]);
 const newMemberType = ref(null);
 const newMemberAdditionalParameters = ref({});
 const dialogOpen = ref(false);
+const loading = ref(false);
 
 const currentSelectedPrincipalType = ref(null);
 const currentSelectedPrincipalId = ref(null);
@@ -81,12 +84,18 @@ const selected = (principalType, principalId) => {
 }
 
 const dialogSubmit = () => {
-	emit("add-member", currentSelectedPrincipalType.value, currentSelectedPrincipalId.value);
-	dialogOpen.value = false;
-	newMemberType.value = null;
-	newMemberAdditionalParameters.value = {};
-	currentSelectedPrincipalType.value = null;
-	currentSelectedPrincipalId.value = null;
+	loading.value = true;
+	emit("add-member", currentSelectedPrincipalType.value, currentSelectedPrincipalId.value, (success) => {
+		if(success) {
+			dialogOpen.value = false;
+			newMemberType.value = null;
+			newMemberAdditionalParameters.value = {};
+			currentSelectedPrincipalType.value = null;
+			currentSelectedPrincipalId.value = null;
+		}
+
+		loading.value = false;
+	});
 };
 
 const dialogClose = () => {
@@ -139,8 +148,9 @@ const dialogUpdate = (open) => {
 			class="create-member-modal"
 			dialogClasses="create-member-dialog"
 			contentClasses="create-member-content"
+			:class="{ fullWidthDialog: newMemberType === 'ORGANIZATION_MEMBER_OR_ROLE' }"
 			@update:open="dialogUpdate">
-			<div style="margin: 20px; width: max-content; min-width: 500px;">
+			<div style="margin: 20px;">
 				<UserPrincipalSelector v-if="newMemberType === 'USER'"
 					:find-user-member-options="findUserMemberOptions"
 					@selected="selected" />
@@ -152,14 +162,23 @@ const dialogUpdate = (open) => {
 					@selected="selected" />
 			</div>
 			<template #actions>
-				<NcButton :disabled="!currentSelectedPrincipalId" @click="dialogSubmit">Hinzufügen</NcButton>
+				<NcButton :disabled="!currentSelectedPrincipalId || loading" alignment="center-reverse" @click="dialogSubmit">
+					<template #icon>
+						<NcLoadingIcon v-if="loading" />
+						<ArrowRight v-else :size="20" />
+					</template>
+					{{ t("organization_folders", "Add") }}
+				</NcButton>
 			</template>
 		</NcDialog>
 	</div>
 </template>
 <style>
-.create-member-modal .modal-container, .create-member-dialog, .create-member-content {
-	overflow-x: visible !important;
-	width: max-content !important;
+.create-member-modal .modal-container {
+	width: unset !important;
+}
+
+.fullWidthDialog .create-member-dialog {
+	min-width: 75vw;
 }
 </style>

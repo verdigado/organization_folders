@@ -74,12 +74,17 @@ const saveName = async () => {
     organizationFolder.value = await api.updateOrganizationFolder(organizationFolder.value.id, { name: currentOrganizationFolderName.value }, neededOrganizationFolderIncludes);
 };
 
-const addMember = async (principalType, principalId) => {
-	organizationFolder.value.members.push(await api.createOrganizationFolderMember(organizationFolder.value.id, {
-		permissionLevel: api.OrganizationFolderMemberPermissionLevels.MEMBER,
-		principalType,
-		principalId,
-	}));
+const addMember = async (principalType, principalId, callback) => {
+	try {
+		organizationFolder.value.members.push(await api.createOrganizationFolderMember(organizationFolder.value.id, {
+			permissionLevel: api.OrganizationFolderMemberPermissionLevels.MEMBER,
+			principalType,
+			principalId,
+		}));
+		callback(true);
+	} catch (error) {
+		callback(false, error);
+	}
 };
 
 const updateMember = async (organizationFolderMemberId, updateOrganiationFolderMemberDto) => {

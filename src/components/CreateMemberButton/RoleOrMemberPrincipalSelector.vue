@@ -11,7 +11,15 @@
 				:getOptionKey="(item) => item.type + '_' + item.id"
 				:reduce="(item) => item.type + '_' + item.id"
 				:selectable="(item) => item.disabled !== true"
-				@input="newValue => onSelection(levelIndex, newValue)" />
+				:filter="filter"
+				@search="(newValue) => search = newValue"
+				@input="newValue => onSelection(levelIndex, newValue)">
+					<template #option="option">
+						<span v-if="option.disabled" :class="{optionIndented: option.indented}">{{ option.friendlyName }}</span>
+						<NcHighlight v-else :class="{optionIndented: option.indented}" :text="option.friendlyName"
+							:search="search" />
+					</template>
+			</NcSelect>
 		</div>
 	</div>
 </template>
@@ -21,6 +29,7 @@ import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 import NcButton from "@nextcloud/vue/components/NcButton";
 import NcSelect from "@nextcloud/vue/components/NcSelect";
+import NcHighlight from "@nextcloud/vue/components/NcHighlight";
 
 import Plus from "vue-material-design-icons/Plus.vue"
 import SubdirectoryArrowRight from "vue-material-design-icons/SubdirectoryArrowRight.vue"
@@ -31,6 +40,7 @@ export default {
   components: {
 	NcButton,
 	NcSelect,
+	NcHighlight,
 	Plus,
 	SubdirectoryArrowRight,
   },
@@ -50,11 +60,12 @@ export default {
   },
   data() {
 	return {
-	  selections: [],
-	  levels: [],
-	  selectedPrincipalType: null,
-	  selectedPrincipalId: null,
-	  options: [],
+		selections: [],
+		levels: [],
+		selectedPrincipalType: null,
+		selectedPrincipalId: null,
+		options: [],
+		search: "",
 	}
   },
   computed: {
@@ -131,15 +142,98 @@ export default {
 					},
 				);
 			}
-			results.push(
-				...roles.map((role) => {
-					return {
-						type: "organization_role",
-						id: role.id,
-						friendlyName: role.friendlyName,
-					};
+
+			const rolesByCategory = roles.reduce((acc, role) => {
+				const key = role?.category?.friendlyName ?? t("organization_folders", "Uncategorized roles");
+
+				if (!acc[key]) {
+					acc[key] = [];
 				}
-			));
+				
+				acc[key].push(role);
+
+				return acc;
+			}, {});
+
+			Object.keys(rolesByCategory).forEach((categoryName, index) => {
+				results.push(
+					{
+						type: "category",
+						id: index,
+						friendlyName: categoryName + ":",
+						disabled: true,
+					},
+				);
+
+				for(const role of rolesByCategory[categoryName]) {
+					results.push(
+						{
+							type: "organization_role",
+							id: role.id,
+							friendlyName: role.friendlyName,
+							indented: true,
+						}
+					)
+				}
+			});
+		}
+
+		return results;
+	},
+	filter(options, search) {
+		let results = [];
+
+		let firstSection = true;
+		let sectionSeperator = null;
+		let sectionItems = [];
+
+		let categoryOption = null;
+		let categoryItems = [];
+
+		for(const option of options) {
+			if(option.type === "seperator") {
+				// next section starting
+				if(sectionItems.length > 0) {
+					if(sectionSeperator && !firstSection) {
+						results.push(sectionSeperator);
+					}
+					results.push(...sectionItems);
+					sectionItems = [];
+					firstSection = false;
+					categoryOption = null
+				}
+
+				sectionSeperator = option;
+			} else if (option.type === "category") {
+				// next category starting
+				if(categoryItems.length > 0) {
+					sectionItems.push(categoryOption);
+					sectionItems.push(...categoryItems);
+					categoryItems = [];
+				}
+
+				categoryOption = option;
+			} else {
+				if((option["friendlyName"].toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) > -1)) {
+					if(categoryOption) {
+						categoryItems.push(option);
+					} else {
+						sectionItems.push(option);
+					}
+				}
+			}
+		}
+
+		if(categoryItems.length > 0) {
+			sectionItems.push(categoryOption);
+			sectionItems.push(...categoryItems);
+		}
+
+		if(sectionItems.length > 0) {
+			if(sectionSeperator && !firstSection) {
+				results.push(sectionSeperator);
+			}
+			results.push(...sectionItems);
 		}
 
 		return results;
@@ -197,3 +291,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.optionIndented {
+	margin-inline-start: 10px;
+}
+</style>

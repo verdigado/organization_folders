@@ -97,12 +97,17 @@ const switchToSnapshotRestoreView = ()  => {
 	});
 };
 
-const addMember = async (principalType, principalId) => {
-	resource.value.members.push(await api.createResourceMember(resource.value.id, {
-		permissionLevel: api.ResourceMemberPermissionLevels.MEMBER,
-		principalType,
-		principalId,
-	}));
+const addMember = async (principalType, principalId, callback) => {
+	try {
+		resource.value.members.push(await api.createResourceMember(resource.value.id, {
+			permissionLevel: api.ResourceMemberPermissionLevels.MEMBER,
+			principalType,
+			principalId,
+		}));
+		callback(true);
+	} catch (error) {
+		callback(false, error);
+	}
 };
 
 const updateMember = async (memberId, updateResourceMemberDto) => {
