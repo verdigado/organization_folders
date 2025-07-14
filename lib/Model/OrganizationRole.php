@@ -12,6 +12,7 @@ class OrganizationRole implements \JsonSerializable, TableSerializable {
 		private int $organizationId,
 		private string $friendlyName,
 		private string $membersGroup,
+		private ?OrganizationRoleCategory $category = null,
 	) {
 	}
 
@@ -31,21 +32,27 @@ class OrganizationRole implements \JsonSerializable, TableSerializable {
 		return $this->membersGroup;
 	}
 
-  public function jsonSerialize(): array {
+	public function getCategory(): OrganizationRoleCategory {
+		return $this->category;
+	}
+
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
 			'organizationId' => $this->organizationId,
 			'friendlyName' => $this->friendlyName,
 			'membersGroup' => $this->membersGroup,
+			'category' => $this->category,
 		];
 	}
 
-  public function tableSerialize(?array $params = null): array {
+	public function tableSerialize(?array $params = null): array {
 		return [
 			'Id' => $this->id,
 			'Name' => $this->friendlyName,
 			'Organization Id' => $this->organizationId,
 			'Members Group' => $this->membersGroup,
+			'Category' => $this->category?->getFriendlyName() ?? "",
 		];
 	}
 }
