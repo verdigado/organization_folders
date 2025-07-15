@@ -18,7 +18,7 @@ const OrganizationFoldersHeader = new Header({
 	order: 2,
 
 	enabled(_, view) {
-		return view.id === 'files' || view.id === 'favorites';
+		return view.id === 'files' || view.id === 'folders' || view.id === 'favorites';
 	},
 
 	async render(el, folder, view) {
