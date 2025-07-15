@@ -19,6 +19,7 @@ OC.L10N.register(
     "Add account" : "Lägg till konto",
     "Add group" : "Lägg till grupp",
     "Add {organizationProvider} organization members or role" : "Lägg till organisationsmedlemmar eller roll från {organizationProvider}",
+    "Add" : "Lägg till",
     "Create folder" : "Skapa mapp",
     "Folder name" : "Mappnamn",
     "File does not exist" : "Filen finns inte",

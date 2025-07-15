@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select an account" : "ھېسابات تاللاڭ",
     "Add account" : "ھېسابات قوشۇڭ",
     "Add group" : "گۇرۇپپا قوشۇڭ",
+    "Add" : "قوش",
     "Folder name" : "ھۆججەت قىسقۇچنىڭ ئىسمى",
     "File does not exist" : "ھۆججەت مەۋجۇت ئەمەس",
     "Name" : "ئاتى",

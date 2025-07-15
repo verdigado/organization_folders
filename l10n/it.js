@@ -19,6 +19,7 @@ OC.L10N.register(
     "Add account" : "Aggiungi account",
     "Add group" : "Aggiungi gruppo",
     "Add {organizationProvider} organization members or role" : "Aggiungi membri o ruoli dell'organizzazione {organizationProvider}",
+    "Add" : "Aggiungi",
     "Create folder" : "Crea cartella",
     "Folder name" : "Nome della cartella",
     "File does not exist" : "Il file non esiste",

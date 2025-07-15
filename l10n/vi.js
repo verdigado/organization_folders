@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Chọn một tài khoản",
     "Add account" : "Thêm tài khoản",
     "Add group" : "Thêm nhóm",
+    "Add" : "Thêm",
     "Folder name" : "Tên thư mục",
     "Name" : "Tên",
     "Read" : "Đọc",

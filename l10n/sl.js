@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Izbor računa",
     "Add account" : "Dodaj račun",
     "Add group" : "Dodaj skupino",
+    "Add" : "Dodaj",
     "Folder name" : "Ime mape",
     "File does not exist" : "Datoteka ne obstaja",
     "Name" : "Ime podpisnika",

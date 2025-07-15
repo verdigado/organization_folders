@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select an account" : "Odaberi račun",
     "Add account" : "Dodaj račun",
     "Add group" : "Dodaj grupu",
+    "Add" : "Dodaj",
     "Folder name" : "Naziv mape",
     "Name" : "Naziv",
     "Read" : "Čitaj",

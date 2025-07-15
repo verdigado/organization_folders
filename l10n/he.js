@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select an account" : "בחירת חשבון",
     "Add account" : "הוספת חשבון",
     "Add group" : "הוספת קבוצה",
+    "Add" : "הוספה",
     "Folder name" : "שם התיקייה",
     "Name" : "שם",
     "Read" : "קריאה",

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Delete" : "Delete",
     "Add account" : "Add account",
     "Add group" : "Add group",
+    "Add" : "დამატება",
     "Folder name" : "Folder name",
     "File does not exist" : "File does not exist",
     "Name" : "სახელი",

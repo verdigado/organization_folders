@@ -12,6 +12,7 @@ OC.L10N.register(
     "Select a group" : "Sélectionner un groupe",
     "Add account" : "Ajouter un compte",
     "Add group" : "Ajouter un groupe",
+    "Add" : "Ajouter",
     "Create folder" : "Créer un dossier",
     "Folder name" : "Nom du dossier",
     "File does not exist" : "Le fichier n’existe pas",

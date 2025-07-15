@@ -9,6 +9,7 @@ OC.L10N.register(
     "Select an account" : "Fiók kiválasztása",
     "Add account" : "Fiók hozzáadása",
     "Add group" : "Csoport hozzáadása",
+    "Add" : "Hozzáadás",
     "Folder name" : "Mappanév",
     "File does not exist" : "A fájl nem létezik",
     "Name" : "Név",

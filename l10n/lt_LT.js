@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Pasirinkti paskyrą",
     "Add account" : "Pridėti paskyrą",
     "Add group" : "Pridėti grupę",
+    "Add" : "Pridėti",
     "Folder name" : "Aplanko pavadinimas",
     "File does not exist" : "Failo nėra",
     "Name" : "Pavadinimas",

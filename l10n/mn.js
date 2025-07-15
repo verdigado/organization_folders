@@ -6,6 +6,7 @@ OC.L10N.register(
     "Next" : "Даараах",
     "Delete" : "Устгах",
     "Add group" : "Бүлэг нэмэх",
+    "Add" : "Нэмэх",
     "Folder name" : "Хавтасны нэр",
     "Name" : "Нэр",
     "Create" : "үүсгэх",

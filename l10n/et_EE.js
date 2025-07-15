@@ -19,6 +19,7 @@ OC.L10N.register(
     "Add account" : "Lisa kasutajakonto",
     "Add group" : "Lisa grupp",
     "Add {organizationProvider} organization members or role" : "Lisa {organizationProvider} organisatsiooni liikmeid või rolle",
+    "Add" : "Lisa",
     "Create folder" : "Loo kaust",
     "Folder name" : "Kausta nimi",
     "{filePath} has been created" : "{filePath} on loodud",

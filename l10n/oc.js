@@ -6,6 +6,7 @@ OC.L10N.register(
     "Delete" : "Suprimir",
     "Add account" : "Apondre compte",
     "Add group" : "Apondre grop",
+    "Add" : "Apondre",
     "Folder name" : "Nom del dorsièr",
     "Name" : "Nom",
     "Read" : "Legit",

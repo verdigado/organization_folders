@@ -9,6 +9,7 @@ OC.L10N.register(
     "Select an account" : "Zvoľte si účet",
     "Add account" : "Pridať účet",
     "Add group" : "Pridať skupinu",
+    "Add" : "Pridať",
     "Folder name" : "Názov priečinka",
     "File does not exist" : "Súbor neexistuje",
     "Name" : "Názov",

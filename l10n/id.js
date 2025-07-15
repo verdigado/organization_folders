@@ -5,6 +5,7 @@ OC.L10N.register(
     "Next" : "Berikutnya",
     "Delete" : "Hapus",
     "Add group" : "Tambah grup",
+    "Add" : "Tambah",
     "Folder name" : "Nama folder",
     "File does not exist" : "File tidak ada",
     "Name" : "Nama",

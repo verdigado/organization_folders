@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Seletziona unu contu",
     "Add account" : "Agiunge contu",
     "Add group" : "Agiunghe grupu",
+    "Add" : "Agiunghe",
     "Folder name" : "Nùmene de sa cartella",
     "Name" : "Nùmene",
     "Read" : "Leghe",

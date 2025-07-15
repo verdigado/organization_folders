@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Zgjedh një llogari",
     "Add account" : "Shtoni llogari",
     "Add group" : "Shto grupin",
+    "Add" : "Shto ",
     "Folder name" : "Emër dosjeje",
     "Name" : "Emër",
     "Read" : "Lexoni",

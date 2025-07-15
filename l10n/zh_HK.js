@@ -19,6 +19,7 @@ OC.L10N.register(
     "Add account" : "新增帳戶",
     "Add group" : "新增群組",
     "Add {organizationProvider} organization members or role" : "添加 {organizationProvider} 組織成員或角色",
+    "Add" : "添加",
     "Create folder" : "創建文件夾",
     "Folder name" : "資料夾名稱",
     "{filePath} has been created" : "已建立 {filePath}",

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Delete" : "Eliminar",
     "Select an account" : "Seleccionar una cuenta",
     "Add group" : "Agregar grupo",
+    "Add" : "Guardar",
     "Folder name" : "Nombre de la carpeta",
     "Name" : "Nombre",
     "Read" : "Leer",

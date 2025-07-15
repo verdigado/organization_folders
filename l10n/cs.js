@@ -18,6 +18,7 @@ OC.L10N.register(
     "Add account" : "Přidat účet",
     "Add group" : "Přidat skupinu",
     "Add {organizationProvider} organization members or role" : "Přidat {organizationProvider} člena organizace či roli",
+    "Add" : "Přidat",
     "Create folder" : "Vytvořit složku",
     "Folder name" : "Název složky",
     "{filePath} has been created" : "{filePath} bylo vytvořeno",

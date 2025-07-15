@@ -5,6 +5,7 @@ OC.L10N.register(
     "Next" : "Keyingisi",
     "Delete" : "Delete",
     "Add account" : "Akkaunt qo'shish",
+    "Add" : "Qo'shish",
     "Folder name" : "Folder name",
     "Name" : "Nomi",
     "Create" : "Yaratish",

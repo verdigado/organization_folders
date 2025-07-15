@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Оберіть обліковий запис",
     "Add account" : "Додати обліковий запис",
     "Add group" : "Додати групу",
+    "Add" : "Додати",
     "Folder name" : "Назва каталогу",
     "File does not exist" : "Файл відсутній",
     "Name" : "Назва",

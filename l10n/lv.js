@@ -5,6 +5,7 @@ OC.L10N.register(
     "Delete" : "Izdzēst",
     "Add account" : "Pievienot kontu",
     "Add group" : "Pievienot grupu",
+    "Add" : "Pievienot",
     "Folder name" : "Mapes nosaukums",
     "Name" : "Nosaukums",
     "Read" : "Lasīt",

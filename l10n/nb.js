@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select an account" : "Velg en konto",
     "Add account" : "Legg til konto",
     "Add group" : "Legg til gruppe",
+    "Add" : "Legg til",
     "Folder name" : "Mappenavn",
     "File does not exist" : "Fil finnes ikke",
     "Name" : "Navn",

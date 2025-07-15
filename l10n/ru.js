@@ -9,6 +9,7 @@ OC.L10N.register(
     "Select an account" : "Выберите учётную запись",
     "Add account" : "Добавить счёт",
     "Add group" : "Добавить группу",
+    "Add" : "Добавить",
     "Folder name" : "Имя папки",
     "File does not exist" : "Файл не существует",
     "Name" : "Имя",

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Next" : "Următorul",
     "Delete" : "Șterge",
     "Add group" : "Adaugă grup",
+    "Add" : "Adaugă",
     "Folder name" : "Denumire director",
     "Name" : "Nume",
     "Read" : "Citit",

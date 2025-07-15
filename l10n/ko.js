@@ -9,6 +9,7 @@ OC.L10N.register(
     "Select an account" : "계정 선택",
     "Add account" : "계정 추가",
     "Add group" : "그룹 추가",
+    "Add" : "추가",
     "Folder name" : "폴더 이름",
     "File does not exist" : "파일이 존재하지 않음",
     "Name" : "이름",

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Add account" : "Konto hinzufügen",
     "Add group" : " Gruppe hinzufügen ",
     "Add {organizationProvider} organization members or role" : "{organizationProvider} Organisationsmitglieder oder Rolle hinzufügen",
+    "Add" : "Hinzufügen",
     "Create folder" : "Ordner erstellen",
     "Folder name" : "Ordnername",
     "{filePath} has been created" : "{filePath} wurde erstellt",

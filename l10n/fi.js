@@ -9,6 +9,7 @@ OC.L10N.register(
     "Select an account" : "Valitse tili",
     "Add account" : "Lisää tili",
     "Add group" : "Lisää ryhmä",
+    "Add" : "Lisää",
     "Folder name" : "Kansion nimi",
     "File does not exist" : "Tiedostoa ei ole olemassa",
     "Name" : "Nimi",

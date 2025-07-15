@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select an account" : "Seleccionar una cuenta",
     "Add account" : "Añadir cuenta",
     "Add group" : "Agregar grupo",
+    "Add" : "Agregar",
     "Folder name" : "Nombre de la carpeta",
     "Name" : "Nombre",
     "Read" : "Leer",

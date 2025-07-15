@@ -6,6 +6,7 @@ OC.L10N.register(
     "Delete" : "Futa",
     "Select an account" : "Chagua akaunti",
     "Add account" : "Ongeza akaunti",
+    "Add" : "Ongeza",
     "Folder name" : "Jina la kisanduku",
     "Name" : "Jina",
     "Create" : "Tengeneza",

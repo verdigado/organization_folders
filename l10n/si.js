@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Back" : "ආපසු",
     "Select an account" : "ගිණුමක් තෝරන්න",
+    "Add" : "එකතු කරන්න",
     "Folder name" : "බහාලුමේ නම",
     "Name" : "නම",
     "Read" : "කියවීම",

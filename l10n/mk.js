@@ -6,6 +6,7 @@ OC.L10N.register(
     "Next" : "Следна",
     "Delete" : "Избриши",
     "Add group" : "Додади група",
+    "Add" : "Додади",
     "Folder name" : "Име на папка",
     "File does not exist" : "Датотеката не постои",
     "Name" : "Име",

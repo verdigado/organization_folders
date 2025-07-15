@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Επιλογή λογαριασμού",
     "Add account" : "Προσθήκη λογαριασμού",
     "Add group" : "Προσθήκη ομάδας",
+    "Add" : "Προσθήκη",
     "Folder name" : "Όνομα φακέλου",
     "Name" : "Όνομα",
     "Read" : "Ανάγνωση",

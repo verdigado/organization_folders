@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "アカウントを選択",
     "Add account" : "アカウントを追加",
     "Add group" : "グループを追加",
+    "Add" : "追加",
     "Folder name" : "フォルダー名",
     "File does not exist" : "ファイルが存在しません",
     "Name" : "名前",

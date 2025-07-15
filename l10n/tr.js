@@ -19,6 +19,7 @@ OC.L10N.register(
     "Add account" : "Hesap ekle",
     "Add group" : "Grup ekle",
     "Add {organizationProvider} organization members or role" : "{organizationProvider} kuruluş üyesi ya da rolü ekle",
+    "Add" : "Ekle",
     "Create folder" : "Klasör ekle",
     "Folder name" : "Klasör adı",
     "File does not exist" : "Dosya bulunamadı",

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Select an account" : "Seleccionar una cuenta",
     "Add account" : "Agregar cuenta",
     "Add group" : "Agregar grupo",
+    "Add" : "Guardar",
     "Folder name" : "Nombre de la carpeta",
     "File does not exist" : "El archivo no existe",
     "Name" : "Nombre",

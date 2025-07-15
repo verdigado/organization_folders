@@ -19,6 +19,7 @@ OC.L10N.register(
     "Add account" : "Cuir cuntas leis",
     "Add group" : "Cuir grúpa leis",
     "Add {organizationProvider} organization members or role" : "Cuir ball nó ról eagraíochta leis {organizationProvider} leis",
+    "Add" : "Cuir",
     "Create folder" : "Cruthaigh fillteán",
     "Folder name" : "Ainm fillteáin",
     "{filePath} has been created" : "Cruthaíodh {filePath}",

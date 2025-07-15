@@ -7,6 +7,7 @@ OC.L10N.register(
     "Delete" : "Eyða",
     "Select an account" : "Veldu aðgang",
     "Add group" : "Bæta við hópi",
+    "Add" : "Bæta við",
     "Folder name" : "Nafn möppu",
     "File does not exist" : "Skráin er ekki til",
     "Name" : "Heiti",

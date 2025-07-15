@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Hautatu kontua bat",
     "Add account" : "Gehitu kontua",
     "Add group" : "Taldea gehitu",
+    "Add" : "Gehitu",
     "Folder name" : "Karpetaren izena",
     "File does not exist" : "Fitxategia ez da existitzen",
     "Name" : "Izena",

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Select an account" : "Selecteer een account",
     "Add account" : "Toevoegen account ",
     "Add group" : "Groep toevoegen",
+    "Add" : "Toevoegen",
     "Folder name" : "Mapnaam",
     "File does not exist" : "Bestand bestaat niet",
     "Name" : "Naam",
