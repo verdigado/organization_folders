@@ -9,6 +9,7 @@ OC.L10N.register(
     "Select an account" : "اختيار حساب",
     "Add account" : "أضف حساباً",
     "Add group" : "إضافة مجموعة",
+    "Add" : "إضافة ",
     "Folder name" : "اسم المجلد",
     "File does not exist" : "الملف غير موجود",
     "Name" : "الاسم",

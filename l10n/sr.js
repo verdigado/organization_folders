@@ -20,6 +20,7 @@ OC.L10N.register(
     "Add group" : "Додај групу",
     "Add {organizationProvider} organization members or role" : "Додавање чланова {organizationProvider} организације или улоге",
     "Add" : "Додај",
+    "Uncategorized roles" : "Улоге без категоризације",
     "Create folder" : "Креирај фолдер",
     "Folder name" : "Назив фасцикле",
     "{filePath} has been created" : "{filePath} је креиран",

@@ -25,6 +25,7 @@ OC.L10N.register(
     "Resources" : "Ресурси",
     "Edit" : "Уреди",
     "Delete folder" : "Избриши папка",
+    "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "Сакате да ја избришете папката \"{folderName}\". Дали сте сигурни?",
     "Permissions" : "Дозволи"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

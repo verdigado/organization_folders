@@ -7,6 +7,7 @@ OC.L10N.register(
     "Delete" : "Desaniciar",
     "Add account" : "Amestar una cuenta",
     "Add group" : "Amestar un grupu",
+    "Add" : "Amestar",
     "Folder name" : "Nome de la carpeta",
     "File does not exist" : "El ficheru nun esiste",
     "Name" : "Nome",

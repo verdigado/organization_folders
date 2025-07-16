@@ -20,6 +20,7 @@ OC.L10N.register(
     "Add group" : " Gruppe hinzufügen ",
     "Add {organizationProvider} organization members or role" : "{organizationProvider} Organisationsmitglieder oder Rolle hinzufügen",
     "Add" : "Hinzufügen",
+    "Uncategorized roles" : "Nicht kategorisierte Rollen",
     "Create folder" : "Ordner erstellen",
     "Folder name" : "Ordnername",
     "{filePath} has been created" : "{filePath} wurde erstellt",

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Add group" : "Lisa grupp",
     "Add {organizationProvider} organization members or role" : "Lisa {organizationProvider} organisatsiooni liikmeid või rolle",
     "Add" : "Lisa",
+    "Uncategorized roles" : "Määratlemata rollid",
     "Create folder" : "Loo kaust",
     "Folder name" : "Kausta nimi",
     "{filePath} has been created" : "{filePath} on loodud",
