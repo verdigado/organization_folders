@@ -30,6 +30,7 @@ OC.L10N.register(
     "Resources" : "Bronnen",
     "Edit" : "Bewerken",
     "Finish" : "Afronden",
+    "Snapshot Restore Wizard" : "Assistent Momentopname herstellen",
     "Delete folder" : "Map verwijderen",
     "Permissions" : "Rechten"
 },
