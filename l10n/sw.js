@@ -18,6 +18,7 @@ OC.L10N.register(
     "Settings" : "Mipangilio",
     "Resources" : "Rasilimali",
     "Edit" : "Hariri",
+    "An error occurred: {errorMessage}" : "An error occurred: {errorMessage}",
     "Delete folder" : "Futa kisanduku",
     "Permissions" : "Ruhusa"
 },
