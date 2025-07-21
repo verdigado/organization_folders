@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
+use OCP\IGroupManager;
+
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
@@ -12,9 +14,12 @@ class OrganizationRolePrincipal extends PrincipalBackedByGroup {
 
 	public function __construct(
 		private OrganizationProviderManager $organizationProviderManager,
+		IGroupManager $groupManager,
 		private string $providerId,
 		private string $roleId,
 	) {
+		parent::__construct($groupManager);
+
 		try {
 			$this->role = $this->organizationProviderManager->getOrganizationProvider($providerId)->getRole($roleId);
 			$this->valid = !is_null($this->role);
@@ -73,7 +78,7 @@ class OrganizationRolePrincipal extends PrincipalBackedByGroup {
 		return array_reverse($result);
 	}
 
-	public function getBackingGroup(): ?string {
+	public function getBackingGroupId(): ?string {
 		return $this->getRole()?->getMembersGroup();
 	}
 }

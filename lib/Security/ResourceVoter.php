@@ -82,7 +82,7 @@ class ResourceVoter extends Voter {
 							return true;
 						}
 					} else if($principal instanceof PrincipalBackedByGroup) {
-						if($this->userIsInGroup($user, $principal->getBackingGroup())) {
+						if($this->userIsInGroup($user, $principal->getBackingGroupId())) {
 							return true;
 						}
 					}

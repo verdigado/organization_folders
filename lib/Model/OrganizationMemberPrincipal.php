@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\OrganizationFolders\Model;
 
 use OCP\IL10N;
+use OCP\IGroupManager;
 
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Enum\PrincipalType;
@@ -15,9 +16,12 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 	public function __construct(
 		private readonly OrganizationProviderManager $organizationProviderManager,
 		private readonly IL10N $l10n,
+		IGroupManager $groupManager,
 		private string $providerId,
 		private int $organizationId,
 	) {
+		parent::__construct($groupManager);
+
 		try {
 			$this->organization = $this->organizationProviderManager->getOrganizationProvider($providerId)->getOrganization($organizationId);
 			$this->valid = !is_null($this->organization);
@@ -77,7 +81,7 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 		}
 	}
 
-	public function getBackingGroup(): ?string {
+	public function getBackingGroupId(): ?string {
 		return $this->getOrganization()?->getMembersGroup();
 	}
 }

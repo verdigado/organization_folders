@@ -199,7 +199,7 @@ class OrganizationFolderService {
 		[$memberPrincipals, $managerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
 
 		foreach([...$memberPrincipals, ...$managerPrincipals] as $principal) {
-			$backingGroup = $principal->getBackingGroup();
+			$backingGroup = $principal->getBackingGroupId();
 
 			if(isset($backingGroup)) {
 				$groupfolderMemberGroups[] = $backingGroup;
@@ -212,7 +212,7 @@ class OrganizationFolderService {
 
 		foreach($impliedMemberPrincipals as $principal) {
 			if($principal instanceof PrincipalBackedByGroup) {
-				$backingGroup = $principal->getBackingGroup();
+				$backingGroup = $principal->getBackingGroupId();
 
 				if(isset($backingGroup)) {
 					$groupfolderMemberGroups[] = $backingGroup;

@@ -13,9 +13,11 @@ class GroupPrincipal extends PrincipalBackedByGroup {
 	private ?IGroup $group;
 
 	public function __construct(
-		private IGroupManager $groupManager,
+		IGroupManager $groupManager,
 		private string $id,
 	) {
+		parent::__construct($groupManager);
+
 		try {
 			$this->group = $this->groupManager->get($id);
 			$this->valid = !is_null($this->group);
@@ -36,7 +38,11 @@ class GroupPrincipal extends PrincipalBackedByGroup {
 		return $this->group?->getDisplayName() ?? $this->getId();
 	}
 
-	public function getBackingGroup(): string {
+	public function getBackingGroupId(): string {
 		return $this->getId();
+	}
+
+	public function getBackingGroup(): ?IGroup {
+		return $this->group;
 	}
 }

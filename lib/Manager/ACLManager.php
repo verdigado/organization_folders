@@ -53,7 +53,7 @@ class ACLManager {
 			// needs to return, even if user does not currently exist, so we can't use IUserMappingManager
 			return new UserMapping(type: "user", id: $principal->getId(), displayName: null);
 		} else if($principal instanceof PrincipalBackedByGroup) {
-			$group = $principal->getBackingGroup();
+			$group = $principal->getBackingGroupId();
 
 			if(isset($group)) {
 				// needs to return, even if group does not currently exist, so we can't use IUserMappingManager

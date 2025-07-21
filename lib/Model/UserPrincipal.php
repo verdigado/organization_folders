@@ -35,4 +35,12 @@ class UserPrincipal extends Principal {
 	public function getFriendlyName(): string {
 		return $this->user?->getDisplayName() ?? $this->getId();
 	}
+
+	public function getNumberOfAccountsContained(): int {
+		if($this->valid) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 }

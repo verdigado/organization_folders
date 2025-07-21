@@ -70,6 +70,5 @@ To install follow these instructions: https://github.com/verdigado/organization_
 		<command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganization</command>
 		<command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationRoles</command>
 		<command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganizationRole</command>
-		<command>OCA\OrganizationFolders\Command\TestCommand</command>
 	</commands>
 </info>

@@ -27,6 +27,8 @@ abstract class Principal implements \JsonSerializable {
 		return [$this->getFriendlyName()];
 	}
 
+	abstract public function getNumberOfAccountsContained(): int;
+
 	public function jsonSerialize(): array {
 		return [
 			'type' => $this->getType(),

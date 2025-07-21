@@ -47,10 +47,10 @@ class PrincipalFactory {
 	}
 
 	public function buildOrganizationMemberPrincipal(string $organizationProviderId, int $organizationId): OrganizationMemberPrincipal {
-		return new OrganizationMemberPrincipal($this->organizationProviderManager, $this->l10n, $organizationProviderId, $organizationId);
+		return new OrganizationMemberPrincipal($this->organizationProviderManager, $this->l10n, $this->groupManager, $organizationProviderId, $organizationId);
 	}
 
 	public function buildOrganizationRolePrincipal(string $organizationProviderId, string $roleId): OrganizationRolePrincipal {
-		return new OrganizationRolePrincipal($this->organizationProviderManager, $organizationProviderId, $roleId);
+		return new OrganizationRolePrincipal($this->organizationProviderManager, $this->groupManager, $organizationProviderId, $roleId);
 	}
 }
