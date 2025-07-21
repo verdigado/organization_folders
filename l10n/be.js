@@ -1,8 +1,11 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "Назад",
     "Delete" : "Выдаліць",
     "Add" : "Дадаць",
+    "Name" : "Назва",
+    "Create" : "Стварыць",
     "Share" : "Абагуліць",
     "Search" : "Пошук",
     "Settings" : "Налады"
