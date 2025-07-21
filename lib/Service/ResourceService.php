@@ -474,10 +474,11 @@ class ResourceService {
 						permissions: $resourceMemberPermissions,
 					);
 
-					// member principals will affect resources further down, if they have any permissions at this level
-					if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MEMBER->value) {
-						$nextInheritedMemberPrincipals[] = $resourceMemberPrincipal;
-					}
+					// members will affect resources further down, if they have any permissions at this level
+
+					// NOTE: members of type MANAGER will get added to both nextInheritedMemberPrincipals and nextInheritedManagerPrincipals,
+					// because even if manager inheritance is disabled in a child resource if the have read permissions they qualify for resourceInheritedAclPermission permissions
+					$nextInheritedMemberPrincipals[] = $resourceMemberPrincipal;
 				}
 
 				if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
