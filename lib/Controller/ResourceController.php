@@ -21,6 +21,7 @@ class ResourceController extends BaseController {
 	public const PERMISSIONS_INCLUDE = 'permissions';
 	public const MEMBERS_INCLUDE = 'members';
 	public const SUBRESOURCES_INCLUDE = 'subresources';
+	public const UNMANAGEDSUBFOLDERS_INCLUDE = 'unmanagedSubfolders';
 
 	public function __construct(
 		private ResourceService $service,
@@ -54,14 +55,18 @@ class ResourceController extends BaseController {
 			}
 		}
 
+		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
+			$result["subResources"] = $this->getSubResources($resource->getId());
+		}
+
 		if(!$limited) {
 			if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
 				$result["members"] = $this->memberService->findAll($resource->getId());
 			}
-		}
 
-		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
-			$result["subResources"] = $this->getSubResources($resource->getId());
+			if($this->shouldInclude(self::UNMANAGEDSUBFOLDERS_INCLUDE, $includes)) {
+				$result["unmanagedSubfolders"] = $this->service->getUnmanagedSubfolders($resource);
+			}
 		}
 
 		return $result;
@@ -210,6 +215,28 @@ class ResourceController extends BaseController {
 		}
 
 		return $result;
+	}
+
+	#[NoAdminRequired]
+	public function unmanagedSubfolders(int $resourceId): JSONResponse {
+		return $this->handleNotFound(function () use ($resourceId) {
+			$resource = $this->service->find($resourceId);
+
+			$this->denyAccessUnlessGranted(['READ'], $resource);
+
+			return $this->service->getUnmanagedSubfolders($resource);
+		});
+	}
+
+	#[NoAdminRequired]
+	public function promoteUnmanagedSubfolder(int $resourceId, string $unmanagedSubfolderName): JSONResponse {
+		return $this->handleNotFound(function () use ($resourceId, $unmanagedSubfolderName) {
+			$resource = $this->service->find($resourceId);
+
+			$this->denyAccessUnlessGranted(['CREATE_SUBRESOURCE'], $resource);
+
+			return $this->service->promoteUnmanagedSubfolder($resource, $unmanagedSubfolderName);
+		});
 	}
 
 	#[NoAdminRequired]

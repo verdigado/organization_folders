@@ -122,6 +122,40 @@ class ResourceMapper extends QBMapper {
 		return $this->findEntities($qb);
 	}
 
+	/**
+	 * @param int $organizationFolderId
+	 * @psalm-param int $organizationFolderId
+	 * @param int|null $parentResourceId
+	 * @psalm-param int|null $parentResourceId
+	 * @param array $filters
+	 * @psalm-param array $filters
+	 * @return array
+	 * @psalm-return string[]
+	 */
+	public function findAllNames(int $organizationFolderId, ?int $parentResourceId = null, array $filters = []): array {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('resource.name')
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
+
+		if(is_null($parentResourceId)) {
+			$qb->andWhere($qb->expr()->isNull('resource.parent_resource'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('resource.parent_resource', $qb->createNamedParameter($parentResourceId, IQueryBuilder::PARAM_INT)));
+		}
+
+		if(isset($filters["type"]) && $filters["type"] === "folder") {
+			$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter("folder")));
+			$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'));
+		}
+
+		$qb->orderBy('resource.name');
+
+		return $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
+	}
+
 	public function existsWithName(int $organizationFolderId, ?int $parentResourceId, string $name): bool {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();

@@ -194,7 +194,6 @@ class ResourceMemberMapper extends QBMapper {
 		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
 		$qb->andWhere($qb->expr()->eq('member.principal_id', $qb->createNamedParameter($userId)));
 
-		//return $qb->getSQL();
 		return $qb->executeQuery()->fetchAll(\PDO::FETCH_COLUMN);
 	}
 

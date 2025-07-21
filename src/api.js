@@ -269,6 +269,14 @@ export default {
 	},
 
 	/**
+	 * @param {number|string} resourceId Resource id
+	 * @param {string} unmanagedSubfolderName name of direct subfolder
+	 */
+	promoteUnmanagedResourceSubfolder(resourceId, unmanagedSubfolderName) {
+		return axios.post(`/resources/${resourceId}/unmanagedSubfolders/${encodeURIComponent(unmanagedSubfolderName)}/promote`).then((res) => res.data);
+	},
+
+	/**
 	 *
 	 * @param {number|string} resourceId Resource id
 	 * @return {Promise<Resource>}

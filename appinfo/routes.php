@@ -23,6 +23,8 @@ return [
 		['name' => 'resource#update', 'url' => '/resources/{resourceId}', 'verb' => 'PUT'],
 		['name' => 'resource#destroy', 'url' => '/resources/{resourceId}', 'verb' => 'DELETE'],
 		['name' => 'resource#subResources', 'url' => '/resources/{resourceId}/subResources', 'verb' => 'GET'],
+		['name' => 'resource#unmanagedSubfolders', 'url' => '/resources/{resourceId}/unmanagedSubfolders', 'verb' => 'GET'],
+		['name' => 'resource#promoteUnmanagedSubfolder', 'url' => '/resources/{resourceId}/unmanagedSubfolders/{unmanagedSubfolderName}/promote', 'verb' => 'POST'],
 		['name' => 'resource#findGroupMemberOptions', 'url' => '/resources/{resourceId}/groupMemberOptions', 'verb' => 'GET'],
 		['name' => 'resource#findUserMemberOptions', 'url' => '/resources/{resourceId}/userMemberOptions', 'verb' => 'GET'],
 

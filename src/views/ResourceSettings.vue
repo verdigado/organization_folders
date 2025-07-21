@@ -15,6 +15,7 @@ import Delete from "vue-material-design-icons/Delete.vue";
 
 import HeaderButtonGroup from "../components/SectionHeaderButtonGroup.vue";
 import Section from "../components/Section.vue";
+import SectionCollapseable from "../components/SectionCollapseable.vue";
 import SectionHeader from "../components/SectionHeader.vue";
 import MembersList from "../components/MemberList/MembersList.vue";
 import Permissions from "../components/Permissions/index.js";
@@ -22,6 +23,7 @@ import ConfirmDeleteDialog from "../components/ConfirmDeleteDialog.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
 import CreateMemberButton from "../components/CreateMemberButton/CreateMemberButton.vue";
+import UnmanagedSubfoldersList from "../components/UnmanagedSubfoldersList.vue";
 
 import ModalView from '../ModalView.vue';
 
@@ -44,6 +46,8 @@ const organizationProviders = useOrganizationProvidersStore();
 
 organizationProviders.initialize();
 
+const resourceApiIncludes = "model+permissions+members+subresources+unmanagedSubfolders";
+
 const resource = ref(null);
 const loading = ref(false);
 const resourceActiveLoading = ref(false);
@@ -55,11 +59,11 @@ const resourceNameValid = computed(() => {
 });
 
 const saveName = async () => {
-    resource.value = await api.updateResource(resource.value.id, { name: currentResourceName.value }, "model+members+subresources");
+    resource.value = await api.updateResource(resource.value.id, { name: currentResourceName.value }, resourceApiIncludes);
 };
 
 const saveInheritManagers = async (inheritManagers) => {
-    resource.value = await api.updateResource(resource.value.id, { inheritManagers }, "model+members+subresources");
+    resource.value = await api.updateResource(resource.value.id, { inheritManagers }, resourceApiIncludes);
 };
 
 const resourcePermissionsLimited = computed(() => {
@@ -68,21 +72,21 @@ const resourcePermissionsLimited = computed(() => {
 
 watch(() => props.resourceId, async (newResourceId) => {
     loading.value = true;
-    resource.value = await api.getResource(newResourceId, "model+permissions+members+subresources");
+    resource.value = await api.getResource(newResourceId, resourceApiIncludes);
     currentResourceName.value = resource.value.name;
     loading.value = false;
 }, { immediate: true });
 
 const saveActive = async (active) => {
     resourceActiveLoading.value = true;
-    resource.value = await api.updateResource(resource.value.id, { active }, "model+members+subresources");
+    resource.value = await api.updateResource(resource.value.id, { active }, resourceApiIncludes);
     resourceActiveLoading.value = false;
 };
 
 const savePermission = async ({ field, value }) => {
     resource.value = await api.updateResource(resource.value.id, {
 	  [field]: value,
-	}, "model+members+subresources");
+	}, resourceApiIncludes);
 };
 
 const deleteResource = async (closeDialog) => {
@@ -164,6 +168,16 @@ const findGroupMemberOptions = (search) => {
 
 const findUserMemberOptions = (search) => {
 	return api.findUserResourceMemberOptions(resource.value.id, search);
+};
+
+const promoteUnmanagedSubfolder = async (subfolderName, callback) => {
+	try {
+		resource.value.subResources.push(await api.promoteUnmanagedResourceSubfolder(resource.value.id, subfolderName));
+		resource.value.unmanagedSubfolders = resource.value.unmanagedSubfolders.filter((name) => name !== subfolderName);
+		callback(true);
+	} catch (error) {
+		callback(false, error);
+	}
 };
 
 const title = computed(() =>{
@@ -372,6 +386,12 @@ const deleteResourceExplanation = computed(() => {
 			</template>
 			<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
 		</Section>
+		<SectionCollapseable v-if="subfoldersEnabled && !resourcePermissionsLimited && (resource.unmanagedSubfolders.length > 0)">
+			<template #header>
+				<SectionHeader :text="t('organization_folders', 'Unmanaged Subfolders')"></SectionHeader>
+			</template>
+			<UnmanagedSubfoldersList :resource="resource" :unmanaged-subfolders="resource.unmanagedSubfolders" @promote-subfolder="promoteUnmanagedSubfolder" />
+		</SectionCollapseable>
     </ModalView>
 </template>
 

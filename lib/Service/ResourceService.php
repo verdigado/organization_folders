@@ -545,6 +545,63 @@ class ResourceService {
 		}
 	}
 
+	public function getUnmanagedSubfolders(FolderResource $resource) {
+		$subNodes = $this->getFolderResourceFilesystemNode($resource)->getDirectoryListing();
+		
+		$subDirectoryNames = [];
+
+		foreach($subNodes as $subNode) {
+			if($subNode instanceof Folder) {
+				$subDirectoryNames[] = $subNode->getName();
+			}
+		}
+
+		$subResourceNames = $this->mapper->findAllNames($resource->getOrganizationFolderId(), $resource->getId(), [
+			"type" => "folder",
+		]);
+
+		return array_values(array_diff($subDirectoryNames, $subResourceNames));
+	}
+
+	public function promoteUnmanagedSubfolder(FolderResource $resource, string $unmanagedSubfolderName) {
+		if(strlen("unmanagedSubfolderName") == 0) {
+			throw new Exception("Subfolder does not exist");
+		}
+
+		if(str_contains($unmanagedSubfolderName, "/")) {
+			throw new Exception("You can only promote direct subfolders");
+		}
+
+		$parentResourceNode = $this->getFolderResourceFilesystemNode($resource);
+
+		try {
+			$unmanagedSubfolderNode = $parentResourceNode->get($unmanagedSubfolderName);
+		} catch (\OCP\Files\NotFoundException $e) {
+			throw new Exception("Subfolder does not exist");
+		}
+
+		// extra protection against escaping parent folder
+		if(!$parentResourceNode->isSubNode($unmanagedSubfolderNode)) {
+			throw new Exception("Subfolder does not exist");
+		}
+
+		if(!($unmanagedSubfolderNode instanceof Folder)) {
+			throw new Exception("You can only promote folders, not files");
+		}
+
+		return $this->create(
+			type: "folder",
+			organizationFolderId: $resource->getOrganizationFolderId(),
+			name: $unmanagedSubfolderName,
+			parentResourceId: $resource->getId(),
+			// match current permissions in subfolder
+			inheritedAclPermission: $resource->getMembersAclPermission(), // Members in parent resource will be inherited members in new resource
+			membersAclPermission: $resource->getMembersAclPermission(),
+			managersAclPermission: $resource->getManagersAclPermission(),
+			folderAlreadyExists: true,
+		);
+	}
+
 	public function deleteById(int $id): Resource {
 		try {
 			$resource = $this->mapper->find($id);
