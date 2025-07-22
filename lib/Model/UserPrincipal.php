@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace OCA\OrganizationFolders\Model;
 
 use OCP\IUserManager;
-use \OCP\IUser;
+use OCP\IUser;
+
+use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
+use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
@@ -41,6 +44,14 @@ class UserPrincipal extends Principal {
 			return 1;
 		} else {
 			return 0;
+		}
+	}
+
+	public function toGroupfolderAclMapping(): ?IUserMapping {
+		if($this->id != '') {
+			return new UserMapping(type: "user", id: $this->id, displayName: null);
+		} else {
+			return null;
 		}
 	}
 }

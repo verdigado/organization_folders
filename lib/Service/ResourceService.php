@@ -16,7 +16,6 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\Files\Folder;
 
 use OCA\GroupFolders\Mount\GroupMountPoint;
-use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
@@ -25,7 +24,7 @@ use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
-use OCA\OrganizationFolders\Model\AclList;
+use OCA\OrganizationFolders\Model\ResourcePermissionsList;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\InvalidResourceName;
@@ -35,7 +34,6 @@ use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
-use OCA\OrganizationFolders\Groups\GroupBackend;
 
 class ResourceService {
 	use TTransactional;
@@ -379,12 +377,9 @@ class ResourceService {
 	/**
 	 * Recursively overwrite ACL rules for an array of folder resources
 	 *
-	 * @param array $folderResources
 	 * @psalm-param FolderResource[] $folderResources
 	 * @param string $path
-	 * @param array $inheritedMemberPrincipals
 	 * @psalm-param Principal[] $inheritedMemberPrincipals
-	 * @param array $inheritedManagerPrincipals
 	 * @psalm-param Principal[] $inheritedManagerPrincipals
 	 * @param bool $implicitlyDeactivated
 	 */
@@ -396,8 +391,6 @@ class ResourceService {
 		bool $implicitlyDeactivated = false
 	): void {
 		foreach($folderResources as $folderResource) {
-			$resourceFileId = $folderResource->getFileId();
-
 			if($folderResource->getActive() && !$implicitlyDeactivated) {
 				$resourceMembersAclPermission = $folderResource->getMembersAclPermission();
 				$resourceManagersAclPermission = $folderResource->getManagersAclPermission();
@@ -408,20 +401,12 @@ class ResourceService {
 				$resourceInheritedAclPermission = 0;
 			}
 			
-			$acls = new AclList($resourceFileId);
-
-			// add default deny
-			$acls->addRule(
-				userMapping: new UserMapping(type: "group", id: GroupBackend::EVERYONE_GROUP, displayName: null),
-				mask: 31,
-				permissions: 0,
-			);
+			$permissions = new ResourcePermissionsList($folderResource);
 
 			// inherited Member ACLs
 			foreach($inheritedMemberPrincipals as $inheritedMemberPrincipal) {
-				$acls->addRule(
-					userMapping: $this->aclManager->getMappingForPrincipal($inheritedMemberPrincipal),
-					mask: 31,
+				$permissions->addPermission(
+					principal: $inheritedMemberPrincipal,
 					permissions: $resourceInheritedAclPermission,
 				);
 			}
@@ -443,9 +428,8 @@ class ResourceService {
 			}
 
 			foreach($inheritedManagerPrincipals as $inheritedManagerPrincipal) {
-				$acls->addRule(
-					userMapping: $this->aclManager->getMappingForPrincipal($inheritedManagerPrincipal),
-					mask: 31,
+				$permissions->addPermission(
+					principal: $inheritedManagerPrincipal,
 					permissions: $inheritedManagerAclPermission,
 				);
 			}
@@ -468,9 +452,8 @@ class ResourceService {
 				}
 
 				if($resourceMemberPermissions !== 0) {
-					$acls->addRule(
-						userMapping: $this->aclManager->getMappingForPrincipal($resourceMemberPrincipal),
-						mask: 31,
+					$permissions->addPermission(
+						principal: $resourceMemberPrincipal,
 						permissions: $resourceMemberPermissions,
 					);
 
@@ -486,7 +469,7 @@ class ResourceService {
 				}
 			}
 
-			$this->aclManager->overwriteACLsForFileId($resourceFileId, $acls->getRules());
+			$this->aclManager->overwriteACLs($permissions->toGroupfolderAclList());
 
 			// recurse sub-resources
 			$subFolderResources = $this->getSubResources($folderResource, ["type" => "folder"]);

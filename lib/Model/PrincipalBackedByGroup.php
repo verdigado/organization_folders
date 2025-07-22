@@ -7,6 +7,9 @@ namespace OCA\OrganizationFolders\Model;
 use OCP\IGroup;
 use OCP\IGroupManager;
 
+use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
+use OCA\GroupFolders\ACL\UserMapping\UserMapping;
+
 /* Principal, that is backed by/can be resolved to a Nextcloud Group. */
 abstract class PrincipalBackedByGroup extends Principal {
 	public function __construct(
@@ -41,6 +44,16 @@ abstract class PrincipalBackedByGroup extends Principal {
 			return $this->getBackingGroup()?->count() ?? 0;
 		} else {
 			return 0;
+		}
+	}
+
+	public function toGroupfolderAclMapping(): ?IUserMapping {
+		$group = $this->getBackingGroupId();
+
+		if(isset($group) && $group != '') {
+			return new UserMapping(type: "group", id: $group, displayName: null);
+		} else {
+			return null;
 		}
 	}
 }

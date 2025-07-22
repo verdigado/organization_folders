@@ -8,15 +8,13 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 use OCA\GroupFolders\ACL\Rule;
-use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
 use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 use OCA\GroupFolders\ACL\RuleManager;
 use OCA\GroupFolders\Folder\FolderManager;
 
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Model\Principal;
-use OCA\OrganizationFolders\Model\UserPrincipal;
-use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
+use OCA\OrganizationFolders\Model\AclList;
 
 class ACLManager {
 	public function __construct(
@@ -36,6 +34,10 @@ class ACLManager {
 		);
 	}
 
+	/**
+	 * @param int $fileId
+	 * @return Rule[]
+	 */
 	public function getAllRulesForFileId(int $fileId) {
 		$qb = $this->db->getQueryBuilder();
 
@@ -48,26 +50,8 @@ class ACLManager {
 		return array_map($this->createRuleEntityFromRow(...), $rows);
 	}
 
-	public function getMappingForPrincipal(Principal $principal): ?IUserMapping {
-		if($principal instanceof UserPrincipal) {
-			// needs to return, even if user does not currently exist, so we can't use IUserMappingManager
-			return new UserMapping(type: "user", id: $principal->getId(), displayName: null);
-		} else if($principal instanceof PrincipalBackedByGroup) {
-			$group = $principal->getBackingGroupId();
-
-			if(isset($group)) {
-				// needs to return, even if group does not currently exist, so we can't use IUserMappingManager
-				return new UserMapping(type: "group", id: $group, displayName: null);
-			} else {
-				return null;
-			}
-		} else {
-			throw new \Exception("invalid principal type");
-		}
-	}
-
 	public function createAclRuleForPrincipal(Principal $principal, int $fileId, int $mask, int $permissions): ?Rule {
-		$mapping = $this->getMappingForPrincipal($principal);
+		$mapping = $principal->toGroupfolderAclMapping();
 
 		if(is_null($mapping)) {
 			return null;
@@ -88,16 +72,33 @@ class ACLManager {
 		return $mapping1->getType() <=> $mapping2->getType() ?: $mapping1->getId() <=> $mapping2->getId();
 	}
 
+	/**
+	 * @param int $fileId
+	 * @param Rule[] $rules
+	 * @return array{created: Rule[], removed: Rule[], updated: Rule[]}
+	 */
 	public function overwriteACLsForFileId(int $fileId, array $rules): array {
 		$existingRules = $this->getAllRulesForFileId($fileId);
 
+		$existingMasks = [];
+		$existingPermissions = [];
+
+		foreach($existingRules as $existingRule) {
+			$key = $existingRule->getUserMapping()->getKey();
+			$existingMasks[$key] = $existingRule->getMask();
+			$existingPermissions[$key] = $existingRule->getPermissions();
+		}
+
 		// new rules to be added
+		/** @var Rule[] */
 		$newRules = array_udiff($rules, $existingRules, $this->ruleMappingComparison(...));
 
 		// old rules to be deleted
+		/** @var Rule[] */
 		$removedRules = array_udiff($existingRules, $rules, $this->ruleMappingComparison(...));
 
 		// rules for user or group for which a rule already exists, but it might need to be updated
+		/** @var Rule[] */
 		$potentiallyUpdatedRules = array_uintersect($rules, $existingRules, $this->ruleMappingComparison(...));
 
 
@@ -109,11 +110,25 @@ class ACLManager {
 			$this->ruleManager->saveRule($newRule);
 		}
 
+		$updatedRules = [];
+
 		foreach($potentiallyUpdatedRules as $potentiallyUpdatedRule) {
-			$this->ruleManager->saveRule($potentiallyUpdatedRule);
+			$key = $potentiallyUpdatedRule->getUserMapping()->getKey();
+
+			if($potentiallyUpdatedRule->getMask() !== $existingMasks[$key] || $potentiallyUpdatedRule->getPermissions() !== $existingPermissions[$key]) {
+				$this->ruleManager->saveRule($potentiallyUpdatedRule);
+				$updatedRules[] = $potentiallyUpdatedRule;
+			}
 		}
 
-		return ["created" => $newRules, "removed" => $removedRules, "updated" => $potentiallyUpdatedRules];
+		return ["created" => $newRules, "removed" => $removedRules, "updated" => $updatedRules];
 	}
 
+	/**
+	 * @param AclList $aclList
+	 * @return array{created: Rule[], removed: Rule[], updated: Rule[]}
+	 */
+	public function overwriteACLs(AclList $aclList) {
+		return $this->overwriteACLsForFileId($aclList->getFileId(), $aclList->getRules());
+	}
 }

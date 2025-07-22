@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
+use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
+
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
 abstract class Principal implements \JsonSerializable {
@@ -29,6 +31,8 @@ abstract class Principal implements \JsonSerializable {
 
 	abstract public function getNumberOfAccountsContained(): int;
 
+	abstract public function toGroupfolderAclMapping(): ?IUserMapping;
+
 	public function jsonSerialize(): array {
 		return [
 			'type' => $this->getType(),
@@ -39,7 +43,11 @@ abstract class Principal implements \JsonSerializable {
 		];
 	}
 
-	public function __toString(): string {
+	public function getKey(): string {
 		return $this->getType()->name . ":" . $this->getId();
+	}
+
+	public function __toString(): string {
+		return $this->getKey();
 	}
 }

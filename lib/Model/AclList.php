@@ -13,6 +13,11 @@ class AclList {
 
 	public function __construct(private int $fileId) {}
 
+
+	public function getFileId(): int {
+		return $this->fileId;
+	}
+
 	public function addRule(?IUserMapping $userMapping, int $mask, int $permissions): ?Rule {
 		if(!is_null($userMapping)) {
 			$key = $userMapping->getKey();
