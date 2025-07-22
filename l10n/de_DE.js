@@ -49,6 +49,7 @@ OC.L10N.register(
     "Denied" : "Verweigert",
     "Allowed" : "Zugelassen",
     "Search" : "Suche",
+    "Cancel" : "Abbrechen",
     "Member" : "Mitglied",
     "Manager" : "Manager",
     "Admin" : "Administration",

@@ -22,6 +22,8 @@ OC.L10N.register(
     "Denied" : "Запрещено",
     "Allowed" : "Разрешено",
     "Search" : "Поиск",
+    "Cancel" : "Cancel",
+    "Confirm" : "Подтвердить",
     "Manager" : "Руководитель",
     "Admin" : "Администрирование",
     "Settings" : "Настройки",

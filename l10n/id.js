@@ -13,6 +13,8 @@ OC.L10N.register(
     "Create" : "Buat",
     "Share" : "Bagikan",
     "Search" : "Cari",
+    "Cancel" : "Cancel",
+    "Confirm" : "Konfirmasi",
     "Admin" : "Admin",
     "Settings" : "Setelan",
     "Resources" : "Sumber daya",

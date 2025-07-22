@@ -19,6 +19,8 @@ OC.L10N.register(
     "Denied" : "رد کرد",
     "Allowed" : "مجاز",
     "Search" : "جستجو",
+    "Cancel" : "Cancel",
+    "Confirm" : "تأیید",
     "Member" : "عضو",
     "Manager" : "Manager",
     "Admin" : "مدیر",

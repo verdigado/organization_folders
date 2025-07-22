@@ -16,6 +16,8 @@ OC.L10N.register(
     "Create" : "Krijo",
     "Share" : "Ndaj",
     "Search" : "Kërko",
+    "Cancel" : "Cancel",
+    "Confirm" : "Konfirmo",
     "Member" : "Anëtar",
     "Admin" : "Administrator",
     "Settings" : "Rregullimet",

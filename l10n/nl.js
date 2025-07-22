@@ -21,6 +21,8 @@ OC.L10N.register(
     "Denied" : "Geweigerd",
     "Allowed" : "Toegelaten",
     "Search" : "Zoeken",
+    "Cancel" : "Cancel",
+    "Confirm" : "Bevestigen",
     "Member" : "Leden",
     "Manager" : "Manager",
     "Admin" : "Beheer",

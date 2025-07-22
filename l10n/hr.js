@@ -19,6 +19,8 @@ OC.L10N.register(
     "Denied" : "Odbijeno",
     "Allowed" : "Dopušteno",
     "Search" : "Traži",
+    "Cancel" : "Cancel",
+    "Confirm" : "Potvrdi",
     "Admin" : "Admin",
     "Settings" : "Postavke",
     "Invalid name" : "Nevažeće ime",

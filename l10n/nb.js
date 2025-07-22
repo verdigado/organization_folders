@@ -20,6 +20,8 @@ OC.L10N.register(
     "Denied" : "Nektet",
     "Allowed" : "Tillatt",
     "Search" : "Søk",
+    "Cancel" : "Cancel",
+    "Confirm" : "Bekreft",
     "Member" : "Medlem",
     "Manager" : "Sjef",
     "Admin" : "Administrator",

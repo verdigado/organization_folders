@@ -4,6 +4,7 @@ OC.L10N.register(
     "Delete" : "Dileu",
     "Name" : "Enw",
     "Search" : "Chwilio",
+    "Cancel" : "Cancel",
     "Member" : "Aelod",
     "Admin" : "Gweinyddwr",
     "Settings" : "Gosodiadau",

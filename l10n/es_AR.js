@@ -13,6 +13,8 @@ OC.L10N.register(
     "Read" : "Leer",
     "Write" : "Escribir",
     "Search" : "Buscar",
+    "Cancel" : "Cancel",
+    "Confirm" : "Confirmar",
     "Member" : "Miembro",
     "Admin" : "Administrador",
     "Settings" : "Configuración",

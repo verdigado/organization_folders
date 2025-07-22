@@ -22,6 +22,8 @@ OC.L10N.register(
     "Denied" : "Zamietnuté",
     "Allowed" : "Povolené",
     "Search" : "Hľadať",
+    "Cancel" : "Cancel",
+    "Confirm" : "Potvrdiť",
     "Manager" : "Manažér",
     "Admin" : "Admi",
     "Settings" : "Nastavenia",

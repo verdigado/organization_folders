@@ -20,6 +20,8 @@ OC.L10N.register(
     "Denied" : "Negadu",
     "Allowed" : "Cunsentidu",
     "Search" : "Chirca",
+    "Cancel" : "Cancel",
+    "Confirm" : "Cunfirma",
     "Admin" : "Amministradore",
     "Settings" : "Cunfiguratzione",
     "Invalid name" : "Nùmene non bàlidu",

@@ -18,6 +18,8 @@ OC.L10N.register(
     "Denied" : "חסום",
     "Allowed" : "מורשה",
     "Search" : "חיפוש",
+    "Cancel" : "Cancel",
+    "Confirm" : "אישור",
     "Member" : "חבר",
     "Admin" : "מנהל",
     "Settings" : "הגדרות",

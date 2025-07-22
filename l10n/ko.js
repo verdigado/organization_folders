@@ -22,6 +22,8 @@ OC.L10N.register(
     "Denied" : "거부됨",
     "Allowed" : "허용됨",
     "Search" : "검색",
+    "Cancel" : "Cancel",
+    "Confirm" : "확인",
     "Manager" : "담당 관리자",
     "Settings" : "설정",
     "Invalid name" : "잘못된 이름",

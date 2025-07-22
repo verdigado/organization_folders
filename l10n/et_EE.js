@@ -49,6 +49,8 @@ OC.L10N.register(
     "Denied" : "Keelatud",
     "Allowed" : "Lubatud",
     "Search" : "Otsi",
+    "Cancel" : "Katkesta",
+    "Confirm" : "Kinnita",
     "Member" : "Liige",
     "Manager" : "Haldaja",
     "Admin" : "Peakasutaja",

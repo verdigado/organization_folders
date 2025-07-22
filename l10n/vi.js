@@ -15,6 +15,8 @@ OC.L10N.register(
     "Create" : "Tạo",
     "Share" : "Chia sẻ",
     "Search" : "Tìm kiếm",
+    "Cancel" : "Cancel",
+    "Confirm" : "Xác nhận",
     "Member" : "Thành viên",
     "Manager" : "Giám đốc",
     "Admin" : "Quản trị viên",

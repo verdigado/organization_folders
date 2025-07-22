@@ -19,6 +19,8 @@ OC.L10N.register(
     "Denied" : "Забрането",
     "Allowed" : "Дозволено",
     "Search" : "Барај",
+    "Cancel" : "Cancel",
+    "Confirm" : "Потврди",
     "Manager" : "Менаџер",
     "Admin" : "Админ",
     "Settings" : "Параметри",

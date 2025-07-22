@@ -21,6 +21,8 @@ OC.L10N.register(
     "Denied" : "Ukatuta",
     "Allowed" : "Baimenduta",
     "Search" : "Bilatu",
+    "Cancel" : "Cancel",
+    "Confirm" : "Berretsi",
     "Manager" : "Zuzendaria",
     "Admin" : "Admin",
     "Settings" : "Ezarpenak",

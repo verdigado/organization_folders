@@ -5,6 +5,7 @@ OC.L10N.register(
     "Name" : "اسم",
     "Share" : "اشتراک",
     "Search" : "Search",
+    "Cancel" : "Cancel",
     "Admin" : "ایڈمن",
     "Settings" : "سیٹینگز",
     "Edit" : "تدوین کریں"

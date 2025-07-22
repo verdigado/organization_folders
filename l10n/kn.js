@@ -4,6 +4,7 @@ OC.L10N.register(
     "Delete" : "﻿ಅಳಿಸಿ",
     "Name" : "﻿ಹೆಸರು",
     "Search" : "Search",
+    "Cancel" : "Cancel",
     "Admin" : "﻿ನಿರ್ವಹಕ",
     "Settings" : "ಆಯ್ಕೆ",
     "Edit" : "ಸಂಪಾದಿಸು"

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Denied" : "Απαγορεύτηκε",
     "Allowed" : "Επετράπη",
     "Search" : "Αναζήτηση",
+    "Cancel" : "Cancel",
     "Member" : "Μέλος",
     "Manager" : "Διαχειριστής",
     "Admin" : "Διαχειριστής",

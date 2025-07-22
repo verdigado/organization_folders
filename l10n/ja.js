@@ -21,6 +21,8 @@ OC.L10N.register(
     "Denied" : "拒否",
     "Allowed" : "許可",
     "Search" : "検索",
+    "Cancel" : "Cancel",
+    "Confirm" : "承認",
     "Member" : "参加者",
     "Manager" : "Manager",
     "Admin" : "管理",

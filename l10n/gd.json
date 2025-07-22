@@ -7,6 +7,7 @@
     "Create" : "Cruthaich",
     "Share" : "Co-roinn",
     "Search" : "Lorg",
+    "Cancel" : "Cancel",
     "Settings" : "Roghainnean",
     "Edit" : "Deasaich"
 },"pluralForm" :"nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;"

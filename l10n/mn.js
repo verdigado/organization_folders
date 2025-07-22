@@ -12,6 +12,8 @@ OC.L10N.register(
     "Create" : "үүсгэх",
     "Share" : " Хуваалцах",
     "Search" : "Хайх",
+    "Cancel" : "Cancel",
+    "Confirm" : "Батлах",
     "Member" : "Гишүүн",
     "Admin" : "Админ",
     "Settings" : "Тохиргоо",

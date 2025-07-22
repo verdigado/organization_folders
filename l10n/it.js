@@ -42,6 +42,8 @@ OC.L10N.register(
     "Denied" : "Negato",
     "Allowed" : "Consentito",
     "Search" : "Cerca",
+    "Cancel" : "Cancel",
+    "Confirm" : "Conferma",
     "Member" : "Membro",
     "Manager" : "Responsabile",
     "Admin" : "Admin",

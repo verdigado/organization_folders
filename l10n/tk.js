@@ -9,6 +9,7 @@ OC.L10N.register(
     "Create" : "Dörediň",
     "Share" : "Paýlaş",
     "Search" : "Gözlemek",
+    "Cancel" : "Cancel",
     "Settings" : "Sazlamalar",
     "Edit" : "Redaktirläň"
 },

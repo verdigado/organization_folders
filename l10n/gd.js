@@ -9,6 +9,7 @@ OC.L10N.register(
     "Create" : "Cruthaich",
     "Share" : "Co-roinn",
     "Search" : "Lorg",
+    "Cancel" : "Cancel",
     "Settings" : "Roghainnean",
     "Edit" : "Deasaich"
 },

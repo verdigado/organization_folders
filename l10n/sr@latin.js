@@ -8,6 +8,7 @@ OC.L10N.register(
     "Read" : "Čitaj",
     "Share" : "Deli",
     "Search" : "Traži",
+    "Cancel" : "Poništi",
     "Settings" : "Поставке",
     "Edit" : "Izmeni"
 },

@@ -20,6 +20,8 @@ OC.L10N.register(
     "Allowed (Inherited permission)" : "Leista (Paveldėtas leidimas)",
     "Allowed" : "Leista",
     "Search" : "Paieška",
+    "Cancel" : "Cancel",
+    "Confirm" : "Patvirtinti",
     "Admin" : "Administravimas",
     "Settings" : "Nustatymai",
     "Invalid name" : "Neteisingas vardas",

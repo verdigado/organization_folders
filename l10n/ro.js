@@ -13,6 +13,8 @@ OC.L10N.register(
     "Create" : "Crează",
     "Share" : "Partajează",
     "Search" : "Căutare",
+    "Cancel" : "Cancel",
+    "Confirm" : "Confirmă",
     "Member" : "Membru",
     "Admin" : "Admin",
     "Settings" : "Setări",

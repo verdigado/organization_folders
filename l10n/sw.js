@@ -13,6 +13,8 @@ OC.L10N.register(
     "Create" : "Tengeneza",
     "Share" : "Shirikisha",
     "Search" : "Tafuta",
+    "Cancel" : "Sitisha",
+    "Confirm" : "Thibitisha",
     "Member" : "Mwanachama",
     "Admin" : "Msimamizi",
     "Settings" : "Mipangilio",

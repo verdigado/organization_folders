@@ -49,6 +49,8 @@ OC.L10N.register(
     "Denied" : "被拒絕",
     "Allowed" : "允許的",
     "Search" : "搜尋",
+    "Cancel" : "取消",
+    "Confirm" : "確認",
     "Member" : "成員",
     "Manager" : "管理者",
     "Admin" : "管理",

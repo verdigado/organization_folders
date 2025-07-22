@@ -20,6 +20,8 @@ OC.L10N.register(
     "Denied" : "Denied",
     "Allowed" : "Allowed",
     "Search" : "ძიება",
+    "Cancel" : "Cancel",
+    "Confirm" : "Confirm",
     "Member" : "Member",
     "Manager" : "Manager",
     "Admin" : "Admin",

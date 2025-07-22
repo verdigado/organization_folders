@@ -7,6 +7,7 @@ OC.L10N.register(
     "Folder name" : "கோப்புறை பெயர்",
     "Name" : "பெயர்",
     "Search" : "தேடுதல்",
+    "Cancel" : "Cancel",
     "Admin" : "நிர்வாகம்",
     "Settings" : "அமைப்புகள்",
     "Organization" : "நிறுவனம்",

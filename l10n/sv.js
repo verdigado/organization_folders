@@ -42,6 +42,8 @@ OC.L10N.register(
     "Denied" : "Nekad",
     "Allowed" : "Tillåten",
     "Search" : "Sök",
+    "Cancel" : "Avbryt",
+    "Confirm" : "Bekräfta",
     "Member" : "Medlem",
     "Manager" : "Chef",
     "Admin" : "Admin",

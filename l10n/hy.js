@@ -6,6 +6,7 @@ OC.L10N.register(
     "Name" : "Անուն",
     "Share" : "կիսվել",
     "Search" : "Search",
+    "Cancel" : "Cancel",
     "Settings" : "Կարգավորումներ",
     "Edit" : "մշակել"
 },

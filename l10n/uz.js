@@ -11,6 +11,8 @@ OC.L10N.register(
     "Create" : "Yaratish",
     "Share" : "Ulashish",
     "Search" : "Qidirish",
+    "Cancel" : "Cancel",
+    "Confirm" : "Tasdiqlang",
     "Admin" : "Admin",
     "Settings" : "Sozlamalar",
     "Resources" : "Resurslar",

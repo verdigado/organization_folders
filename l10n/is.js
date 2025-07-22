@@ -20,6 +20,8 @@ OC.L10N.register(
     "Denied" : "Hafnað",
     "Allowed" : "Leyft",
     "Search" : "Search",
+    "Cancel" : "Cancel",
+    "Confirm" : "Staðfesta",
     "Member" : "Meðlimur",
     "Manager" : "Stjórnandi",
     "Admin" : "Stjórnun",

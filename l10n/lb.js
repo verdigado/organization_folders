@@ -6,6 +6,8 @@ OC.L10N.register(
     "Folder name" : "Dossiers Numm:",
     "Name" : "Numm",
     "Search" : "Sichen",
+    "Cancel" : "Cancel",
+    "Confirm" : "Konfirméieren",
     "Admin" : "Admin",
     "Settings" : "Astellungen",
     "Edit" : "Änneren"

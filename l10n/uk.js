@@ -21,6 +21,8 @@ OC.L10N.register(
     "Denied" : "Заборонено",
     "Allowed" : "Дозволено",
     "Search" : "Пошук",
+    "Cancel" : "Cancel",
+    "Confirm" : "Підтвердити",
     "Member" : "Учасник",
     "Manager" : "Менеджер",
     "Admin" : "Адміністратор",

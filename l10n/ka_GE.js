@@ -11,6 +11,8 @@ OC.L10N.register(
     "Read" : "წაკითხვა",
     "Write" : "ჩაწერა",
     "Search" : "ძიება",
+    "Cancel" : "Cancel",
+    "Confirm" : "დადასტურება",
     "Member" : "წევრი",
     "Admin" : "ადმინისტრატორი",
     "Settings" : "პარამეტრები",

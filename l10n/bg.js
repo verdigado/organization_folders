@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select an account" : "Избор на профил",
     "Add account" : "Добавяне на регистрация",
     "Add group" : "Нова група",
+    "Add" : "Добавяне",
     "Folder name" : "Име на папка",
     "File does not exist" : "Файлът не съществува",
     "Name" : "Име",

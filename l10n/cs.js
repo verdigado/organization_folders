@@ -48,6 +48,7 @@ OC.L10N.register(
     "Denied" : "Odepřeno",
     "Allowed" : "Umožněno",
     "Search" : "Hledat",
+    "Cancel" : "Storno",
     "Member" : "Člen",
     "Manager" : "Nástroj pro správu",
     "Admin" : "Správa",

@@ -21,6 +21,8 @@ OC.L10N.register(
     "Denied" : "拒绝",
     "Allowed" : "允许",
     "Search" : "搜索",
+    "Cancel" : "Cancel",
+    "Confirm" : "确认",
     "Manager" : "管理者",
     "Admin" : "管理",
     "Settings" : "设置",

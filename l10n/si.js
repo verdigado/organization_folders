@@ -11,6 +11,8 @@ OC.L10N.register(
     "Create" : "සාදන්න",
     "Share" : "බෙදාගන්න",
     "Search" : "සොයන්න",
+    "Cancel" : "Cancel",
+    "Confirm" : "තහවුරු කරන්න",
     "Member" : "සාමාජික",
     "Admin" : "පරිපාලක",
     "Settings" : "සැකසුම්",

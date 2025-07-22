@@ -49,6 +49,8 @@ OC.L10N.register(
     "Denied" : "Одбијено",
     "Allowed" : "Одобрено",
     "Search" : "Претрага",
+    "Cancel" : "Cancel",
+    "Confirm" : "Потврди",
     "Member" : "Члан",
     "Manager" : "Менаџер",
     "Admin" : "Администратор",

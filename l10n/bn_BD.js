@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Delete" : "মুছে",
+    "Add" : "যোগ কর",
     "Folder name" : "ফোলডারের নাম",
     "Name" : "নাম",
     "Read" : "পড়",

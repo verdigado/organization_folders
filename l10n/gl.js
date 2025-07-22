@@ -22,6 +22,8 @@ OC.L10N.register(
     "Denied" : "Denegado",
     "Allowed" : "Permitido",
     "Search" : "Buscar",
+    "Cancel" : "Cancel",
+    "Confirm" : "Confirmar",
     "Member" : "Membro",
     "Manager" : "Xestor/a",
     "Admin" : "Administración",

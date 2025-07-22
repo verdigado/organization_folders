@@ -21,6 +21,8 @@ OC.L10N.register(
     "Denied" : "Odmówiony",
     "Allowed" : "Dozwolony",
     "Search" : "Szukaj",
+    "Cancel" : "Cancel",
+    "Confirm" : "Potwierdź",
     "Manager" : "Menedżer",
     "Admin" : "Admin",
     "Settings" : "Ustawienia",

@@ -7,6 +7,8 @@ OC.L10N.register(
     "Add group" : "Adder gruppo",
     "Folder name" : "Nomine de dossier",
     "Search" : "Cercar",
+    "Cancel" : "Cancel",
+    "Confirm" : "Confirmar",
     "Settings" : "Configurationes",
     "Edit" : "Modificar"
 },

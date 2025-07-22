@@ -8,6 +8,8 @@ OC.L10N.register(
     "Create" : "ສ້າງ",
     "Share" : "ແບ່ງປັນ",
     "Search" : "ຄົ້ນຫາ",
+    "Cancel" : "Cancel",
+    "Confirm" : "ຢືນຢັນ",
     "Admin" : "ຜູ້ເບິ່ງເເຍງລະບົບ",
     "Settings" : "ການຕັ້ງຄ່າ",
     "Edit" : "ແກ້ໄຂ"

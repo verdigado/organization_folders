@@ -22,6 +22,8 @@ OC.L10N.register(
     "Denied" : "Tiltott",
     "Allowed" : "Engedélyezett",
     "Search" : "Keresés",
+    "Cancel" : "Cancel",
+    "Confirm" : "Megerősítés",
     "Manager" : "Kezelő",
     "Admin" : "Rendszergazda",
     "Settings" : "Beállítások",

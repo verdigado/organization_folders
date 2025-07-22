@@ -4,6 +4,7 @@ OC.L10N.register(
     "Delete" : "Padam",
     "Name" : "Nama",
     "Search" : "Search",
+    "Cancel" : "Cancel",
     "Admin" : "Admin",
     "Settings" : "Tetapan",
     "Edit" : "Sunting"

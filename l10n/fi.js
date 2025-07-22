@@ -22,6 +22,8 @@ OC.L10N.register(
     "Denied" : "Estetty",
     "Allowed" : "Sallittu",
     "Search" : "Etsi",
+    "Cancel" : "Peruuta",
+    "Confirm" : "Vahvista",
     "Admin" : "Ylläpito",
     "Settings" : "Asetukset",
     "Invalid name" : "Virheellinen nimi",

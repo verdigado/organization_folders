@@ -49,6 +49,7 @@ OC.L10N.register(
     "Denied" : "Denied",
     "Allowed" : "Allowed",
     "Search" : "Search",
+    "Cancel" : "Cancel",
     "Member" : "Member",
     "Manager" : "Manager",
     "Admin" : "Admin",

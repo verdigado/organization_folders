@@ -8,6 +8,7 @@ OC.L10N.register(
     "Folder name" : "Katalognavn",
     "Name" : "Namn",
     "Search" : "Søk",
+    "Cancel" : "Cancel",
     "Admin" : "Administrer",
     "Settings" : "Innstillingar",
     "Edit" : "Rediger"

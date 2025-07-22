@@ -21,6 +21,8 @@ OC.L10N.register(
     "Denied" : "Zavrnjeno",
     "Allowed" : "Dovoljeno",
     "Search" : "Poišči",
+    "Cancel" : "Cancel",
+    "Confirm" : "Potrdi",
     "Manager" : "Upravljalnik",
     "Admin" : "Skrbništvo",
     "Settings" : "Nastavitve",

@@ -34,6 +34,7 @@ OC.L10N.register(
     "Denied" : "Afvist",
     "Allowed" : "Tilladt",
     "Search" : "Søg",
+    "Cancel" : "Cancel",
     "Member" : "Medlem",
     "Manager" : "Administrer",
     "Admin" : "Admin",

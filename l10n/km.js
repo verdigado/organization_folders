@@ -6,6 +6,7 @@ OC.L10N.register(
     "Folder name" : "ឈ្មោះ​ថត",
     "Name" : "ឈ្មោះ",
     "Search" : "ស្វែងរក",
+    "Cancel" : "Cancel",
     "Admin" : "អ្នក​គ្រប់​គ្រង",
     "Settings" : "ការកំណត់",
     "Edit" : "កែប្រែ"

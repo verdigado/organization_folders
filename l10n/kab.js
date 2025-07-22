@@ -10,6 +10,8 @@ OC.L10N.register(
     "Create" : "Snulfu-d",
     "Share" : "Bḍu",
     "Search" : "Nadi",
+    "Cancel" : "Cancel",
+    "Confirm" : "Serggeg",
     "Admin" : "Anedbal",
     "Settings" : "Iɣewwaṛen",
     "Edit" : "Ẓreg"

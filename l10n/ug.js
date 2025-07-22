@@ -20,6 +20,8 @@ OC.L10N.register(
     "Denied" : "رەت قىلىندى",
     "Allowed" : "رۇخسەت قىلىندى",
     "Search" : "ئىزدەش",
+    "Cancel" : "Cancel",
+    "Confirm" : "جەزملەشتۈرۈڭ",
     "Member" : "ئەزا",
     "Manager" : "باشقۇرغۇچى",
     "Admin" : "باشقۇرغۇچى",

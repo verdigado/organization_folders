@@ -10,6 +10,8 @@ OC.L10N.register(
     "Read" : "อ่าน",
     "Create" : "สร้าง",
     "Search" : "ค้นหา",
+    "Cancel" : "Cancel",
+    "Confirm" : "ยืนยัน",
     "Admin" : "ผู้ดูแลระบบ",
     "Settings" : "การตั้งค่า",
     "Resources" : "ทรัพยากร",

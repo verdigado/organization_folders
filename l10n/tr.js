@@ -42,6 +42,8 @@ OC.L10N.register(
     "Denied" : "Reddedildi",
     "Allowed" : "İzin verildi",
     "Search" : "Ara",
+    "Cancel" : "İptal",
+    "Confirm" : "Onayla",
     "Member" : "Üye",
     "Manager" : "Sorumlu",
     "Admin" : "Yönetici",
