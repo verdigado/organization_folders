@@ -15,6 +15,7 @@ use OCA\OrganizationFolders\Model\InheritedPrincipal;
 use OCA\OrganizationFolders\Model\ResourcePermissionsList;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Manager\ACLManager;
+use OCA\OrganizationFolders\Model\ResourcePermissionsListWithOriginTracing;
 
 class PermissionsService {
 	public function __construct(
@@ -60,7 +61,8 @@ class PermissionsService {
 		array $inheritedManagerPrincipals,
 		array $resourceMembers,
 		array $resourceManagers,
-		bool $implicitlyDeactivated = false
+		bool $implicitlyDeactivated = false,
+		bool $enableOriginTracing = false,
 	) {
 		// calculate actual permissions and if
 		// inherited principals should be forwarded down the tree
@@ -95,8 +97,12 @@ class PermissionsService {
 
 			$resourceManagersAclPermission = 0;
 		}
-
-		$permissionsList = new ResourcePermissionsList($resource);
+		
+		if($enableOriginTracing) {
+			$permissionsList = new ResourcePermissionsListWithOriginTracing($resource);
+		} else {
+			$permissionsList = new ResourcePermissionsList($resource);
+		}
 
 		// Inherited Member Permissions
 		foreach($inheritedMemberPrincipals as $inheritedMemberPrincipal) {
@@ -168,7 +174,12 @@ class PermissionsService {
 		];
 	}
 
-	public function generateResourcePermissionsListsAlongPathToResource(Resource $resource) {
+	/**
+	 * @param Resource $resource
+	 * @param bool $enableOriginTracing
+	 * @return \Generator<mixed, ResourcePermissionsList, mixed, void>
+	 */
+	public function generateResourcePermissionsListsAlongPathToResource(Resource $resource, bool $enableOriginTracing = false) {
 		$resourcePath = $this->resourceService->getAllResourcesOnPathFromRootToResource($resource);
 
 		$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
@@ -199,7 +210,8 @@ class PermissionsService {
 				inheritedManagerPrincipals: $inheritedManagerPrincipals,
 				resourceMembers: $resourceMembers,
 				resourceManagers: $resourceManagers,
-				implicitlyDeactivated: $implicitlyDeactivated
+				implicitlyDeactivated: $implicitlyDeactivated,
+				enableOriginTracing: $enableOriginTracing,
 			);
 
 			yield $permissionsList;
@@ -220,6 +232,7 @@ class PermissionsService {
 		array $inheritedMemberPrincipals,
 		array $inheritedManagerPrincipals,
 		bool $implicitlyDeactivated = false,
+		bool $enableOriginTracing = false,
 	) {
 		foreach($resources as $resource) {
 			$resourceMembers = $this->resourceMemberService->findAll($resource->getId(), [
@@ -240,19 +253,21 @@ class PermissionsService {
 				inheritedManagerPrincipals: $inheritedManagerPrincipals,
 				resourceMembers: $resourceMembers,
 				resourceManagers: $resourceManagers,
-				implicitlyDeactivated: $implicitlyDeactivated
+				implicitlyDeactivated: $implicitlyDeactivated,
+				enableOriginTracing: $enableOriginTracing,
 			);
 
 			yield $permissionsList;
 
 			$subResources = $this->resourceService->getSubResources($resource);
 
-			$this->generateResourcePermissionsListsRecursively(
+			yield from $this->generateResourcePermissionsListsRecursively(
 				resources: $subResources,
 				path: $path . $resource->getName() . "/",
 				inheritedMemberPrincipals: $nextInheritedMemberPrincipals,
 				inheritedManagerPrincipals: $nextInheritedManagerPrincipals,
 				implicitlyDeactivated: $nextImplicitlyDeactivated,
+				enableOriginTracing: $enableOriginTracing,
 			);
 		}
 	}
@@ -271,6 +286,7 @@ class PermissionsService {
 		OrganizationFolder $organizationFolder,
 		?array $organizationFolderMemberPrincipals = null,
 		?array $organizationFolderManagerPrincipals = null,
+		bool $enableOriginTracing = false,
 	) {
 		$topLevelResources = $this->resourceService->findAll($organizationFolder->getId(), null);
 
@@ -286,6 +302,7 @@ class PermissionsService {
 			path: "",
 			inheritedMemberPrincipals: $inheritedMemberPrincipals,
 			inheritedManagerPrincipals: $inheritedManagerPrincipals,
+			enableOriginTracing: $enableOriginTracing,
 		);
 	}
 
