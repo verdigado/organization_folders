@@ -8,6 +8,8 @@ OC.L10N.register(
     "Read" : "Oxu",
     "Share" : "Yayımla",
     "Search" : "Axtarış",
+    "Cancel" : "Cancel",
+    "Confirm" : "Təsdiq edin",
     "Admin" : "İnzibatçı",
     "Settings" : "Quraşdırmalar",
     "Resources" : "Resurslar",

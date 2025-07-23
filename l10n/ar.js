@@ -22,6 +22,8 @@ OC.L10N.register(
     "Denied" : "مرفوض",
     "Allowed" : "مسموح",
     "Search" : "بحث",
+    "Cancel" : "Cancel",
+    "Confirm" : "تأكيد",
     "Member" : "عضو",
     "Manager" : "مدير",
     "Admin" : "مدير",

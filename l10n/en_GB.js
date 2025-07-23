@@ -49,7 +49,10 @@ OC.L10N.register(
     "Denied" : "Denied",
     "Allowed" : "Allowed",
     "Search" : "Search",
+    "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>",
+    "Convert folder into resource" : "Convert folder into resource",
     "Cancel" : "Cancel",
+    "Confirm" : "Confirm",
     "Member" : "Member",
     "Manager" : "Manager",
     "Admin" : "Admin",
@@ -90,6 +93,7 @@ OC.L10N.register(
     "Management Actions" : "Management Actions",
     "Only deactivated resources can be deleted" : "Only deactivated resources can be deleted",
     "Sub-Resources" : "Sub-Resources",
+    "Unmanaged Subfolders" : "Unmanaged Subfolders",
     "Inherit managers from the level above" : "Inherit managers from the level above",
     "Restore files from a backup" : "Restore files from a backup",
     "Resource active" : "Resource active"

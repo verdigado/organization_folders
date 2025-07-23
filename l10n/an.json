@@ -12,6 +12,7 @@
     "Denied" : "Denegau",
     "Allowed" : "Permitiu",
     "Search" : "Buscar",
+    "Cancel" : "Cancel",
     "Admin" : "Administrador",
     "Settings" : "Configuración"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

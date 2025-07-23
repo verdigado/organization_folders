@@ -9,6 +9,8 @@ OC.L10N.register(
     "Name" : "Anv",
     "Share" : "Rannañ",
     "Search" : "Klask",
+    "Cancel" : "Cancel",
+    "Confirm" : "Kadarnaat",
     "Member" : "Ezel",
     "Admin" : "Merour",
     "Settings" : "Arventennoù",

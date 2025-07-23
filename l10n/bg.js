@@ -20,6 +20,8 @@ OC.L10N.register(
     "Denied" : "Отказан",
     "Allowed" : "Позволен",
     "Search" : "Търсене",
+    "Cancel" : "Cancel",
+    "Confirm" : "Потвърдете",
     "Admin" : "Админ",
     "Settings" : "Настройки",
     "Invalid name" : "Невалидно име",

@@ -14,6 +14,7 @@ OC.L10N.register(
     "Denied" : "Denegau",
     "Allowed" : "Permitiu",
     "Search" : "Buscar",
+    "Cancel" : "Cancel",
     "Admin" : "Administrador",
     "Settings" : "Configuración"
 },

@@ -91,6 +91,7 @@ OC.L10N.register(
     "Management Actions" : "管理動作",
     "Only deactivated resources can be deleted" : "僅可刪除已停用的資源",
     "Sub-Resources" : "子資源",
+    "Unmanaged Subfolders" : "未受管理的資料夾",
     "Inherit managers from the level above" : "繼承上一個層級的負責人",
     "Restore files from a backup" : "從備份還原檔案",
     "Resource active" : "資源使用中"

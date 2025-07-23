@@ -9,6 +9,8 @@ OC.L10N.register(
     "Create" : "Стварыць",
     "Share" : "Абагуліць",
     "Search" : "Пошук",
+    "Cancel" : "Скасаваць",
+    "Confirm" : "Пацвердзіць",
     "Settings" : "Налады",
     "Delete folder" : "Выдаліць папку"
 },

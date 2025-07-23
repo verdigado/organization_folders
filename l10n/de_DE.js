@@ -49,7 +49,10 @@ OC.L10N.register(
     "Denied" : "Verweigert",
     "Allowed" : "Zugelassen",
     "Search" : "Suche",
+    "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "Der Ordner \"{folderName}\" ist derzeit nicht verwaltet, d. h. Benutzer haben darin dieselben Berechtigungen wie im übergeordneten Ordner \"{parentFolderName}\".<br>Falls Sie andere Berechtigungen konfigurieren müssen, können Sie ihn durch Klicken auf „Bestätigen“ in eine Unterressource umwandeln. Die anfänglichen Einstellungen entsprechen den aktuell gültigen Berechtigungen.<br><br><b>Fahren Sie nur fort, wenn dieser Ordner eine eigene Berechtigungskonfiguration benötigt. Diese Änderung kann nicht rückgängig gemacht werden.</b>",
+    "Convert folder into resource" : "Ordner in Ressource konvertieren",
     "Cancel" : "Abbrechen",
+    "Confirm" : "Bestätigen",
     "Member" : "Mitglied",
     "Manager" : "Manager",
     "Admin" : "Administration",
@@ -90,6 +93,7 @@ OC.L10N.register(
     "Management Actions" : "Verwaltungsmaßnahmen",
     "Only deactivated resources can be deleted" : "Nur deaktivierte Ressourcen können gelöscht werden",
     "Sub-Resources" : "Unterressourcen",
+    "Unmanaged Subfolders" : "Nicht verwaltete Unterordner",
     "Inherit managers from the level above" : "Manager der höheren Ebene übernehmen",
     "Restore files from a backup" : "Dateiwiederherstellung aus einem Backup",
     "Resource active" : "Ressource aktiv"

@@ -4,6 +4,8 @@ OC.L10N.register(
     "Delete" : "Skrap",
     "Add" : "Voeg toe",
     "Search" : "Soek",
+    "Cancel" : "Cancel",
+    "Confirm" : "Bevestig",
     "Admin" : "Admin",
     "Settings" : "Instellings",
     "Resources" : "Hulpbronne"

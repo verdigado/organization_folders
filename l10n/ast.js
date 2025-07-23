@@ -15,6 +15,8 @@ OC.L10N.register(
     "Create" : "Crear",
     "Share" : "Compartir",
     "Search" : "Buscar",
+    "Cancel" : "Cancel",
+    "Confirm" : "Confirmar",
     "Member" : "Miembru",
     "Manager" : "Xestor",
     "Admin" : "Alministración",
