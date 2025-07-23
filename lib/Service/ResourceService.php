@@ -20,12 +20,7 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
-use OCA\OrganizationFolders\Model\OrganizationFolder;
-use OCA\OrganizationFolders\Model\Principal;
-use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
-use OCA\OrganizationFolders\Model\ResourcePermissionsList;
-use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\InvalidResourceName;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
@@ -354,134 +349,6 @@ class ResourceService {
 
 		// TODO: improve error handing: if db update fails roll back changes in the filesystem
 	}
-	/**
-	 * @param OrganizationFolder $organizationFolder
-	 * @psalm-param PrincipalBackedByGroup[] $inheritedMemberPrincipals
-	 * @psalm-param PrincipalBackedByGroup[] $inheritedManagerPrincipals
-	 */
-	public function setAllFolderResourceAclsInOrganizationFolder(
-		OrganizationFolder $organizationFolder,
-		array $memberPrincipals,
-		array $managerPrincipals,
-	): void {
-        $topLevelFolderResources = $this->findAll($organizationFolder->getId(), null, ["type" => "folder"]);
-
-		$this->recursivelySetFolderResourceALCs(
-			folderResources: $topLevelFolderResources,
-			path: "",
-			inheritedMemberPrincipals: $memberPrincipals,
-			inheritedManagerPrincipals: $managerPrincipals,
-		);
-    }
-
-	/**
-	 * Recursively overwrite ACL rules for an array of folder resources
-	 *
-	 * @psalm-param FolderResource[] $folderResources
-	 * @param string $path
-	 * @psalm-param Principal[] $inheritedMemberPrincipals
-	 * @psalm-param Principal[] $inheritedManagerPrincipals
-	 * @param bool $implicitlyDeactivated
-	 */
-	public function recursivelySetFolderResourceALCs(
-		array $folderResources,
-		string $path,
-		array $inheritedMemberPrincipals,
-		array $inheritedManagerPrincipals,
-		bool $implicitlyDeactivated = false
-	): void {
-		foreach($folderResources as $folderResource) {
-			if($folderResource->getActive() && !$implicitlyDeactivated) {
-				$resourceMembersAclPermission = $folderResource->getMembersAclPermission();
-				$resourceManagersAclPermission = $folderResource->getManagersAclPermission();
-				$resourceInheritedAclPermission = $folderResource->getInheritedAclPermission();
-			} else {
-				$resourceMembersAclPermission = 0;
-				$resourceManagersAclPermission = 0;
-				$resourceInheritedAclPermission = 0;
-			}
-			
-			$permissions = new ResourcePermissionsList($folderResource);
-
-			// inherited Member ACLs
-			foreach($inheritedMemberPrincipals as $inheritedMemberPrincipal) {
-				$permissions->addPermission(
-					principal: $inheritedMemberPrincipal,
-					permissions: $resourceInheritedAclPermission,
-				);
-			}
-
-			// inherited member principals will affect resources further down, if they have any permissions at this level
-			if($resourceInheritedAclPermission !== 0) {
-				$nextInheritedMemberPrincipals = $inheritedMemberPrincipals;
-			} else {
-				$nextInheritedMemberPrincipals = [];
-			}
-
-			// inherited Manager ACLs
-			if($folderResource->getActive() && !$implicitlyDeactivated && $folderResource->getInheritManagers()) {
-				$inheritedManagerAclPermission = $resourceManagersAclPermission;
-				$nextInheritedManagerPrincipals = $inheritedManagerPrincipals;
-			} else {
-				$inheritedManagerAclPermission = 0;
-				$nextInheritedManagerPrincipals = [];
-			}
-
-			foreach($inheritedManagerPrincipals as $inheritedManagerPrincipal) {
-				$permissions->addPermission(
-					principal: $inheritedManagerPrincipal,
-					permissions: $inheritedManagerAclPermission,
-				);
-			}
-
-			// member ACLs
-			/** @var ResourceMemberService */
-			$resourceMemberService = $this->container->get(ResourceMemberService::class);
-			$resourceMembers = $resourceMemberService->findAll($folderResource->getId());
-
-			foreach($resourceMembers as $resourceMember) {
-				$resourceMemberPrincipal = $resourceMember->getPrincipal();
-
-				if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
-					$resourceMemberPermissions = $resourceManagersAclPermission;
-
-				} else if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MEMBER->value) {
-					$resourceMemberPermissions = $resourceMembersAclPermission;
-				} else {
-					throw new Exception("invalid resource member permission level");
-				}
-
-				if($resourceMemberPermissions !== 0) {
-					$permissions->addPermission(
-						principal: $resourceMemberPrincipal,
-						permissions: $resourceMemberPermissions,
-					);
-
-					// members will affect resources further down, if they have any permissions at this level
-
-					// NOTE: members of type MANAGER will get added to both nextInheritedMemberPrincipals and nextInheritedManagerPrincipals,
-					// because even if manager inheritance is disabled in a child resource if the have read permissions they qualify for resourceInheritedAclPermission permissions
-					$nextInheritedMemberPrincipals[] = $resourceMemberPrincipal;
-				}
-
-				if($resourceMember->getPermissionLevel() === ResourceMemberPermissionLevel::MANAGER->value) {
-					$nextInheritedManagerPrincipals[] = $resourceMemberPrincipal;
-				}
-			}
-
-			$this->aclManager->overwriteACLs($permissions->toGroupfolderAclList());
-
-			// recurse sub-resources
-			$subFolderResources = $this->getSubResources($folderResource, ["type" => "folder"]);
-			$this->recursivelySetFolderResourceALCs(
-				folderResources: $subFolderResources,
-				path: $path . $folderResource->getName() . "/",
-				inheritedMemberPrincipals: $nextInheritedMemberPrincipals,
-				inheritedManagerPrincipals: $nextInheritedManagerPrincipals,
-				implicitlyDeactivated: (!$folderResource->getActive() || $implicitlyDeactivated)
-			);
-		}
-	}
 
 	public function getResourcePath(Resource $resource): array {
 		$currentResource = $resource;
@@ -527,6 +394,25 @@ class ResourceService {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Get an array of all resources on the path from the root to the given resource (including the given resource)
+	 * ordered by top-level resource first
+	 * @param Resource $resource
+	 * @return Resource[]
+	 */
+	public function getAllResourcesOnPathFromRootToResource(Resource $resource): array {
+		$currentResource = $resource;
+		
+		$invertedResourcesPath = [$currentResource];
+
+		while($currentResource->getParentResource()) {
+			$currentResource = $this->find($currentResource->getParentResource());
+			$invertedResourcesPath[] = $currentResource;
+		}
+
+		return array_reverse($invertedResourcesPath);
 	}
 
 	public function getUnmanagedSubfolders(FolderResource $resource) {

@@ -20,7 +20,7 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
-use OCA\OrganizationFolders\Model\Prinicpal;
+use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
@@ -231,16 +231,16 @@ class OrganizationFolderService {
 		$this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $groupfolderMemberGroups);
 		$this->setRootFolderACLs($organizationFolder, ["everyone", ...$groupfolderMemberGroups]);
 
-		/** @var ResourceService */
-		$resourceService = $this->container->get(ResourceService::class);
-		$resourceService->setAllFolderResourceAclsInOrganizationFolder($organizationFolder, $memberPrincipals, $managerPrincipals);
+		/** @var PermissionsService */
+		$permissionsService = $this->container->get(PermissionsService::class);
+		$permissionsService->applyAllResourcePermissionsInOrganizationFolder($organizationFolder, $memberPrincipals, $managerPrincipals);
 	}
 
 	/**
 	 * @param OrganizationFolder $organizationFolder
 	 * @psalm-return array{0: PrincipalBackedByGroup[], 1: PrincipalBackedByGroup[]}
 	 */
-	protected function getMemberAndManagerPrincipals(OrganizationFolder $organizationFolder): array {
+	public function getMemberAndManagerPrincipals(OrganizationFolder $organizationFolder): array {
 		$memberPrincipals = [];
 		$managerPrincipals = [];
 
@@ -275,7 +275,7 @@ class OrganizationFolderService {
 
 	/**
 	 * @param OrganizationFolder $organizationFolder
-	 * @return Prinicpal[]
+	 * @return Principal[]
 	 */
 	protected function getImpliedMemberPrincipals(OrganizationFolder $organizationFolder): array {
 		$principals = [];

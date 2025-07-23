@@ -16,15 +16,15 @@ use OCA\GroupFolders\ACL\UserMapping\UserMapping;
  */
 class ResourcePermissionsList {
 	/** @var array[string]ResourcePermission */
-	private array $permissions = [];
+	protected array $permissions = [];
 
-	public function __construct(private Resource $resource) {}
+	public function __construct(protected Resource $resource) {}
 
 	public function getResource(): Resource {
 		return $this->resource;
 	}
 
-	public function addPermission(Principal $principal, int $permissions): ResourcePermission {
+	public function addPermission(Principal $principal, int $permissions, ?array $permissionOrigin = null): ResourcePermission {
 		$key = $principal->getKey();
 
 		$existingPermission = $this->permissions[$key] ?? null;
