@@ -49,6 +49,8 @@ OC.L10N.register(
     "Denied" : "被拒絕",
     "Allowed" : "允許的",
     "Search" : "搜尋",
+    "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "資料夾「{folderName}」目前未受管理，這表示使用者在其中的權限與上層資料夾「{parentFolderName}」的權限相同。<br>若您需要設定不同的權限，您可以按一下「確認」，將其轉換為子資源。初始設定將與目前的有效權限相符。<br><br><b>僅在此資料夾需要自己的權限設定時才進行。此變更無法撤銷。</b>",
+    "Convert folder into resource" : "將資料夾轉換為資源",
     "Cancel" : "取消",
     "Confirm" : "確認",
     "Member" : "成員",
@@ -91,6 +93,7 @@ OC.L10N.register(
     "Management Actions" : "管理操作",
     "Only deactivated resources can be deleted" : "只有已停用的資源可以被刪除",
     "Sub-Resources" : "子資源",
+    "Unmanaged Subfolders" : "未受管理的資料夾",
     "Inherit managers from the level above" : "從上級繼承管理員",
     "Restore files from a backup" : "從備份中恢復文件",
     "Resource active" : "資源活動"

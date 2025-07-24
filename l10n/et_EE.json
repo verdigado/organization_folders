@@ -47,6 +47,8 @@
     "Denied" : "Keelatud",
     "Allowed" : "Lubatud",
     "Search" : "Otsi",
+    "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "„{folderName}“ kaust pole hetkel hallatud. See tähendab, et kasutajatel on seal samad õigused nagu ülemkaustas „{parentFolderName}“.<br>Kui pead seadistama muid õigusi, siis klõpsides „Kinnita“ võid ta muuta alamressursiks. Algsed seadistused saavad olema hetkel kehiuvad õigused.<br><br><b>Jätka vaid siis, kui see kaust vajab teistsuguseid õigusi. Seda muudatust ei saa tagasi pöörata.</b>",
+    "Convert folder into resource" : "Muuda kaust ressursiks",
     "Cancel" : "Katkesta",
     "Confirm" : "Kinnita",
     "Member" : "Liige",
@@ -89,6 +91,7 @@
     "Management Actions" : "Haldustoimingud",
     "Only deactivated resources can be deleted" : "Kustutada saad vaid kasutusest eemaldatud ressursse",
     "Sub-Resources" : "Alamressursid",
+    "Unmanaged Subfolders" : "Haldamata alamkaustad",
     "Inherit managers from the level above" : "Kaasa haldaja õigused ülalpool asuvast kaustast",
     "Restore files from a backup" : "Taasta failid varukoopiast",
     "Resource active" : "Ressurss on aktiivne"
