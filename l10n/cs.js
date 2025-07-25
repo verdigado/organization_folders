@@ -48,7 +48,9 @@ OC.L10N.register(
     "Denied" : "Odepřeno",
     "Allowed" : "Umožněno",
     "Search" : "Hledat",
+    "Convert folder into resource" : "Převést složku na zdroj",
     "Cancel" : "Storno",
+    "Confirm" : "Potvrdit",
     "Member" : "Člen",
     "Manager" : "Nástroj pro správu",
     "Admin" : "Správa",
@@ -89,6 +91,7 @@ OC.L10N.register(
     "Management Actions" : "Akce správy",
     "Only deactivated resources can be deleted" : "Smazat je možné pouze deaktivované prostředky",
     "Sub-Resources" : "Dílčí prostředky",
+    "Unmanaged Subfolders" : "Nespravované podsložky",
     "Inherit managers from the level above" : "Převzít nadřízené z úrovně výše",
     "Restore files from a backup" : "Obnovit soubory ze zálohy",
     "Resource active" : "Prostředek aktivní"

@@ -47,6 +47,8 @@
     "Denied" : "Diúltaíodh",
     "Allowed" : "Ceadaithe",
     "Search" : "Cuardach",
+    "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "Níl an fillteán {folderName} á bhainistiú faoi láthair, rud a chiallaíonn go bhfuil na ceadanna céanna ag úsáideoirí ann agus atá acu ina fhillteán tuismitheora {parentFolderName}.<br>Más gá duit ceadanna difriúla a chumrú, is féidir leat é a thiontú ina fho-acmhainn trí chliceáil ar Deimhnigh. Beidh na socruithe tosaigh ag teacht leis na ceadanna reatha éifeachtacha.<br><br><b>Ná lean ar aghaidh ach amháin má theastaíonn a chumraíocht ceadanna féin ón bhfillteán seo. Ní féidir an t-athrú seo a chealú.</b>",
+    "Convert folder into resource" : "Tiontaigh fillteán ina acmhainn",
     "Cancel" : "Cancel",
     "Confirm" : "Deimhnigh",
     "Member" : "Ball",
@@ -89,6 +91,7 @@
     "Management Actions" : "Gníomhartha Bainistíochta",
     "Only deactivated resources can be deleted" : "Ní féidir ach acmhainní díghníomhaithe a scriosadh",
     "Sub-Resources" : "Fo-Acmhainní",
+    "Unmanaged Subfolders" : "Fofhillteáin Neamhbhainistithe",
     "Inherit managers from the level above" : "Oidhreacht bainisteoirí ón leibhéal thuas",
     "Restore files from a backup" : "Athchóirigh comhaid ó chúltaca",
     "Resource active" : "Gníomhach acmhainne"

@@ -91,6 +91,7 @@ OC.L10N.register(
     "Management Actions" : "Ações Gerenciais",
     "Only deactivated resources can be deleted" : "Somente recursos desativados podem ser excluídos",
     "Sub-Resources" : "Sub-Recursos",
+    "Unmanaged Subfolders" : "Subpastas Não Gerenciadas",
     "Inherit managers from the level above" : "Herdar gerentes do nível superior",
     "Restore files from a backup" : "Restaurar arquivos de um backup",
     "Resource active" : "Recurso ativo"
