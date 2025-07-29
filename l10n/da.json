@@ -1,6 +1,8 @@
 { "translations": {
     "Members" : "Medlemmer",
     "Organization Folders" : "Organisations mapper",
+    "Group folders for your organization, that are easy and intuitive to manage." : "Gruppemapper til din organisation, som er lette og intuitive at administrere.",
+    "Hide Virtual Groups" : "Skjul virtuelle grupper",
     "Back" : "Tilbage",
     "Next" : "Næste",
     "Delete" : "Slet",

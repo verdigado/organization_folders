@@ -49,6 +49,7 @@ OC.L10N.register(
     "Denied" : "Negado",
     "Allowed" : "Permitido",
     "Search" : "Pesquisar",
+    "Convert folder into resource" : "Converter pasta em recurso",
     "Cancel" : "Cancelar",
     "Confirm" : "Confirmar",
     "Member" : "Membro",
