@@ -12,6 +12,7 @@ OC.L10N.register(
     "Search" : "Пошук",
     "Cancel" : "Скасаваць",
     "Confirm" : "Пацвердзіць",
+    "Admin" : "Адміністратар",
     "Settings" : "Налады",
     "Edit" : "Рэдагаваць",
     "Delete folder" : "Выдаліць папку",

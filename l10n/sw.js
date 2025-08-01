@@ -10,6 +10,7 @@ OC.L10N.register(
     "Add group" : "Ongeza kundi",
     "Add" : "Ongeza",
     "Folder name" : "Jina la kisanduku",
+    "File does not exist" : "File does not exist",
     "Name" : "Jina",
     "Read" : "Soma",
     "Write" : "Andika",
