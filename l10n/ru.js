@@ -22,6 +22,7 @@ OC.L10N.register(
     "Denied" : "Запрещено",
     "Allowed" : "Разрешено",
     "Search" : "Поиск",
+    "Convert folder into resource" : "Преобразовать папку в ресурс",
     "Cancel" : "Cancel",
     "Confirm" : "Подтвердить",
     "Manager" : "Руководитель",
@@ -32,6 +33,7 @@ OC.L10N.register(
     "Edit" : "Редактирование",
     "Finish" : "Завершить",
     "Delete folder" : "Удалить папку",
-    "Permissions" : "Права"
+    "Permissions" : "Права",
+    "Unmanaged Subfolders" : "Не управляемые вложенные папки"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");
