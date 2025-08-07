@@ -14,6 +14,7 @@ use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\InheritedPrincipal;
 use OCA\OrganizationFolders\Model\ResourcePermissionsList;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
+use OCA\OrganizationFolders\Enum\PermissionOriginType;
 use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\Model\ResourcePermissionsListWithOriginTracing;
 
@@ -108,11 +109,9 @@ class PermissionsService {
 		foreach($inheritedMemberPrincipals as $inheritedMemberPrincipal) {
 			$permissionsList->addPermission(
 				principal: $inheritedMemberPrincipal->getPrincipal(),
-				permissions: $inheritedMemberPermissions,
-				permissionOrigin: [
-					"type" => "inherited_member_from",
-					"origin" => $inheritedMemberPrincipal->getOrigin(),
-				],
+				permissionsBitmap: $inheritedMemberPermissions,
+				permissionOriginType: PermissionOriginType::INHERITED_MEMBER,
+				permissionInheritedFrom: $inheritedMemberPrincipal->getOrigin(),
 			);
 		}
 
@@ -120,11 +119,9 @@ class PermissionsService {
 		foreach($inheritedManagerPrincipals as $inheritedManagerPrincipal) {
 			$permissionsList->addPermission(
 				principal: $inheritedManagerPrincipal->getPrincipal(),
-				permissions: $inheritedManagerPermissions,
-				permissionOrigin: [
-					"type" => "inherited_manager_from",
-					"origin" => $inheritedManagerPrincipal->getOrigin(),
-				],
+				permissionsBitmap: $inheritedManagerPermissions,
+				permissionOriginType: PermissionOriginType::INHERITED_MANAGER,
+				permissionInheritedFrom: $inheritedManagerPrincipal->getOrigin(),
 			);
 		}
 
@@ -135,10 +132,8 @@ class PermissionsService {
 
 				$permissionsList->addPermission(
 					principal: $memberPrincipal,
-					permissions: $resourceMembersAclPermission,
-					permissionOrigin: [
-						"type" => "direct_member",
-					],
+					permissionsBitmap: $resourceMembersAclPermission,
+					permissionOriginType: PermissionOriginType::MEMBER,
 				);
 
 				$nextInheritedMemberPrincipals[] = $this->addInheritanceOriginToPrincipal($memberPrincipal, $resource);
@@ -152,10 +147,8 @@ class PermissionsService {
 			if($resourceManagersAclPermission > 0) {
 				$permissionsList->addPermission(
 					principal: $memberPrincipal,
-					permissions: $resourceManagersAclPermission,
-					permissionOrigin: [
-						"type" => "direct_manager",
-					],
+					permissionsBitmap: $resourceManagersAclPermission,
+					permissionOriginType: PermissionOriginType::MANAGER,
 				);
 
 				// NOTE: Managers will get added to both nextInheritedMemberPrincipals and nextInheritedManagerPrincipals,

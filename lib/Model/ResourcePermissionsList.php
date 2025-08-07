@@ -7,6 +7,7 @@ namespace OCA\OrganizationFolders\Model;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Groups\GroupBackend;
+use OCA\OrganizationFolders\Enum\PermissionOriginType;
 
 use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 
@@ -24,14 +25,14 @@ class ResourcePermissionsList {
 		return $this->resource;
 	}
 
-	public function addPermission(Principal $principal, int $permissions, ?array $permissionOrigin = null): ResourcePermission {
+	public function addPermission(Principal $principal, int $permissionsBitmap, ?PermissionOriginType $permissionOriginType = null, OrganizationFolder|Resource|null $permissionInheritedFrom = null): ResourcePermission {
 		$key = $principal->getKey();
 
 		$existingPermission = $this->permissions[$key] ?? null;
 
 		$newPermission = new ResourcePermission(
 			principal: $principal,
-			permissions: ($existingPermission?->getPermissions() ?? 0) | $permissions,
+			permissionsBitmap: ($existingPermission?->getPermissionsBitmap() ?? 0) | $permissionsBitmap,
 		);
 
 		$this->permissions[$key] = $newPermission;
@@ -64,7 +65,7 @@ class ResourcePermissionsList {
 			$acls->addRule(
 				userMapping: $permission->getPrincipal()->toGroupfolderAclMapping(),
 				mask: 31,
-				permissions: $permission->getPermissions(),
+				permissions: $permission->getPermissionsBitmap(),
 			);
 		}
 

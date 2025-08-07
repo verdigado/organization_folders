@@ -12,6 +12,7 @@ class Organization implements \JsonSerializable, TableSerializable {
 		private string $friendlyName,
 		private string $membersGroup,
 		private ?int $parentOrganizationId = null,
+		private bool $membershipImpliesParentMembership = false,
 	) {
 	}
 
@@ -29,6 +30,10 @@ class Organization implements \JsonSerializable, TableSerializable {
 
 	public function getParentOrganizationId(): ?int {
 		return $this->parentOrganizationId;
+	}
+
+	public function getMembershipImpliesParentMembership(): bool {
+		return $this->membershipImpliesParentMembership;
 	}
 
 	public function jsonSerialize(): array {

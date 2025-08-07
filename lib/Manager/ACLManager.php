@@ -89,6 +89,8 @@ class ACLManager {
 			$existingPermissions[$key] = $existingRule->getPermissions();
 		}
 
+		// TODO: Investigate if sorting rules arrays first increases performance, because the internal sorting in the diff function is probably faster if presorted
+
 		// new rules to be added
 		/** @var Rule[] */
 		$newRules = array_udiff($rules, $existingRules, $this->ruleMappingComparison(...));

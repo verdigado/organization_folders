@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Controller;
 
+use OCP\IUserManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
@@ -13,6 +14,8 @@ use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Traits\ApiObjectController;
 use OCA\OrganizationFolders\Errors\AccessDenied;
+use OCA\OrganizationFolders\Model\PrincipalFactory;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 
 class ResourceController extends BaseController {
 	use Errors;
@@ -24,9 +27,11 @@ class ResourceController extends BaseController {
 	public const UNMANAGEDSUBFOLDERS_INCLUDE = 'unmanagedSubfolders';
 
 	public function __construct(
-		private ResourceService $service,
-		private ResourceMemberService $memberService,
-		private OrganizationFolderService $organizationFolderService, 
+		private readonly ResourceService $service,
+		private readonly ResourceMemberService $memberService,
+		private readonly OrganizationFolderService $organizationFolderService,
+		private readonly PrincipalFactory $principalFactory,
+		private readonly IUserManager $userManager,
 		private string $userId,
 	) {
 		parent::__construct();
@@ -263,6 +268,47 @@ class ResourceController extends BaseController {
 			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
 
 			$options = $this->memberService->findUserMemberOptions($resourceId, $search, $limit);
+
+			return array_map(fn (\OCP\IUser $user) => [
+				'id' => $user->getUID(),
+				'displayName' => $user->getDisplayName(),
+				'subname' => $user->getEMailAddress(),
+			], $options);
+		});
+	}
+
+	#[NoAdminRequired]
+	public function permissionsReport(int $resourceId): JSONResponse {
+		return $this->handleNotFound(function () use ($resourceId) {
+			$resource = $this->service->find($resourceId);
+
+			$this->denyAccessUnlessGranted(['READ'], $resource);
+
+			return $this->service->getPermissionsReport($resource);
+		});
+	}
+
+	#[NoAdminRequired]
+	public function userPermissionsReport(int $resourceId, string $userId): JSONResponse {
+		return $this->handleNotFound(function () use ($resourceId, $userId) {
+			$resource = $this->service->find($resourceId);
+
+			$this->denyAccessUnlessGranted(['READ'], $resource);
+
+			$userPrincipal = $this->principalFactory->buildPrincipal(PrincipalType::USER, $userId);
+
+			return $this->service->getUserPermissionsReport($resource, $userPrincipal);
+		});
+	}
+
+	#[NoAdminRequired]
+	public function findUserPermissionsReportOptions(int $resourceId, string $search = '', int $limit = 20): JSONResponse {
+		return $this->handleErrors(function () use ($resourceId, $search, $limit) {
+			$resource = $this->service->find($resourceId);
+
+			$this->denyAccessUnlessGranted(['READ'], $resource);
+
+			$options = array_values($this->userManager->search($search, $limit));
 
 			return array_map(fn (\OCP\IUser $user) => [
 				'id' => $user->getUID(),

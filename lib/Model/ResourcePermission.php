@@ -10,7 +10,7 @@ namespace OCA\OrganizationFolders\Model;
 class ResourcePermission implements \JsonSerializable {
 	public function __construct(
 		private readonly Principal $principal,
-		private readonly int $permissions,
+		private readonly int $permissionsBitmap,
 		private readonly ?array $permissionOrigins = null,
 	){}
 
@@ -18,8 +18,8 @@ class ResourcePermission implements \JsonSerializable {
 		return $this->principal;
 	}
 
-	public function getPermissions(): int {
-		return $this->permissions;
+	public function getPermissionsBitmap(): int {
+		return $this->permissionsBitmap;
 	}
 
 	public function getPermissionOrigins(): array {
@@ -29,7 +29,7 @@ class ResourcePermission implements \JsonSerializable {
 	public function jsonSerialize(): array {
 		return [
 			'principal' => $this->principal,
-			'permissions' => $this->permissions,
+			'permissionsBitmap' => $this->permissionsBitmap,
 			'permissionOrigins' => $this->permissionOrigins,
 		];
 	}

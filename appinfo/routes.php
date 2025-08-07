@@ -25,6 +25,9 @@ return [
 		['name' => 'resource#subResources', 'url' => '/resources/{resourceId}/subResources', 'verb' => 'GET'],
 		['name' => 'resource#unmanagedSubfolders', 'url' => '/resources/{resourceId}/unmanagedSubfolders', 'verb' => 'GET'],
 		['name' => 'resource#promoteUnmanagedSubfolder', 'url' => '/resources/{resourceId}/unmanagedSubfolders/{unmanagedSubfolderName}/promote', 'verb' => 'POST'],
+		['name' => 'resource#permissionsReport', 'url' => '/resources/{resourceId}/permissionsReport', 'verb' => 'GET'],
+		['name' => 'resource#userPermissionsReport', 'url' => '/resources/{resourceId}/permissionsReport/{userId}', 'verb' => 'GET'],
+		['name' => 'resource#findUserPermissionsReportOptions', 'url' => '/resources/{resourceId}/userPermissionsReportOptions', 'verb' => 'GET'],
 		['name' => 'resource#findGroupMemberOptions', 'url' => '/resources/{resourceId}/groupMemberOptions', 'verb' => 'GET'],
 		['name' => 'resource#findUserMemberOptions', 'url' => '/resources/{resourceId}/userMemberOptions', 'verb' => 'GET'],
 

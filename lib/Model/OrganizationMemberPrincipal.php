@@ -84,4 +84,31 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 	public function getBackingGroupId(): ?string {
 		return $this->getOrganization()?->getMembersGroup();
 	}
+
+	public function containsPrincipal(Principal $principal, bool $skipExpensiveOperations = false): bool {
+		if($this->isValid() && $principal->isValid()) {
+			// Fast path with assurances made by OrganizationProvider
+			if ($principal instanceof OrganizationMemberPrincipal && $this->getOrganizationProviderId() === $principal->getOrganizationProviderId()) {
+				$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
+
+				$principalOrganization = $principal->getOrganization();
+
+				do {
+					if($principalOrganization->getId() === $this->organizationId) {
+						return true;
+					}
+				}
+				while(
+					$principalOrganization?->getParentOrganizationId() &&
+					$principalOrganization?->getMembershipImpliesParentMembership() &&
+					$principalOrganization = $organizationProvider->getOrganization($principalOrganization->getParentOrganizationId())
+				);
+			}
+
+			// Slow path with manual user subset checking
+			return parent::containsPrincipal($principal, $skipExpensiveOperations);
+		}
+
+		return false;
+	}
 }

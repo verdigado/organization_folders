@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\TTransactional;
@@ -20,12 +21,16 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
+use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\UserPrincipal;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
+use OCA\OrganizationFolders\Model\ResourcePermissionsList;
 use OCA\OrganizationFolders\Errors\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\InvalidResourceName;
 use OCA\OrganizationFolders\Errors\ResourceNotFound;
 use OCA\OrganizationFolders\Errors\ResourceNameNotUnique;
 use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
+use OCA\OrganizationFolders\Errors\PrincipalInvalid;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
@@ -36,6 +41,7 @@ class ResourceService {
 	public function __construct(
 		protected readonly IDBConnection $db,
 		protected readonly LoggerInterface $logger,
+		protected readonly IL10N $l10n,
 		protected readonly ResourceMapper $mapper,
 		protected readonly PathManager $pathManager,
 		protected readonly ACLManager $aclManager,
@@ -368,6 +374,7 @@ class ResourceService {
 	public function getFolderResourceFilesystemNode(FolderResource $resource) {
 		return $this->pathManager->getOrganizationFolderByIdSubfolder($resource->getOrganizationFolderId(), $this->getResourcePath($resource));
 	}
+
 	/** 
 	 * get all direct sub-resources
 	 */
@@ -470,6 +477,144 @@ class ResourceService {
 			managersAclPermission: $resource->getManagersAclPermission(),
 			folderAlreadyExists: true,
 		);
+	}
+
+	/**
+	 * @param ResourcePermissionsList[] $permissionsListsAlongPath
+	 * @param Principal $principal
+	 * @return bool
+	 */
+	private function principalHasPermissionsAlongFullPath(array $permissionsListsAlongPath, Principal $principal): bool {
+		foreach($permissionsListsAlongPath as $permissionsList) {
+			$permissions = $permissionsList->getPermissions();
+
+			foreach($permissions as $permission) {
+				if($permission->getPermissionsBitmap() > 0) {
+					if($permission->getPrincipal()->containsPrincipal(principal: $principal, skipExpensiveOperations: true)) {
+						// continue along path to next resource
+						continue 2;
+					}
+				}
+			}
+			
+			// did not continue, the principal has no permissions in this resource
+			return false;
+		}
+
+		return true;
+	}
+
+	public function getPermissionsReport(Resource $resource): array {
+		$result = [];
+
+		/** @var PermissionsService */
+		$permissionsService = $this->container->get(PermissionsService::class);
+
+		/** @var non-empty-list<ResourcePermissionsList> */
+		$permissionsLists = iterator_to_array($permissionsService->generateResourcePermissionsListsAlongPathToResource(resource: $resource, enableOriginTracing: true));
+		$resourcePermissionsList = array_pop($permissionsLists);
+
+		foreach($resourcePermissionsList->getPermissions() as $permission) {
+			if($permission->getPermissionsBitmap() > 0) {
+				$principal = $permission->getPrincipal();
+
+				$filteredPermissionOrigins = [];
+
+				foreach($permission->getPermissionOrigins() as $permissionOrigin) {
+					if($permissionOrigin["permissions"] > 0) {
+						// only keep last (least inheritedFrom distance to resource) of each type
+						$filteredPermissionOrigins[$permissionOrigin["type"]->value] = $permissionOrigin;
+					}
+				}
+
+				$warnings = [];
+
+				if($resource->getType() === "folder") {
+					// check if principal has permissions on full path
+					// (organization folder members do not need to be checked as first level resource members are implicit organization folder members)
+					if(!$this->principalHasPermissionsAlongFullPath($permissionsLists, $principal)) {
+						if($principal instanceof UserPrincipal) {
+							$l10n = $this->l10n->t(
+								text: '%1$s does not have permissions along the full path to this folder, they will not be able to navigate to this folder!',
+								parameters: [
+									$principal->getFriendlyName(),
+								]
+							);
+						} else {
+							$l10n = $this->l10n->t(
+								text: 'This group does not have permissions along the full path to this folder, but people need to be able to navigate to this folder to get access. Only the group members with other group memberships that allow them to access the parent folders will be able to access this folder.'
+							);
+						}
+
+						$warnings[] = [
+							"type" => "permissions_not_on_full_path",
+							"l10n" => $l10n,
+						];
+					}
+				}
+
+				$result[] = [
+					'principal' => $principal,
+					'permissionsBitmap' => $permission->getPermissionsBitmap(),
+					'permissionOrigins' => array_values($filteredPermissionOrigins),
+					'warnings' => $warnings,
+				];
+			}
+		}
+
+		return $result;
+	}
+
+	public function getUserPermissionsReport(Resource $resource, UserPrincipal $userPrincipal): array {
+		if(!$userPrincipal->isValid()) {
+			throw new PrincipalInvalid($userPrincipal);
+		}
+
+		/** @var PermissionsService */
+		$permissionsService = $this->container->get(PermissionsService::class);
+
+		/** @var non-empty-list<ResourcePermissionsList> */
+		$permissionsLists = iterator_to_array($permissionsService->generateResourcePermissionsListsAlongPathToResource(resource: $resource));
+		$resourcePermissionsList = array_pop($permissionsLists);
+
+		$overallPermissionsBitmap = 0;
+		$applicablePermissions = [];
+		$warnings = [];
+
+		foreach($resourcePermissionsList->getPermissions() as $permission) {
+			if($permission->getPermissionsBitmap() > 0) {
+				$principal = $permission->getPrincipal();
+
+				if($principal->containsPrincipal($userPrincipal)) {
+					$overallPermissionsBitmap |= $permission->getPermissionsBitmap();
+
+					$applicablePermissions[] = [
+						'principal' => $principal,
+						'permissionsBitmap' => $permission->getPermissionsBitmap(),
+					];
+				}
+			}
+		}
+
+		if(!$this->principalHasPermissionsAlongFullPath($permissionsLists, $userPrincipal)) {
+			$l10n = $this->l10n->t(
+					text: '%1$s does not have permissions along the full path to this folder, they will not be able to navigate to this folder!',
+					parameters: [
+						$userPrincipal->getFriendlyName(),
+					]
+			);
+
+			$warnings[] = [
+				"type" => "permissions_not_on_full_path",
+				"l10n" => $l10n,
+			];
+		}
+
+		return [
+			"applicablePermissions" => $applicablePermissions,
+			"overallPermissionsBitmap" => $overallPermissionsBitmap,
+			"warnings" => $warnings,
+		];
 	}
 
 	public function deleteById(int $id): Resource {

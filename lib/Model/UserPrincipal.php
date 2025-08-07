@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
-use OCP\IUserManager;
 use OCP\IUser;
+use OCP\IUserManager;
 
 use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
 use OCA\GroupFolders\ACL\UserMapping\UserMapping;
@@ -39,11 +39,22 @@ class UserPrincipal extends Principal {
 		return $this->user?->getDisplayName() ?? $this->getId();
 	}
 
-	public function getNumberOfAccountsContained(): int {
+	public function getNumberOfUsersContained(): int {
 		if($this->valid) {
 			return 1;
 		} else {
 			return 0;
+		}
+	}
+
+	/**
+	 * @return IUser[]
+	 */
+	public function getUsersContained(): array {
+		if($this->valid) {
+			return [$this->user];
+		} else {
+			return [];
 		}
 	}
 
@@ -53,5 +64,19 @@ class UserPrincipal extends Principal {
 		} else {
 			return null;
 		}
+	}
+
+	public function isEquivalent(Principal $principal): bool {
+		if($this->isValid() && $principal->isValid()) {
+			if($principal instanceof UserPrincipal) {
+				return $principal->getId() === $this->getId();
+			}
+		}
+
+		return false;
+	}
+
+	public function containsPrincipal(Principal $principal, bool $skipExpensiveOperations = false): bool {
+		return $this->isEquivalent($principal);
 	}
 }

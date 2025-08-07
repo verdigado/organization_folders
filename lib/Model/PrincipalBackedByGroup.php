@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
+use OCP\IUser;
 use OCP\IGroup;
 use OCP\IGroupManager;
 
@@ -39,11 +40,22 @@ abstract class PrincipalBackedByGroup extends Principal {
 		}
 	}
 
-	public function getNumberOfAccountsContained(): int {
+	public function getNumberOfUsersContained(): int {
 		if($this->valid) {
 			return $this->getBackingGroup()?->count() ?? 0;
 		} else {
 			return 0;
+		}
+	}
+
+	/**
+	 * @return IUser[]
+	 */
+	public function getUsersContained(): array {
+		if($this->valid) {
+			return $this->getBackingGroup()?->getUsers() ?? [];
+		} else {
+			return [];
 		}
 	}
 
@@ -55,5 +67,55 @@ abstract class PrincipalBackedByGroup extends Principal {
 		} else {
 			return null;
 		}
+	}
+
+	public function isEquivalent(Principal $principal): bool {
+		if($this->isValid() && $principal->isValid()) {
+			if($principal instanceof PrincipalBackedByGroup) {
+				return $principal->getBackingGroupId() === $this->getBackingGroupId();
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param IUser[] $set
+	 * @param IUser[] $potentialSubset
+	 * @return bool
+	 */
+	private function isSubsetOfUsers(array $set, array $potentialSubset) {
+		$uidMap = [];
+
+		foreach($set as $user) {
+			$uidMap[$user->getUID()] = true;
+		}
+
+		foreach($potentialSubset as $user) {
+			if(!isset($uidMap[$user->getUID()])) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public function containsPrincipal(Principal $principal, bool $skipExpensiveOperations = false): bool {
+		if($this->isValid() && $principal->isValid()) {
+			if($principal instanceof UserPrincipal) {
+				return $this->groupManager->isInGroup($principal->getId(), $this->getBackingGroupId());
+			} else if ($principal instanceof PrincipalBackedByGroup) {
+				if($principal->getBackingGroupId() === $this->getBackingGroupId()) {
+					return true;
+				}
+
+				if(!$skipExpensiveOperations && $this->getBackingGroup()->count() >= $principal->getBackingGroup()->count()) {
+					// TODO: find way to get array of userIds instead of IUser objects to improve performance
+					return $this->isSubsetOfUsers($this->getBackingGroup()->getUsers(), $principal->getBackingGroup()->getUsers());
+				}
+			}
+		}
+
+		return false;
 	}
 }

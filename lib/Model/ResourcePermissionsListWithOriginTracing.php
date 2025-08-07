@@ -4,17 +4,30 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
+use OCA\OrganizationFolders\Db\Resource;
+use OCA\OrganizationFolders\Enum\PermissionOriginType;
+
+
 class ResourcePermissionsListWithOriginTracing extends ResourcePermissionsList {
 
-	public function addPermission(Principal $principal, int $permissions, ?array $permissionOrigin = null): ResourcePermission {
+	public function addPermission(Principal $principal, int $permissionsBitmap, ?PermissionOriginType $permissionOriginType = null, OrganizationFolder|Resource|null $permissionInheritedFrom = null): ResourcePermission {
 		$key = $principal->getKey();
 
 		$existingPermission = $this->permissions[$key] ?? null;
 
+		$newPermissionsOrigin = [
+			"type" => $permissionOriginType,
+			"permissionsBitmap" => $permissionsBitmap,
+		];
+
+		if(isset($permissionInheritedFrom)) {
+			$newPermissionsOrigin["inheritedFrom"] = $permissionInheritedFrom;
+		}
+
 		$newPermission = new ResourcePermission(
 			principal: $principal,
-			permissions: ($existingPermission?->getPermissions() ?? 0) | $permissions,
-			permissionOrigins: array_merge(($existingPermission?->getPermissionOrigins() ?? []), [$permissionOrigin]),
+			permissionsBitmap: ($existingPermission?->getPermissionsBitmap() ?? 0) | $permissionsBitmap,
+			permissionOrigins: array_merge(($existingPermission?->getPermissionOrigins() ?? []), [$newPermissionsOrigin]),
 		);
 
 		$this->permissions[$key] = $newPermission;
