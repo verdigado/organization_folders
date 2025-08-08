@@ -15,6 +15,7 @@ OC.L10N.register(
     "Allowed" : "Permesita",
     "Search" : "Serĉi",
     "Cancel" : "Cancel",
+    "Confirm" : "Konfirmi",
     "Member" : "Membro",
     "Admin" : "Administranto",
     "Settings" : "Agordoj",

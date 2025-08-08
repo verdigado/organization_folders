@@ -21,6 +21,7 @@ OC.L10N.register(
     "Allowed" : "Επετράπη",
     "Search" : "Αναζήτηση",
     "Cancel" : "Cancel",
+    "Confirm" : "Επιβεβαίωση",
     "Member" : "Μέλος",
     "Manager" : "Διαχειριστής",
     "Admin" : "Διαχειριστής",

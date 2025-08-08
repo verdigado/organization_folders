@@ -5,6 +5,7 @@ OC.L10N.register(
     "Name" : "Enw",
     "Search" : "Chwilio",
     "Cancel" : "Cancel",
+    "Confirm" : "Cadarnhau",
     "Member" : "Aelod",
     "Admin" : "Gweinyddwr",
     "Settings" : "Gosodiadau",

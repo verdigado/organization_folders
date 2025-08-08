@@ -7,6 +7,7 @@ OC.L10N.register(
     "Create" : "Kreiraj",
     "Share" : "Podijeli",
     "Search" : "Search",
+    "Cancel" : "Cancel",
     "Member" : "Član",
     "Admin" : "Administrator",
     "Settings" : "Podešavanje",

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Name" : "নাম",
     "Read" : "পড়",
     "Search" : "Search",
+    "Cancel" : "Cancel",
     "Admin" : "প্রশাসন",
     "Settings" : "সেটিংস",
     "Edit" : "সম্পাদনা"

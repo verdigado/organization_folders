@@ -22,6 +22,7 @@ OC.L10N.register(
     "Allowed" : "Permès",
     "Search" : "Cercar",
     "Cancel" : "Cancel",
+    "Confirm" : "Confirma",
     "Manager" : "Gestor",
     "Admin" : "Administració",
     "Settings" : "Paràmetres",
