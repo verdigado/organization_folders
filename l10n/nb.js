@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "Medlemmer",
     "Back" : "Tilbake",
+    "Next" : "Neste",
     "Delete" : "Slett",
     "Select an account" : "Velg en konto",
     "Add account" : "Legg til konto",
