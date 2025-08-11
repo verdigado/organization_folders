@@ -21,7 +21,7 @@ const userIsAdmin = ref(getCurrentUser().isAdmin);
 const subresourcesEnabled = loadState('organization_folders', 'subresources_enabled', false);
 
 const folderLevel = computed(() => {
-	return currentDir.path.split("/").filter(Boolean).length;
+	return currentDir?.path?.split("/")?.filter(Boolean)?.length ?? 0;
 });
 
 const showHeader = computed(() => {

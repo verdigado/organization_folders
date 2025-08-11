@@ -5,8 +5,8 @@ import NcDialog from "@nextcloud/vue/components/NcDialog";
 import NcButton from "@nextcloud/vue/components/NcButton";
 import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
 
-import UserPrincipalSelector from "./UserPrincipalSelector.vue";
-import GroupPrincipalSelector from "./GroupPrincipalSelector.vue";
+import UserPrincipalSelector from "../UserPrincipalSelector.vue";
+import GroupPrincipalSelector from "../GroupPrincipalSelector.vue";
 import RoleOrMemberPrincipalSelector from "./RoleOrMemberPrincipalSelector.vue";
 
 import Plus from "vue-material-design-icons/Plus.vue";

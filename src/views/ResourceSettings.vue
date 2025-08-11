@@ -9,6 +9,7 @@ import NcCheckboxRadioSwitch from "@nextcloud/vue/components/NcCheckboxRadioSwit
 import NcButton from "@nextcloud/vue/components/NcButton";
 import NcTextField from "@nextcloud/vue/components/NcTextField";
 import NcNoteCard from "@nextcloud/vue/components/NcNoteCard";
+import NcDialog from "@nextcloud/vue/components/NcDialog";
 
 import BackupRestore from "vue-material-design-icons/BackupRestore.vue";
 import Delete from "vue-material-design-icons/Delete.vue";
@@ -24,6 +25,9 @@ import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
 import CreateMemberButton from "../components/CreateMemberButton/CreateMemberButton.vue";
 import UnmanagedSubfoldersList from "../components/UnmanagedSubfoldersList.vue";
+import UserPrincipalSelector from "../components/UserPrincipalSelector.vue";
+import PermissionsReport from "../components/PermissionsReport/PermissionsReport.vue";
+import UserPermissionsReport from "../components/UserPermissionsReport/UserPermissionsReport.vue";
 
 import ModalView from '../ModalView.vue';
 
@@ -52,6 +56,13 @@ const resource = ref(null);
 const loading = ref(false);
 const resourceActiveLoading = ref(false);
 
+const permissionsReportOpen = ref(false);
+const permissionsReportLoading = ref(true);
+const permissionsReportPage = ref("overview");
+
+const permissionsReport = ref(null);
+const userPermissionsReport = ref(null);
+
 const currentResourceName = ref(false);
 
 const resourceNameValid = computed(() => {
@@ -74,6 +85,8 @@ watch(() => props.resourceId, async (newResourceId) => {
     loading.value = true;
     resource.value = await api.getResource(newResourceId, resourceApiIncludes);
     currentResourceName.value = resource.value.name;
+	permissionsReport.value = undefined;
+	userPermissionsReport.value = undefined;
     loading.value = false;
 }, { immediate: true });
 
@@ -263,6 +276,38 @@ const deleteResourceExplanation = computed(() => {
 	}
 });
 
+const permissionsReportExplanation = computed(() => {
+	if(permissionsReportPage.value === "overview") {
+		return t("organization_folders", "This shows all permissions that were granted to this resource, including the ones inherited from parent folders.<br>Note that persons can qualify for multiple of these permissions, in that case all the permissions get added up. This is especially important for the permissions of individual people listed here, as those are only the permissions granted to them personally and they might be part of groups that give them further permissions. To get the exact permissions any specific person has with their current groups, memberships and roles switch to the second tab.", { escape: false });
+	} else {
+		return t("organization_folders", "Select a person to get all permissions they qualify for with their current groups, memberships and roles.");
+	}
+})
+
+const openPermissionsReport = async () => {
+	permissionsReportLoading.value = true;
+	permissionsReportOpen.value = true;
+	permissionsReportPage.value = "overview";
+	permissionsReport.value = await api.getResourcePermissionsReport(resource.value.id);
+	userPermissionsReport.value = undefined;
+	permissionsReportLoading.value = false;
+};
+
+const findUserPermissionsReportOptions = (search) => {
+	return api.findResourceUserPermissionsReportOptions(resource.value.id, search);
+};
+
+const selectedPermissionsReportUser = async (principalType, principalId) => {
+	console.log("selected userPrincipal " + principalId);
+	if(principalId) {
+		permissionsReportLoading.value = true;
+		userPermissionsReport.value = await api.getResourceUserPermissionsReport(resource.value.id, principalId);
+		permissionsReportLoading.value = false;
+	} else {
+		userPermissionsReport.value = null;
+	}
+};
+
 </script>
 
 <template>
@@ -332,6 +377,44 @@ const deleteResourceExplanation = computed(() => {
 				<SectionHeader :text="t('organization_folders', 'Management Actions')"></SectionHeader>
 			</template>
 			<div class="settings-group">
+				<NcButton @click="openPermissionsReport">
+					{{ t("organization_folders", "Show Permissions Overview") }}
+				</NcButton>
+				<NcDialog :open.sync="permissionsReportOpen"
+					:name="t('organization_folders', 'Permissions Overview')"
+					size="large">
+					<div style="display: flex; justify-content: center;">
+						<NcCheckboxRadioSwitch
+							:button-variant="true"
+							v-model="permissionsReportPage"
+							value="overview"
+							name="permissions_report_page"
+							type="radio"
+							button-variant-grouped="horizontal">
+							{{ t("organization_folders", "Permissions overview") }}
+						</NcCheckboxRadioSwitch>
+						<NcCheckboxRadioSwitch
+							:button-variant="true"
+							v-model="permissionsReportPage"
+							value="user"
+							name="permissions_report_page"
+							type="radio"
+							button-variant-grouped="horizontal">
+							{{ t("organization_folders", "Permissions of person") }}
+						</NcCheckboxRadioSwitch>
+					</div>
+
+					<p style="margin-top: 20px; margin-bottom: 20px;" v-html="permissionsReportExplanation"></p>
+					
+					<UserPrincipalSelector v-if="permissionsReportPage === 'user'"
+						:find-user-member-options="findUserPermissionsReportOptions"
+						style="margin-bottom: 20px;"
+						@selected="selectedPermissionsReportUser" />
+					
+					<NcLoadingIcon v-if="permissionsReportLoading" :size="64" style="margin-top: 30%; margin-bottom: 30%;" />
+					<PermissionsReport v-else-if="permissionsReportPage === 'overview'" :resource="resource" :permissions-report="permissionsReport" />
+					<UserPermissionsReport v-else-if="userPermissionsReport" :resource="resource" :user-permissions-report="userPermissionsReport" />
+				</NcDialog>
 				<NcButton v-if="snapshotIntegrationActive" @click="switchToSnapshotRestoreView">
 					<template #icon>
 						<BackupRestore />

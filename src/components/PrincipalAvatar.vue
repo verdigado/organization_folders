@@ -3,6 +3,8 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 import Delete from "vue-material-design-icons/Delete.vue";
 
+import api from "../api.js";
+
 const props = defineProps({
   principal: {
     type: Object,
@@ -13,8 +15,8 @@ const props = defineProps({
 </script>
 
 <template>
-	<NcAvatar :user="props.principal.type === 1 ? props.principal.id : undefined"
+	<NcAvatar :user="props.principal.type === api.PrincipalTypes.USER ? props.principal.id : undefined"
 		:disabled-menu="true"
 		:disabled-tooltip="true"
-		:icon-class="props.principal.type > 1 ? 'icon-group' : undefined" />
+		:icon-class="props.principal.type !== api.PrincipalTypes.USER ? 'icon-group' : undefined" />
 </template>

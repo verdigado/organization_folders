@@ -11,8 +11,8 @@ import { showError } from "@nextcloud/dialogs";
  * @enum {PrincipalType}
  */
 var PrincipalTypes = {
-    USER: 1,
-    GROUP: 2,
+	USER: 1,
+	GROUP: 2,
 	ORGANIZATION_MEMBER: 3,
 	ORGANIZATION_ROLE: 4,
 }
@@ -25,7 +25,7 @@ var PrincipalTypes = {
  * @enum {ResourceType}
  */
 var ResourceTypes = {
-    FOLDER: "folder",
+	FOLDER: "folder",
 }
 
 /**
@@ -36,8 +36,8 @@ var ResourceTypes = {
  * @enum {OrganizationFolderMemberPermissionLevel}
  */
 var OrganizationFolderMemberPermissionLevels = {
-    MEMBER: 1,
-    MANAGER: 2,
+	MEMBER: 1,
+	MANAGER: 2,
 	ADMIN: 3,
 }
 
@@ -49,9 +49,24 @@ var OrganizationFolderMemberPermissionLevels = {
  * @enum {ResourceMemberPermissionLevel}
  */
 var ResourceMemberPermissionLevels = {
-    MEMBER: 1,
-    MANAGER: 2,
+	MEMBER: 1,
+	MANAGER: 2,
 }
+
+/**
+ * @typedef {number} PermissionOriginType
+ **/
+
+/**
+ * @enum {PermissionOriginType}
+ */
+var PermissionOriginTypes = {
+	MEMBER: 1,
+	MANAGER: 2,
+	INHERITED_MEMBER: 3,
+	INHERITED_MANAGER: 4,
+}
+
 
 /**
  * @typedef {{
@@ -140,6 +155,7 @@ export default {
 	OrganizationFolderMemberPermissionLevels,
 	ResourceMemberPermissionLevels,
 	ResourceTypes,
+	PermissionOriginTypes,
 
 	/* Organization Folders */
 
@@ -277,6 +293,33 @@ export default {
 	},
 
 	/**
+	 * @param {number|string} resourceId Resource id
+	 */
+	getResourcePermissionsReport(resourceId) {
+		return axios.get(`/resources/${resourceId}/permissionsReport`, {}).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number|string} resourceId Resource id
+	 * @param string userId User id
+	 */
+	getResourceUserPermissionsReport(resourceId, userId) {
+		return axios.get(`/resources/${resourceId}/permissionsReport/${userId}`, {}).then((res) => res.data);
+	},
+
+	
+	/**
+	 * Search for users, for which a permissions report could be opened
+	 *
+	 * @param {number|string} resourceId Resource id
+	 * @param {string} search
+	 * @param {number} limit
+	 */
+	findResourceUserPermissionsReportOptions(resourceId, search = '', limit = 20) {
+		return axios.get(`/resources/${resourceId}/userPermissionsReportOptions`, { params: { search, limit } }).then((res) => res.data);
+	},
+
+	/**
 	 *
 	 * @param {number|string} resourceId Resource id
 	 * @return {Promise<Resource>}
@@ -359,7 +402,8 @@ export default {
 	 */
 	getResourceSnapshots(resourceId) {
 		return axios.get(`/resources/${resourceId}/snapshots`, {})
-			.then((res) => (res.data.map((snapshot) => ({...snapshot, createdTimestamp: new Date(snapshot.createdTimestamp * 1000)}))));
+			.then((res) => (res.data.sort((a, b) => b.createdTimestamp - a.createdTimestamp)))
+			.then((snapshots) => (snapshots.map((snapshot) => ({...snapshot, createdTimestamp: new Date(snapshot.createdTimestamp * 1000)}))));
 	},
 
 	/**

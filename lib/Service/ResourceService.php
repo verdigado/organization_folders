@@ -521,7 +521,7 @@ class ResourceService {
 				$filteredPermissionOrigins = [];
 
 				foreach($permission->getPermissionOrigins() as $permissionOrigin) {
-					if($permissionOrigin["permissions"] > 0) {
+					if($permissionOrigin["permissionsBitmap"] > 0) {
 						// only keep last (least inheritedFrom distance to resource) of each type
 						$filteredPermissionOrigins[$permissionOrigin["type"]->value] = $permissionOrigin;
 					}
