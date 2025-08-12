@@ -7,6 +7,8 @@ namespace OCA\OrganizationFolders\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
+use OCA\OrganizationFolders\Security\AuthorizationService;
+use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Db\OrganizationFolderMember;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
@@ -18,11 +20,13 @@ class OrganizationFolderMemberController extends BaseController {
 	use Errors;
 
 	public function __construct(
+		AuthorizationService $authorizationService,
+		ValidatorService $validatorService,
 		private OrganizationFolderMemberService $service,
 		private OrganizationFolderService $organizationFolderService,
 		private PrincipalFactory $principalFactory,
 	) {
-		parent::__construct();
+		parent::__construct($authorizationService, $validatorService);
 	}
 
 	#[NoAdminRequired]

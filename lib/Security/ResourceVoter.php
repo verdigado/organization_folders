@@ -77,6 +77,7 @@ class ResourceVoter extends Voter {
 				$principal = $resourceMember->getPrincipal();
 
 				if($principal->isValid()) {
+					// TODO: use new containsPrincipal functionality
 					if($principal instanceof UserPrincipal) {
 						if($principal->getId() === $user->getUID()) {
 							return true;

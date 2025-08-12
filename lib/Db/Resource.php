@@ -9,6 +9,8 @@ use OCP\AppFramework\Db\Entity;
 
 abstract class Resource extends Entity implements JsonSerializable, TableSerializable {
 	protected $organizationFolderId;
+
+	/* TODO: rename to parentResourceId */
 	protected $parentResource;
 	protected $name;
 	protected $active;

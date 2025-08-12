@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Controller;
 
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
+use OCA\OrganizationFolders\Security\AuthorizationService;
+use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Service\ResourceService;
@@ -25,13 +26,15 @@ class OrganizationFolderController extends BaseController {
 	public const RESOURCES_INCLUDE = 'resources';
 
 	public function __construct(
+		AuthorizationService $authorizationService,
+		ValidatorService $validatorService,
 		private OrganizationFolderService $service,
 		private OrganizationFolderMemberService $memberService,
 		private ResourceService $resourceService,
 		private OrganizationProviderManager $organizationProviderManager,
 		private string $userId,
 	) {
-		parent::__construct();
+		parent::__construct($authorizationService, $validatorService);
 	}
 
 	/* ADMIN ONLY */

@@ -7,6 +7,8 @@ namespace OCA\OrganizationFolders\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
+use OCA\OrganizationFolders\Security\AuthorizationService;
+use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
@@ -18,12 +20,14 @@ class ResourceMemberController extends BaseController {
 	use Errors;
 
 	public function __construct(
+		AuthorizationService $authorizationService,
+		ValidatorService $validatorService,
 		private ResourceMemberService $service,
 		private ResourceService $resourceService,
 		private PrincipalFactory $principalFactory,
 		private string $userId,
 	) {
-		parent::__construct();
+		parent::__construct($authorizationService, $validatorService);
 	}
 
 	#[NoAdminRequired]

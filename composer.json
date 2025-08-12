@@ -13,7 +13,9 @@
             "OCA\\OrganizationFolders\\": "lib/"
         }
     },
-    "require": {},
+    "require": {
+        "respect/validation": "^2.4"
+    },
     "config": {
         "optimize-autoloader": true,
         "autoloader-suffix": "OrganizationFolders"

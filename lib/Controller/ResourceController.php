@@ -8,6 +8,8 @@ use OCP\IUserManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
+use OCA\OrganizationFolders\Security\AuthorizationService;
+use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
@@ -27,6 +29,8 @@ class ResourceController extends BaseController {
 	public const UNMANAGEDSUBFOLDERS_INCLUDE = 'unmanagedSubfolders';
 
 	public function __construct(
+		AuthorizationService $authorizationService,
+		ValidatorService $validatorService,
 		private readonly ResourceService $service,
 		private readonly ResourceMemberService $memberService,
 		private readonly OrganizationFolderService $organizationFolderService,
@@ -34,7 +38,7 @@ class ResourceController extends BaseController {
 		private readonly IUserManager $userManager,
 		private string $userId,
 	) {
-		parent::__construct();
+		parent::__construct($authorizationService, $validatorService);
 	}
 
 	private function getApiObjectFromEntity(Resource $resource, bool $limited, ?string $include = null): array {

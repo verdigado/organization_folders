@@ -11,6 +11,8 @@ use OCA\GroupfolderFilesystemSnapshots\Manager\SnapshotManager;
 use OCA\GroupfolderFilesystemSnapshots\Manager\PathManager;
 use OCA\GroupfolderFilesystemSnapshots\Entity\Snapshot;
 
+use OCA\OrganizationFolders\Security\AuthorizationService;
+use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Errors\ResourceSnapshotNotFound;
 use OCA\OrganizationFolders\Errors\SnapshotIntegrationNotActive;
@@ -25,12 +27,14 @@ class ResourceSnapshotController extends BaseController {
 	private readonly PathManager $pathManager;
 
 	public function __construct(
+		AuthorizationService $authorizationService,
+		ValidatorService $validatorService,
 		private readonly IAppManager $appManager,
 		private readonly ContainerInterface $container,
 		private readonly ResourceService $resourceService,
         private ?string $userId,
 	) {
-		parent::__construct();
+		parent::__construct($authorizationService, $validatorService);
 
 		$this->snapshotIntegrationEnabled = $this->appManager->isEnabledForUser("groupfolder_filesystem_snapshots");
 

@@ -3,6 +3,7 @@
 namespace OCA\OrganizationFolders\AppInfo;
 
 use Psr\Container\ContainerInterface;
+use Respect\Validation\Factory;
 
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -38,7 +39,18 @@ class Application extends App implements IBootstrap {
 			$service->registerVoter($c->get(ResourceVoter::class));
 			return $service;
 		});
+
+		$this->setupValidation();
 	}
+
+	private function setupValidation() {
+		Factory::setDefaultInstance(
+			(new Factory())
+				->withRuleNamespace('OCA\\OrganizationFolders\\Validation\\Rules')
+				->withExceptionNamespace('OCA\\OrganizationFolders\\Validation\\Exceptions')
+		);
+	}
+
 
 	public function boot(IBootContext $context): void {
 		$context->injectFn([$this, 'registerGroupManager']);

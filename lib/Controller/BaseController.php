@@ -6,21 +6,21 @@ namespace OCA\OrganizationFolders\Controller;
 
 use OCA\OrganizationFolders\AppInfo\Application;
 use OCA\OrganizationFolders\Errors\AccessDenied;
+use OCA\OrganizationFolders\Errors\ValidationFailedException;
 use OCA\OrganizationFolders\Security\AuthorizationService;
+use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 
 class BaseController extends Controller {
-	protected AuthorizationService $authorizationService;
-
 	public function __construct(
+		protected AuthorizationService $authorizationService,
+		protected ValidatorService $validatorService,
 	) {
 		parent::__construct(
 			Application::APP_ID,
 			\OC::$server->get(IRequest::class),
 		);
-
-		$this->authorizationService = \OC::$server->get(AuthorizationService::class);
 	}
 
 	/**
@@ -39,4 +39,18 @@ class BaseController extends Controller {
 			throw new AccessDenied($message);
 		}
 	}
+
+	/**
+	 * Throws an exception if the payload is not valid for the given DTO class
+	 *
+	 * @throws ValidationFailedException
+	 */
+	protected function validate(array $input, string $dtoClass) {
+		return $this->validatorService->validateAndCreate($input, $dtoClass);
+	}
+
+	protected function createValidationException(string $message) {
+		throw new ValidationFailedException($message, []);
+	}
+
 }
