@@ -9,9 +9,9 @@ use Exception;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
-use OCA\OrganizationFolders\Errors\OrganizationFolderMemberNotFound;
-use OCA\OrganizationFolders\Errors\PrincipalAlreadyOrganizationFolderMember;
-use OCA\OrganizationFolders\Errors\PrincipalInvalid;
+use OCA\OrganizationFolders\Errors\Api\OrganizationFolderMemberNotFound;
+use OCA\OrganizationFolders\Errors\Api\PrincipalAlreadyOrganizationFolderMember;
+use OCA\OrganizationFolders\Errors\Api\PrincipalInvalid;
 
 use OCA\OrganizationFolders\Db\OrganizationFolderMember;
 use OCA\OrganizationFolders\Db\OrganizationFolderMemberMapper;

@@ -14,9 +14,9 @@ use OCA\GroupfolderFilesystemSnapshots\Entity\Snapshot;
 use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Service\ResourceService;
-use OCA\OrganizationFolders\Errors\ResourceSnapshotNotFound;
-use OCA\OrganizationFolders\Errors\SnapshotIntegrationNotActive;
-use OCA\OrganizationFolders\Errors\ResourceDoesNotSupportSnapshots;
+use OCA\OrganizationFolders\Errors\Api\ResourceSnapshotNotFound;
+use OCA\OrganizationFolders\Errors\Api\SnapshotIntegrationNotActive;
+use OCA\OrganizationFolders\Errors\Api\ResourceDoesNotSupportSnapshots;
 
 class ResourceSnapshotController extends BaseController {
 	use Errors;
@@ -48,7 +48,7 @@ class ResourceSnapshotController extends BaseController {
 
     #[NoAdminRequired]
     public function index(int $resourceId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId) {
+		return $this->handleErrors(function () use ($resourceId) {
 			if(!$this->snapshotIntegrationEnabled) {
 				throw new SnapshotIntegrationNotActive();
 			}
@@ -77,7 +77,7 @@ class ResourceSnapshotController extends BaseController {
 
     #[NoAdminRequired]
     public function show(int $resourceId, string $snapshotId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId, $snapshotId): Snapshot {
+		return $this->handleErrors(function () use ($resourceId, $snapshotId): Snapshot {
 			if(!$this->snapshotIntegrationEnabled) {
 				throw new SnapshotIntegrationNotActive();
 			}

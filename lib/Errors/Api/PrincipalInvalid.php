@@ -1,13 +1,13 @@
 <?php
 
-namespace OCA\OrganizationFolders\Errors;
+namespace OCA\OrganizationFolders\Errors\Api;
 
 use OCA\OrganizationFolders\Model\Principal;
 
 /**
  * Used for functions which only take valid principals when given an invalid principal
  */
-class PrincipalInvalid extends \RuntimeException {
+class PrincipalInvalid extends ApiError {
 	public function __construct(
         public readonly Principal $principal,
     ) {

@@ -6,7 +6,7 @@ namespace OCA\OrganizationFolders\OrganizationProvider;
 
 use OCP\EventDispatcher\IEventDispatcher;
 
-use OCA\OrganizationFolders\Errors\OrganizationProviderNotFound;
+use OCA\OrganizationFolders\Errors\Api\OrganizationProviderNotFound;
 use OCA\OrganizationFolders\Events\RegisterOrganizationProviderEvent;
 
 class OrganizationProviderManager {
@@ -37,7 +37,7 @@ class OrganizationProviderManager {
 	 * @return OrganizationProvider
 	 * @throws OrganizationProviderNotFound
 	 */
-	public function getOrganizationProvider($id): OrganizationProvider {
+	public function getOrganizationProvider(string $id): OrganizationProvider {
 		$organizationProvider = $this->organizationProviders[$id];
 		
 		if(isset($organizationProvider)) {

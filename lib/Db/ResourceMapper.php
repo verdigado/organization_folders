@@ -9,7 +9,7 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
-use OCA\OrganizationFolders\Errors\InvalidResourceType;
+use OCA\OrganizationFolders\Errors\Api\InvalidResourceType;
 
 class ResourceMapper extends QBMapper {
 	use TTransactional;

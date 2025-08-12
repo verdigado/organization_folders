@@ -32,7 +32,7 @@ class ResourceMemberController extends BaseController {
 
 	#[NoAdminRequired]
 	public function index(int $resourceId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId) {
+		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->resourceService->find($resourceId);
 
 			$this->denyAccessUnlessGranted(['READ'], $resource);
@@ -88,7 +88,7 @@ class ResourceMemberController extends BaseController {
 
 	#[NoAdminRequired]
 	public function destroy(int $id): JSONResponse {
-		return $this->handleNotFound(function () use ($id): ResourceMember {
+		return $this->handleErrors(function () use ($id): ResourceMember {
 			$resourceMember = $this->service->find($id);
 
 			$resource = $this->resourceService->find($resourceMember->getResourceId());

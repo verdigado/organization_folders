@@ -1,12 +1,12 @@
 <?php
 
-namespace OCA\OrganizationFolders\Errors;
+namespace OCA\OrganizationFolders\Errors\Api;
 
-class ValidationFailedException extends \RuntimeException {
+class ValidationFailedException extends ApiError {
 	private array $violations;
 
 	public function __construct(string $message = 'Validation failed.', array $violations) {
-		parent::__construct($message, 400, );
+		parent::__construct($message);
 		$this->violations = $violations;
 	}
 

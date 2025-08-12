@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\OrganizationFolders\Errors;
+namespace OCA\OrganizationFolders\Errors\Api;
 
 class ResourceSnapshotDiffTaskResultNotFound extends NotFoundException {
 	public function __construct(array $criteria) {

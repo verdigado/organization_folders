@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\OrganizationFolders\Errors;
+namespace OCA\OrganizationFolders\Errors\Api;
 
 class ResourceSnapshotNotFound extends NotFoundException {
 	public function __construct(array $criteria) {

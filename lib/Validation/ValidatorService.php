@@ -2,7 +2,7 @@
 
 namespace OCA\OrganizationFolders\Validation;
 
-use OCA\OrganizationFolders\Errors\ValidationFailedException;
+use OCA\OrganizationFolders\Errors\Api\ValidationFailedException;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator;
 

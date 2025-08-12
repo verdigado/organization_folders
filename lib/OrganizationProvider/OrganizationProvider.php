@@ -7,8 +7,8 @@ namespace OCA\OrganizationFolders\OrganizationProvider;
 use OCA\OrganizationFolders\Model\Organization;
 use OCA\OrganizationFolders\Model\OrganizationRole;
 
-use OCA\OrganizationFolders\Errors\OrganizationNotFound;
-use OCA\OrganizationFolders\Errors\OrganizationRoleNotFound;
+use OCA\OrganizationFolders\Public\Errors\OrganizationNotFound;
+use OCA\OrganizationFolders\Public\Errors\OrganizationRoleNotFound;
 
 abstract class OrganizationProvider {
 	protected $id;

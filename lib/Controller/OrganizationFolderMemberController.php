@@ -31,7 +31,7 @@ class OrganizationFolderMemberController extends BaseController {
 
 	#[NoAdminRequired]
 	public function index(int $organizationFolderId): JSONResponse {
-		return $this->handleNotFound(function () use ($organizationFolderId) {
+		return $this->handleErrors(function () use ($organizationFolderId) {
 			$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
 
 			$this->denyAccessUnlessGranted(['READ'], $organizationFolder);
@@ -87,7 +87,7 @@ class OrganizationFolderMemberController extends BaseController {
 
 	#[NoAdminRequired]
 	public function destroy(int $id): JSONResponse {
-		return $this->handleNotFound(function () use ($id): OrganizationFolderMember {
+		return $this->handleErrors(function () use ($id): OrganizationFolderMember {
 			$organizationFolderMember = $this->service->find($id);
 
 			$organizationFolder = $this->organizationFolderService->find($organizationFolderMember->getOrganizationFolderId());

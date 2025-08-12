@@ -15,7 +15,7 @@ use OCA\GroupfolderFilesystemSnapshots\Service\DiffTaskResultService;
 use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Service\ResourceService;
-use OCA\OrganizationFolders\Errors\ResourceSnapshotDiffTaskResultNotFound;
+use OCA\OrganizationFolders\Errors\Api\ResourceSnapshotDiffTaskResultNotFound;
 
 class ResourceSnapshotDiffResultController extends BaseController {
 	use Errors;
@@ -62,14 +62,14 @@ class ResourceSnapshotDiffResultController extends BaseController {
 
     #[NoAdminRequired]
     public function show(int $resourceId, string $snapshotId, int $diffTaskId, int $diffTaskResultId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId, $snapshotId, $diffTaskId, $diffTaskResultId) {
+		return $this->handleErrors(function () use ($resourceId, $snapshotId, $diffTaskId, $diffTaskResultId) {
 			return $this->findTaskResultIfAccessAllowed($resourceId, $snapshotId, $diffTaskId, $diffTaskResultId);
 		});
     }
 
     #[NoAdminRequired]
 	public function revert(int $resourceId, string $snapshotId, int $diffTaskId, int $diffTaskResultId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId, $snapshotId, $diffTaskId, $diffTaskResultId) {
+		return $this->handleErrors(function () use ($resourceId, $snapshotId, $diffTaskId, $diffTaskResultId) {
 			$taskResult = $this->findTaskResultIfAccessAllowed($resourceId, $snapshotId, $diffTaskId, $diffTaskResultId);
 			return $this->diffTaskResultService->revert($taskResult->getId(), $this->userId);
 		});

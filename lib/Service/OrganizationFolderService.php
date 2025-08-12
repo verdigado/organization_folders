@@ -18,7 +18,7 @@ use OCA\GroupFolders\ACL\Rule;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
-use OCA\OrganizationFolders\Errors\OrganizationFolderNotFound;
+use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;

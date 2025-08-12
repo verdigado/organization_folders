@@ -15,7 +15,7 @@ use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Traits\ApiObjectController;
-use OCA\OrganizationFolders\Errors\AccessDenied;
+use OCA\OrganizationFolders\Errors\Api\AccessDenied;
 
 class OrganizationFolderController extends BaseController {
 	use Errors;
@@ -98,7 +98,7 @@ class OrganizationFolderController extends BaseController {
 
 	#[NoAdminRequired]
 	public function show(int $organizationFolderId, ?string $include): JSONResponse {
-		return $this->handleNotFound(function () use ($organizationFolderId, $include) {
+		return $this->handleErrors(function () use ($organizationFolderId, $include) {
 			$organizationFolder = $this->service->find($organizationFolderId);
 
 			if($this->authorizationService->isGranted(["READ"], $organizationFolder)) {

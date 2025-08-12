@@ -17,9 +17,9 @@ use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Service\ResourceService;
-use OCA\OrganizationFolders\Errors\SnapshotIntegrationNotActive;
-use OCA\OrganizationFolders\Errors\ResourceSnapshotNotFound;
-use OCA\OrganizationFolders\Errors\ResourceSnapshotDiffTaskNotFound;
+use OCA\OrganizationFolders\Errors\Api\SnapshotIntegrationNotActive;
+use OCA\OrganizationFolders\Errors\Api\ResourceSnapshotNotFound;
+use OCA\OrganizationFolders\Errors\Api\ResourceSnapshotDiffTaskNotFound;
 use OCA\OrganizationFolders\Http\StreamedProgressResponse;
 
 class ResourceSnapshotDiffController extends BaseController {
@@ -53,7 +53,7 @@ class ResourceSnapshotDiffController extends BaseController {
 
     #[NoAdminRequired]
     public function create(int $resourceId, string $snapshotId, bool $streamed = false, bool $includeResults = false): JSONResponse|StreamedProgressResponse {
-		return $this->handleNotFoundWithoutResponseWrapping(function () use ($resourceId, $snapshotId, $streamed, $includeResults) {
+		return $this->handleErrorsWithoutResponseWrapping(function () use ($resourceId, $snapshotId, $streamed, $includeResults) {
 			if(!$this->snapshotIntegrationEnabled) {
 				throw new SnapshotIntegrationNotActive();
 			}
@@ -112,7 +112,7 @@ class ResourceSnapshotDiffController extends BaseController {
 
     #[NoAdminRequired]
     public function show(int $resourceId, string $snapshotId, int $diffTaskId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId, $snapshotId, $diffTaskId) {
+		return $this->handleErrors(function () use ($resourceId, $snapshotId, $diffTaskId) {
 			if(!$this->snapshotIntegrationEnabled) {
 				throw new SnapshotIntegrationNotActive();
 			}

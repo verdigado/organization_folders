@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace OCA\OrganizationFolders\Controller;
 
 use OCA\OrganizationFolders\AppInfo\Application;
-use OCA\OrganizationFolders\Errors\AccessDenied;
-use OCA\OrganizationFolders\Errors\ValidationFailedException;
+use OCA\OrganizationFolders\Errors\Api\AccessDenied;
+use OCA\OrganizationFolders\Errors\Api\ValidationFailedException;
 use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCP\AppFramework\Controller;

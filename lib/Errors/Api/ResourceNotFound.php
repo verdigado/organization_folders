@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\OrganizationFolders\Errors;
+namespace OCA\OrganizationFolders\Errors\Api;
 
 class ResourceNotFound extends NotFoundException {
 	public function __construct(array $criteria) {

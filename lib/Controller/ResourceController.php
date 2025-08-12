@@ -15,7 +15,7 @@ use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Traits\ApiObjectController;
-use OCA\OrganizationFolders\Errors\AccessDenied;
+use OCA\OrganizationFolders\Errors\Api\AccessDenied;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
@@ -83,7 +83,7 @@ class ResourceController extends BaseController {
 
 	#[NoAdminRequired]
 	public function show(int $resourceId, ?string $include = null): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId, $include) {
+		return $this->handleErrors(function () use ($resourceId, $include) {
 			$resource = $this->service->find($resourceId);
 
 			if($this->authorizationService->isGranted(["READ"], $resource)) {
@@ -190,7 +190,7 @@ class ResourceController extends BaseController {
 
 	#[NoAdminRequired]
 	public function subResources(int $resourceId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId) {
+		return $this->handleErrors(function () use ($resourceId) {
 			return $this->getSubResources($resourceId);
 		});
 	}
@@ -228,7 +228,7 @@ class ResourceController extends BaseController {
 
 	#[NoAdminRequired]
 	public function unmanagedSubfolders(int $resourceId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId) {
+		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->service->find($resourceId);
 
 			$this->denyAccessUnlessGranted(['READ'], $resource);
@@ -239,7 +239,7 @@ class ResourceController extends BaseController {
 
 	#[NoAdminRequired]
 	public function promoteUnmanagedSubfolder(int $resourceId, string $unmanagedSubfolderName): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId, $unmanagedSubfolderName) {
+		return $this->handleErrors(function () use ($resourceId, $unmanagedSubfolderName) {
 			$resource = $this->service->find($resourceId);
 
 			$this->denyAccessUnlessGranted(['CREATE_SUBRESOURCE'], $resource);
@@ -283,7 +283,7 @@ class ResourceController extends BaseController {
 
 	#[NoAdminRequired]
 	public function permissionsReport(int $resourceId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId) {
+		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->service->find($resourceId);
 
 			$this->denyAccessUnlessGranted(['READ'], $resource);
@@ -294,7 +294,7 @@ class ResourceController extends BaseController {
 
 	#[NoAdminRequired]
 	public function userPermissionsReport(int $resourceId, string $userId): JSONResponse {
-		return $this->handleNotFound(function () use ($resourceId, $userId) {
+		return $this->handleErrors(function () use ($resourceId, $userId) {
 			$resource = $this->service->find($resourceId);
 
 			$this->denyAccessUnlessGranted(['READ'], $resource);

@@ -13,8 +13,8 @@ use OCP\IUser;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
-use OCA\OrganizationFolders\Errors\ResourceMemberNotFound;
-use OCA\OrganizationFolders\Errors\PrincipalAlreadyResourceMember;
+use OCA\OrganizationFolders\Errors\Api\ResourceMemberNotFound;
+use OCA\OrganizationFolders\Errors\Api\PrincipalAlreadyResourceMember;
 
 use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Db\ResourceMemberMapper;

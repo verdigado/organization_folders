@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\OrganizationFolders\Errors;
+namespace OCA\OrganizationFolders\Errors\Api;
 
 class OrganizationFolderMemberNotFound extends NotFoundException {
 	public function __construct($id) {
