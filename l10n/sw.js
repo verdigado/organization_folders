@@ -26,8 +26,10 @@ OC.L10N.register(
     "Member" : "Mwanachama",
     "Admin" : "Msimamizi",
     "Settings" : "Mipangilio",
+    "Invalid name" : "Invalid name",
     "Resources" : "Rasilimali",
     "Edit" : "Hariri",
+    "No changes" : "Hakuna mabadiliko",
     "An error occurred: {errorMessage}" : "An error occurred: {errorMessage}",
     "Delete folder" : "Futa kisanduku",
     "Permissions" : "Ruhusa"
