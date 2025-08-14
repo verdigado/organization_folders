@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace OCA\OrganizationFolders\Model;
+namespace OCA\OrganizationFolders\Model\ResourcePermissions;
 
 use OCA\OrganizationFolders\Db\Resource;
+use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Enum\PermissionOriginType;
-
 
 class ResourcePermissionsListWithOriginTracing extends ResourcePermissionsList {
 

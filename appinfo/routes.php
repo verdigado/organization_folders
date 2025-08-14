@@ -21,6 +21,7 @@ return [
 		['name' => 'resource#show', 'url' => '/resources/{resourceId}', 'verb' => 'GET'],
 		['name' => 'resource#create', 'url' => '/resources', 'verb' => 'POST'],
 		['name' => 'resource#update', 'url' => '/resources/{resourceId}', 'verb' => 'PUT'],
+		['name' => 'resource#move', 'url' => '/resources/{resourceId}/move', 'verb' => 'PUT'],
 		['name' => 'resource#destroy', 'url' => '/resources/{resourceId}', 'verb' => 'DELETE'],
 		['name' => 'resource#subResources', 'url' => '/resources/{resourceId}/subResources', 'verb' => 'GET'],
 		['name' => 'resource#unmanagedSubfolders', 'url' => '/resources/{resourceId}/unmanagedSubfolders', 'verb' => 'GET'],

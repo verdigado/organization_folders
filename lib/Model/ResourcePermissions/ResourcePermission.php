@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCA\OrganizationFolders\Model;
+namespace OCA\OrganizationFolders\Model\ResourcePermissions;
+
+use OCA\OrganizationFolders\Model\Principal;
 
 /**
  * Datastructure used by ResourcePermissionsList to associate a principal with certain permissions and optionally keep track of the origins of this permission.

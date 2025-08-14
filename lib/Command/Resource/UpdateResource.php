@@ -16,7 +16,6 @@ class UpdateResource extends BaseCommand {
 			->setName('organization-folders:resources:update')
 			->setDescription('Update a resource')
 			->addArgument('id', InputArgument::REQUIRED, 'Id of the resource to update')
-			->addOption('name', null, InputOption::VALUE_OPTIONAL, 'New name of resource')
 			->addOption('active', null, InputOption::VALUE_OPTIONAL, 'Activate/deactivate resource')
 			->addOption('inherit-managers', null, InputOption::VALUE_OPTIONAL, 'Set wether managers of the parent level (parent resource or organization folder for top level resources) should have management permissions');
 
@@ -31,16 +30,19 @@ class UpdateResource extends BaseCommand {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$id = $input->getArgument('id');
-		$name = $input->getOption('name');
 
 		$activeOption = $input->getOption('active');
 		if(!is_null($activeOption)) {
 			$active = $activeOption === true || $activeOption === "true";
+		} else {
+			$active = null;
 		}
 		
 		$inheritManagersOption = $input->getOption('inherit-managers');
 		if(!is_null($inheritManagersOption)) {
 			$inheritManagers = $inheritManagersOption === true || $inheritManagersOption === "true";
+		} else {
+			$inheritManagers = null;
 		}
 
 		$membersAclPermission = $input->getOption('members-acl-permission');
@@ -50,7 +52,6 @@ class UpdateResource extends BaseCommand {
 		try {
 			$resource = $this->resourceService->update(
 				id: $id,
-				name: $name,
 				active: $active,
 				inheritManagers: $inheritManagers,
 

@@ -16,4 +16,11 @@ abstract class ApiError extends \RuntimeException {
 	public function getHttpCode(): int{
 		return $this->getCode();
 	}
+
+	/** 
+	 * @return array<string, mixed>|null
+	 */
+	public function getDetails(): ?array {
+		return null;
+	}
 }

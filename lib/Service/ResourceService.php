@@ -24,15 +24,17 @@ use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\UserPrincipal;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
-use OCA\OrganizationFolders\Model\ResourcePermissionsList;
+use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsList;
+use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsApplyPlanFactory;
 use OCA\OrganizationFolders\Errors\Api\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\Api\InvalidResourceName;
 use OCA\OrganizationFolders\Errors\Api\ResourceNotFound;
 use OCA\OrganizationFolders\Errors\Api\ResourceNameNotUnique;
+use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeItsOwnParent;
+use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeMovedIntoADifferentOrganizationFolder;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Errors\Api\PrincipalInvalid;
 use OCA\OrganizationFolders\Manager\PathManager;
-use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 
 class ResourceService {
@@ -44,11 +46,11 @@ class ResourceService {
 		protected readonly IL10N $l10n,
 		protected readonly ResourceMapper $mapper,
 		protected readonly PathManager $pathManager,
-		protected readonly ACLManager $aclManager,
 		protected readonly OrganizationProviderManager $organizationProviderManager,
 		protected readonly OrganizationFolderService $organizationFolderService,
 		protected readonly ContainerInterface $container,
 		protected readonly PrincipalFactory $principalFactory,
+		protected readonly ResourcePermissionsApplyPlanFactory $resourcePermissionsApplyPlanFactory,
 	) {
 	}
 
@@ -196,9 +198,9 @@ class ResourceService {
 		?int $membersAclPermission = null,
 		?int $managersAclPermission = null,
 		?int $inheritedAclPermission = null,
-
 		// special mode only applicable if type = "folder", that uses an existing folder with the resource name 
 		?bool $folderAlreadyExists = false,
+
 		?bool $skipPermssionsApply = false,
 	) {
 		if($type === "folder") {
@@ -278,7 +280,7 @@ class ResourceService {
 			}
 
 			if(!$skipPermssionsApply) {
-				$this->organizationFolderService->applyPermissionsById($organizationFolderId);
+				$this->organizationFolderService->applyAllPermissionsById($organizationFolderId);
 			}
 
 			return $resource;
@@ -287,37 +289,20 @@ class ResourceService {
 		}
 	}
 
-	/* Use named arguments to call this function */
+	/** Use named arguments to call this function */
 	public function update(
 			int $id,
 
-			?string $name = null,
 			?bool $active = null,
 			?bool $inheritManagers = null,
 
 			?int $membersAclPermission = null,
 			?int $managersAclPermission = null,
 			?int $inheritedAclPermission = null,
+
+			?int $maxiumumUsersPermissionsAddedOrDeleted = null,
 		): Resource {
 		$resource = $this->find($id);
-
-		if(isset($name)) {
-			if(!$this->isValidResourceName($name)) {
-				throw new InvalidResourceName($name);
-			}
-
-			if($this->mapper->existsWithName($resource->getOrganizationFolderId(), $resource->getParentResource(), $name)) {
-				throw new ResourceNameNotUnique();
-			} else {
-				if($resource->getType() === "folder") {
-					$resourceNode = $this->getFolderResourceFilesystemNode($resource);
-					$newPath = $resourceNode->getParent()->getPath() . "/" . $name;
-					$resourceNode->move($newPath);
-				}
-
-				$resource->setName($name);
-			}
-		}
 
 		if(isset($active)) {
 			$resource->setActive($active);
@@ -347,13 +332,139 @@ class ResourceService {
 			$resource->setLastUpdatedTimestamp(time());
 		}
 
-		$resource = $this->mapper->update($resource);
+		return $this->atomic(function () use ($resource, $maxiumumUsersPermissionsAddedOrDeleted) {
+			$resource = $this->mapper->update($resource);
 
-		$this->organizationFolderService->applyPermissionsById($resource->getOrganizationFolderId());
+			/** @var PermissionsService */
+			$permissionsService = $this->container->get(PermissionsService::class);
+
+			$permissionsService->applyResourcePermissionsAfterResourceUpdate(
+				updatedResource: $resource,
+				maxiumumUsersPermissionsAddedOrDeleted: $maxiumumUsersPermissionsAddedOrDeleted,
+			);
+
+			return $resource;
+		}, $this->db);
+	}
+
+	public function move(
+		Resource $resource,
+		string $name,
+		?int $parentResourceId,
+	) {
+		if($resource->getType() === "folder") {
+			$resourceNode = $this->getFolderResourceFilesystemNode($resource);
+
+			// aquire lock so nothing changes until ready to actually move the folder
+			// TODO: investigate if View->shouldLockFile prevents this from being effective
+			$resourceNode->lock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+		}
+
+		if(!$this->isValidResourceName($name)) {
+			throw new InvalidResourceName($name);
+		}
+
+		if(is_null($parentResourceId)) {
+			$parentResource = null;
+		} else {
+			// trying to set the resource itself as it's parent
+			if($parentResourceId === $resource->getId()) {
+				throw new ResourceCannotBeItsOwnParent($resource);
+			}
+
+			$parentResource = $this->find($parentResourceId);
+
+			if($parentResource->getOrganizationFolderId() !== $resource->getOrganizationFolderId()) {
+				throw new ResourceCannotBeMovedIntoADifferentOrganizationFolder($resource);
+			}
+		}
+
+		if($this->mapper->existsWithName(
+			organizationFolderId: $resource->getOrganizationFolderId(),
+			parentResourceId: $parentResource?->getId(),
+			name: $name,
+		)) {
+			throw new ResourceNameNotUnique();
+		}
+
+		if($resource->getType() === "folder") {
+			$oldPath = $resourceNode->getPath();
+
+			if(isset($parentResource)) {
+				$parentNode = $this->getFolderResourceFilesystemNode($parentResource);
+			} else {
+				$parentNode = $this->pathManager->getOrganizationFolderNodeById($resource->getOrganizationFolderId());
+			}
+
+			$parentNode->lock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+			
+			$newPath = $parentNode->getPath() . "/" . $name;
+		}
+
+		$oldName = $resource->getName();
+		$oldParentResourceId = $resource->getParentResource();
+
+		$resource->setName($name);
+		$resource->setParentResource($parentResource?->getId());
+
+		if(count($resource->getUpdatedFields()) > 0) {
+			$resource->setLastUpdatedTimestamp(time());
+
+			try {
+				$resource = $this->mapper->update($resource);
+			} catch (Exception $e) {
+				$this->logger->error(
+					message: "Updating resource (id: " . $resource->getId() . ")"
+						. " from (name: \"" . $oldName . "\", parentResourceId: " . json_encode($oldParentResourceId) . ") "
+						. " from (name: \"" . $name . "\", parentResourceId: " . json_encode($parentResource?->getId()) . ") "
+						. "failed, not proceeding with any filesystem changes"
+				);
+
+				if($resource->getType() === "folder") {
+					$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+					$parentNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+				}
+				throw $e;
+			}
+
+			if($resource->getType() === "folder") {
+				// release lock, as move will create it's own exclusive locks
+				// upgrading locks to exclusive would be better, but that does not seem to be possible
+				$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+				$parentNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+
+				try {
+					$resourceNode->move($newPath);
+				} catch (Exception $e) {
+					$this->logger->error(
+						message: "Moving FolderResource (id: " . $resource->getId() . ") filesystem node "
+							. "from \"" . $oldPath . "\" to \"" . $newPath . "\" failed, "
+							. "rolling back changes to resource and filesystem"
+					);
+
+					// roll back filesystem changes if neccessary
+					$resourceNode->move($oldPath);
+
+					// roll back resource changes
+					$resource->setName($oldName);
+					$resource->setParentResource($oldParentResourceId);
+					$resource = $this->mapper->update($resource);
+				}
+			}
+		} else {
+			// no changes need to be made, releasing locks
+			if($resource->getType() === "folder") {
+				$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+				$parentNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+			}
+		}
+
+		// Moving a resource has big implications for the permissions of other resources,
+		// so unlike update() this does not try to be smart about which parts of the resource tree need their permissions
+		// recalculated and instead recalculates all permissions in the OrganizationFolder
+		$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
 
 		return $resource;
-
-		// TODO: improve error handing: if db update fails roll back changes in the filesystem
 	}
 
 	public function getResourcePath(Resource $resource): array {
@@ -404,15 +515,20 @@ class ResourceService {
 	}
 
 	/**
-	 * Get an array of all resources on the path from the root to the given resource (including the given resource)
+	 * Get an array of all resources on the path from the root to the given resource (including the given resource unless includeResourceItself = false)
 	 * ordered by top-level resource first
 	 * @param Resource $resource
 	 * @return Resource[]
 	 */
-	public function getAllResourcesOnPathFromRootToResource(Resource $resource): array {
+	public function getAllResourcesOnPathFromRootToResource(Resource $resource, bool $includeResourceItself = true): array {
 		$currentResource = $resource;
 		
-		$invertedResourcesPath = [$currentResource];
+		if($includeResourceItself) {
+			$invertedResourcesPath = [$currentResource];
+		} else {
+			$invertedResourcesPath = [];
+		}
+		
 
 		while($currentResource->getParentResource()) {
 			$currentResource = $this->find($currentResource->getParentResource());
@@ -511,7 +627,7 @@ class ResourceService {
 		$permissionsService = $this->container->get(PermissionsService::class);
 
 		/** @var non-empty-list<ResourcePermissionsList> */
-		$permissionsLists = iterator_to_array($permissionsService->generateResourcePermissionsListsAlongPathToResource(resource: $resource, enableOriginTracing: true));
+		$permissionsLists = iterator_to_array($permissionsService->generateResourcePermissionsListsAlongPathToResource(resource: $resource, enableOriginTracing: true), false);
 		$resourcePermissionsList = array_pop($permissionsLists);
 
 		foreach($resourcePermissionsList->getPermissions() as $permission) {
@@ -574,7 +690,7 @@ class ResourceService {
 		$permissionsService = $this->container->get(PermissionsService::class);
 
 		/** @var non-empty-list<ResourcePermissionsList> */
-		$permissionsLists = iterator_to_array($permissionsService->generateResourcePermissionsListsAlongPathToResource(resource: $resource));
+		$permissionsLists = iterator_to_array($permissionsService->generateResourcePermissionsListsAlongPathToResource(resource: $resource), false);
 		$resourcePermissionsList = array_pop($permissionsLists);
 
 		$overallPermissionsBitmap = 0;

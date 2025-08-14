@@ -29,7 +29,7 @@ class FixACLsOfOrganizationFolder extends BaseCommand {
 
 				foreach($organizationFolders as $organizationFolder) {
 					$output->write("Applying permissions for organization folder \"" . $organizationFolder->getName() . "\" (id: " . $organizationFolder->getId() . ")... ");
-					$this->organizationFolderService->applyPermissions($organizationFolder);
+					$this->organizationFolderService->applyAllPermissions($organizationFolder);
 					$output->writeln("done");
 				}
 
@@ -38,7 +38,7 @@ class FixACLsOfOrganizationFolder extends BaseCommand {
 				if(isset($id)) {
 					$id = (int)$id;
 
-					$this->organizationFolderService->applyPermissionsById($id);
+					$this->organizationFolderService->applyAllPermissionsById($id);
 
 					$output->writeln("done");
 

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Manager;
 
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\AppFramework\Db\TTransactional;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 use OCA\GroupFolders\ACL\Rule;
 use OCA\GroupFolders\ACL\UserMapping\UserMapping;
@@ -15,8 +16,11 @@ use OCA\GroupFolders\Folder\FolderManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\AclList;
+use OCA\OrganizationFolders\Model\GroupfolderACLsUpdatePlan;
 
 class ACLManager {
+	use TTransactional;
+
 	public function __construct(
 		protected IDBConnection $db,
 		protected FolderManager $folderManager,
@@ -75,9 +79,9 @@ class ACLManager {
 	/**
 	 * @param int $fileId
 	 * @param Rule[] $rules
-	 * @return array{created: Rule[], removed: Rule[], updated: Rule[]}
+	 * @return GroupfolderACLsUpdatePlan
 	 */
-	public function overwriteACLsForFileId(int $fileId, array $rules): array {
+	public function createUpdatePlan(int $fileId, array $rules): GroupfolderACLsUpdatePlan {
 		$existingRules = $this->getAllRulesForFileId($fileId);
 
 		$existingMasks = [];
@@ -93,44 +97,67 @@ class ACLManager {
 
 		// new rules to be added
 		/** @var Rule[] */
-		$newRules = array_udiff($rules, $existingRules, $this->ruleMappingComparison(...));
+		$rulesToCreate = array_udiff($rules, $existingRules, $this->ruleMappingComparison(...));
 
 		// old rules to be deleted
 		/** @var Rule[] */
-		$removedRules = array_udiff($existingRules, $rules, $this->ruleMappingComparison(...));
+		$rulesToRemove = array_udiff($existingRules, $rules, $this->ruleMappingComparison(...));
 
 		// rules for user or group for which a rule already exists, but it might need to be updated
 		/** @var Rule[] */
-		$potentiallyUpdatedRules = array_uintersect($rules, $existingRules, $this->ruleMappingComparison(...));
+		$rulesToPotentiallyUpdate = array_uintersect($rules, $existingRules, $this->ruleMappingComparison(...));
 
+		// rules that actually need to be updated
+		/** @var Rule[] */
+		$rulesToUpdate = [];
 
-		foreach($removedRules as $removedRule) {
-			$this->ruleManager->deleteRule($removedRule);
-		}
+		foreach($rulesToPotentiallyUpdate as $ruleToPotentiallyUpdate) {
+			$key = $ruleToPotentiallyUpdate->getUserMapping()->getKey();
 
-		foreach($newRules as $newRule) {
-			$this->ruleManager->saveRule($newRule);
-		}
-
-		$updatedRules = [];
-
-		foreach($potentiallyUpdatedRules as $potentiallyUpdatedRule) {
-			$key = $potentiallyUpdatedRule->getUserMapping()->getKey();
-
-			if($potentiallyUpdatedRule->getMask() !== $existingMasks[$key] || $potentiallyUpdatedRule->getPermissions() !== $existingPermissions[$key]) {
-				$this->ruleManager->saveRule($potentiallyUpdatedRule);
-				$updatedRules[] = $potentiallyUpdatedRule;
+			if($ruleToPotentiallyUpdate->getMask() !== $existingMasks[$key] || $ruleToPotentiallyUpdate->getPermissions() !== $existingPermissions[$key]) {
+				$rulesToUpdate[] = $ruleToPotentiallyUpdate;
 			}
 		}
 
-		return ["created" => $newRules, "removed" => $removedRules, "updated" => $updatedRules];
+		return new GroupfolderACLsUpdatePlan(toCreate: $rulesToCreate, toUpdate: $rulesToUpdate, toRemove: $rulesToRemove);
+	}
+
+	public function applyUpdatePlan(GroupfolderACLsUpdatePlan $plan): void {
+		$this->atomic(function () use ($plan) {
+			foreach($plan->toRemove as $removedRule) {
+				$this->ruleManager->deleteRule($removedRule);
+			}
+
+			foreach($plan->toCreate as $newRule) {
+				$this->ruleManager->saveRule($newRule);
+			}
+
+			foreach($plan->toUpdate as $updatedRule) {
+				$this->ruleManager->saveRule($updatedRule);
+			}
+		}, $this->db);
 	}
 
 	/**
-	 * @param AclList $aclList
-	 * @return array{created: Rule[], removed: Rule[], updated: Rule[]}
+	 * @param int $fileId
+	 * @param Rule[] $rules
+	 * @return GroupfolderACLsUpdatePlan
 	 */
-	public function overwriteACLs(AclList $aclList) {
-		return $this->overwriteACLsForFileId($aclList->getFileId(), $aclList->getRules());
+	public function overwriteACLs(int $fileId, array $rules): GroupfolderACLsUpdatePlan {
+		$updatePlan = $this->createUpdatePlan($fileId, $rules);
+		$this->applyUpdatePlan($updatePlan);
+
+		return $updatePlan;
+	}
+
+	public function createUpdatePlanFromAclList(AclList $aclList): GroupfolderACLsUpdatePlan {
+		return $this->createUpdatePlan($aclList->getFileId(), $aclList->getRules());
+	}
+
+	public function overwriteACLsFromAclList(AclList $aclList): GroupfolderACLsUpdatePlan {
+		$updatePlan = $this->createUpdatePlanFromAclList($aclList);
+		$this->applyUpdatePlan($updatePlan);
+
+		return $updatePlan;
 	}
 }

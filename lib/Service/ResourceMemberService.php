@@ -50,6 +50,25 @@ class ResourceMemberService {
 	}
 
 	/**
+	 * Get all members grouped by their permission level (0: members, 1: managers)
+	 * @param int $resourceId
+	 * @param array{principalType: PrincipalType} $filters
+	 * @return array
+	 * @psalm-return array{0: ResourceMember[], 1: ResourceMember[]}
+	 */
+	public function findAllByPermissionLevel(int $resourceId, $filters = []): array {
+		$members = $this->findAll($resourceId, $filters);
+
+		$result = [[], []];
+
+		foreach($members as $member) {
+			$result[$member->getPermissionLevel() - 1][] = $member;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * @param int $organizationFolderId
 	 * @param array{principalType: PrincipalType} $filters
 	 * @return array
@@ -141,7 +160,7 @@ class ResourceMemberService {
 		$member = $this->mapper->insert($member);
 
 		if(!$skipPermssionsApply) {
-			$this->organizationFolderService->applyPermissionsById($resource->getOrganizationFolderId());
+			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
 		}
 
 		return $member;
@@ -166,7 +185,7 @@ class ResourceMemberService {
             }
 
 			$resource = $this->resourceService->find($member->getResourceId());
-			$this->organizationFolderService->applyPermissionsById($resource->getOrganizationFolderId());
+			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
 
 			return $member;
 		} catch (Exception $e) {
@@ -181,7 +200,8 @@ class ResourceMemberService {
 			$this->mapper->delete($member);
 
 			$resource = $this->resourceService->find($member->getResourceId());
-			$this->organizationFolderService->applyPermissionsById($resource->getOrganizationFolderId());
+			
+			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
 
 			return $member;
 		} catch (Exception $e) {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Service;
 
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use Psr\Container\ContainerInterface;
 
 use OCP\AppFramework\Db\TTransactional;
@@ -138,7 +137,7 @@ class OrganizationFolderService {
 				organizationId: $organizationId,
 			);
 			
-			$this->applyPermissions($organizationFolder);
+			$this->applyAllPermissions($organizationFolder);
 			
 			return $organizationFolder;
 		}, $this->db);
@@ -184,21 +183,36 @@ class OrganizationFolderService {
 			}
 		}, $this->db);
 
-		$this->applyPermissions($organizationFolder);
+		$this->applyAllPermissions($organizationFolder);
 
 		return $organizationFolder;
 	}
 
-	public function applyPermissionsById(int $id): void {
-		$this->applyPermissions($this->find($id));
+	public function applyAllPermissionsById(int $id): void {
+		$this->applyAllPermissions($this->find($id));
 	}
 
-	public function applyPermissions(OrganizationFolder $organizationFolder): void {
+	/**
+	 * If the caller already fetched the OrganizationFolder member and manager Principals (using getMemberAndManagerPrincipals)
+	 * it can provide them, so they don't have to be fetched again.
+	 * 
+	 * @param OrganizationFolder $organizationFolder
+	 * @param ?list<PrincipalBackedByGroup> $organizationFolderMemberPrincipals
+	 * @param ?list<PrincipalBackedByGroup> $organizationFolderManagerPrincipals
+	 * @return void
+	 */
+	public function refreshGroupfolderMembers(
+		OrganizationFolder $organizationFolder,
+		?array $organizationFolderMemberPrincipals = null,
+		?array $organizationFolderManagerPrincipals = null,
+	): void {
+		if(!(isset($organizationFolderMemberPrincipals) && isset($organizationFolderManagerPrincipals))) {
+			[$organizationFolderMemberPrincipals, $organizationFolderManagerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
+		}
+
 		$groupfolderMemberGroups = [];
 
-		[$memberPrincipals, $managerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
-
-		foreach([...$memberPrincipals, ...$managerPrincipals] as $principal) {
+		foreach([...$organizationFolderMemberPrincipals, ...$organizationFolderManagerPrincipals] as $principal) {
 			$backingGroup = $principal->getBackingGroupId();
 
 			if(isset($backingGroup)) {
@@ -230,6 +244,12 @@ class OrganizationFolderService {
 
 		$this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $groupfolderMemberGroups);
 		$this->setRootFolderACLs($organizationFolder, ["everyone", ...$groupfolderMemberGroups]);
+	}
+
+	public function applyAllPermissions(OrganizationFolder $organizationFolder): void {
+		[$memberPrincipals, $managerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
+
+		$this->refreshGroupfolderMembers($organizationFolder, $memberPrincipals, $managerPrincipals);
 
 		/** @var PermissionsService */
 		$permissionsService = $this->container->get(PermissionsService::class);
@@ -328,7 +348,7 @@ class OrganizationFolderService {
 			);
 		}
 
-		$this->aclManager->overwriteACLsForFileId($fileId, $acls);
+		$this->aclManager->overwriteACLs($fileId, $acls);
 	}
 
 	public function remove($id): void {

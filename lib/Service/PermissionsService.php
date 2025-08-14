@@ -12,11 +12,12 @@ use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\InheritedPrincipal;
-use OCA\OrganizationFolders\Model\ResourcePermissionsList;
+use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsList;
+use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsListWithOriginTracing;
+use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsApplyPlanFactory;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PermissionOriginType;
-use OCA\OrganizationFolders\Manager\ACLManager;
-use OCA\OrganizationFolders\Model\ResourcePermissionsListWithOriginTracing;
+use OCA\OrganizationFolders\Errors\Api\WouldCauseTooManyPermissionsChanges;
 
 class PermissionsService {
 	public function __construct(
@@ -24,7 +25,7 @@ class PermissionsService {
 		protected readonly OrganizationFolderMemberService $organizationFolderMemberService,
 		protected readonly ResourceService $resourceService,
 		protected readonly ResourceMemberService $resourceMemberService,
-		protected readonly ACLManager $aclManager,
+		protected readonly ResourcePermissionsApplyPlanFactory $resourcePermissionsApplyPlanFactory,
 	) {
 	}
 
@@ -65,6 +66,8 @@ class PermissionsService {
 		bool $implicitlyDeactivated = false,
 		bool $enableOriginTracing = false,
 	) {
+		// TODO: No longer add 0 permissions, skip those principals instead, it's the system belows responsibility to add a default-deny, so these are no longer needed/wanted
+
 		// calculate actual permissions and if
 		// inherited principals should be forwarded down the tree
 		if($resource->getActive() && !$implicitlyDeactivated) {
@@ -168,6 +171,29 @@ class PermissionsService {
 	}
 
 	/**
+	 * @param int $organizationFolderId
+	 * @psalm-return array{0: InheritedPrincipal[], 1: InheritedPrincipal[]}
+	 */
+	private function getOrganizationFolderMemberInheritedPrincipalsById(int $organizationFolderId) {
+		$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+
+		return $this->getOrganizationFolderMemberInheritedPrincipals($organizationFolder);
+	}
+
+	/**
+	 * @param OrganizationFolder $organizationFolder
+	 * @psalm-return array{0: InheritedPrincipal[], 1: InheritedPrincipal[]}
+	 */
+	private function getOrganizationFolderMemberInheritedPrincipals(OrganizationFolder $organizationFolder) {
+		[$organizationFolderMemberPrincipals, $organizationFolderManagerPrincipals] = $this->organizationFolderService->getMemberAndManagerPrincipals($organizationFolder);
+
+		$inheritedMemberPrincipals = $this->addInheritanceOriginToPrincipals($organizationFolderMemberPrincipals, $organizationFolder);
+		$inheritedManagerPrincipals = $this->addInheritanceOriginToPrincipals($organizationFolderManagerPrincipals, $organizationFolder);
+
+		return [$inheritedMemberPrincipals, $inheritedManagerPrincipals];
+	}
+
+	/**
 	 * @param Resource $resource
 	 * @param bool $enableOriginTracing
 	 * @return \Generator<mixed, ResourcePermissionsList, mixed, void>
@@ -175,22 +201,12 @@ class PermissionsService {
 	public function generateResourcePermissionsListsAlongPathToResource(Resource $resource, bool $enableOriginTracing = false) {
 		$resourcePath = $this->resourceService->getAllResourcesOnPathFromRootToResource($resource);
 
-		$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
-
-		[$organizationFolderMemberPrincipals, $organizationFolderManagerPrincipals] = $this->organizationFolderService->getMemberAndManagerPrincipals($organizationFolder);
-
-		$inheritedMemberPrincipals = $this->addInheritanceOriginToPrincipals($organizationFolderMemberPrincipals, $organizationFolder);
-		$inheritedManagerPrincipals = $this->addInheritanceOriginToPrincipals($organizationFolderManagerPrincipals, $organizationFolder);
+		[$inheritedMemberPrincipals, $inheritedManagerPrincipals] = $this->getOrganizationFolderMemberInheritedPrincipalsById($resource->getOrganizationFolderId());
 
 		$implicitlyDeactivated = false;
 
 		foreach($resourcePath as $resourceOnPath) {
-			$resourceMembers = $this->resourceMemberService->findAll($resourceOnPath->getId(), [
-				"permissionLevel" => ResourceMemberPermissionLevel::MEMBER,
-			]);
-			$resourceManagers = $this->resourceMemberService->findAll($resourceOnPath->getId(), [
-				"permissionLevel" => ResourceMemberPermissionLevel::MANAGER,
-			]);
+			[$resourceMembers, $resourceManagers] = $this->resourceMemberService->findAllByPermissionLevel($resourceOnPath->getId());
 
 			[
 				"permissionsList" => $permissionsList,
@@ -212,8 +228,51 @@ class PermissionsService {
 	}
 
 	/**
+	 * Warning to callers of this function: Do not use the Generator indices (they reset to 0 when beginning with the subresources)
+	 * 
+	 * @param Resource $resource
+	 * @param bool $enableOriginTracing
+	 * @return \Generator<mixed, ResourcePermissionsList, mixed, void>
+	 */
+	public function generateResourcePermissionsListsAlongPathToAndSubresourcesOfResource(Resource $resource, bool $enableOriginTracing = false) {
+		$resourcePath = $this->resourceService->getAllResourcesOnPathFromRootToResource($resource, false);
+
+		[$inheritedMemberPrincipals, $inheritedManagerPrincipals] = $this->getOrganizationFolderMemberInheritedPrincipalsById($resource->getOrganizationFolderId());
+
+		$implicitlyDeactivated = false;
+
+		foreach($resourcePath as $resourceOnPath) {
+			[$resourceMembers, $resourceManagers] = $this->resourceMemberService->findAllByPermissionLevel($resourceOnPath->getId());
+
+			[
+				"permissionsList" => $permissionsList,
+				"nextInheritedMemberPrincipals" => $inheritedMemberPrincipals,
+				"nextInheritedManagerPrincipals" => $inheritedManagerPrincipals,
+				"nextImplicitlyDeactivated" => $implicitlyDeactivated,
+			] = $this->calculateResourcePermissionsListAndFurtherInheritedPrincipals(
+				resource: $resourceOnPath,
+				inheritedMemberPrincipals: $inheritedMemberPrincipals,
+				inheritedManagerPrincipals: $inheritedManagerPrincipals,
+				resourceMembers: $resourceMembers,
+				resourceManagers: $resourceManagers,
+				implicitlyDeactivated: $implicitlyDeactivated,
+				enableOriginTracing: $enableOriginTracing,
+			);
+
+			yield $permissionsList;
+		}
+
+		yield from $this->generateResourcePermissionsListsRecursively(
+			resources: [$resource],
+			inheritedMemberPrincipals: $inheritedMemberPrincipals,
+			inheritedManagerPrincipals: $inheritedManagerPrincipals,
+			implicitlyDeactivated: $implicitlyDeactivated,
+			enableOriginTracing: $enableOriginTracing,
+		);
+	}
+
+	/**
 	 * @param Resource[] $resources
-	 * @param string $path
 	 * @param InheritedPrincipal[] $inheritedMemberPrincipals
 	 * @param InheritedPrincipal[] $inheritedManagerPrincipals
 	 * @param bool $implicitlyDeactivated
@@ -221,7 +280,6 @@ class PermissionsService {
 	 */
 	private function generateResourcePermissionsListsRecursively(
 		array $resources,
-		string $path,
 		array $inheritedMemberPrincipals,
 		array $inheritedManagerPrincipals,
 		bool $implicitlyDeactivated = false,
@@ -256,7 +314,6 @@ class PermissionsService {
 
 			yield from $this->generateResourcePermissionsListsRecursively(
 				resources: $subResources,
-				path: $path . $resource->getName() . "/",
 				inheritedMemberPrincipals: $nextInheritedMemberPrincipals,
 				inheritedManagerPrincipals: $nextInheritedManagerPrincipals,
 				implicitlyDeactivated: $nextImplicitlyDeactivated,
@@ -292,7 +349,6 @@ class PermissionsService {
 
 		return $this->generateResourcePermissionsListsRecursively(
 			resources: $topLevelResources,
-			path: "",
 			inheritedMemberPrincipals: $inheritedMemberPrincipals,
 			inheritedManagerPrincipals: $inheritedManagerPrincipals,
 			enableOriginTracing: $enableOriginTracing,
@@ -319,9 +375,46 @@ class PermissionsService {
 			organizationFolderMemberPrincipals: $organizationFolderMemberPrincipals,
 			organizationFolderManagerPrincipals: $organizationFolderManagerPrincipals,
 		);
+
 		foreach($permissionsListsGenerator as $permissionsList) {
-			// TODO: currently unique for only folder resources, needs to be generalized
-			$this->aclManager->overwriteACLs($permissionsList->toGroupfolderAclList());
+			$this->resourcePermissionsApplyPlanFactory->buildPlan($permissionsList)->apply();
 		}
     }
+
+	/**
+	 * Applies all Permissions, that could have been changed by the update.
+	 * The amount of changes in the updated resource can be limited with maxiumumPermissionsChanges.
+	 * @param \OCA\OrganizationFolders\Db\Resource $updatedResource
+	 * @param mixed $maxiumumPermissionsChanges Throw when the permissions of more than this number of users were added or delted to the updated resource (changes to existing permissions are not counted) (changes to other resources are not counted)
+	 * @return void
+	 */
+	public function applyResourcePermissionsAfterResourceUpdate(
+		Resource $updatedResource,
+		?int $maxiumumUsersPermissionsAddedOrDeleted = null,
+	) {
+		/** @var ResourcePermissionsList[] */
+		$permissionsLists = iterator_to_array($this->generateResourcePermissionsListsAlongPathToAndSubresourcesOfResource($updatedResource), false);
+		
+		if(isset($maxiumumUsersPermissionsAddedOrDeleted)) {
+			// find permissionsList of updatedResource itself to check if rollback is needed before applying any permissions
+			foreach($permissionsLists as $permissionsList) {
+				if($permissionsList->getResource()->getId() === $updatedResource->getId()) {
+					$updatePlan = $this->resourcePermissionsApplyPlanFactory->buildPlan($permissionsList);
+
+					$additions = $updatePlan->getNumberOfUsersWithPermissionsPotentiallyAdded();
+					$deletions = $updatePlan->getNumberOfUsersWithPermissionsPotentiallyDeleted();
+
+					if(($additions + $deletions) > $maxiumumUsersPermissionsAddedOrDeleted) {
+						throw new WouldCauseTooManyPermissionsChanges($additions, $deletions);
+					}
+
+					break;
+				}
+			}
+		}
+
+		foreach($permissionsLists as $permissionsList) {
+			$this->resourcePermissionsApplyPlanFactory->buildPlan($permissionsList)->apply();
+		}
+	}
 }

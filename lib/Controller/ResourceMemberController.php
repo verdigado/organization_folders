@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Controller;
 
+use OCP\IDBConnection;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Db\TTransactional;
 
 use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Validation\ValidatorService;
@@ -15,13 +17,16 @@ use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
+use OCA\OrganizationFolders\Errors\Api\WouldRevokeUsersManagementPermissions;
 
 class ResourceMemberController extends BaseController {
 	use Errors;
+	use TTransactional;
 
 	public function __construct(
 		AuthorizationService $authorizationService,
 		ValidatorService $validatorService,
+		protected readonly IDBConnection $db,
 		private ResourceMemberService $service,
 		private ResourceService $resourceService,
 		private PrincipalFactory $principalFactory,
@@ -69,33 +74,53 @@ class ResourceMemberController extends BaseController {
 	public function update(
 		int $id,
 		string|int $permissionLevel,
+		?bool $cancelIfRevokesOwnManagementRights = false,
 	): JSONResponse {
-		return $this->handleErrors(function () use ($id, $permissionLevel): ResourceMember {
+		return $this->handleErrors(function () use ($id, $permissionLevel, $cancelIfRevokesOwnManagementRights): ResourceMember {
 			$resourceMember = $this->service->find($id);
 
 			$resource = $this->resourceService->find($resourceMember->getResourceId());
 			
 			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
 
-			$resourceMember = $this->service->update(
-				id: $resourceMember->getId(),
-				permissionLevel: ResourceMemberPermissionLevel::fromNameOrValue($permissionLevel),
-			);
+			return $this->atomic(function () use ($resource, $resourceMember, $permissionLevel, $cancelIfRevokesOwnManagementRights) {
+				// TODO: move applying resource permissions after check if rollback will be needed
+				$resourceMember = $this->service->update(
+					id: $resourceMember->getId(),
+					permissionLevel: ResourceMemberPermissionLevel::fromNameOrValue($permissionLevel),
+				);
 
-			return $resourceMember;
+				if($cancelIfRevokesOwnManagementRights && !$this->authorizationService->isGranted(["READ"], $resource)) {
+					throw new WouldRevokeUsersManagementPermissions();
+				}
+
+				return $resourceMember;
+			}, $this->db);
 		});
 	}
 
 	#[NoAdminRequired]
-	public function destroy(int $id): JSONResponse {
-		return $this->handleErrors(function () use ($id): ResourceMember {
+	public function destroy(
+		int $id,
+		?bool $cancelIfRevokesOwnManagementRights = false,
+	): JSONResponse {
+		return $this->handleErrors(function () use ($id, $cancelIfRevokesOwnManagementRights): ResourceMember {
 			$resourceMember = $this->service->find($id);
 
 			$resource = $this->resourceService->find($resourceMember->getResourceId());
 			
-			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
+			$this->denyAccessUnlessGranted(["UPDATE_MEMBERS"], $resource);
 
-			return $this->service->delete($resourceMember->getId());
+			return $this->atomic(function () use ($resource, $resourceMember, $cancelIfRevokesOwnManagementRights) {
+				// TODO: move applying resource permissions after check if rollback will be needed
+				$resourceMember = $this->service->delete($resourceMember->getId());
+
+				if($cancelIfRevokesOwnManagementRights && !$this->authorizationService->isGranted(["READ"], $resource)) {
+					throw new WouldRevokeUsersManagementPermissions();
+				}
+
+				return $resourceMember;
+			}, $this->db);
 		});
 	}
 }

@@ -16,6 +16,7 @@ use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Traits\ApiObjectController;
 use OCA\OrganizationFolders\Errors\Api\AccessDenied;
+use OCA\OrganizationFolders\Errors\Api\WouldRevokeUsersManagementPermissions;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
@@ -65,7 +66,7 @@ class ResourceController extends BaseController {
 		}
 
 		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
-			$result["subResources"] = $this->getSubResources($resource->getId());
+			$result["subResources"] = $this->getSubResources($resource);
 		}
 
 		if(!$limited) {
@@ -145,7 +146,6 @@ class ResourceController extends BaseController {
 	#[NoAdminRequired]
 	public function update(
 		int $resourceId,
-		?string $name = null,
 		?bool $active = null,
 		?bool $inheritManagers = null,
 
@@ -155,21 +155,59 @@ class ResourceController extends BaseController {
 		?int $inheritedAclPermission = null,
 
 		?string $include = null,
+		?int $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove = null,
+		?bool $cancelIfRevokesOwnManagementRights = false,
 	): JSONResponse {
-		return $this->handleErrors(function () use ($resourceId, $name, $active, $inheritManagers, $membersAclPermission, $managersAclPermission, $inheritedAclPermission, $include) {
+		return $this->handleErrors(function () use ($resourceId, $active, $inheritManagers, $membersAclPermission, $managersAclPermission, $inheritedAclPermission, $include, $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove, $cancelIfRevokesOwnManagementRights) {
 			$resource = $this->service->find($resourceId);
 			
 			$this->denyAccessUnlessGranted(['UPDATE'], $resource);
 
+			if($cancelIfRevokesOwnManagementRights) {
+				if($inheritManagers === false) {
+					$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
+
+					// user has UPDATE, but neither MANAGE_ALL_RESOURCES nor READ_DIRECT, meaning they get their management permission via inheritance
+					if(!($this->authorizationService->isGranted(["MANAGE_ALL_RESOURCES"], $organizationFolder) ||
+						$this->authorizationService->isGranted(["READ_DIRECT"], $resource))) {
+							throw new WouldRevokeUsersManagementPermissions();
+					}
+				}
+			}
+
 			$resource = $this->service->update(
 				id: $resourceId,
-				name: $name,
 				active: $active,
 				inheritManagers: $inheritManagers,
 
 				membersAclPermission: $membersAclPermission,
 				managersAclPermission: $managersAclPermission,
 				inheritedAclPermission: $inheritedAclPermission,
+
+				maxiumumUsersPermissionsAddedOrDeleted: $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove,
+			);
+
+			return $this->getApiObjectFromEntity($resource, false, $include);
+		});
+	}
+
+	#[NoAdminRequired]
+	public function move(
+		int $resourceId,
+		string $name,
+		?int $parentResourceId,
+
+		?string $include = null,
+	): JSONResponse {
+		return $this->handleErrors(function () use ($resourceId, $name, $parentResourceId, $include) {
+			$resource = $this->service->find($resourceId);
+
+			$this->denyAccessUnlessGranted(['UPDATE'], $resource);
+
+			$resource = $this->service->move(
+				resource: $resource,
+				name: $name,
+				parentResourceId: $parentResourceId,
 			);
 
 			return $this->getApiObjectFromEntity($resource, false, $include);
@@ -189,14 +227,17 @@ class ResourceController extends BaseController {
 
 
 	#[NoAdminRequired]
-	public function subResources(int $resourceId): JSONResponse {
-		return $this->handleErrors(function () use ($resourceId) {
-			return $this->getSubResources($resourceId);
+	public function subResources(int $resourceId, ?string $include = null): JSONResponse {
+		return $this->handleErrors(function () use ($resourceId, $include) {
+			$resource = $this->service->find($resourceId);
+
+			$this->authorizationService->isGranted(["READ", "READ_LIMITED"], $resource);
+
+			return $this->getSubResources($resource, $include);
 		});
 	}
 
-	protected function getSubResources(int $resourceId): array {
-		$resource = $this->service->find($resourceId);
+	protected function getSubResources(Resource $resource, ?string $include = null): array {
 		$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
 
 		$subresources = $this->service->getSubResources($resource);
@@ -205,7 +246,9 @@ class ResourceController extends BaseController {
 
 		if($this->authorizationService->isGranted(['MANAGE_ALL_RESOURCES'], $organizationFolder)) {
 			/* fastpath: access to all subresources */
-			$result = $subresources;
+			foreach($subresources as $subresource) {
+				$result[] = $this->getApiObjectFromEntity($subresource, false, $include);
+			}
 		} else {
 			foreach($subresources as $subresource) {
 				// Future optimization potential 1: the following will potentially check the permissions of each of these subresources all the way up the resource tree.
@@ -216,9 +259,9 @@ class ResourceController extends BaseController {
 				// Future optimization potential 2: READ permission check checks MANAGE_ALL_RESOURCES again, at this point we know this to be false, because of the fastpath.
 				// Could be replaced with something like a READ_DIRECT (name TBD) permission check, which does not check this again.
 				if($this->authorizationService->isGranted(['READ'], $subresource)) {
-					$result[] = $subresource;
+					$result[] = $this->getApiObjectFromEntity($subresource, false, $include);
 				} else if($this->authorizationService->isGranted(['READ_LIMITED'], $subresource)) {
-					$result[] = $subresource->limitedJsonSerialize();
+					$result[] = $this->getApiObjectFromEntity($subresource, true, $include);
 				}
 			}
 		}

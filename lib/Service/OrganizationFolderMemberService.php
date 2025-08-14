@@ -97,7 +97,7 @@ class OrganizationFolderMemberService {
 
 		$member = $this->mapper->insert($member);
 
-		$this->organizationFolderService->applyPermissionsById($organizationFolder->getId());
+		$this->organizationFolderService->applyAllPermissionsById($organizationFolder->getId());
 
 		return $member;
 	}
@@ -124,7 +124,7 @@ class OrganizationFolderMemberService {
                 $member = $this->mapper->update($member);
             }
 
-			$this->organizationFolderService->applyPermissionsById($member->getOrganizationFolderId());
+			$this->organizationFolderService->applyAllPermissionsById($member->getOrganizationFolderId());
 
 			return $member;
 		} catch (Exception $e) {
@@ -138,7 +138,7 @@ class OrganizationFolderMemberService {
 
 			$this->mapper->delete($member);
 
-			$this->organizationFolderService->applyPermissionsById($member->getOrganizationFolderId());
+			$this->organizationFolderService->applyAllPermissionsById($member->getOrganizationFolderId());
 
 			return $member;
 		} catch (Exception $e) {

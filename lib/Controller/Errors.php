@@ -12,8 +12,13 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCA\OrganizationFolders\Errors\Api\ApiError;
 
 trait Errors {
-	protected function errorResponse(\Exception $e, $status = Http::STATUS_BAD_REQUEST): JSONResponse {
+	protected function errorResponse(\Exception $e, $status = Http::STATUS_BAD_REQUEST, ?array $details): JSONResponse {
 		$response = ['error' => get_class($e), 'message' => $e->getMessage()];
+
+		if(isset($details)) {
+			$response["details"] = $details;
+		}
+
 		return new JSONResponse($response, $status);
 	}
 
@@ -21,7 +26,7 @@ trait Errors {
 		try {
 			return new JSONResponse($callback());
 		} catch (ApiError $e) {
-			return $this->errorResponse($e, $e->getHttpCode());
+			return $this->errorResponse($e, $e->getHttpCode(), $e->getDetails());
 		} catch (\Exception $e) {
 			return $this->errorResponse($e);
 		}
@@ -31,7 +36,7 @@ trait Errors {
 		try {
 			return $callback();
 		} catch (ApiError $e) {
-			return $this->errorResponse($e, $e->getHttpCode());
+			return $this->errorResponse($e, $e->getHttpCode(), $e->getDetails());
 		} catch (\Exception $e) {
 			return $this->errorResponse($e);
 		}

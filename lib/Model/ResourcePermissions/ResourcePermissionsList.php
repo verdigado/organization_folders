@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-namespace OCA\OrganizationFolders\Model;
+namespace OCA\OrganizationFolders\Model\ResourcePermissions;
 
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Groups\GroupBackend;
+use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\AclList;
 use OCA\OrganizationFolders\Enum\PermissionOriginType;
 
 use OCA\GroupFolders\ACL\UserMapping\UserMapping;
@@ -47,6 +50,7 @@ class ResourcePermissionsList {
 		return array_values($this->permissions);
 	}
 
+	// TODO: move into ResourcePermissionsApplyPlanFactory, to make this class resource type agnostic
 	public function toGroupfolderAclList(): AclList {
 		if(!($this->resource instanceof FolderResource)) {
 			throw new \Exception("Only folder resources can be transformed to an AclList");
@@ -62,11 +66,13 @@ class ResourcePermissionsList {
 		);
 
 		foreach($this->getPermissions() as $permission) {
-			$acls->addRule(
-				userMapping: $permission->getPrincipal()->toGroupfolderAclMapping(),
-				mask: 31,
-				permissions: $permission->getPermissionsBitmap(),
-			);
+			if($permission->getPermissionsBitmap() > 0) {
+				$acls->addRule(
+					userMapping: $permission->getPrincipal()->toGroupfolderAclMapping(),
+					mask: 31,
+					permissions: $permission->getPermissionsBitmap(),
+				);
+			}
 		}
 
 		return $acls;
