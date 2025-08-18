@@ -58,6 +58,21 @@ class PropFindPlugin extends ServerPlugin {
 			return;
 		}
 
+		$internalPath = $mount->getInternalPath($node->getPath());
+
+		$folderLevel = count(array_filter(
+			array: explode('/', $internalPath),
+			callback: fn($part) => $part !== ''
+		));
+
+		$isInOrganizationFolder = null;
+
+		if($folderLevel === 0) {
+			$isResource = false;
+		} else {
+			$isResource = null;
+		}
+
 		/**
 		 * @var ?OrganizationFolder
 		 */
@@ -70,24 +85,43 @@ class PropFindPlugin extends ServerPlugin {
 
 		$userHasOrganizationFolderUpdatePermissions = null;
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use (&$node, &$fileInfo, &$organizationFolder): ?int {
+		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use (&$node, &$fileInfo, &$isInOrganizationFolder, &$organizationFolder): ?int {
 			try {
 				if(!isset($organizationFolder)) {
 					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($node);
 				}
 
-				return $organizationFolder->getId();
+				$isInOrganizationFolder = true;
 			} catch (\Exception $e) {
+				$isInOrganizationFolder = false;
+
 				return null;
 			}
+
+			return $organizationFolder->getId();
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
-			try {
-				if(!isset($organizationFolder)) {
-					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($node);
-				}
+		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
+			if($folderLevel > 0) {
+				return null;
+			}
 
+			if($isInOrganizationFolder === false) {
+				return null;
+			}
+
+			if(!isset($organizationFolder)) {
+				try {
+					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($node);
+					$isInOrganizationFolder = true;
+				} catch (\Exception $e) {
+					$isInOrganizationFolder = false;
+
+					return null;
+				}
+			}
+
+			try {
 				$userHasOrganizationFolderUpdatePermissions = $this->authorizationService->isGranted(["UPDATE"], $organizationFolder);
 
 				return $userHasOrganizationFolderUpdatePermissions ? 'true' : 'false';
@@ -96,41 +130,80 @@ class PropFindPlugin extends ServerPlugin {
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
-			try {
-				// use cannot have update permissions and read only permissions at the same time, skip expensive READ_LIMITED check
-				if(isset($userHasOrganizationFolderUpdatePermissions) && $userHasOrganizationFolderUpdatePermissions) {
-					return 'false';
-				}
+		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
+			if($folderLevel > 0) {
+				return null;
+			}
 
-				if(!isset($organizationFolder)) {
+			if($isInOrganizationFolder === false) {
+				return null;
+			}
+
+			// use cannot have update permissions and read only permissions at the same time, skip expensive READ_LIMITED check
+			if(isset($userHasOrganizationFolderUpdatePermissions) && $userHasOrganizationFolderUpdatePermissions) {
+				return 'false';
+			}
+
+			if(!isset($organizationFolder)) {
+				try {
 					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($node);
-				}
+					$isInOrganizationFolder = true;
+				} catch (\Exception $e) {
+					$isInOrganizationFolder = false;
 
+					return null;
+				}
+			}
+
+			try {
 				return $this->authorizationService->isGranted(["READ_LIMITED"], $organizationFolder) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME, function () use ($node, &$resource): ?int {
-			try {
-				if(!isset($resource)) {
-					$resource = $this->resourceService->findByFilesystemNode($node);
-				}
-
-				return $resource->getId();
-			} catch (\Exception $e) {
+		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME, function () use ($node, &$isInOrganizationFolder, &$isResource, &$resource): ?int {	
+			if($isInOrganizationFolder === false) {
 				return null;
 			}
+
+			if($isResource === false) {
+				return null;
+			}
+
+			if(!isset($resource)) {
+				try {
+					$resource = $this->resourceService->findByFilesystemNode($node, true);
+					$isInOrganizationFolder = true;
+					$isResource = true;
+				} catch (\Exception $e) {
+					$isResource = false;
+
+					return null;
+				}
+			}
+
+			return $resource->getId();
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, &$resource) {
-			try {
-				if(!isset($resource)) {
-					$resource = $this->resourceService->findByFilesystemNode($node);
-				}
+		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, &$isInOrganizationFolder, &$isResource, &$resource): ?string {
+			if($isInOrganizationFolder === false) {
+				return null;
+			}
 
+			if($isResource === false) {
+				return null;
+			}
+			
+			if(!isset($resource)) {
+				try {
+					$resource = $this->resourceService->findByFilesystemNode($node, true);
+				} catch (\Exception $e) {
+					return null;
+				}
+			}
+
+			try {
 				return $this->authorizationService->isGranted(["UPDATE"], $resource) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;

@@ -139,10 +139,11 @@ class ResourceService {
 	/**
 	 * Find a folder resource by it's node in the filesystem
 	 * @param Folder $folder
+	 * @param bool $noRelativePathLookup prefer speed over accuracy by only matching via fileId
 	 * @throws ResourceNotFound
 	 * @return FolderResource
 	 */
-	public function findByFilesystemNode(Folder $folder): FolderResource {
+	public function findByFilesystemNode(Folder $folder, bool $noRelativePathLookup = false): FolderResource {
 		$mount = $folder->getMountPoint();
 
 		if (!$mount instanceof GroupMountPoint) {
@@ -160,21 +161,27 @@ class ResourceService {
 			// - or the fileId of the filesystem folder of the resource has changed
 			//   This should not happen, but could be caused by bugs in the core or other apps
 
-			try {
-				$organizationFolder = $this->organizationFolderService->findByFilesystemNode($folder);
+			if(!$noRelativePathLookup) {
+				try {
+					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($folder);
 
-				$relativeResourcePath = $mount->getInternalPath($folder->getPath());
-			
-				$resource = $this->findByRelativePath($organizationFolder->getId(), $relativeResourcePath);
+					$relativeResourcePath = $mount->getInternalPath($folder->getPath());
+				
+					$resource = $this->findByRelativePath($organizationFolder->getId(), $relativeResourcePath);
 
-				$this->logger->warning(
-					"The resource "
-					. json_encode($resource)
-					. "was just found by it's path, but not by it's fileId. This should not happen, investigate the cause! Proceeding normally."
-				);
+					$this->logger->warning(
+						"The resource "
+						. json_encode($resource)
+						. "was just found by it's path, but not by it's fileId. This should not happen, investigate the cause! Proceeding normally."
+					);
 
-				return $resource;
-			} catch (OrganizationFolderNotFound|ResourceNotFound $e) {
+					return $resource;
+				} catch (OrganizationFolderNotFound|ResourceNotFound $e) {
+					throw new ResourceNotFound([
+						"path" => $folder->getPath(),
+					]);
+				}
+			} else {
 				throw new ResourceNotFound([
 					"path" => $folder->getPath(),
 				]);
