@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import PermissionsInputRow from "./PermissionsInputRow.vue";
 
 const props = defineProps({
@@ -10,6 +10,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(["permissionUpdated"]);
+
+const locked = ref(false);
 
 const permissionGroups = computed(() => {
   return [
@@ -39,66 +41,89 @@ const permissionGroups = computed(() => {
   ]
 });
 
-const permissionUpdated = async (field, value) => {
-	emit("permissionUpdated", { field, value });
+const permissionUpdated = async (field, value, callback) => {
+	locked.value = true;
+	emit("permissionUpdated", {
+		field,
+		value,
+		callback: () => {
+			callback();
+			locked.value = false;
+		}
+	});
 }
 
 </script>
 
 <template>
 	<table>
-		<thead>
+		<thead class="ignoreForLayout">
 			<tr>
 				<th />
+				<th />
 				<!-- TRANSLATORS Folder read permissions checkbox title -->
-				<th v-tooltip="t('organization_folders', 'Read')" class="state-column">
+				<th>
 					{{ t("organization_folders", "Read") }}
 				</th>
 				<!-- TRANSLATORS Folder write permissions checkbox title -->
-				<th v-tooltip="t('organization_folders', 'Write')" class="state-column">
+				<th>
 					{{ t("organization_folders", "Write") }}
 				</th>
 				<!-- TRANSLATORS Folder create permissions checkbox title -->
-				<th v-tooltip="t('organization_folders', 'Create')" class="state-column">
+				<th>
 					{{ t("organization_folders", "Create") }}
 				</th>
 				<!-- TRANSLATORS Folder delete permissions checkbox title -->
-				<th v-tooltip="t('organization_folders', 'Delete')" class="state-column">
+				<th>
 					{{ t("organization_folders", "Delete") }}
 				</th>
 				<!-- TRANSLATORS Folder share permissions checkbox title -->
-				<th v-tooltip="t('organization_folders', 'Share')" class="state-column">
+				<th>
 					{{ t("organization_folders", "Share") }}
 				</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="ignoreForLayout">
 			<PermissionsInputRow v-for="{ field, label, explanation, mask, value } in permissionGroups"
 				:key="field"
+				:locked="locked"
 				:label="label"
 				:explanation="explanation"
 				:mask="mask"
 				:value="value"
-				@change="(val) => permissionUpdated(field, val)" />
+				@change="(val, callback) => permissionUpdated(field, val, callback)" />
 		</tbody>
 	</table>
 </template>
 
-<style scoped>
-	table {
-		width: 100%;
-		margin-bottom: 14px;
+<style lang="scss" scoped>
+table {
+	width: 100%;
+	margin-bottom: 14px;
+	display: grid;
+	grid-template-columns: max-content 7fr repeat(5, minmax(max-content, 1fr));
+
+	thead {
+		th {
+			text-align: center;
+			padding-left: 4px;
+			padding-right: 4px;
+		}
 	}
-	table td, table th {
-		padding: 0
+
+	:deep(tr) {
+		display: contents;
+
+		td {
+			display: grid;
+			align-content: center;
+			grid-template-columns: 100%;
+
+			&.buttonTd {
+				justify-items: center;
+  				align-items: center;
+			}
+		}
 	}
-	.state-column {
-		text-align: center;
-		width: 44px !important;
-		padding: 3px;
-	}
-	thead .state-column {
-		text-overflow: ellipsis;
-		overflow: hidden;
-	}
+}
 </style>

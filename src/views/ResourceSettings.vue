@@ -28,6 +28,8 @@ import UnmanagedSubfoldersList from "../components/UnmanagedSubfoldersList.vue";
 import UserPrincipalSelector from "../components/UserPrincipalSelector.vue";
 import PermissionsReport from "../components/PermissionsReport/PermissionsReport.vue";
 import UserPermissionsReport from "../components/UserPermissionsReport/UserPermissionsReport.vue";
+import WouldRevokeManagementPermissionsDialog from "../components/WouldRevokeManagementPermissionsDialog.vue";
+import WouldChangeManyUsersPermissionsDialog from "../components/WouldChangeManyUsersPermissionsDialog.vue";
 
 import ModalView from '../ModalView.vue';
 
@@ -54,7 +56,17 @@ const resourceApiIncludes = "model+permissions+members+subresources+unmanagedSub
 
 const resource = ref(null);
 const loading = ref(false);
+const inheritManagersLoading = ref(false);
 const resourceActiveLoading = ref(false);
+
+const revokeOwnManagementPermissionsDialogOpen = ref(false);
+let revokeOwnManagementPermissionsDialogRetryApiRequest = null;
+let revokeOwnManagementPermissionsDialogCancelApiRequest = null;
+
+const tooManyPermissionsChangesDialogOpen = ref(false);
+const tooManyPermissionsChangesDialogDetails = ref({});
+let tooManyPermissionsChangesDialogRetryApiRequest = null;
+let tooManyPermissionsChangesDialogCancelApiRequest = null;
 
 const permissionsReportOpen = ref(false);
 const permissionsReportLoading = ref(true);
@@ -70,12 +82,66 @@ const resourceNameValid = computed(() => {
 });
 
 const saveName = async () => {
-    resource.value = await api.updateResource(resource.value.id, { name: currentResourceName.value }, resourceApiIncludes);
+    resource.value = await api.moveResource(resource.value.id, {
+		name: currentResourceName.value,
+		parentResourceId: resource.value.parentResource,
+	}, resourceApiIncludes);
 };
 
-const saveInheritManagers = async (inheritManagers) => {
-    resource.value = await api.updateResource(resource.value.id, { inheritManagers }, resourceApiIncludes);
+const saveInheritManagers = (inheritManagers) => {
+	inheritManagersLoading.value = true;
+	api.updateResource(resource.value.id, { inheritManagers }, resourceApiIncludes)
+		.then((updatedResource) => {
+			resource.value = updatedResource;
+			inheritManagersLoading.value = false;
+		})
+		.catch((error) => {
+			if(error.response?.data?.id === "WouldRevokeUsersManagementPermissions") {
+				revokeOwnManagementPermissionsDialogRetryApiRequest = async () => {
+					resource.value = await api.updateResource(resource.value.id, { inheritManagers }, resourceApiIncludes, false);
+					inheritManagersLoading.value = false;
+				};
+				revokeOwnManagementPermissionsDialogCancelApiRequest = () => {
+					inheritManagersLoading.value = false;
+				};
+				revokeOwnManagementPermissionsDialogOpen.value = true;
+			}
+		});
 };
+
+const revokeOwnManagementPermissionsDialogCancel = () => {
+	revokeOwnManagementPermissionsDialogOpen.value = false;
+	if(revokeOwnManagementPermissionsDialogCancelApiRequest) {
+		revokeOwnManagementPermissionsDialogCancelApiRequest();
+	}
+}
+
+const revokeOwnManagementPermissionsDialogContinue = async (callback) => {
+	if(revokeOwnManagementPermissionsDialogRetryApiRequest) {
+		await revokeOwnManagementPermissionsDialogRetryApiRequest();
+	}
+	revokeOwnManagementPermissionsDialogRetryApiRequest = null;
+	callback();
+	revokeOwnManagementPermissionsDialogOpen.value = false;
+	backButtonClicked();
+}
+
+const tooManyPermissionsChangesDialogCancel = () => {
+	tooManyPermissionsChangesDialogOpen.value = false;
+	if(tooManyPermissionsChangesDialogCancelApiRequest) {
+		tooManyPermissionsChangesDialogCancelApiRequest();
+	}
+	tooManyPermissionsChangesDialogCancelApiRequest = null;
+}
+
+const tooManyPermissionsChangesDialogContinue = async (callback) => {
+	if(tooManyPermissionsChangesDialogRetryApiRequest) {
+		await tooManyPermissionsChangesDialogRetryApiRequest();
+	}
+	tooManyPermissionsChangesDialogRetryApiRequest = null;
+	callback();
+	tooManyPermissionsChangesDialogOpen.value = false;
+}
 
 const resourcePermissionsLimited = computed(() => {
     return resource.value?.permissions?.level === "limited";
@@ -96,10 +162,28 @@ const saveActive = async (active) => {
     resourceActiveLoading.value = false;
 };
 
-const savePermission = async ({ field, value }) => {
-    resource.value = await api.updateResource(resource.value.id, {
+const savePermission = async ({ field, value, callback }) => {
+    api.updateResource(resource.value.id, {
 	  [field]: value,
-	}, resourceApiIncludes);
+	}, resourceApiIncludes, false).then((updatedResource) => {
+		resource.value = updatedResource;
+		callback();
+	})
+	.catch((error) => {
+		if(error.response?.data?.id === "WouldCauseTooManyPermissionsChanges") {
+			tooManyPermissionsChangesDialogRetryApiRequest = async () => {
+				resource.value = await api.updateResource(resource.value.id, { [field]: value }, resourceApiIncludes, false, null);
+				callback();
+			};
+			tooManyPermissionsChangesDialogCancelApiRequest = () => {
+				callback();
+			};
+			tooManyPermissionsChangesDialogDetails.value = error.response?.data?.details;
+			tooManyPermissionsChangesDialogOpen.value = true;
+		} else {
+			callback();
+		}
+	});
 };
 
 const deleteResource = async (closeDialog) => {
@@ -127,14 +211,50 @@ const addMember = async (principalType, principalId, callback) => {
 	}
 };
 
-const updateMember = async (memberId, updateResourceMemberDto) => {
-	const member = await api.updateResourceMember(memberId, updateResourceMemberDto);
-	resource.value.members = resource.value.members.map((m) => m.id === member.id ? member : m);
+const updateMember = async (memberId, updateResourceMemberDto, callback) => {
+	api.updateResourceMember(memberId, updateResourceMemberDto)
+		.then((member) => {
+			resource.value.members = resource.value.members.map((m) => m.id === member.id ? member : m);
+			callback();
+		})
+		.catch((error) => {
+			if(error.response?.data?.id === "WouldRevokeUsersManagementPermissions") {
+				revokeOwnManagementPermissionsDialogRetryApiRequest = async () => {
+					let member = await api.updateResourceMember(memberId, updateResourceMemberDto, false);
+					callback();
+					resource.value.members = resource.value.members.map((m) => m.id === member.id ? member : m);
+				};
+				revokeOwnManagementPermissionsDialogCancelApiRequest = () => {
+					callback();
+				};
+				revokeOwnManagementPermissionsDialogOpen.value = true;
+			} else {
+				callback();
+			}
+		});
 };
 
-const deleteMember = async (memberId) => {
-	await api.deleteResourceMember(memberId);
-	resource.value.members = resource.value.members.filter((m) => m.id !== memberId);
+const deleteMember = (memberId, callback) => {
+	api.deleteResourceMember(memberId)
+		.then(() => {
+			resource.value.members = resource.value.members.filter((m) => m.id !== memberId);
+			callback();
+		})
+		.catch((error) => {
+			if(error.response?.data?.id === "WouldRevokeUsersManagementPermissions") {
+				revokeOwnManagementPermissionsDialogRetryApiRequest = async () => {
+					await api.deleteResourceMember(memberId, false);
+					callback();
+					resource.value.members = resource.value.members.filter((m) => m.id !== memberId);
+				};
+				revokeOwnManagementPermissionsDialogCancelApiRequest = () => {
+					callback();
+				};
+				revokeOwnManagementPermissionsDialogOpen.value = true;
+			} else {
+				callback();
+			}
+		});
 };
 
 const snapshotIntegrationActive = loadState('organization_folders', 'snapshot_integration_active', false);
@@ -343,11 +463,24 @@ const selectedPermissionsReportUser = async (principalType, principalId) => {
 			<NcCheckboxRadioSwitch
 				:checked="resource.inheritManagers"
 				:disabled="resourcePermissionsLimited"
+				:loading="inheritManagersLoading"
 				:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
 				style="margin-top: 12px;"
 				@update:checked="saveInheritManagers">
 				{{ t("organization_folders", "Inherit managers from the level above") }}
 			</NcCheckboxRadioSwitch>
+			<WouldRevokeManagementPermissionsDialog
+				:resource="resource"
+				:open="revokeOwnManagementPermissionsDialogOpen"
+				@cancel="revokeOwnManagementPermissionsDialogCancel"
+				@continue="revokeOwnManagementPermissionsDialogContinue" />
+			<WouldChangeManyUsersPermissionsDialog
+				:resource="resource"
+				:open="tooManyPermissionsChangesDialogOpen"
+				:added="tooManyPermissionsChangesDialogDetails?.numberOfUsersWithPermissionsAdded"
+				:removed="tooManyPermissionsChangesDialogDetails?.numberOfUsersWithPermissionsDeleted"
+				@cancel="tooManyPermissionsChangesDialogCancel"
+				@continue="tooManyPermissionsChangesDialogContinue" />
 		</Section>
 		<Section v-if="!resourcePermissionsLimited">
 			<template #header>

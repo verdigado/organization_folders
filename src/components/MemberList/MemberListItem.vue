@@ -1,5 +1,9 @@
 <script setup>
+import { ref } from "vue";
+
+import NcSelect from "@nextcloud/vue/components/NcSelect";
 import NcButton from "@nextcloud/vue/components/NcButton";
+import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
 
 import Delete from "vue-material-design-icons/Delete.vue";
 
@@ -19,14 +23,26 @@ const props = defineProps({
 
 const emit = defineEmits(["update", "delete"]);
 
-const onPermissionLevelSelected = (e) => {
-	emit("update", props.member.id, {
-		permissionLevel: parseInt(e.target.value, 10),
-	});
+const deletionLoading = ref(false);
+const permissionLevelLoading = ref(false);
+
+const onPermissionLevelSelected = (permissionLevel) => {
+	permissionLevelLoading.value = true;
+	emit(
+		"update",
+		props.member.id,
+		{ permissionLevel },
+		() => {
+			permissionLevelLoading.value = false;
+		}
+	);
 };
 
 const onDeleteClicked = (e) => {
-	emit("delete", props.member.id);
+	deletionLoading.value = true;
+	emit("delete", props.member.id, () => {
+		deletionLoading.value = false;
+	});
 };
 </script>
 
@@ -39,16 +55,21 @@ const onDeleteClicked = (e) => {
 			<Principal :principal="props.member.principal" />
 		</td>
 		<td>
-			<select :value="props.member.permissionLevel" @input="onPermissionLevelSelected">
-				<option v-for="{ label, value} in props.permissionLevelOptions" :key="value" :value="value">
-					{{ label }}
-				</option>
-			</select>
+			<NcSelect :modelValue="props.member.permissionLevel"
+				:options="props.permissionLevelOptions"
+				:loading="permissionLevelLoading"
+				:aria-label-combobox="'Permissions level select'"
+				:reduce="(option) => option.value"
+				:clearable="false"
+				label="label"
+				class="permissionLevelSelect"
+				@update:modelValue="onPermissionLevelSelected" />
 		</td>
 		<td>
 			<NcButton type="tertiary-no-background" @click="onDeleteClicked">
 				<template #icon>
-					<Delete :size="20" />
+					<NcLoadingIcon :size="20" v-if="deletionLoading" />
+					<Delete :size="20" v-else />
 				</template>
 			</NcButton>
 		</td>
@@ -58,5 +79,10 @@ const onDeleteClicked = (e) => {
 <style lang="scss" scoped>
 td {
 	padding: 8px;
+
+	.permissionLevelSelect {
+		min-width: 150px;
+		width: 100%;
+	}
 }
 </style>

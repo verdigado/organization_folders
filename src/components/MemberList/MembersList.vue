@@ -25,12 +25,12 @@ const props = defineProps({
 
 const emit = defineEmits(["update-member", "delete-member"]);
 
-const updateMember = (memberId, updateResourceMemberDto) => {
-	emit("update-member", memberId, updateResourceMemberDto);
+const updateMember = (memberId, updateMemberDto, callback) => {
+	emit("update-member", memberId, updateMemberDto, callback);
 };
 
-const deleteMember = (memberId) => {
-	emit("delete-member", memberId);
+const deleteMember = (memberId, callback) => {
+	emit("delete-member", memberId, callback);
 };
 
 </script>
@@ -80,7 +80,7 @@ table {
 	width: 100%;
 	margin-bottom: 14px;
 	display: grid;
-	grid-template-columns: max-content minmax(30px, auto) max-content max-content;
+	grid-template-columns: max-content minmax(30px, auto) min-content max-content;
 }
 table tr {
 	display: contents;

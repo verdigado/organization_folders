@@ -98,7 +98,7 @@ var PermissionOriginTypes = {
  * type: ResourceType
  * organizationFolderId: number
  * name: string
- * parentResource: number
+ * parentResource: number|null
  * active: bool
  * inheritManagers: bool
  * createdTimestamp: number
@@ -145,8 +145,13 @@ var PermissionOriginTypes = {
 const baseURL = generateUrl("/apps/organization_folders");
 axios.defaults.baseURL = baseURL;
 
+const httpErrorCodesNotGloballyHandled = [412];
+
 axios.interceptors.response.use(r => r, function (error) {
-	showError(error.response?.data?.message);
+	if(!httpErrorCodesNotGloballyHandled.includes(error.response?.status)) {
+		showError(error.response?.data?.message);
+	}
+	
 	return Promise.reject(error);
 });
 
@@ -248,6 +253,16 @@ export default {
 	},
 
 	/**
+	 *
+	 * @param {number|string} resourceId Resource id
+	 * @param {string} include
+	 * @return {Promise<Array<Resource>>}
+	 */
+	getResourceSubresources(resourceId, include = "model") {
+		return axios.get(`/resources/${resourceId}/subResources`, { params: { include } }).then((res) => res.data);
+	},
+
+	/**
 	 * @param {number|string} resourceId Resource id
 	 * @param {{
 	 *   name: string|undefined
@@ -257,11 +272,40 @@ export default {
 	 *   managersAclPermission: number|undefined
 	 *   inheritedAclPermission: number|undefined
 	 * }} updateResourceDto UpdateResourceDto
-	 * @param string include
+	 * @param {string} include
+	 * @param {string} cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove
+	 * @param {bool} cancelIfRevokesOwnManagementRights
 	 * @return {Promise<Resource>}
 	 */
-	updateResource(resourceId, updateResourceDto, include = "model") {
-		return axios.put(`/resources/${resourceId}`, { ...updateResourceDto, include }).then((res) => res.data);
+	updateResource(resourceId, updateResourceDto, include = "model", cancelIfRevokesOwnManagementRights = true, cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove = 50) {
+		return axios.put(
+			`/resources/${resourceId}`,
+			{
+				...updateResourceDto,
+				include,
+				cancelIfRevokesOwnManagementRights,
+				cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove
+			}
+		).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number|string} resourceId Resource id
+	 * @param {{
+	 *   name: string
+	 *   parentResourceId: number|null
+	 * }} moveResourceDto MoveResourceDto
+	 * @param {string} include
+	 * @return {Promise<Resource>}
+	 */
+	moveResource(resourceId, moveResourceDto, include = "model") {
+		return axios.put(
+			`/resources/${resourceId}/move`,
+			{
+				...moveResourceDto,
+				include,
+			}
+		).then((res) => res.data);
 	},
 
 	/**
@@ -380,18 +424,20 @@ export default {
 	 * @param {{
 	 * permissionLevel: ResourceMemberPermissionLevel
 	 * }} updateResourceMemberDto UpdateResourceMemberDto
+	 * @param {bool} cancelIfRevokesOwnManagementRights
 	 * @return {Promise<ResourceMember>}
 	 */
-	updateResourceMember(resourceMemberId, updateResourceMemberDto) {
-		return axios.put(`/resources/members/${resourceMemberId}`, { ...updateResourceMemberDto }).then((res) => res.data);
+	updateResourceMember(resourceMemberId, updateResourceMemberDto, cancelIfRevokesOwnManagementRights = true) {
+		return axios.put(`/resources/members/${resourceMemberId}`, { ...updateResourceMemberDto, cancelIfRevokesOwnManagementRights }).then((res) => res.data);
 	},
 
 	/**
 	 * @param {number} resourceMemberId Resource member id
+	 * @param {bool} cancelIfRevokesOwnManagementRights
 	 * @return {Promise<ResourceMember>}
 	 */
-	deleteResourceMember(resourceMemberId) {
-		return axios.delete(`/resources/members/${resourceMemberId}`, {}).then((res) => res.data);
+	deleteResourceMember(resourceMemberId, cancelIfRevokesOwnManagementRights = true) {
+		return axios.delete(`/resources/members/${resourceMemberId}`, { data: { cancelIfRevokesOwnManagementRights } }).then((res) => res.data);
 	},
 
 	/* Resource Snapshots */
