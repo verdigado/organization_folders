@@ -5,7 +5,6 @@ import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 import { generateFilePath } from "@nextcloud/router";
 import Tooltip from "@nextcloud/vue/dist/Directives/Tooltip.js";
 
-import { initFilesClient } from "./davClient.js";
 import Header from "./header.js";
 import api from "./api.js";
 
@@ -32,9 +31,5 @@ Vue.directive("tooltip", Tooltip);
 Vue.use(PiniaVuePlugin);
 
 window.organization_folders_api = api;
-
-window.addEventListener('DOMContentLoaded', () => {
-    initFilesClient(OC.Files.getClient());
-});
 
 registerFileListHeaders(Header);

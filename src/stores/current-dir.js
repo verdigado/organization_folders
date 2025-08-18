@@ -1,6 +1,4 @@
 import { defineStore } from "pinia";
-import { computed } from "vue";
-import { getFolderProperties } from "../davClient.js";
 import api from "../api.js";
 
 export const useCurrentDirStore = defineStore("currentDir", {
@@ -15,40 +13,17 @@ export const useCurrentDirStore = defineStore("currentDir", {
   	}),
 	actions: {
 		/**
-		 * set the path of the current directory and fetch organization folders info from dav api
-		 *
-		 * @param {string} path current path
+		 * @param {string} path path of new directory
+		 * @param attributes DAV attributes of directory
 		 */
-		async updatePath(path) {
-			this.loading = true;
+		async update(path, attributes) {
 			this.path = path
 
-			let { fileInfo } = await getFolderProperties(path)
-				.catch(() => {
-					this.organizationFolderId = false;
-					this.organizationFolderUpdatePermissions = false,
-					this.organizationFolderResourceId = false;
-					this.organizationFolderResourceUpdatePermissions = false;
-					this.loading = false;
-				});
-
-			console.log("fileInfo", fileInfo);
-
-			if(fileInfo) {
-				this.organizationFolderId = fileInfo.organizationFolderId;
-				this.organizationFolderUpdatePermissions = fileInfo.organizationFolderUpdatePermissions;
-				this.organizationFolderReadLimitedPermissions = fileInfo.organizationFolderReadLimitedPermissions;
-				this.organizationFolderResourceId = fileInfo.organizationFolderResourceId;
-				this.organizationFolderResourceUpdatePermissions = fileInfo.organizationFolderResourceUpdatePermissions;
-			} else {
-				this.organizationFolderId = false;
-				this.organizationFolderUpdatePermissions = false;
-				this.organizationFolderReadLimitedPermissions = false;
-				this.organizationFolderResourceId = false;
-				this.organizationFolderResourceUpdatePermissions = false;
-			}
-
-			this.loading = false;
+			this.organizationFolderId = attributes["organization-folder-id"];
+			this.organizationFolderUpdatePermissions = attributes["organization-folder-user-has-update-permissions"];
+			this.organizationFolderReadLimitedPermissions = attributes["organization-folder-user-has-read-limited-permissions"];
+			this.organizationFolderResourceId = attributes["organization-folder-resource-id"];
+			this.organizationFolderResourceUpdatePermissions = attributes["organization-folder-resource-user-has-update-permissions"];
 		},
 
 		async fetchCurrentResource() {

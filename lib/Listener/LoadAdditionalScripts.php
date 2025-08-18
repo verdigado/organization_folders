@@ -52,6 +52,7 @@ class LoadAdditionalScripts implements IEventListener {
 			return;
 		}
 
+		Util::addInitScript(Application::APP_ID, 'organization_folders-init');
 		Util::addScript(Application::APP_ID, 'organization_folders-main', 'files');
 
 		$this->initialState->provideInitialState('snapshot_integration_active', $this->appManager->isEnabledForUser("groupfolder_filesystem_snapshots"));
