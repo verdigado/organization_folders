@@ -10,8 +10,10 @@ use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 
 use OCP\Files\Folder;
+use OCP\Files\DavUtil;
 
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 
@@ -37,7 +39,8 @@ class PropFindPlugin extends ServerPlugin {
 	}
 
 	public function initialize(Server $server): void {
-		$server->on('propFind', $this->propFind(...));
+		// priority 90 ensures we get asked before the dav apps FilesPlugin, so we can reduce the permissions if necessary
+		$server->on('propFind', $this->propFind(...), 90);
 	}
 
 	public function propFind(PropFind $propFind, INode $sabreNode): void {
@@ -198,7 +201,11 @@ class PropFindPlugin extends ServerPlugin {
 			if(!isset($resource)) {
 				try {
 					$resource = $this->resourceService->findByFilesystemNode($node, true);
+					$isInOrganizationFolder = true;
+					$isResource = true;
 				} catch (\Exception $e) {
+					$isResource = false;
+
 					return null;
 				}
 			}
@@ -207,6 +214,33 @@ class PropFindPlugin extends ServerPlugin {
 				return $this->authorizationService->isGranted(["UPDATE"], $resource) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
+			}
+		});
+
+		$propFind->handle(FilesPlugin::PERMISSIONS_PROPERTYNAME, function () use ($node, &$isInOrganizationFolder, &$isResource, &$resource): string {
+			if(!isset($resource)) {
+				try {
+					$resource = $this->resourceService->findByFilesystemNode($node, true);
+					$isInOrganizationFolder = true;
+					$isResource = true;
+				} catch (\Exception $e) {
+					$isResource = false;
+				}
+			}
+
+			$permissions = DavUtil::getDavPermissions($node->getFileInfo());
+
+			if($isResource) {
+				// deletions are not actually possible
+				$filteredPermissions = str_replace('D', '', $permissions);
+				// renames are not actually possible
+				$filteredPermissions = str_replace('N', '', $filteredPermissions);
+				// moves are not actually possible
+				$filteredPermissions = str_replace('V', '', $filteredPermissions);
+
+				return $filteredPermissions;
+			} else {
+				return $permissions;
 			}
 		});
 	}
