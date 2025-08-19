@@ -8,6 +8,7 @@ OC.L10N.register(
     "Search" : "Sichen",
     "Cancel" : "Cancel",
     "Confirm" : "Konfirméieren",
+    "Warning" : "Warnung",
     "Admin" : "Admin",
     "Settings" : "Astellungen",
     "Edit" : "Änneren"

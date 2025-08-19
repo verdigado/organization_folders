@@ -22,6 +22,7 @@ OC.L10N.register(
     "Search" : "Chirca",
     "Cancel" : "Cancel",
     "Confirm" : "Cunfirma",
+    "Warning" : "Avisu",
     "Admin" : "Amministradore",
     "Settings" : "Cunfiguratzione",
     "Invalid name" : "Nùmene non bàlidu",

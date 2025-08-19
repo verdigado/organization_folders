@@ -16,6 +16,7 @@ OC.L10N.register(
     "Create" : "Δημιουργία",
     "Share" : "Διαμοιρασμός",
     "Denied (Inherited permission)" : "Απαγορεύτηκε (Κληρονομικά δικαιώματα)",
+    "Access denied" : "Δεν επιτρέπεται η πρόσβαση",
     "Allowed (Inherited permission)" : "Επετράπη (Κληρονομικά δικαιώματα)",
     "Denied" : "Απαγορεύτηκε",
     "Allowed" : "Επετράπη",

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Share" : "կիսվել",
     "Search" : "Search",
     "Cancel" : "Cancel",
+    "Warning" : "Զգուշացում",
     "Settings" : "Կարգավորումներ",
     "Edit" : "մշակել"
 },

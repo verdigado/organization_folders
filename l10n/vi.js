@@ -17,6 +17,7 @@ OC.L10N.register(
     "Search" : "Tìm kiếm",
     "Cancel" : "Cancel",
     "Confirm" : "Xác nhận",
+    "Warning" : "Cảnh báo",
     "Member" : "Thành viên",
     "Manager" : "Giám đốc",
     "Admin" : "Quản trị viên",

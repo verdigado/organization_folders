@@ -7,6 +7,7 @@ OC.L10N.register(
     "Name" : "ឈ្មោះ",
     "Search" : "ស្វែងរក",
     "Cancel" : "Cancel",
+    "Warning" : "បម្រាម",
     "Admin" : "អ្នក​គ្រប់​គ្រង",
     "Settings" : "ការកំណត់",
     "Edit" : "កែប្រែ"

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Search" : "Kërko",
     "Cancel" : "Cancel",
     "Confirm" : "Konfirmo",
+    "Warning" : "Kujdes",
     "Member" : "Anëtar",
     "Admin" : "Administrator",
     "Settings" : "Rregullimet",

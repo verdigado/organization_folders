@@ -5,6 +5,7 @@ OC.L10N.register(
     "Name" : "Nama",
     "Search" : "Search",
     "Cancel" : "Cancel",
+    "Warning" : "Amaran",
     "Admin" : "Admin",
     "Settings" : "Tetapan",
     "Edit" : "Sunting"

@@ -10,6 +10,7 @@ OC.L10N.register(
     "Read" : "Legi",
     "Write" : "Skribi",
     "Denied (Inherited permission)" : "Rifuzita (heredita permeso)",
+    "Access denied" : "Aliro malpermesata",
     "Allowed (Inherited permission)" : "Permesita (heredita permeso)",
     "Denied" : "Rifuzita",
     "Allowed" : "Permesita",

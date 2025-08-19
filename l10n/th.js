@@ -12,6 +12,7 @@ OC.L10N.register(
     "Search" : "ค้นหา",
     "Cancel" : "Cancel",
     "Confirm" : "ยืนยัน",
+    "Warning" : "คำเตือน",
     "Admin" : "ผู้ดูแลระบบ",
     "Settings" : "การตั้งค่า",
     "Resources" : "ทรัพยากร",

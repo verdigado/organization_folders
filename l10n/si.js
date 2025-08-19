@@ -13,6 +13,7 @@ OC.L10N.register(
     "Search" : "සොයන්න",
     "Cancel" : "Cancel",
     "Confirm" : "තහවුරු කරන්න",
+    "Warning" : "අවවාදයයි",
     "Member" : "සාමාජික",
     "Admin" : "පරිපාලක",
     "Settings" : "සැකසුම්",

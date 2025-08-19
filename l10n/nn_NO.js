@@ -9,6 +9,7 @@ OC.L10N.register(
     "Name" : "Namn",
     "Search" : "Søk",
     "Cancel" : "Cancel",
+    "Warning" : "Åtvaring",
     "Admin" : "Administrer",
     "Settings" : "Innstillingar",
     "Edit" : "Rediger"

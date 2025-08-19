@@ -10,6 +10,7 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Read" : "Leer",
     "Write" : "Escribir",
+    "Access denied" : "Acceso denegado",
     "Search" : "Buscar",
     "Cancel" : "Cancel",
     "Confirm" : "Confirmar",

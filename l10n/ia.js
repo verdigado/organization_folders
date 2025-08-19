@@ -9,6 +9,7 @@ OC.L10N.register(
     "Search" : "Cercar",
     "Cancel" : "Cancel",
     "Confirm" : "Confirmar",
+    "Warning" : "Aviso",
     "Settings" : "Configurationes",
     "Edit" : "Modificar"
 },

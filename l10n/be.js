@@ -14,6 +14,7 @@ OC.L10N.register(
     "Confirm" : "Пацвердзіць",
     "Admin" : "Адміністратар",
     "Settings" : "Налады",
+    "Organization" : "Арганізацыя",
     "Edit" : "Рэдагаваць",
     "Delete folder" : "Выдаліць папку",
     "Unmanaged Subfolders" : "Некіруемыя падпапкі"

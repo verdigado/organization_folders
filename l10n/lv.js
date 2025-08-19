@@ -18,6 +18,7 @@ OC.L10N.register(
     "Search" : "Meklēt",
     "Cancel" : "Atcelt",
     "Confirm" : "Apstiprināt",
+    "Warning" : "Brīdinājums",
     "Admin" : "Pārvaldītājs",
     "Settings" : "Iestatījumi",
     "Resources" : "Resursi",

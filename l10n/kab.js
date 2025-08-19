@@ -12,6 +12,7 @@ OC.L10N.register(
     "Search" : "Nadi",
     "Cancel" : "Cancel",
     "Confirm" : "Serggeg",
+    "Warning" : "Alɣu",
     "Admin" : "Anedbal",
     "Settings" : "Iɣewwaṛen",
     "Edit" : "Ẓreg"

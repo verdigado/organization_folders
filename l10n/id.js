@@ -15,6 +15,7 @@ OC.L10N.register(
     "Search" : "Cari",
     "Cancel" : "Cancel",
     "Confirm" : "Konfirmasi",
+    "Warning" : "Peringatan",
     "Admin" : "Admin",
     "Settings" : "Setelan",
     "Resources" : "Sumber daya",
