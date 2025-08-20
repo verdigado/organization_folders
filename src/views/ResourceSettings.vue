@@ -13,6 +13,9 @@ import NcDialog from "@nextcloud/vue/components/NcDialog";
 
 import BackupRestore from "vue-material-design-icons/BackupRestore.vue";
 import Delete from "vue-material-design-icons/Delete.vue";
+import AccountEye from "vue-material-design-icons/AccountEye.vue";
+import FolderMove from "vue-material-design-icons/FolderMove.vue";
+import DeleteForever from "vue-material-design-icons/DeleteForever.vue";
 
 import HeaderButtonGroup from "../components/SectionHeaderButtonGroup.vue";
 import Section from "../components/Section.vue";
@@ -28,6 +31,7 @@ import UnmanagedSubfoldersList from "../components/UnmanagedSubfoldersList.vue";
 import UserPrincipalSelector from "../components/UserPrincipalSelector.vue";
 import PermissionsReport from "../components/PermissionsReport/PermissionsReport.vue";
 import UserPermissionsReport from "../components/UserPermissionsReport/UserPermissionsReport.vue";
+import MoveResourceDialog from "../components/MoveResourceDialog.vue";
 import WouldRevokeManagementPermissionsDialog from "../components/WouldRevokeManagementPermissionsDialog.vue";
 import WouldChangeManyUsersPermissionsDialog from "../components/WouldChangeManyUsersPermissionsDialog.vue";
 
@@ -56,6 +60,7 @@ const resourceApiIncludes = "model+permissions+members+subresources+unmanagedSub
 
 const resource = ref(null);
 const loading = ref(false);
+const nameLoading = ref(false);
 const inheritManagersLoading = ref(false);
 const resourceActiveLoading = ref(false);
 
@@ -77,15 +82,32 @@ const userPermissionsReport = ref(null);
 
 const currentResourceName = ref(false);
 
+const moveDialogOpen = ref(false);
+
 const resourceNameValid = computed(() => {
     return validResourceName(currentResourceName.value);
 });
 
 const saveName = async () => {
+	nameLoading.value = true;
     resource.value = await api.moveResource(resource.value.id, {
 		name: currentResourceName.value,
 		parentResourceId: resource.value.parentResource,
 	}, resourceApiIncludes);
+	nameLoading.value = false;
+};
+
+const move = async (newParentResourceId, callback) => {
+	try {
+		resource.value = await api.moveResource(resource.value.id, {
+			name: resource.value.name,
+			parentResourceId: newParentResourceId,
+		}, resourceApiIncludes);
+		// TODO: It would be great to also move the users filebrowser behind modal to
+		// new location in filesystem if moved resource was open
+	} finally {
+		callback();
+	}
 };
 
 const saveInheritManagers = (inheritManagers) => {
@@ -158,8 +180,11 @@ watch(() => props.resourceId, async (newResourceId) => {
 
 const saveActive = async (active) => {
     resourceActiveLoading.value = true;
-    resource.value = await api.updateResource(resource.value.id, { active }, resourceApiIncludes);
-    resourceActiveLoading.value = false;
+	try {
+		resource.value = await api.updateResource(resource.value.id, { active }, resourceApiIncludes, false, null);
+	} finally {
+		resourceActiveLoading.value = false;
+	}
 };
 
 const savePermission = async ({ field, value, callback }) => {
@@ -428,6 +453,10 @@ const selectedPermissionsReportUser = async (principalType, principalId) => {
 	}
 };
 
+const openMoveDialog = () => {
+	moveDialogOpen.value = true;
+};
+
 </script>
 
 <template>
@@ -447,14 +476,14 @@ const selectedPermissionsReportUser = async (principalType, principalId) => {
 				<SectionHeader :text="t('organization_folders', 'Folder Name')"></SectionHeader>
 			</template>
 			<NcTextField :value.sync="currentResourceName"
-				:disabled="resourcePermissionsLimited"
+				:disabled="resourcePermissionsLimited || nameLoading"
 				:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
 				:error="!resourceNameValid"
 				:label-visible="!resourceNameValid"
 				:label-outside="true"
 				:helper-text="resourceNameValid ? '' : t('organization_folders', 'Invalid name')"
 				:label="t('organization_folders', 'Name')"
-				:show-trailing-button="currentResourceName !== resource.name"
+				:show-trailing-button="currentResourceName !== resource.name && !nameLoading"
 				trailing-button-icon="arrowRight"
 				style=" --color-border-maxcontrast: #949494;"
 				@trailing-button-click="saveName"
@@ -509,9 +538,12 @@ const selectedPermissionsReportUser = async (principalType, principalId) => {
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Management Actions')"></SectionHeader>
 			</template>
-			<div class="settings-group">
+			<div class="button-group">
 				<NcButton @click="openPermissionsReport">
 					{{ t("organization_folders", "Show Permissions Overview") }}
+					<template #icon>
+						<AccountEye :size="20" />
+					</template>
 				</NcButton>
 				<NcDialog :open.sync="permissionsReportOpen"
 					:name="t('organization_folders', 'Permissions Overview')"
@@ -548,20 +580,29 @@ const selectedPermissionsReportUser = async (principalType, principalId) => {
 					<PermissionsReport v-else-if="permissionsReportPage === 'overview'" :resource="resource" :permissions-report="permissionsReport" />
 					<UserPermissionsReport v-else-if="userPermissionsReport" :resource="resource" :user-permissions-report="userPermissionsReport" />
 				</NcDialog>
+				<NcButton @click="openMoveDialog">
+					{{ t("organization_folders", "Move folder") }}
+					<template #icon>
+						<FolderMove :size="20" />
+					</template>
+				</NcButton>
+				<MoveResourceDialog
+					:resource="resource"
+					:open="moveDialogOpen"
+					@update:open="(newValue) => moveDialogOpen = newValue"
+					@move="move" />
 				<NcButton v-if="snapshotIntegrationActive" @click="switchToSnapshotRestoreView">
 					<template #icon>
 						<BackupRestore />
 					</template>
 					{{ t("organization_folders", "Restore files from a backup") }}
 				</NcButton>
-				<div class="resource-active-button">
-					<NcCheckboxRadioSwitch :checked="resource.active"
-						:loading="resourceActiveLoading"
-						type="checkbox"
-						@update:checked="saveActive">
-						{{ t("organization_folders", "Resource active") }}
-					</NcCheckboxRadioSwitch>
-				</div>
+				<NcCheckboxRadioSwitch :checked="resource.active"
+					:loading="resourceActiveLoading"
+					type="checkbox"
+					@update:checked="saveActive">
+					{{ t("organization_folders", "Resource active") }}
+				</NcCheckboxRadioSwitch>
 				<ConfirmDeleteDialog :title="deleteResourceText"
 					:loading="loading"
 					:match-text="resource.name">
@@ -572,6 +613,9 @@ const selectedPermissionsReportUser = async (principalType, principalId) => {
 							type="error"
 							@click="open">
 							{{ deleteResourceText }}
+							<template #icon>
+								<DeleteForever />
+							</template>
 						</NcButton>
 					</template>
 					<template #content>
@@ -618,19 +662,24 @@ const selectedPermissionsReportUser = async (principalType, principalId) => {
 	max-width: 500px;
 }
 
-.settings-group {
-	display: flex;
+.button-group {
 	margin-top: 5px;
-}
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 20px;
+	row-gap: 10px;
+	justify-content: flex-start;
 
-.settings-group > :not(:last-child) {
-	margin-right: 20px;
-}
+	> * {
+		height: 55px;
+		white-space: nowrap;
+		box-sizing: border-box;
 
-.resource-active-button {
-	::v-deep .checkbox-radio-switch__label {
-		/* Add primary background color like other buttons */
-		background-color: var(--color-primary-light);
+		:deep(.checkbox-radio-switch__content) {
+			--default-clickable-area: 55px;
+			/* Add primary background color like other buttons */
+			background-color: var(--color-primary-light);
+		}
 	}
 }
 

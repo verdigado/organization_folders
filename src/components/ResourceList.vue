@@ -77,6 +77,7 @@ const filteredResources = computed(() => props.resources.filter((g) => g.name.to
 /* center the indicator icon for folder active state " */
 .resource-list {
 	position: relative;
+	box-sizing: border-box;
 }
 
 /deep/ .resource-list .line-two__additional_elements {

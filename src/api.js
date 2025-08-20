@@ -184,6 +184,15 @@ export default {
 	},
 
 	/**
+	 *
+	 * @param {number|string} id Organization folder id
+	 * @return {Promise<Array<Resource>>}
+	 */
+	getOrganizationFolderResources(organizationFolderId) {
+		return axios.get(`/organizationFolders/${organizationFolderId}/resources`, {}).then((res) => res.data);
+	},
+
+	/**
 	 * @param {number|string} organizationFolderId Organization folder id
 	 * @param {{
 	 *   name: string|undefined
