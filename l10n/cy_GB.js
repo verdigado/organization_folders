@@ -6,6 +6,7 @@ OC.L10N.register(
     "Search" : "Chwilio",
     "Cancel" : "Cancel",
     "Confirm" : "Cadarnhau",
+    "Warning" : "Rhybudd",
     "Member" : "Aelod",
     "Admin" : "Gweinyddwr",
     "Settings" : "Gosodiadau",

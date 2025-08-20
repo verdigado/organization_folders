@@ -8,6 +8,7 @@ OC.L10N.register(
     "Share" : "Podijeli",
     "Search" : "Search",
     "Cancel" : "Cancel",
+    "Warning" : "Upozorenje",
     "Member" : "Član",
     "Admin" : "Administrator",
     "Settings" : "Podešavanje",

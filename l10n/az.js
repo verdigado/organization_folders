@@ -10,6 +10,7 @@ OC.L10N.register(
     "Search" : "Axtarış",
     "Cancel" : "Cancel",
     "Confirm" : "Təsdiq edin",
+    "Warning" : "Xəbərdarlıq",
     "Admin" : "İnzibatçı",
     "Settings" : "Quraşdırmalar",
     "Resources" : "Resurslar",

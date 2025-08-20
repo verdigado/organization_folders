@@ -17,6 +17,7 @@ OC.L10N.register(
     "Search" : "Buscar",
     "Cancel" : "Cancel",
     "Confirm" : "Confirmar",
+    "Warning" : "Alvertencia",
     "Member" : "Miembru",
     "Manager" : "Xestor",
     "Admin" : "Alministración",

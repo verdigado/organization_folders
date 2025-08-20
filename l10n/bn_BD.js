@@ -8,6 +8,7 @@ OC.L10N.register(
     "Read" : "পড়",
     "Search" : "Search",
     "Cancel" : "Cancel",
+    "Warning" : "সতর্কবাণী",
     "Admin" : "প্রশাসন",
     "Settings" : "সেটিংস",
     "Edit" : "সম্পাদনা"

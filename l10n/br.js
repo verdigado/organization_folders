@@ -11,6 +11,7 @@ OC.L10N.register(
     "Search" : "Klask",
     "Cancel" : "Cancel",
     "Confirm" : "Kadarnaat",
+    "Warning" : "Kemenadenn",
     "Member" : "Ezel",
     "Admin" : "Merour",
     "Settings" : "Arventennoù",
