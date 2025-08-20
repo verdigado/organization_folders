@@ -30,6 +30,7 @@ use OCA\OrganizationFolders\Errors\Api\InvalidResourceType;
 use OCA\OrganizationFolders\Errors\Api\InvalidResourceName;
 use OCA\OrganizationFolders\Errors\Api\ResourceNotFound;
 use OCA\OrganizationFolders\Errors\Api\ResourceNameNotUnique;
+use OCA\OrganizationFolders\Errors\Api\ResourceDoesNotSupportSubresources;
 use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeItsOwnParent;
 use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeMovedIntoADifferentOrganizationFolder;
 use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeMovedIntoASubResource;
@@ -233,7 +234,7 @@ class ResourceService {
 
 				if($parentResource->getOrganizationFolderId() === $organizationFolderId) {
 					if($parentResource->getType() !== "folder") {
-						throw new Exception("Only folder resources can have sub-resources");
+						throw new ResourceDoesNotSupportSubresources($parentResource);
 					} else {
 						$resource->setParentResource($parentResource->getId());
 					}
@@ -385,6 +386,11 @@ class ResourceService {
 			// trying to move to different organization folder
 			if($parentResource->getOrganizationFolderId() !== $resource->getOrganizationFolderId()) {
 				throw new ResourceCannotBeMovedIntoADifferentOrganizationFolder($resource);
+			}
+
+			// trying to move into non-folder resource
+			if($parentResource->getType() !== "folder") {
+				throw new ResourceDoesNotSupportSubresources($parentResource);
 			}
 
 			// trying to create a cycle in resource tree
