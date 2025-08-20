@@ -183,9 +183,19 @@ class OrganizationFolderController extends BaseController {
 				// Future optimization potential: READ permission check checks MANAGE_ALL_RESOURCES again, at this point we know this to be false, because of the fastpath.
 				// Could be replaced with something like a READ_DIRECT (name TBD) permission check, which does not check this again.
 				if($this->authorizationService->isGranted(['READ'], $resource)) {
-					$result[] = $resource;
+					$result[] = [
+						...$resource->jsonSerialize(),
+						"permissions" => [
+							"level" => "full",
+						],
+					];
 				} else if($this->authorizationService->isGranted(['READ_LIMITED'], $resource)) {
-					$result[] = $resource->limitedJsonSerialize();
+					$result[] = [
+						...$resource->limitedJsonSerialize(),
+						"permissions" => [
+							"level" => "limited",
+						],
+					];
 				}
 			}
 		}
