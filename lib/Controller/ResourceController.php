@@ -28,6 +28,7 @@ class ResourceController extends BaseController {
 	public const MEMBERS_INCLUDE = 'members';
 	public const SUBRESOURCES_INCLUDE = 'subresources';
 	public const UNMANAGEDSUBFOLDERS_INCLUDE = 'unmanagedSubfolders';
+	public const FULLPATH_INCLUDE = 'fullPath';
 
 	public function __construct(
 		AuthorizationService $authorizationService,
@@ -67,6 +68,19 @@ class ResourceController extends BaseController {
 
 		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
 			$result["subResources"] = $this->getSubResources($resource);
+		}
+
+		if($this->shouldInclude(self::FULLPATH_INCLUDE, $includes)) {
+			$result["fullPath"] = [];
+
+			$fullPathResources = $this->service->getAllResourcesOnPathFromRootToResource($resource);
+
+			foreach($fullPathResources as $resource) {
+				$result["fullPath"][] = [
+					"id" => $resource->getId(),
+					"name" => $resource->getName(),
+				];
+			}
 		}
 
 		if(!$limited) {
