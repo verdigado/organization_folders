@@ -67,7 +67,10 @@ class ResourceController extends BaseController {
 		}
 
 		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
-			$result["subResources"] = $this->getSubResources($resource);
+			// do not recursively fetch whole resource tree when requesting subResources
+			// TODO: add depth filter to enable both usecases
+			$subInclude = implode('+', array_filter(["model", ...$includes], fn($include) => $include !== self::SUBRESOURCES_INCLUDE));
+			$result["subResources"] = $this->getSubResources($resource, $subInclude);
 		}
 
 		if($this->shouldInclude(self::FULLPATH_INCLUDE, $includes)) {
