@@ -218,6 +218,15 @@ class ResourceController extends BaseController {
 
 			$this->denyAccessUnlessGranted(['UPDATE'], $resource);
 
+			// only allow moving to places where the user is allowed to create resources
+			if(isset($parentResourceId)) {
+				$newParentResource = $this->service->find($parentResourceId);
+				$this->denyAccessUnlessGranted(['CREATE_SUBRESOURCE'], $newParentResource);
+			} else {
+				$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
+				$this->denyAccessUnlessGranted(['CREATE_TOP_LEVEL_RESOURCE'], $organizationFolder);
+			}
+
 			$resource = $this->service->move(
 				resource: $resource,
 				name: $name,
