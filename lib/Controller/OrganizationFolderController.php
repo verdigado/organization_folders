@@ -24,6 +24,7 @@ class OrganizationFolderController extends BaseController {
 	public const PERMISSIONS_INCLUDE = 'permissions';
 	public const MEMBERS_INCLUDE = 'members';
 	public const RESOURCES_INCLUDE = 'resources';
+	public const QUOTAUSED_INCLUDE = 'quotaUsed';
 
 	public function __construct(
 		AuthorizationService $authorizationService,
@@ -81,6 +82,11 @@ class OrganizationFolderController extends BaseController {
 			} else {
 				$result["permissions"]["level"] = "full";
 			}
+		}
+
+		
+		if ($this->shouldInclude(self::QUOTAUSED_INCLUDE, $includes)) {
+			$result["quotaUsed"] = $this->service->getOrganizationFolderQuotaUsed($organizationFolder);
 		}
 
 		if(!$limited) {
@@ -177,7 +183,14 @@ class OrganizationFolderController extends BaseController {
 
 		if($this->authorizationService->isGranted(['MANAGE_ALL_RESOURCES'], $organizationFolder)) {
 			/* fastpath: access to all resources */
-			$result = $resources;
+			foreach($resources as $resource) {
+				$result[] = [
+					...$resource->jsonSerialize(),
+					"permissions" => [
+						"level" => "full",
+					],
+				];
+			}
 		} else {
 			foreach($resources as $resource) {
 				// Future optimization potential: READ permission check checks MANAGE_ALL_RESOURCES again, at this point we know this to be false, because of the fastpath.

@@ -18,6 +18,7 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
+use OCA\OrganizationFolders\Errors\Api\OrganizationProviderNotFound;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
@@ -101,6 +102,10 @@ class OrganizationFolderService {
 		}
 	}
 
+	public function getOrganizationFolderQuotaUsed(OrganizationFolder $organizationFolder): int {
+		return $this->pathManager->getOrganizationFolderNode($organizationFolder)->getSize(includeMounts: false);
+	}
+
 	public function create(
 		string $name,
 		int $quota,
@@ -150,8 +155,6 @@ class OrganizationFolderService {
 		?string $organizationProviderId = null,
 		?int $organizationId = null
 	): OrganizationFolder {
-		$organizationFolder = $this->find($id);
-
 		$this->atomic(function () use ($id, $name, $quota, $organizationProviderId, $organizationId) {
 			if(isset($name)) {
 				$this->folderManager->renameFolder($id, $name);
@@ -167,7 +170,7 @@ class OrganizationFolderService {
 				}
 	
 				if(!$this->organizationProviderManager->hasOrganizationProvider($organizationProviderId)) {
-					throw new \Exception("organization provider not found");
+					throw new OrganizationProviderNotFound($organizationProviderId);
 				}
 	
 				$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
@@ -182,6 +185,8 @@ class OrganizationFolderService {
 				$this->tagService->update($id, "organization_id", (string)$organization->getId());
 			}
 		}, $this->db);
+
+		$organizationFolder = $this->find($id);
 
 		$this->applyAllPermissions($organizationFolder);
 

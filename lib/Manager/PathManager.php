@@ -10,7 +10,6 @@ use OCP\Files\Folder;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\MountProvider;
 
-use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 
 class PathManager {
