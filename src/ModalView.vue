@@ -143,6 +143,7 @@ const previousStepButtonPressed = () => {
 
 .btn-back {
 	position: absolute;
+	z-index: 10002;
 }
 </style>
 

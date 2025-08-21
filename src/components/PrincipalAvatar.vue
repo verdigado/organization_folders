@@ -16,7 +16,7 @@ const props = defineProps({
 
 <template>
 	<NcAvatar :user="props.principal.type === api.PrincipalTypes.USER ? props.principal.id : undefined"
-		:disabled-menu="true"
-		:disabled-tooltip="true"
+		:disable-menu="true"
+		:disable-tooltip="true"
 		:icon-class="props.principal.type !== api.PrincipalTypes.USER ? 'icon-group' : undefined" />
 </template>
