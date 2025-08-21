@@ -8,6 +8,8 @@
     "Folder name" : "Nombre de la carpeta",
     "File does not exist" : "El archivo no existe",
     "Name" : "Nombre",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Mover a {target}",
     "Read" : "Leer",
     "Write" : "Escribir",
     "Create" : "Crear",
@@ -18,7 +20,6 @@
     "Denied" : "Denegado",
     "Allowed" : "Permitido",
     "Search" : "Buscar",
-    "Cancel" : "Cancel",
     "Confirm" : "Confirmar",
     "Member" : "Miembro",
     "Manager" : "Administrador",
@@ -27,6 +28,7 @@
     "Organization" : "Organización",
     "Resources" : "Recursos",
     "Edit" : "Editar",
-    "Permissions" : "Permisos"
+    "Permissions" : "Permisos",
+    "Move folder" : "Mover carpeta"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

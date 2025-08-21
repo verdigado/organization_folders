@@ -11,6 +11,8 @@ OC.L10N.register(
     "Folder name" : "ھۆججەت قىسقۇچنىڭ ئىسمى",
     "File does not exist" : "ھۆججەت مەۋجۇت ئەمەس",
     "Name" : "ئاتى",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "{target} يۆتكەڭ",
     "Read" : "ئوقۇ",
     "Write" : "يېزىڭ",
     "Create" : "قۇر",
@@ -22,7 +24,6 @@ OC.L10N.register(
     "Denied" : "رەت قىلىندى",
     "Allowed" : "رۇخسەت قىلىندى",
     "Search" : "ئىزدەش",
-    "Cancel" : "Cancel",
     "Confirm" : "جەزملەشتۈرۈڭ",
     "Warning" : "ئاگاھلاندۇرۇش",
     "Member" : "ئەزا",
@@ -35,6 +36,7 @@ OC.L10N.register(
     "Finish" : "تامام",
     "No changes" : "ھېچقانداق ئۆزگەرتىش يوق",
     "Delete folder" : "ھۆججەت قىسقۇچنى ئۆچۈرۈڭ",
-    "Permissions" : "ئىجازەت"
+    "Permissions" : "ئىجازەت",
+    "Move folder" : "ھۆججەت قىسقۇچنى يۆتكەڭ"
 },
 "nplurals=2; plural=(n != 1);");

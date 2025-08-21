@@ -6,11 +6,11 @@ OC.L10N.register(
     "Add" : "Дадаць",
     "Folder name" : "Назва папкі",
     "Name" : "Назва",
+    "Cancel" : "Скасаваць",
     "Read" : "Чытаць",
     "Create" : "Стварыць",
     "Share" : "Абагуліць",
     "Search" : "Пошук",
-    "Cancel" : "Скасаваць",
     "Confirm" : "Пацвердзіць",
     "Warning" : "Папярэджанне",
     "Continue anyway" : "Усё роўна працягнуць",
@@ -20,6 +20,7 @@ OC.L10N.register(
     "Organization" : "Арганізацыя",
     "Edit" : "Рэдагаваць",
     "Delete folder" : "Выдаліць папку",
-    "Unmanaged Subfolders" : "Некіруемыя падпапкі"
+    "Unmanaged Subfolders" : "Некіруемыя падпапкі",
+    "Move folder" : "Перамясціць папку"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

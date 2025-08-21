@@ -11,6 +11,8 @@ OC.L10N.register(
     "Add" : "Agiunghe",
     "Folder name" : "Nùmene de sa cartella",
     "Name" : "Nùmene",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Tràmuda a {target}",
     "Read" : "Leghe",
     "Write" : "Iscrie",
     "Create" : "Crea",
@@ -20,7 +22,6 @@ OC.L10N.register(
     "Denied" : "Negadu",
     "Allowed" : "Cunsentidu",
     "Search" : "Chirca",
-    "Cancel" : "Cancel",
     "Confirm" : "Cunfirma",
     "Warning" : "Avisu",
     "Admin" : "Amministradore",
@@ -30,6 +31,7 @@ OC.L10N.register(
     "Resources" : "Risorsas",
     "Edit" : "Modìfica",
     "Delete folder" : "Cantzella sa cartella",
-    "Permissions" : "Permissos"
+    "Permissions" : "Permissos",
+    "Move folder" : "Tràmuda sa cartella"
 },
 "nplurals=2; plural=(n != 1);");

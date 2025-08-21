@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "フォルダー名",
     "File does not exist" : "ファイルが存在しません",
     "Name" : "名前",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "{target} に移動",
     "Read" : "読み込み",
     "Write" : "編集",
     "Create" : "作成",
@@ -23,7 +25,6 @@ OC.L10N.register(
     "Denied" : "拒否",
     "Allowed" : "許可",
     "Search" : "検索",
-    "Cancel" : "Cancel",
     "Confirm" : "承認",
     "Warning" : "警告",
     "Member" : "参加者",
@@ -35,6 +36,7 @@ OC.L10N.register(
     "Edit" : "編集",
     "Finish" : "完了",
     "Delete folder" : "フォルダーを削除",
-    "Permissions" : "アクセス権限"
+    "Permissions" : "アクセス権限",
+    "Move folder" : "フォルダーを移動"
 },
 "nplurals=1; plural=0;");

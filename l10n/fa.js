@@ -10,6 +10,8 @@ OC.L10N.register(
     "Folder name" : "نام پوشه",
     "File does not exist" : "فایل وجود ندارد",
     "Name" : "نام",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "جابجایی به {target}",
     "Read" : "خواندن",
     "Write" : "نوشتن",
     "Create" : "ایجاد",
@@ -21,7 +23,6 @@ OC.L10N.register(
     "Denied" : "رد کرد",
     "Allowed" : "مجاز",
     "Search" : "جستجو",
-    "Cancel" : "Cancel",
     "Confirm" : "تأیید",
     "Warning" : "هشدار",
     "Member" : "عضو",
@@ -32,6 +33,7 @@ OC.L10N.register(
     "Resources" : "منابع",
     "Edit" : "ویرایش",
     "Delete folder" : "حذف پوشه",
-    "Permissions" : "مجوزها"
+    "Permissions" : "مجوزها",
+    "Move folder" : "Move folder"
 },
 "nplurals=2; plural=(n > 1);");

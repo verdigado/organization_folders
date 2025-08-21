@@ -10,6 +10,8 @@
     "Folder name" : "Mappenavn",
     "File does not exist" : "Fil finnes ikke",
     "Name" : "Navn",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Flytt til {target}",
     "Read" : "Les",
     "Write" : "Skriv",
     "Create" : "Opprett",
@@ -21,7 +23,6 @@
     "Denied" : "Nektet",
     "Allowed" : "Tillatt",
     "Search" : "Søk",
-    "Cancel" : "Cancel",
     "Confirm" : "Bekreft",
     "Warning" : "Advarsel",
     "Member" : "Medlem",
@@ -35,6 +36,7 @@
     "Finish" : "Fullfør",
     "No changes" : "Ingen endringer",
     "Delete folder" : "Slett mappe",
-    "Permissions" : "Rettigheter"
+    "Permissions" : "Rettigheter",
+    "Move folder" : "Flytt mappe"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

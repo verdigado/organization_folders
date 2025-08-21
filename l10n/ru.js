@@ -13,6 +13,8 @@ OC.L10N.register(
     "Folder name" : "Имя папки",
     "File does not exist" : "Файл не существует",
     "Name" : "Имя",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Переместить в «{target}»",
     "Read" : "Чтение",
     "Write" : "Запись",
     "Create" : "Создать",
@@ -25,7 +27,6 @@ OC.L10N.register(
     "Allowed" : "Разрешено",
     "Search" : "Поиск",
     "Convert folder into resource" : "Преобразовать папку в ресурс",
-    "Cancel" : "Cancel",
     "Confirm" : "Подтвердить",
     "Warning" : "Предупреждение",
     "Manager" : "Руководитель",
@@ -37,6 +38,7 @@ OC.L10N.register(
     "Finish" : "Завершить",
     "Delete folder" : "Удалить папку",
     "Permissions" : "Права",
-    "Unmanaged Subfolders" : "Не управляемые вложенные папки"
+    "Unmanaged Subfolders" : "Не управляемые вложенные папки",
+    "Move folder" : "Переместить папку"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -13,6 +13,8 @@ OC.L10N.register(
     "Folder name" : "폴더 이름",
     "File does not exist" : "파일이 존재하지 않음",
     "Name" : "이름",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "{target}에 이동",
     "Read" : "읽기",
     "Write" : "쓰기",
     "Create" : "생성",
@@ -23,7 +25,6 @@ OC.L10N.register(
     "Denied" : "거부됨",
     "Allowed" : "허용됨",
     "Search" : "검색",
-    "Cancel" : "Cancel",
     "Confirm" : "확인",
     "Warning" : "경고",
     "Manager" : "담당 관리자",
@@ -35,6 +36,7 @@ OC.L10N.register(
     "Finish" : "끝내기",
     "No changes" : "변경 없음",
     "Delete folder" : "폴더 삭제",
-    "Permissions" : "권한"
+    "Permissions" : "권한",
+    "Move folder" : "폴더 이동"
 },
 "nplurals=1; plural=0;");

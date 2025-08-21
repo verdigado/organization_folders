@@ -33,6 +33,8 @@
     "No members yet" : "Níl aon bhall fós",
     "Name" : "Ainm",
     "Permission level" : "Leibhéal ceada",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Bog go {target}",
     "Folder Managers" : "Bainisteoirí Fillteán",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Baineann na ceadanna seo le haon bhall a chuirtear leis sa chéad chuid eile le leibhéal cead an bhainisteora agus le haon bhainisteoir a fhaigheann oidhreacht ón leibhéal thuas",
     "These permissions apply to any member added in the next section with the manager permission level" : "Baineann na ceadanna seo le haon bhall a chuirtear leis sa chéad chuid eile le leibhéal cead an bhainisteora",
@@ -67,7 +69,6 @@
     "Search" : "Cuardach",
     "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "Níl an fillteán {folderName} á bhainistiú faoi láthair, rud a chiallaíonn go bhfuil na ceadanna céanna ag úsáideoirí ann agus atá acu ina fhillteán tuismitheora {parentFolderName}.<br>Más gá duit ceadanna difriúla a chumrú, is féidir leat é a thiontú ina fho-acmhainn trí chliceáil ar Deimhnigh. Beidh na socruithe tosaigh ag teacht leis na ceadanna reatha éifeachtacha.<br><br><b>Ná lean ar aghaidh ach amháin má theastaíonn a chumraíocht ceadanna féin ón bhfillteán seo. Ní féidir an t-athrú seo a chealú.</b>",
     "Convert folder into resource" : "Tiontaigh fillteán ina acmhainn",
-    "Cancel" : "Cancel",
     "Confirm" : "Deimhnigh",
     "This person has the following permissions:" : "Tá na ceadanna seo a leanas ag an duine seo:",
     "The following are the sources of those permissions:" : "Seo a leanas foinsí na gceadanna sin:",
@@ -129,6 +130,7 @@
     "Show Permissions Overview" : "Taispeáin Forbhreathnú ar Cheadanna",
     "Permissions overview" : "Forbhreathnú ar cheadanna",
     "Permissions of person" : "Ceadanna an duine",
+    "Move folder" : "Bog fillteán",
     "Restore files from a backup" : "Athchóirigh comhaid ó chúltaca",
     "Resource active" : "Gníomhach acmhainne"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"

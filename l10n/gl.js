@@ -13,6 +13,8 @@ OC.L10N.register(
     "Folder name" : "Nome do cartafol",
     "File does not exist" : "O ficheiro non existe",
     "Name" : "Nome",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Mover a {target}",
     "Read" : "Ler",
     "Write" : "Escribir",
     "Create" : "Crear",
@@ -24,7 +26,6 @@ OC.L10N.register(
     "Denied" : "Denegado",
     "Allowed" : "Permitido",
     "Search" : "Buscar",
-    "Cancel" : "Cancel",
     "Confirm" : "Confirmar",
     "Warning" : "Advertencia",
     "Member" : "Membro",
@@ -37,6 +38,7 @@ OC.L10N.register(
     "Finish" : "Rematar",
     "No changes" : "Sen cambios",
     "Delete folder" : "Eliminar o cartafol",
-    "Permissions" : "Permisos"
+    "Permissions" : "Permisos",
+    "Move folder" : "Mover o cartafol"
 },
 "nplurals=2; plural=(n != 1);");

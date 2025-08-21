@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Delete" : "Padam",
     "Name" : "Nama",
-    "Search" : "Search",
     "Cancel" : "Cancel",
+    "Search" : "Search",
     "Warning" : "Amaran",
     "Admin" : "Admin",
     "Settings" : "Tetapan",

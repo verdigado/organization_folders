@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Delete" : "Skrap",
     "Add" : "Voeg toe",
-    "Search" : "Soek",
     "Cancel" : "Cancel",
+    "Search" : "Soek",
     "Confirm" : "Bevestig",
     "Admin" : "Admin",
     "Settings" : "Instellings",

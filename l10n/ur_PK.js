@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Delete" : "حذف کریں",
     "Name" : "اسم",
+    "Cancel" : "Cancel",
     "Share" : "اشتراک",
     "Search" : "Search",
-    "Cancel" : "Cancel",
     "Warning" : "انتباہ",
     "Admin" : "ایڈمن",
     "Settings" : "سیٹینگز",

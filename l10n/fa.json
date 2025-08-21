@@ -8,6 +8,8 @@
     "Folder name" : "نام پوشه",
     "File does not exist" : "فایل وجود ندارد",
     "Name" : "نام",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "جابجایی به {target}",
     "Read" : "خواندن",
     "Write" : "نوشتن",
     "Create" : "ایجاد",
@@ -19,7 +21,6 @@
     "Denied" : "رد کرد",
     "Allowed" : "مجاز",
     "Search" : "جستجو",
-    "Cancel" : "Cancel",
     "Confirm" : "تأیید",
     "Warning" : "هشدار",
     "Member" : "عضو",
@@ -30,6 +31,7 @@
     "Resources" : "منابع",
     "Edit" : "ویرایش",
     "Delete folder" : "حذف پوشه",
-    "Permissions" : "مجوزها"
+    "Permissions" : "مجوزها",
+    "Move folder" : "Move folder"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

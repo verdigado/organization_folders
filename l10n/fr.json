@@ -17,6 +17,8 @@
     "No members yet" : "Aucun membre pour le moment",
     "Name" : "Nom",
     "Permission level" : "Niveau d'autorisation",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Déplacer vers {target}",
     "Folder Managers" : "Gestionnaires du Dossier",
     "Folder Members" : "Membres du Dossier",
     "Inherited Permissions" : "Autorisations héritées",
@@ -31,7 +33,6 @@
     "Denied" : "Interdit",
     "Allowed" : "Autorisé",
     "Search" : "Rechercher",
-    "Cancel" : "Cancel",
     "Confirm" : "Confirmer",
     "Warning" : "Avertissement",
     "Member" : "Membre",
@@ -53,6 +54,7 @@
     "Permissions" : "Autorisations",
     "Management Actions" : "Actions de gestion",
     "Sub-Resources" : "Sous-ressources",
+    "Move folder" : "Déplacer le dossier",
     "Restore files from a backup" : "Restaurer des fichiers depuis une sauvegarde",
     "Resource active" : "Ressource active"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

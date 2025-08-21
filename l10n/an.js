@@ -5,6 +5,7 @@ OC.L10N.register(
     "Delete" : "Borrar",
     "Folder name" : "Nombre de carpeta",
     "Name" : "Nombre",
+    "Cancel" : "Cancel",
     "Read" : "Leyer",
     "Write" : "Escribir",
     "Create" : "Crear",
@@ -14,7 +15,6 @@ OC.L10N.register(
     "Denied" : "Denegau",
     "Allowed" : "Permitiu",
     "Search" : "Buscar",
-    "Cancel" : "Cancel",
     "Admin" : "Administrador",
     "Settings" : "Configuración"
 },

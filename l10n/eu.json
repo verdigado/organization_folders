@@ -10,6 +10,8 @@
     "Folder name" : "Karpetaren izena",
     "File does not exist" : "Fitxategia ez da existitzen",
     "Name" : "Izena",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Mugitu hona: {target}",
     "Read" : "Irakurri",
     "Write" : "Idatzi",
     "Create" : "Sortu",
@@ -21,7 +23,6 @@
     "Denied" : "Ukatuta",
     "Allowed" : "Baimenduta",
     "Search" : "Bilatu",
-    "Cancel" : "Cancel",
     "Confirm" : "Berretsi",
     "Warning" : "Abisua",
     "Manager" : "Zuzendaria",
@@ -34,6 +35,7 @@
     "Finish" : "Amaitu",
     "No changes" : "Aldaketarik gabe",
     "Delete folder" : "Ezabatu karpeta",
-    "Permissions" : "Baimenak"
+    "Permissions" : "Baimenak",
+    "Move folder" : "Lekuz aldatu karpeta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

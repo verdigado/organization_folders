@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "文件夹名称",
     "File does not exist" : "文件不存在",
     "Name" : "名称",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "移动到 {target}",
     "Read" : "读取",
     "Write" : "写入",
     "Create" : "创建",
@@ -23,7 +25,6 @@ OC.L10N.register(
     "Denied" : "拒绝",
     "Allowed" : "允许",
     "Search" : "搜索",
-    "Cancel" : "Cancel",
     "Confirm" : "确认",
     "Warning" : "警告",
     "Manager" : "管理者",
@@ -35,6 +36,7 @@ OC.L10N.register(
     "Edit" : "编辑",
     "Finish" : "完成",
     "Delete folder" : "删除文件夹",
-    "Permissions" : "权限"
+    "Permissions" : "权限",
+    "Move folder" : "移动文件夹"
 },
 "nplurals=1; plural=0;");

@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Delete" : "﻿ಅಳಿಸಿ",
     "Name" : "﻿ಹೆಸರು",
-    "Search" : "Search",
     "Cancel" : "Cancel",
+    "Search" : "Search",
     "Warning" : "﻿ಎಚ್ಚರಿಕೆ",
     "Admin" : "﻿ನಿರ್ವಹಕ",
     "Settings" : "ಆಯ್ಕೆ",

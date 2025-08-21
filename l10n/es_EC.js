@@ -10,6 +10,8 @@ OC.L10N.register(
     "Folder name" : "Nombre de la carpeta",
     "File does not exist" : "El archivo no existe",
     "Name" : "Nombre",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Mover a {target}",
     "Read" : "Leer",
     "Write" : "Escribir",
     "Create" : "Crear",
@@ -20,7 +22,6 @@ OC.L10N.register(
     "Denied" : "Denegado",
     "Allowed" : "Permitido",
     "Search" : "Buscar",
-    "Cancel" : "Cancel",
     "Confirm" : "Confirmar",
     "Member" : "Miembro",
     "Manager" : "Administrador",
@@ -29,6 +30,7 @@ OC.L10N.register(
     "Organization" : "Organización",
     "Resources" : "Recursos",
     "Edit" : "Editar",
-    "Permissions" : "Permisos"
+    "Permissions" : "Permisos",
+    "Move folder" : "Mover carpeta"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

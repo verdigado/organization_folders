@@ -24,6 +24,8 @@
     "No members yet" : "Henüz bir üye yok",
     "Name" : "Ad",
     "Permission level" : "İzin düzeyi",
+    "Cancel" : "İptal",
+    "Move to {target}" : "{target} içine taşı",
     "Folder Managers" : "Klasör yöneticileri",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Bu izinler, sonraki bölümden sorumlu izin düzeyi ile eklenen tüm üyelere ve yukarıdaki düzeyden devralınan tüm yöneticilere uygulanır.",
     "These permissions apply to any member added in the next section with the manager permission level" : "Bu izinler, sonraki bölümden sorumlu izin düzeyi ile eklenen tüm üyelere uygulanır.",
@@ -42,7 +44,6 @@
     "Denied" : "Reddedildi",
     "Allowed" : "İzin verildi",
     "Search" : "Ara",
-    "Cancel" : "İptal",
     "Confirm" : "Onayla",
     "Warning" : "Uyarı",
     "Member" : "Üye",
@@ -73,6 +74,7 @@
     "Only deactivated resources can be deleted" : "Yalnızca etkisizleştirilmiş kaynaklar silinebilir",
     "Sub-Resources" : "Alt kaynaklar",
     "Inherit managers from the level above" : "Sorumlular üst düzeyden devralınsın",
+    "Move folder" : "Klasörü taşı",
     "Restore files from a backup" : "Dosyaları yedekten geri yükle",
     "Resource active" : "Kaynak etkin"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

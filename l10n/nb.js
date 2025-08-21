@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Mappenavn",
     "File does not exist" : "Fil finnes ikke",
     "Name" : "Navn",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Flytt til {target}",
     "Read" : "Les",
     "Write" : "Skriv",
     "Create" : "Opprett",
@@ -23,7 +25,6 @@ OC.L10N.register(
     "Denied" : "Nektet",
     "Allowed" : "Tillatt",
     "Search" : "Søk",
-    "Cancel" : "Cancel",
     "Confirm" : "Bekreft",
     "Warning" : "Advarsel",
     "Member" : "Medlem",
@@ -37,6 +38,7 @@ OC.L10N.register(
     "Finish" : "Fullfør",
     "No changes" : "Ingen endringer",
     "Delete folder" : "Slett mappe",
-    "Permissions" : "Rettigheter"
+    "Permissions" : "Rettigheter",
+    "Move folder" : "Flytt mappe"
 },
 "nplurals=2; plural=(n != 1);");

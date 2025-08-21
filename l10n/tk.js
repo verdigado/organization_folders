@@ -6,10 +6,10 @@ OC.L10N.register(
     "Add account" : "Hasap goşuň",
     "Folder name" : "Papkanyň ady",
     "Name" : "Ady",
+    "Cancel" : "Cancel",
     "Create" : "Dörediň",
     "Share" : "Paýlaş",
     "Search" : "Gözlemek",
-    "Cancel" : "Cancel",
     "Settings" : "Sazlamalar",
     "Edit" : "Redaktirläň"
 },

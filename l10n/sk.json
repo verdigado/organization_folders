@@ -11,6 +11,8 @@
     "Folder name" : "Názov priečinka",
     "File does not exist" : "Súbor neexistuje",
     "Name" : "Názov",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Presunúť do {target}",
     "Read" : "Čítanie",
     "Write" : "Zapisovať",
     "Create" : "Vytvoriť",
@@ -22,7 +24,6 @@
     "Denied" : "Zamietnuté",
     "Allowed" : "Povolené",
     "Search" : "Hľadať",
-    "Cancel" : "Cancel",
     "Confirm" : "Potvrdiť",
     "Warning" : "Varovanie",
     "Manager" : "Manažér",
@@ -34,6 +35,7 @@
     "Finish" : "Dokončiť",
     "No changes" : "Žiadne zmeny",
     "Delete folder" : "Zmazať priečinok",
-    "Permissions" : "Oprávnenia"
+    "Permissions" : "Oprávnenia",
+    "Move folder" : "Presunúť priečinok"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

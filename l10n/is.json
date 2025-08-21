@@ -9,6 +9,8 @@
     "Folder name" : "Nafn möppu",
     "File does not exist" : "Skráin er ekki til",
     "Name" : "Heiti",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Færa í {target}",
     "Read" : "Lesa",
     "Write" : "Skrifa",
     "Create" : "Búa til",
@@ -19,7 +21,6 @@
     "Denied" : "Hafnað",
     "Allowed" : "Leyft",
     "Search" : "Search",
-    "Cancel" : "Cancel",
     "Confirm" : "Staðfesta",
     "Warning" : "Aðvörun",
     "Member" : "Meðlimur",
@@ -31,6 +32,7 @@
     "Edit" : "Breyta",
     "Finish" : "Ljúka",
     "Delete folder" : "Eyða möppu",
-    "Permissions" : "Heimildir"
+    "Permissions" : "Heimildir",
+    "Move folder" : "Færa möppu"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Ime mape",
     "File does not exist" : "Datoteka ne obstaja",
     "Name" : "Ime podpisnika",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Premakni na {target}",
     "Read" : "Branje",
     "Write" : "Zapiši",
     "Create" : "Ustvari",
@@ -23,7 +25,6 @@ OC.L10N.register(
     "Denied" : "Zavrnjeno",
     "Allowed" : "Dovoljeno",
     "Search" : "Poišči",
-    "Cancel" : "Cancel",
     "Confirm" : "Potrdi",
     "Warning" : "Opozorilo",
     "Manager" : "Upravljalnik",
@@ -35,6 +36,7 @@ OC.L10N.register(
     "Edit" : "Uredi",
     "No changes" : "Ni sprememb",
     "Delete folder" : "Izbriši mapo",
-    "Permissions" : "Dovoljenja"
+    "Permissions" : "Dovoljenja",
+    "Move folder" : "Premakni mapo"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

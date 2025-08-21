@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Mapnaam",
     "File does not exist" : "Bestand bestaat niet",
     "Name" : "Naam",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Verplaats naar {target}",
     "Read" : "Lezen",
     "Write" : "Schrijven",
     "Create" : "Creëer",
@@ -22,7 +24,6 @@ OC.L10N.register(
     "Denied" : "Geweigerd",
     "Allowed" : "Toegelaten",
     "Search" : "Zoeken",
-    "Cancel" : "Cancel",
     "Confirm" : "Bevestigen",
     "Warning" : "Waarschuwing",
     "Member" : "Leden",
@@ -36,6 +37,7 @@ OC.L10N.register(
     "Finish" : "Afronden",
     "Snapshot Restore Wizard" : "Assistent Momentopname herstellen",
     "Delete folder" : "Map verwijderen",
-    "Permissions" : "Rechten"
+    "Permissions" : "Rechten",
+    "Move folder" : "Verplaatsen map"
 },
 "nplurals=2; plural=(n != 1);");

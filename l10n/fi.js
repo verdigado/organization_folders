@@ -13,6 +13,8 @@ OC.L10N.register(
     "Folder name" : "Kansion nimi",
     "File does not exist" : "Tiedostoa ei ole olemassa",
     "Name" : "Nimi",
+    "Cancel" : "Peruuta",
+    "Move to {target}" : "Siirrä kohteeseen {target}",
     "Read" : "Lue",
     "Write" : "Kirjoita",
     "Create" : "Luo",
@@ -24,7 +26,6 @@ OC.L10N.register(
     "Denied" : "Estetty",
     "Allowed" : "Sallittu",
     "Search" : "Etsi",
-    "Cancel" : "Peruuta",
     "Confirm" : "Vahvista",
     "Warning" : "Varoitus",
     "Admin" : "Ylläpito",
@@ -34,6 +35,7 @@ OC.L10N.register(
     "Edit" : "Muokkaa",
     "Finish" : "Valmis",
     "Delete folder" : "Poista kansio",
-    "Permissions" : "Oikeudet"
+    "Permissions" : "Oikeudet",
+    "Move folder" : "Siirrä kansio"
 },
 "nplurals=2; plural=(n != 1);");

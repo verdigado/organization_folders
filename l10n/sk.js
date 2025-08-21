@@ -13,6 +13,8 @@ OC.L10N.register(
     "Folder name" : "Názov priečinka",
     "File does not exist" : "Súbor neexistuje",
     "Name" : "Názov",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Presunúť do {target}",
     "Read" : "Čítanie",
     "Write" : "Zapisovať",
     "Create" : "Vytvoriť",
@@ -24,7 +26,6 @@ OC.L10N.register(
     "Denied" : "Zamietnuté",
     "Allowed" : "Povolené",
     "Search" : "Hľadať",
-    "Cancel" : "Cancel",
     "Confirm" : "Potvrdiť",
     "Warning" : "Varovanie",
     "Manager" : "Manažér",
@@ -36,6 +37,7 @@ OC.L10N.register(
     "Finish" : "Dokončiť",
     "No changes" : "Žiadne zmeny",
     "Delete folder" : "Zmazať priečinok",
-    "Permissions" : "Oprávnenia"
+    "Permissions" : "Oprávnenia",
+    "Move folder" : "Presunúť priečinok"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

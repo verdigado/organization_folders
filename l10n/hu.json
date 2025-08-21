@@ -11,6 +11,8 @@
     "Folder name" : "Mappanév",
     "File does not exist" : "A fájl nem létezik",
     "Name" : "Név",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Áthelyezés ide: {target}",
     "Read" : "Olvasás",
     "Write" : "Írás",
     "Create" : "Létrehozás",
@@ -22,7 +24,6 @@
     "Denied" : "Tiltott",
     "Allowed" : "Engedélyezett",
     "Search" : "Keresés",
-    "Cancel" : "Cancel",
     "Confirm" : "Megerősítés",
     "Warning" : "Figyelmeztetés",
     "Manager" : "Kezelő",
@@ -34,6 +35,7 @@
     "Edit" : "Szerkesztés",
     "Finish" : "Befejez",
     "Delete folder" : "Mappa törlése",
-    "Permissions" : "Jogosultságok"
+    "Permissions" : "Jogosultságok",
+    "Move folder" : "Mappa áthelyezése"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

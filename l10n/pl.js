@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Nazwa katalogu",
     "File does not exist" : "Plik nie istnieje",
     "Name" : "Nazwa",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Przenieś do {target}",
     "Read" : "Czytaj",
     "Write" : "Zapisz",
     "Create" : "Utwórz",
@@ -23,7 +25,6 @@ OC.L10N.register(
     "Denied" : "Odmówiony",
     "Allowed" : "Dozwolony",
     "Search" : "Szukaj",
-    "Cancel" : "Cancel",
     "Confirm" : "Potwierdź",
     "Warning" : "Ostrzeżenie",
     "Manager" : "Menedżer",
@@ -35,6 +36,7 @@ OC.L10N.register(
     "Edit" : "Edycja",
     "Finish" : "Koniec",
     "Delete folder" : "Usuń katalog",
-    "Permissions" : "Uprawnienia"
+    "Permissions" : "Uprawnienia",
+    "Move folder" : "Przenieś katalog"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

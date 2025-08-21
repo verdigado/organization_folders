@@ -11,6 +11,8 @@ OC.L10N.register(
     "Add" : "Προσθήκη",
     "Folder name" : "Όνομα φακέλου",
     "Name" : "Όνομα",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Μετακίνηση σε {target}",
     "Read" : "Ανάγνωση",
     "Write" : "Εγγραφή",
     "Create" : "Δημιουργία",
@@ -21,8 +23,8 @@ OC.L10N.register(
     "Denied" : "Απαγορεύτηκε",
     "Allowed" : "Επετράπη",
     "Search" : "Αναζήτηση",
-    "Cancel" : "Cancel",
     "Confirm" : "Επιβεβαίωση",
+    "Warning" : "Προειδοποίηση",
     "Member" : "Μέλος",
     "Manager" : "Διαχειριστής",
     "Admin" : "Διαχειριστής",
@@ -33,6 +35,7 @@ OC.L10N.register(
     "Edit" : "Επεξεργασία",
     "Finish" : "Ολοκλήρωση",
     "Delete folder" : "Διαγραφή φακέλου",
-    "Permissions" : "Δικαιώματα"
+    "Permissions" : "Δικαιώματα",
+    "Move folder" : "Μετακίνηση φακέλου"
 },
 "nplurals=2; plural=(n != 1);");

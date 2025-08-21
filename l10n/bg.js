@@ -11,6 +11,7 @@ OC.L10N.register(
     "Folder name" : "Име на папка",
     "File does not exist" : "Файлът не съществува",
     "Name" : "Име",
+    "Cancel" : "Cancel",
     "Read" : "Прочитане",
     "Write" : "Писане",
     "Create" : "Създаване",
@@ -22,7 +23,6 @@ OC.L10N.register(
     "Denied" : "Отказан",
     "Allowed" : "Позволен",
     "Search" : "Търсене",
-    "Cancel" : "Cancel",
     "Confirm" : "Потвърдете",
     "Warning" : "Внимание",
     "Admin" : "Админ",
@@ -33,6 +33,7 @@ OC.L10N.register(
     "Edit" : "Редактиране",
     "Finish" : "Край",
     "Delete folder" : "Изтриване на папка",
-    "Permissions" : "Права"
+    "Permissions" : "Права",
+    "Move folder" : "Преместване на папка"
 },
 "nplurals=2; plural=(n != 1);");

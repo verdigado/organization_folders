@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Aplanko pavadinimas",
     "File does not exist" : "Failo nėra",
     "Name" : "Pavadinimas",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Perkelti į {target}",
     "Read" : "Skaityti",
     "Write" : "Rašyti",
     "Create" : "Sukurti",
@@ -22,7 +24,6 @@ OC.L10N.register(
     "Access allowed" : "Prieiga leidžiama",
     "Allowed" : "Leista",
     "Search" : "Paieška",
-    "Cancel" : "Cancel",
     "Confirm" : "Patvirtinti",
     "Warning" : "Įspėjimas",
     "Admin" : "Administravimas",
@@ -33,6 +34,7 @@ OC.L10N.register(
     "Edit" : "Taisyti",
     "Finish" : "Užbaigti",
     "Delete folder" : "Ištrinti aplanką",
-    "Permissions" : "Leidimai"
+    "Permissions" : "Leidimai",
+    "Move folder" : "Perkelti aplanką"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

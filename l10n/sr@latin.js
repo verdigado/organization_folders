@@ -5,10 +5,10 @@ OC.L10N.register(
     "Select an account" : "Izaberite nalog",
     "Folder name" : "Naziv fascikle",
     "Name" : "Ime",
+    "Cancel" : "Poništi",
     "Read" : "Čitaj",
     "Share" : "Deli",
     "Search" : "Traži",
-    "Cancel" : "Poništi",
     "Warning" : "Upozorenje",
     "Settings" : "Поставке",
     "Edit" : "Izmeni"

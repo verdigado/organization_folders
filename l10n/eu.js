@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Karpetaren izena",
     "File does not exist" : "Fitxategia ez da existitzen",
     "Name" : "Izena",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Mugitu hona: {target}",
     "Read" : "Irakurri",
     "Write" : "Idatzi",
     "Create" : "Sortu",
@@ -23,7 +25,6 @@ OC.L10N.register(
     "Denied" : "Ukatuta",
     "Allowed" : "Baimenduta",
     "Search" : "Bilatu",
-    "Cancel" : "Cancel",
     "Confirm" : "Berretsi",
     "Warning" : "Abisua",
     "Manager" : "Zuzendaria",
@@ -36,6 +37,7 @@ OC.L10N.register(
     "Finish" : "Amaitu",
     "No changes" : "Aldaketarik gabe",
     "Delete folder" : "Ezabatu karpeta",
-    "Permissions" : "Baimenak"
+    "Permissions" : "Baimenak",
+    "Move folder" : "Lekuz aldatu karpeta"
 },
 "nplurals=2; plural=(n != 1);");

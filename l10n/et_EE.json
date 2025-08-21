@@ -31,6 +31,8 @@
     "No members yet" : "Liikmeid veel pole",
     "Name" : "Nimi",
     "Permission level" : "Õiguste tase",
+    "Cancel" : "Katkesta",
+    "Move to {target}" : "Teisalda kausta {target}",
     "Folder Managers" : "Kausta haldajad",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Need õigused lisatakse kõikidele järgmisest valikust lisatavatele haldaja õigustega kasutajatele ja igale haldaja õigusega kasutajale ülaltpoolt kaustast",
     "These permissions apply to any member added in the next section with the manager permission level" : "Need õigused lisatakse kõikidele järgmisest valikust lisatavatele haldaja õigustega kasutajatele",
@@ -52,7 +54,6 @@
     "Search" : "Otsi",
     "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "„{folderName}“ kaust pole hetkel hallatud. See tähendab, et kasutajatel on seal samad õigused nagu ülemkaustas „{parentFolderName}“.<br>Kui pead seadistama muid õigusi, siis klõpsides „Kinnita“ võid ta muuta alamressursiks. Algsed seadistused saavad olema hetkel kehiuvad õigused.<br><br><b>Jätka vaid siis, kui see kaust vajab teistsuguseid õigusi. Seda muudatust ei saa tagasi pöörata.</b>",
     "Convert folder into resource" : "Muuda kaust ressursiks",
-    "Cancel" : "Katkesta",
     "Confirm" : "Kinnita",
     "Warning" : "Hoiatus (warning)",
     "Continue anyway" : "Jätka ikkagi",
@@ -98,6 +99,7 @@
     "Sub-Resources" : "Alamressursid",
     "Unmanaged Subfolders" : "Haldamata alamkaustad",
     "Inherit managers from the level above" : "Kaasa haldaja õigused ülalpool asuvast kaustast",
+    "Move folder" : "Teisalda kaust",
     "Restore files from a backup" : "Taasta failid varukoopiast",
     "Resource active" : "Ressurss on aktiivne"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

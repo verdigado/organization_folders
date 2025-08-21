@@ -33,6 +33,8 @@
     "No members yet" : "No members yet",
     "Name" : "Surname",
     "Permission level" : "Permission level",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Move to {target}",
     "Folder Managers" : "Folder Managers",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above",
     "These permissions apply to any member added in the next section with the manager permission level" : "These permissions apply to any member added in the next section with the manager permission level",
@@ -67,7 +69,6 @@
     "Search" : "Search",
     "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>",
     "Convert folder into resource" : "Convert folder into resource",
-    "Cancel" : "Cancel",
     "Confirm" : "Confirm",
     "This person has the following permissions:" : "This person has the following permissions:",
     "The following are the sources of those permissions:" : "The following are the sources of those permissions:",
@@ -129,6 +130,7 @@
     "Show Permissions Overview" : "Show Permissions Overview",
     "Permissions overview" : "Permissions overview",
     "Permissions of person" : "Permissions of person",
+    "Move folder" : "Move folder",
     "Restore files from a backup" : "Restore files from a backup",
     "Resource active" : "Resource active"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

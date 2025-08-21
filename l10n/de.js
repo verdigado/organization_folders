@@ -35,6 +35,7 @@ OC.L10N.register(
     "No members yet" : "Bislang keine Mitglieder",
     "Name" : "Name",
     "Permission level" : "Berechtigungsstufe",
+    "Cancel" : "Abbrechen",
     "Folder Managers" : "Ordnermanager",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Diese Berechtigungen gelten für alle Mitglieder, die im nächsten Abschnitt mit der Berechtigungsstufe „Manager“ hinzugefügt werden, sowie für alle Manager, die von der nächsthöheren Stufe übernommen wurden",
     "These permissions apply to any member added in the next section with the manager permission level" : "Diese Berechtigungen gelten für alle Mitglieder, die im nächsten Abschnitt mit der Berechtigungsstufe „Manager“ hinzugefügt werden",
@@ -69,7 +70,6 @@ OC.L10N.register(
     "Search" : "Suche",
     "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "Der Ordner \"{folderName}\" ist derzeit nicht verwaltet, d. h. Benutzer haben darin dieselben Berechtigungen wie im übergeordneten Ordner \"{parentFolderName}\".<br>Falls du andere Berechtigungen konfigurieren musst, kannst du ihn durch Klicken auf „Bestätigen“ in eine Unterressource umwandeln. Die anfänglichen Einstellungen entsprechen den aktuell gültigen Berechtigungen.<br><br><b>Fahre nur fort, wenn dieser Ordner eine eigene Berechtigungskonfiguration benötigt. Diese Änderung kann nicht rückgängig gemacht werden.</b>",
     "Convert folder into resource" : "Ordner in Ressource konvertieren",
-    "Cancel" : "Abbrechen",
     "Confirm" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
     "This person has the following permissions:" : "Diese Person hat folgende Berechtigungen:",
     "The following are the sources of those permissions:" : "Im Folgenden sind die Quellen dieser Berechtigungen aufgelistet:",
@@ -131,6 +131,7 @@ OC.L10N.register(
     "Show Permissions Overview" : "Berechtigungsüberblick anzeigen",
     "Permissions overview" : "Berechtigungsüberblick",
     "Permissions of person" : "Berechtigungen der Person",
+    "Move folder" : "Ordner verschieben",
     "Restore files from a backup" : "Wiederherstellen von Dateien aus einer Sicherung",
     "Resource active" : "Ressource aktiv"
 },

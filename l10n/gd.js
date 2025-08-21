@@ -6,10 +6,10 @@ OC.L10N.register(
     "Add account" : "Cuir cunntas ris",
     "Folder name" : "Ainm a’ phasgain",
     "Name" : "Ainm",
+    "Cancel" : "Cancel",
     "Create" : "Cruthaich",
     "Share" : "Co-roinn",
     "Search" : "Lorg",
-    "Cancel" : "Cancel",
     "Settings" : "Roghainnean",
     "Edit" : "Deasaich"
 },

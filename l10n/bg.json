@@ -9,6 +9,7 @@
     "Folder name" : "Име на папка",
     "File does not exist" : "Файлът не съществува",
     "Name" : "Име",
+    "Cancel" : "Cancel",
     "Read" : "Прочитане",
     "Write" : "Писане",
     "Create" : "Създаване",
@@ -20,7 +21,6 @@
     "Denied" : "Отказан",
     "Allowed" : "Позволен",
     "Search" : "Търсене",
-    "Cancel" : "Cancel",
     "Confirm" : "Потвърдете",
     "Warning" : "Внимание",
     "Admin" : "Админ",
@@ -31,6 +31,7 @@
     "Edit" : "Редактиране",
     "Finish" : "Край",
     "Delete folder" : "Изтриване на папка",
-    "Permissions" : "Права"
+    "Permissions" : "Права",
+    "Move folder" : "Преместване на папка"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

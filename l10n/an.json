@@ -3,6 +3,7 @@
     "Delete" : "Borrar",
     "Folder name" : "Nombre de carpeta",
     "Name" : "Nombre",
+    "Cancel" : "Cancel",
     "Read" : "Leyer",
     "Write" : "Escribir",
     "Create" : "Crear",
@@ -12,7 +13,6 @@
     "Denied" : "Denegau",
     "Allowed" : "Permitiu",
     "Search" : "Buscar",
-    "Cancel" : "Cancel",
     "Admin" : "Administrador",
     "Settings" : "Configuración"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

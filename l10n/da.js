@@ -22,6 +22,7 @@ OC.L10N.register(
     "No members yet" : "Ingen medlemmer endnu",
     "Name" : "Navn",
     "Permission level" : "Tilladelsesniveau",
+    "Cancel" : "Annullér",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Disse tilladelser gælder for ethvert medlem tilføjet i næste afsnit med administratortilladelsesniveauet og enhver administrator, der er arvet fra niveauet ovenfor",
     "These permissions apply to any member added in the next section with the manager permission level" : "Disse tilladelser gælder for ethvert medlem tilføjet i næste afsnit med administratortilladelsesniveauet",
     "These permissions apply to any member added in the next section with the member permission level" : "Disse tilladelser gælder for ethvert medlem tilføjet i næste afsnit med medlemstilladelsesniveauet",
@@ -38,7 +39,6 @@ OC.L10N.register(
     "Denied" : "Afvist",
     "Allowed" : "Tilladt",
     "Search" : "Søg",
-    "Cancel" : "Annullér",
     "Confirm" : "Bekræft",
     "Warning" : "Advarsel",
     "Member" : "Medlem",
@@ -65,6 +65,7 @@ OC.L10N.register(
     "Only deactivated resources can be deleted" : "Kun deaktiverede ressourcer kan slettes",
     "Sub-Resources" : "Underressourcer",
     "Inherit managers from the level above" : "Arv ledere fra niveauet ovenfor",
+    "Move folder" : "Flyt mappe",
     "Restore files from a backup" : "Gendan filer fra en sikkerhedskopi",
     "Resource active" : "Ressource aktiv"
 },

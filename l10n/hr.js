@@ -10,6 +10,8 @@ OC.L10N.register(
     "Add" : "Dodaj",
     "Folder name" : "Naziv mape",
     "Name" : "Naziv",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Premjesti u {target}",
     "Read" : "Čitaj",
     "Write" : "Piši",
     "Create" : "Stvori",
@@ -20,7 +22,6 @@ OC.L10N.register(
     "Denied" : "Odbijeno",
     "Allowed" : "Dopušteno",
     "Search" : "Traži",
-    "Cancel" : "Cancel",
     "Confirm" : "Potvrdi",
     "Warning" : "Upozorenje",
     "Admin" : "Admin",
@@ -29,6 +30,7 @@ OC.L10N.register(
     "Resources" : "Resursi",
     "Edit" : "Uredi",
     "Delete folder" : "Izbriši mapu",
-    "Permissions" : "Dopuštenja"
+    "Permissions" : "Dopuštenja",
+    "Move folder" : "Premjesti mapu"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

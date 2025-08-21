@@ -12,6 +12,7 @@ OC.L10N.register(
     "Folder name" : "Nom de la carpeta",
     "File does not exist" : "El fitxer no existeix",
     "Name" : "Nom",
+    "Cancel" : "Cancel",
     "Read" : "Lectura",
     "Write" : "Escriu",
     "Create" : "Crea",
@@ -22,7 +23,6 @@ OC.L10N.register(
     "Denied" : "Denegat",
     "Allowed" : "Permès",
     "Search" : "Cercar",
-    "Cancel" : "Cancel",
     "Confirm" : "Confirma",
     "Warning" : "Avís",
     "Manager" : "Gestor",
@@ -34,6 +34,7 @@ OC.L10N.register(
     "Finish" : "Acabeu",
     "No changes" : "Sense canvis",
     "Delete folder" : "Suprimeix la carpeta",
-    "Permissions" : "Permisos"
+    "Permissions" : "Permisos",
+    "Move folder" : "Mou la carpeta"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,6 +11,8 @@ OC.L10N.register(
     "Folder name" : "Nafn möppu",
     "File does not exist" : "Skráin er ekki til",
     "Name" : "Heiti",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Færa í {target}",
     "Read" : "Lesa",
     "Write" : "Skrifa",
     "Create" : "Búa til",
@@ -21,7 +23,6 @@ OC.L10N.register(
     "Denied" : "Hafnað",
     "Allowed" : "Leyft",
     "Search" : "Search",
-    "Cancel" : "Cancel",
     "Confirm" : "Staðfesta",
     "Warning" : "Aðvörun",
     "Member" : "Meðlimur",
@@ -33,6 +34,7 @@ OC.L10N.register(
     "Edit" : "Breyta",
     "Finish" : "Ljúka",
     "Delete folder" : "Eyða möppu",
-    "Permissions" : "Heimildir"
+    "Permissions" : "Heimildir",
+    "Move folder" : "Færa möppu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

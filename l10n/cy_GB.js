@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Delete" : "Dileu",
     "Name" : "Enw",
-    "Search" : "Chwilio",
     "Cancel" : "Cancel",
+    "Search" : "Chwilio",
     "Confirm" : "Cadarnhau",
     "Warning" : "Rhybudd",
     "Member" : "Aelod",

@@ -33,6 +33,8 @@
     "No members yet" : "Non ci sono membri",
     "Name" : "Nome",
     "Permission level" : "Livello di autorizzazione",
+    "Cancel" : "Cancel",
+    "Move to {target}" : "Sposta in {target}",
     "Folder Managers" : "Gestori di cartelle",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Queste autorizzazioni si applicano a qualsiasi membro aggiunto nella sezione successiva con il livello di autorizzazione del gestore e a qualsiasi gestore ereditato dal livello superiore",
     "These permissions apply to any member added in the next section with the manager permission level" : "Queste autorizzazioni si applicano a qualsiasi membro aggiunto nella sezione successiva con il livello di autorizzazione del gestore",
@@ -67,7 +69,6 @@
     "Search" : "Cerca",
     "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "La cartella \"{folderName}\"attualmente non è gestita, il che significa che gli utenti hanno le stesse autorizzazioni che hanno nella cartella padre \"{parentFolderName}\".<br>ISe è necessario configurare autorizzazioni diverse, è possibile convertirla in una sotto-risorsa facendo clic su Conferma. Le impostazioni iniziali corrisponderanno alle autorizzazioni effettive correnti..<br><br><b>Procedere solo se questa cartella necessita di una propria configurazione dei permessi. Questa modifica non può essere annullata.</b>",
     "Convert folder into resource" : "Converti cartella in risorsa",
-    "Cancel" : "Cancel",
     "Confirm" : "Conferma",
     "This person has the following permissions:" : "Questa persona ha i seguenti permessi:",
     "The following are the sources of those permissions:" : "Di seguito sono riportate le fonti di tali autorizzazioni:",
@@ -120,6 +121,7 @@
     "Show Permissions Overview" : "Mostra panoramica delle autorizzazioni",
     "Permissions overview" : "Panoramica delle autorizzazioni",
     "Permissions of person" : "Permessi della persona",
+    "Move folder" : "Sposta cartella",
     "Restore files from a backup" : "Ripristina i file da un backup",
     "Resource active" : "Risorsa attiva"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

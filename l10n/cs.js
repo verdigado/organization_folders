@@ -32,6 +32,7 @@ OC.L10N.register(
     "No members yet" : "Doposud žádní členové",
     "Name" : "Název",
     "Permission level" : "Stupeň oprávnění",
+    "Cancel" : "Storno",
     "Folder Managers" : "Správci složky",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Tato oprávnění budou uplatněna na všechny členy přidané do následující sekce se stupněm oprávnění správce a jakéhokoli spravujícího zděděného z úrovně nad",
     "These permissions apply to any member added in the next section with the manager permission level" : "Tato oprávnění budou uplatněna na všechny členy přidané do následující sekce se stupněm oprávnění správce",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "Show explanation" : "Zobrazit vysvětlení",
     "Search" : "Hledat",
     "Convert folder into resource" : "Převést složku na zdroj",
-    "Cancel" : "Storno",
     "Confirm" : "Potvrdit",
     "Warning" : "Varování",
     "Continue anyway" : "Pokračovat i tak",
@@ -102,6 +102,7 @@ OC.L10N.register(
     "Show Permissions Overview" : "Zobrazit přehled oprávnění",
     "Permissions overview" : "Přehled oprávnění",
     "Permissions of person" : "Oprávnění osoby",
+    "Move folder" : "Přesunout složku",
     "Restore files from a backup" : "Obnovit soubory ze zálohy",
     "Resource active" : "Prostředek aktivní"
 },

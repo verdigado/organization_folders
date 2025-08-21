@@ -4,9 +4,9 @@ OC.L10N.register(
     "Delete" : "հեռացնել",
     "Folder name" : "Պանակի անուն",
     "Name" : "Անուն",
+    "Cancel" : "Cancel",
     "Share" : "կիսվել",
     "Search" : "Search",
-    "Cancel" : "Cancel",
     "Warning" : "Զգուշացում",
     "Settings" : "Կարգավորումներ",
     "Edit" : "մշակել"
