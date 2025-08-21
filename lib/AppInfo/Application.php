@@ -21,6 +21,7 @@ use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Security\ResourceVoter;
 use OCA\OrganizationFolders\Security\OrganizationFolderVoter;
 use OCA\OrganizationFolders\Groups\GroupBackend;
+use OCA\OrganizationFolders\SetupChecks\InheritPerUserModeSetupCheck;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'organization_folders';
@@ -39,6 +40,8 @@ class Application extends App implements IBootstrap {
 			$service->registerVoter($c->get(ResourceVoter::class));
 			return $service;
 		});
+		
+		$context->registerSetupCheck(InheritPerUserModeSetupCheck::class);
 
 		$this->setupValidation();
 	}
