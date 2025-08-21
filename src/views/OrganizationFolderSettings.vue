@@ -1,5 +1,29 @@
+<!--
+  - @copyright Copyright (c) 2024 Jonathan Treffler <jonathan.treffler@verdigado.com>
+  - @copyright Copyright (C) 2023 Julia Kirschenheuter <julia.kirschenheuter@nextcloud.com>
+  - @copyright Copyright (C) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+  -
+  - @author Jonathan Treffler <jonathan.treffler@verdigado.com>
+  -
+  - @license GNU AGPL version 3 or any later version
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU Affero General Public License as
+  - published by the Free Software Foundation, either version 3 of the
+  - License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  - GNU Affero General Public License for more details.
+  -
+  - You should have received a copy of the GNU Affero General Public License
+  - along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, nextTick } from "vue";
+import { formatFileSize, parseFileSize } from "@nextcloud/files";
 import { getCurrentUser } from "@nextcloud/auth";
 import { useRouter } from "vue2-helpers/vue-router";
 import { translate as t, translatePlural as n } from "@nextcloud/l10n";
@@ -7,12 +31,16 @@ import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 import NcActions from "@nextcloud/vue/components/NcActions";
 import NcActionButton from "@nextcloud/vue/components/NcActionButton";
 import NcTextField from "@nextcloud/vue/components/NcTextField";
+import NcSelect from "@nextcloud/vue/components/NcSelect";
 
 import Pencil from "vue-material-design-icons/Pencil.vue";
 
 import Section from "../components/Section.vue";
 import SectionHeader from "../components/SectionHeader.vue";
+import SubSection from "../components/SubSection.vue";
+import SubSectionHeader from "../components/SubSectionHeader.vue";
 import HeaderButtonGroup from "../components/SectionHeaderButtonGroup.vue";
+import EditCancelSaveButtons from "../components/EditCancelSaveButtons.vue";
 import Hierarchy from "../components/Hierarchy.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
@@ -24,6 +52,7 @@ import ModalView from '../ModalView.vue';
 import api from "../api.js";
 import { useOrganizationProvidersStore } from "../stores/organization-providers.js";
 import { validOrganizationFolderName } from "../helpers/validation.js";
+import { formatQuotaSize, unlimitedQuota } from "../helpers/file-size-helpers.js"
 
 const props = defineProps({
 	organizationFolderId: {
@@ -38,7 +67,15 @@ organizationProviders.initialize();
 
 const organizationFolder = ref(null);
 const loading = ref(false);
+
 const currentOrganizationFolderName = ref(false);
+const currentOrganizationFolderQuota = ref(false);
+
+const nameEditActive = ref(false);
+const saveNameLoading = ref(false);
+
+const quotaEditActive = ref(false);
+const saveQuotaLoading = ref(false);
 
 const userIsAdmin = ref(getCurrentUser().isAdmin);
 
@@ -51,7 +88,7 @@ const memberPermissionLevelOptions = [
   { label: t("organization_folders", "Admin"), value: 3 },
 ];
 
-const neededOrganizationFolderIncludes = "model+permissions+members+resources";
+const neededOrganizationFolderIncludes = "model+permissions+quotaUsed+members+resources";
 
 const router = useRouter();
 
@@ -63,15 +100,124 @@ const organizationFolderPermissionsLimited = computed(() => {
 	return organizationFolder.value?.permissions?.level === "limited"; 
 });
 
+const quotaUsedPercent = computed(() => {
+	if(organizationFolder.value?.quota > 0) {
+		return (organizationFolder.value?.quotaUsed / organizationFolder.value?.quota) * 100;
+	} else {
+		return 0;
+	}
+});
+
+const quotaHumanReadable = computed(() => {
+	return formatQuotaSize(organizationFolder.value.quota);
+});
+
+const quotaUsedHumanReadable = computed(() => {
+	return formatFileSize(organizationFolder.value.quotaUsed);
+});
+
 watch(() => props.organizationFolderId, async (newOrganizationFolderId) => {
 	loading.value = true;
 	organizationFolder.value = await api.getOrganizationFolder(newOrganizationFolderId, neededOrganizationFolderIncludes);
-	currentOrganizationFolderName.value = organizationFolder.value.name;
 	loading.value = false;
 }, { immediate: true });
 
+const nameTextField = ref(null);
+
+const editName = () => {
+	currentOrganizationFolderName.value = organizationFolder.value.name;
+	nameEditActive.value = true;
+	nextTick(() => {
+		nameTextField.value?.focus();
+	});
+};
+
 const saveName = async () => {
-    organizationFolder.value = await api.updateOrganizationFolder(organizationFolder.value.id, { name: currentOrganizationFolderName.value }, neededOrganizationFolderIncludes);
+	saveNameLoading.value = true;
+	try {
+		organizationFolder.value = await api.updateOrganizationFolder(organizationFolder.value.id, { name: currentOrganizationFolderName.value }, neededOrganizationFolderIncludes);
+	} finally {
+		saveNameLoading.value = false;
+		nameEditActive.value = false;
+	}
+};
+
+const cancelNameEdit = () => {
+	nameEditActive.value = false;
+};
+
+const editQuota = () => {
+	currentOrganizationFolderQuota.value = organizationFolder.value.quota;
+	quotaEditActive.value = true;
+};
+
+const saveQuota = async () => {
+	saveQuotaLoading.value = true;
+	try {
+		organizationFolder.value = await api.updateOrganizationFolder(organizationFolder.value.id, { quota: currentOrganizationFolderQuota.value }, neededOrganizationFolderIncludes);
+	} finally {
+		saveQuotaLoading.value = false;
+		quotaEditActive.value = false;
+	}
+};
+
+const cancelQuotaEdit = () => {
+	quotaEditActive.value = false;
+};
+
+const unlimitedQuotaOption = {
+		id: unlimitedQuota,
+		label: formatQuotaSize(unlimitedQuota),
+};
+
+const quotaOptions = [
+	{
+		id: 1073741824,
+		label: "1 GB",
+	},
+	{
+		id: 5368709120,
+		label: "5 GB",
+	},
+	{
+		id: 10737418240,
+		label: "10 GB",
+	},
+	{
+		id: 53687091200,
+		label: "50 GB",
+	},
+	unlimitedQuotaOption,
+];
+
+const currentOrganizationFolderQuotaOption = computed({
+	get() {
+		return {
+			id: currentOrganizationFolderQuota.value,
+			label: formatQuotaSize(currentOrganizationFolderQuota.value),
+		}
+	},
+	set(quota) {
+		currentOrganizationFolderQuota.value = quota.id;
+	},
+});
+
+/**
+ * @param {string | object} quota Quota in readable format '5 GB'
+ * @return {object} The quota option object or unlimited quota object if input is invalid
+ */
+const createQuotaOption = (quota) => {
+	const parsedQuota = parseFileSize(quota, true);
+
+	if (parsedQuota === null) {
+		return unlimitedQuotaOption;
+	} else {
+		// unify format output
+		return {
+			id: parsedQuota,
+			label: formatFileSize(parsedQuota)
+		};
+	}
 };
 
 const addMember = async (principalType, principalId, callback) => {
@@ -162,35 +308,84 @@ const permissionLevelExplanation = t(
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Settings')"></SectionHeader>
 			</template>
-			<NcTextField :value.sync="currentOrganizationFolderName"
-				:disabled="organizationFolderPermissionsLimited"
-				:error="!organizationFolderNameValid"
-				:label-visible="!organizationFolderNameValid"
-				:label-outside="true"
-				:helper-text="organizationFolderNameValid ? '' : t('organization_folders', 'Invalid name')"
-				:label="t('organization_folders', 'Name')"
-				:show-trailing-button="currentOrganizationFolderName !== organizationFolder.name"
-				trailing-button-icon="arrowRight"
-				style=" --color-border-maxcontrast: #949494;"
-				@trailing-button-click="saveName"
-				@blur="() => currentOrganizationFolderName = currentOrganizationFolderName.trim()"
-				@keyup.enter="saveName" />
-		</Section>
-		<Section v-if="!organizationFolderPermissionsLimited">
-			<template #header>
-				<SectionHeader :text="t('organization_folders', 'Organization')"></SectionHeader>
-			</template>
-			<div style="display: flex; flex-direction: row; align-items: center;">
-				<Hierarchy :hierarchy-names="organizationFolder?.organizationFullHierarchyNames" />
-				<NcActions>
-					<NcActionButton @click="openOrganizationPicker">
-						<template #icon>
-							<Pencil :size="20" />
-						</template>
-						{{ t("organization_folders", "Edit") }}
-					</NcActionButton>
-				</NcActions>
-			</div>
+
+			<SubSection>
+				<template #header>
+					<SubSectionHeader :text="t('organization_folders', 'Name')" />
+				</template>
+
+				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px;">
+					<p v-if="!nameEditActive">{{ organizationFolder.name }}</p>
+					<NcTextField v-else
+						ref="nameTextField"
+						:value.sync="currentOrganizationFolderName"
+						:error="!organizationFolderNameValid"
+						:helper-text="organizationFolderNameValid ? '' : t('organization_folders', 'Invalid name')"
+						:label="t('organization_folders', 'Name')"
+						:label-outside="true"
+						style="--color-border-maxcontrast: #949494;"
+						@trailing-button-click="saveName"
+						@blur="() => currentOrganizationFolderName = currentOrganizationFolderName.trim()"
+						@keyup.enter="saveName"
+						@keydown.esc.stop.prevent
+						@keyup.esc.stop.prevent="cancelNameEdit" />
+					<EditCancelSaveButtons v-if="!organizationFolderPermissionsLimited"
+						:edit-active="nameEditActive"
+						:loading="saveNameLoading"
+						@edit="editName"
+						@cancel="cancelNameEdit"
+						@save="saveName" />
+				</div>
+			</SubSection>
+
+			<SubSection>
+				<template #header>
+					<SubSectionHeader :text="t('organization_folders', 'Storage Quota')" />
+				</template>
+				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px;">
+					<p v-if="!quotaEditActive">
+						{{ quotaHumanReadable }}
+						<span v-tooltip="t('organization_folders', '{usedStorage}/{availableStorage} used', { usedStorage: quotaUsedHumanReadable, availableStorage: quotaHumanReadable })">
+							{{ t('organization_folders', '({percent}% used)', { percent: quotaUsedPercent.toFixed(2) }) }}
+						</span>
+					</p>
+					<NcSelect v-else
+						v-model="currentOrganizationFolderQuotaOption"
+						:close-on-select="true"
+						:create-option="createQuotaOption"
+						:append-to-body="false"
+						:clearable="false"
+						:options="quotaOptions"
+						:input-label="t('organization_folders', 'Storage Quota')"
+						:label-outside="true"
+						:taggable="true" />
+						
+					<EditCancelSaveButtons v-if="!organizationFolderPermissionsLimited"
+						:edit-active="quotaEditActive"
+						:loading="saveQuotaLoading"
+						@edit="editQuota"
+						@cancel="cancelQuotaEdit"
+						@save="saveQuota" />
+				</div>
+			</SubSection>
+
+			<SubSection v-if="!organizationFolderPermissionsLimited">
+				<template #header>
+					<SubSectionHeader :text="t('organization_folders', 'Organization')" />
+				</template>
+
+				<div style="display: flex; flex-direction: row; align-items: center;">
+					<Hierarchy :hierarchy-names="organizationFolder?.organizationFullHierarchyNames" />
+					<NcActions>
+						<NcActionButton @click="openOrganizationPicker">
+							<template #icon>
+								<Pencil :size="20" />
+							</template>
+							{{ t("organization_folders", "Edit") }}
+						</NcActionButton>
+					</NcActions>
+				</div>
+			</SubSection>
 		</Section>
 		<Section v-if="!organizationFolderPermissionsLimited">
 			<template #header>
