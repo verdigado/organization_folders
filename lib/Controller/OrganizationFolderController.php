@@ -61,20 +61,20 @@ class OrganizationFolderController extends BaseController {
 					$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProvider());
 					$organization = $organizationProvider->getOrganization($organizationFolder->getOrganizationId());
 
-					$organizationFullHierarchyNames = [$organization->getFriendlyName()];
+					$organizationFullHierarchy = [$organization];
 
 					while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
-						$organizationFullHierarchyNames[] = $organization->getFriendlyName();
+						$organizationFullHierarchy[] = $organization;
 					}
 
-					$organizationFullHierarchyNames[] = $organizationProvider->getFriendlyName();
-
-					$result["organizationFullHierarchyNames"] = array_reverse($organizationFullHierarchyNames);
+					$result["organizationFullHierarchy"] = array_reverse($organizationFullHierarchy);
+					$result["organizationProviderFriendlyName"] = $organizationProvider->getFriendlyName();
 				} catch (\Throwable $e) {
-					$result["organizationFullHierarchyNames"] = ["Invalid organization"];
+					$result["organizationFullHierarchy"] = ["Invalid organization"];
 				}
 			} else {
-				$result["organizationFullHierarchyNames"] = null;
+				$result["organizationFullHierarchy"] = null;
+				$result["organizationProviderFriendlyName"] = null;
 			}
 		}
 

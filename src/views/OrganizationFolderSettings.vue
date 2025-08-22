@@ -98,6 +98,20 @@ const organizationFolderPermissionsLimited = computed(() => {
 	return organizationFolder.value?.permissions?.level === "limited"; 
 });
 
+const organizationFullHierarchyNames = computed(() => {
+	let result = [];
+
+	if(organizationFolder.value.organizationFullHierarchy) {
+		result.push(organizationFolder.value.organizationProviderFriendlyName);
+		
+		for(let organization of organizationFolder.value.organizationFullHierarchy) {
+			result.push(organization.friendlyName);
+		}
+	}
+
+	return result;
+})
+
 const quotaUsedPercent = computed(() => {
 	if(organizationFolder.value?.quota > 0) {
 		return (organizationFolder.value?.quotaUsed / organizationFolder.value?.quota) * 100;
@@ -314,8 +328,8 @@ const permissionLevelExplanation = t(
 				</template>
 
 				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px; padding-left: 10px;">
-					<Hierarchy v-if="organizationFolder?.organizationFullHierarchyNames"
-						:hierarchy-names="organizationFolder?.organizationFullHierarchyNames" />
+					<Hierarchy v-if="organizationFolder?.organizationFullHierarchy"
+						:hierarchy-names="organizationFullHierarchyNames" />
 					<p v-else>{{ t('organization_folders', 'No organization assigned') }}</p>
 					<NcActions v-if="!organizationFolderPermissionsLimited">
 						<NcActionButton @click="openOrganizationPicker">
