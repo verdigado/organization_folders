@@ -15,5 +15,6 @@ const props = defineProps({
 .header {
 	margin-top: 0px;
 	margin-bottom: 0px;
+	font-weight: bold;
 }
 </style>

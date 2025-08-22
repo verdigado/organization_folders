@@ -262,7 +262,7 @@ const permissionLevelExplanation = t(
 				</template>
 
 				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px;">
-					<p v-if="!nameEditActive">{{ organizationFolder.name }}</p>
+					<p v-if="!nameEditActive" style="padding-left: 10px;">{{ organizationFolder.name }}</p>
 					<NcTextField v-else
 						ref="nameTextField"
 						:value.sync="currentOrganizationFolderName"
@@ -290,7 +290,7 @@ const permissionLevelExplanation = t(
 					<SubSectionHeader :text="t('organization_folders', 'Storage Quota')" />
 				</template>
 				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px;">
-					<p v-if="!quotaEditActive">
+					<p v-if="!quotaEditActive" style="padding-left: 10px;">
 						{{ quotaHumanReadable }}
 						<span v-tooltip="t('organization_folders', '{usedStorage}/{availableStorage} used', { usedStorage: quotaUsedHumanReadable, availableStorage: quotaHumanReadable })">
 							{{ t('organization_folders', '({percent}% used)', { percent: (quotaUsedPercent >= 0) ? quotaUsedPercent.toFixed(2) : "?" }) }}
@@ -308,16 +308,16 @@ const permissionLevelExplanation = t(
 				</div>
 			</SubSection>
 
-			<SubSection v-if="!organizationFolderPermissionsLimited">
+			<SubSection>
 				<template #header>
 					<SubSectionHeader :text="t('organization_folders', 'Organization')" />
 				</template>
 
-				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px;">
+				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px; padding-left: 10px;">
 					<Hierarchy v-if="organizationFolder?.organizationFullHierarchyNames"
 						:hierarchy-names="organizationFolder?.organizationFullHierarchyNames" />
 					<p v-else>{{ t('organization_folders', 'No organization assigned') }}</p>
-					<NcActions>
+					<NcActions v-if="!organizationFolderPermissionsLimited">
 						<NcActionButton @click="openOrganizationPicker">
 							<template #icon>
 								<Pencil :size="20" />

@@ -103,6 +103,7 @@ const createOption = (quota) => {
 
 <template>
 	<NcSelect v-model="currentOption"
+		class="quotaSelect"
 		:close-on-select="true"
 		:create-option="createOption"
 		:clearable="false"
@@ -111,3 +112,16 @@ const createOption = (quota) => {
 		:label-outside="!showLabel"
 		:taggable="true" />
 </template>
+<style lang="scss" scoped>
+.quotaSelect {
+	margin-bottom: 0px !important;
+
+	/* Text should not move when switching to edit mode of quota setting */
+	:deep(.vs__selected) {
+		padding-inline-start: 2px !important;
+	}
+	:deep(.vs__search) {
+		padding-left: 2px;
+	}
+}
+</style>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, nextTick } from "vue";
 import { loadState } from '@nextcloud/initial-state';
 import { useRouter } from 'vue2-helpers/vue-router';
 import { translate as t, translatePlural as n } from "@nextcloud/l10n";
@@ -36,6 +36,7 @@ import UserPermissionsReport from "../components/UserPermissionsReport/UserPermi
 import MoveResourceDialog from "../components/MoveResourceDialog.vue";
 import WouldRevokeManagementPermissionsDialog from "../components/WouldRevokeManagementPermissionsDialog.vue";
 import WouldChangeManyUsersPermissionsDialog from "../components/WouldChangeManyUsersPermissionsDialog.vue";
+import EditCancelSaveButtons from "../components/EditCancelSaveButtons.vue";
 
 import ModalView from '../ModalView.vue';
 
@@ -62,9 +63,11 @@ const resourceApiIncludes = "model+permissions+members+subresources+unmanagedSub
 
 const resource = ref(null);
 const loading = ref(false);
-const nameLoading = ref(false);
 const inheritManagersLoading = ref(false);
 const resourceActiveLoading = ref(false);
+
+const nameEditActive = ref(false);
+const saveNameLoading = ref(false);
 
 const revokeOwnManagementPermissionsDialogOpen = ref(false);
 let revokeOwnManagementPermissionsDialogRetryApiRequest = null;
@@ -90,13 +93,30 @@ const resourceNameValid = computed(() => {
     return validResourceName(currentResourceName.value);
 });
 
+const nameTextField = ref(null);
+
+const editName = () => {
+	currentResourceName.value = resource.value.name;
+	nameEditActive.value = true;
+	nextTick(() => {
+		nameTextField.value?.focus();
+	});
+};
+
 const saveName = async () => {
-	nameLoading.value = true;
-    resource.value = await api.moveResource(resource.value.id, {
-		name: currentResourceName.value,
-		parentResourceId: resource.value.parentResource,
-	}, resourceApiIncludes);
-	nameLoading.value = false;
+	saveNameLoading.value = true;
+	try {
+		resource.value = await api.moveResource(resource.value.id, {
+			name: currentResourceName.value,
+			parentResourceId: resource.value.parentResource,
+		}, resourceApiIncludes);
+	} finally {
+		saveNameLoading.value = false;
+	}
+};
+
+const cancelNameEdit = () => {
+	nameEditActive.value = false;
 };
 
 const move = async (newParentResourceId, callback) => {
@@ -481,21 +501,29 @@ const openMoveDialog = () => {
 				<template #header>
 					<SubSectionHeader :text="t('organization_folders', 'Name')" />
 				</template>
-				<NcTextField :value.sync="currentResourceName"
-					:disabled="resourcePermissionsLimited || nameLoading"
-					:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
-					:error="!resourceNameValid"
-					:label-visible="!resourceNameValid"
-					:label-outside="true"
-					:helper-text="resourceNameValid ? '' : t('organization_folders', 'Invalid name')"
-					:label="t('organization_folders', 'Name')"
-					:show-trailing-button="currentResourceName !== resource.name && !nameLoading"
-					trailing-button-icon="arrowRight"
-					style=" --color-border-maxcontrast: #949494;"
-					@trailing-button-click="saveName"
-					@blur="() => currentResourceName = currentResourceName.trim()"
-					@keyup.enter="saveName" />
-				</SubSection>
+				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px;">
+					<p v-if="!nameEditActive" style="padding-left: 10px;">{{ resource.name }}</p>
+					<NcTextField v-else
+						ref="nameTextField"
+						:value.sync="currentResourceName"
+						:error="!resourceNameValid"
+						:helper-text="resourceNameValid ? '' : t('organization_folders', 'Invalid name')"
+						:label="t('organization_folders', 'Name')"
+						:label-outside="true"
+						style="--color-border-maxcontrast: #949494;"
+						@trailing-button-click="saveName"
+						@blur="() => currentResourceName = currentResourceName.trim()"
+						@keyup.enter="saveName"
+						@keydown.esc.stop.prevent
+						@keyup.esc.stop.prevent="cancelNameEdit" />
+					<EditCancelSaveButtons v-if="!resourcePermissionsLimited"
+						:edit-active="nameEditActive"
+						:loading="saveNameLoading"
+						@edit="editName"
+						@cancel="cancelNameEdit"
+						@save="saveName" />
+				</div>
+			</SubSection>
 
 			<SubSection>
 				<template #header>
@@ -506,7 +534,7 @@ const openMoveDialog = () => {
 					:disabled="resourcePermissionsLimited"
 					:loading="inheritManagersLoading"
 					:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
-					style="margin-top: 12px;"
+					style="margin-top: 12px; padding-left: 10px;"
 					@update:checked="saveInheritManagers">
 					{{ t("organization_folders", "Inherit managers from the level above") }}
 				</NcCheckboxRadioSwitch>
