@@ -27,7 +27,7 @@ const props = defineProps({
 
 const search = ref("");
 
-const filteredResources = computed(() => props.resources.filter((g) => g.name.toLowerCase().includes(search.value.toLowerCase())))
+const filteredResources = computed(() => props.resources.filter((r) => r.name.toLowerCase().includes(search.value.toLowerCase())));
 </script>
 
 <template>

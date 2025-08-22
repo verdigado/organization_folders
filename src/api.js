@@ -207,6 +207,21 @@ export default {
 		return axios.put(`/organizationFolders/${organizationFolderId}`, { ...updateOrganizationFolderDto, include }).then((res) => res.data);
 	},
 
+	/**
+	 * ADMIN ONLY
+	 * 
+	 * @param {{
+	 *   name: string
+	 *   quota: number|undefined
+	 *   organizationProviderId: string|undefined
+	 *   organizationId: number|undefined
+	 * }} createOrganizationFolderDto CreateOrganizationFolderDto
+	 * @return {Promise<OrganizationFolder>}
+	 */
+	createOrganizationFolder(createOrganizationFolderDto) {
+		return axios.post(`/organizationFolders`, createOrganizationFolderDto).then((res) => res.data);
+	},
+
 	/* Organization Folder Members */
 
 	/**

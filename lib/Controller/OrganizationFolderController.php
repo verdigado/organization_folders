@@ -39,7 +39,7 @@ class OrganizationFolderController extends BaseController {
 	}
 
 	/* ADMIN ONLY */
-	// TODO: add pagination
+	// TODO: add server-side pagination
 	public function index(): JSONResponse {
 		return new JSONResponse($this->service->findAll());
 	}
@@ -56,21 +56,25 @@ class OrganizationFolderController extends BaseController {
 				$result = $organizationFolder->jsonSerialize();
 			}
 
-			try {
-				$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProvider());
-				$organization = $organizationProvider->getOrganization($organizationFolder->getOrganizationId());
+			if($organizationFolder->getOrganizationProvider() && $organizationFolder->getOrganizationId()) {
+				try {
+					$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProvider());
+					$organization = $organizationProvider->getOrganization($organizationFolder->getOrganizationId());
 
-				$organizationFullHierarchyNames = [$organization->getFriendlyName()];
+					$organizationFullHierarchyNames = [$organization->getFriendlyName()];
 
-				while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
-					$organizationFullHierarchyNames[] = $organization->getFriendlyName();
+					while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
+						$organizationFullHierarchyNames[] = $organization->getFriendlyName();
+					}
+
+					$organizationFullHierarchyNames[] = $organizationProvider->getFriendlyName();
+
+					$result["organizationFullHierarchyNames"] = array_reverse($organizationFullHierarchyNames);
+				} catch (\Throwable $e) {
+					$result["organizationFullHierarchyNames"] = ["Invalid organization"];
 				}
-
-				$organizationFullHierarchyNames[] = $organizationProvider->getFriendlyName();
-
-				$result["organizationFullHierarchyNames"] = array_reverse($organizationFullHierarchyNames);
-			} catch (\Throwable $e) {
-				$result["organizationFullHierarchyNames"] = ["Invalid organization"];
+			} else {
+				$result["organizationFullHierarchyNames"] = null;
 			}
 		}
 
