@@ -21,6 +21,8 @@ import HeaderButtonGroup from "../components/SectionHeaderButtonGroup.vue";
 import Section from "../components/Section.vue";
 import SectionCollapseable from "../components/SectionCollapseable.vue";
 import SectionHeader from "../components/SectionHeader.vue";
+import SubSection from "../components/SubSection.vue";
+import SubSectionHeader from "../components/SubSectionHeader.vue";
 import MembersList from "../components/MemberList/MembersList.vue";
 import Permissions from "../components/Permissions/index.js";
 import ConfirmDeleteDialog from "../components/ConfirmDeleteDialog.vue";
@@ -473,31 +475,43 @@ const openMoveDialog = () => {
 			:text="noPermissionExplanation" />
 		<Section>
 			<template #header>
-				<SectionHeader :text="t('organization_folders', 'Folder Name')"></SectionHeader>
+				<SectionHeader :text="t('organization_folders', 'Settings')"></SectionHeader>
 			</template>
-			<NcTextField :value.sync="currentResourceName"
-				:disabled="resourcePermissionsLimited || nameLoading"
-				:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
-				:error="!resourceNameValid"
-				:label-visible="!resourceNameValid"
-				:label-outside="true"
-				:helper-text="resourceNameValid ? '' : t('organization_folders', 'Invalid name')"
-				:label="t('organization_folders', 'Name')"
-				:show-trailing-button="currentResourceName !== resource.name && !nameLoading"
-				trailing-button-icon="arrowRight"
-				style=" --color-border-maxcontrast: #949494;"
-				@trailing-button-click="saveName"
-				@blur="() => currentResourceName = currentResourceName.trim()"
-				@keyup.enter="saveName" />
-			<NcCheckboxRadioSwitch
-				:checked="resource.inheritManagers"
-				:disabled="resourcePermissionsLimited"
-				:loading="inheritManagersLoading"
-				:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
-				style="margin-top: 12px;"
-				@update:checked="saveInheritManagers">
-				{{ t("organization_folders", "Inherit managers from the level above") }}
-			</NcCheckboxRadioSwitch>
+			<SubSection>
+				<template #header>
+					<SubSectionHeader :text="t('organization_folders', 'Name')" />
+				</template>
+				<NcTextField :value.sync="currentResourceName"
+					:disabled="resourcePermissionsLimited || nameLoading"
+					:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
+					:error="!resourceNameValid"
+					:label-visible="!resourceNameValid"
+					:label-outside="true"
+					:helper-text="resourceNameValid ? '' : t('organization_folders', 'Invalid name')"
+					:label="t('organization_folders', 'Name')"
+					:show-trailing-button="currentResourceName !== resource.name && !nameLoading"
+					trailing-button-icon="arrowRight"
+					style=" --color-border-maxcontrast: #949494;"
+					@trailing-button-click="saveName"
+					@blur="() => currentResourceName = currentResourceName.trim()"
+					@keyup.enter="saveName" />
+				</SubSection>
+
+			<SubSection>
+				<template #header>
+					<SubSectionHeader :text="t('organization_folders', 'Inheritance')" />
+				</template>
+				<NcCheckboxRadioSwitch
+					:checked="resource.inheritManagers"
+					:disabled="resourcePermissionsLimited"
+					:loading="inheritManagersLoading"
+					:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
+					style="margin-top: 12px;"
+					@update:checked="saveInheritManagers">
+					{{ t("organization_folders", "Inherit managers from the level above") }}
+				</NcCheckboxRadioSwitch>
+			</SubSection>
+
 			<WouldRevokeManagementPermissionsDialog
 				:resource="resource"
 				:open="revokeOwnManagementPermissionsDialogOpen"
