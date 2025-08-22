@@ -7,8 +7,10 @@ OC.L10N.register(
     "Add account" : "ანგარიშის დამატება.",
     "Add group" : "ჯგუფის დამატება",
     "Folder name" : "დირექტორიის სახელი",
-    "Name" : "სახელი",
     "Cancel" : "Cancel",
+    "Save" : "შენახვა",
+    "Edit" : "შეცვლა",
+    "Name" : "სახელი",
     "Move to {target}" : "გადატანა {target}-ში",
     "Read" : "წაკითხვა",
     "Write" : "ჩაწერა",
@@ -20,9 +22,9 @@ OC.L10N.register(
     "Admin" : "ადმინისტრატორი",
     "Settings" : "პარამეტრები",
     "Resources" : "რესურსები",
-    "Edit" : "შეცვლა",
     "Finish" : "დასრულება",
     "Delete folder" : "ფოლდერის წაშლა",
-    "Permissions" : "უფლებები"
+    "Permissions" : "უფლებები",
+    "Unlimited" : "ულიმიტო"
 },
 "nplurals=2; plural=(n!=1);");

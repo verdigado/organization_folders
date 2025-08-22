@@ -3,12 +3,13 @@ OC.L10N.register(
     {
     "Delete" : "հեռացնել",
     "Folder name" : "Պանակի անուն",
-    "Name" : "Անուն",
     "Cancel" : "Cancel",
+    "Save" : "Պահպանել",
+    "Edit" : "մշակել",
+    "Name" : "Անուն",
     "Share" : "կիսվել",
     "Search" : "Search",
     "Warning" : "Զգուշացում",
-    "Settings" : "Կարգավորումներ",
-    "Edit" : "մշակել"
+    "Settings" : "Կարգավորումներ"
 },
 "nplurals=2; plural=(n != 1);");

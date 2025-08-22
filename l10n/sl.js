@@ -10,9 +10,11 @@ OC.L10N.register(
     "Add group" : "Dodaj skupino",
     "Add" : "Dodaj",
     "Folder name" : "Ime mape",
+    "Cancel" : "Cancel",
+    "Save" : "Shrani",
+    "Edit" : "Uredi",
     "File does not exist" : "Datoteka ne obstaja",
     "Name" : "Ime podpisnika",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Premakni na {target}",
     "Read" : "Branje",
     "Write" : "Zapiši",
@@ -33,10 +35,10 @@ OC.L10N.register(
     "Invalid name" : "Neveljavno ime",
     "Organization" : "Organizacija",
     "Resources" : "Viri",
-    "Edit" : "Uredi",
     "No changes" : "Ni sprememb",
     "Delete folder" : "Izbriši mapo",
     "Permissions" : "Dovoljenja",
-    "Move folder" : "Premakni mapo"
+    "Move folder" : "Premakni mapo",
+    "Unlimited" : "Neomejeno"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

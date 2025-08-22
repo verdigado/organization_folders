@@ -8,8 +8,10 @@ OC.L10N.register(
     "Add group" : "Adaugă grup",
     "Add" : "Adaugă",
     "Folder name" : "Denumire director",
-    "Name" : "Nume",
     "Cancel" : "Cancel",
+    "Save" : "Salvează",
+    "Edit" : "Editează",
+    "Name" : "Nume",
     "Move to {target}" : "Mută la {target}",
     "Read" : "Citit",
     "Create" : "Crează",
@@ -22,8 +24,8 @@ OC.L10N.register(
     "Admin" : "Admin",
     "Settings" : "Setări",
     "Resources" : "Resurse",
-    "Edit" : "Editează",
     "Finish" : "Finalizare",
-    "Permissions" : "Permisiuni"
+    "Permissions" : "Permisiuni",
+    "Unlimited" : "Nelimitată"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

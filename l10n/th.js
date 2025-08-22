@@ -5,9 +5,11 @@ OC.L10N.register(
     "Delete" : "ลบ",
     "Add group" : "เพิ่มกลุ่ม",
     "Folder name" : "ชื่อโฟลเดอร์",
+    "Cancel" : "Cancel",
+    "Save" : "บันทึก",
+    "Edit" : "แก้ไข",
     "File does not exist" : "ไม่มีไฟล์อยู่",
     "Name" : "ชื่อ",
-    "Cancel" : "Cancel",
     "Move to {target}" : "ย้ายไปยัง {target}",
     "Read" : "อ่าน",
     "Create" : "สร้าง",
@@ -17,6 +19,6 @@ OC.L10N.register(
     "Admin" : "ผู้ดูแลระบบ",
     "Settings" : "การตั้งค่า",
     "Resources" : "ทรัพยากร",
-    "Edit" : "แก้ไข"
+    "Unlimited" : "ไม่จำกัด"
 },
 "nplurals=1; plural=0;");

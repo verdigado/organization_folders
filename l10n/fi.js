@@ -11,9 +11,11 @@ OC.L10N.register(
     "Add group" : "Lisää ryhmä",
     "Add" : "Lisää",
     "Folder name" : "Kansion nimi",
+    "Cancel" : "Peruuta",
+    "Save" : "Tallenna",
+    "Edit" : "Muokkaa",
     "File does not exist" : "Tiedostoa ei ole olemassa",
     "Name" : "Nimi",
-    "Cancel" : "Peruuta",
     "Move to {target}" : "Siirrä kohteeseen {target}",
     "Read" : "Lue",
     "Write" : "Kirjoita",
@@ -32,10 +34,10 @@ OC.L10N.register(
     "Settings" : "Asetukset",
     "Invalid name" : "Virheellinen nimi",
     "Resources" : "Resurssit",
-    "Edit" : "Muokkaa",
     "Finish" : "Valmis",
     "Delete folder" : "Poista kansio",
     "Permissions" : "Oikeudet",
-    "Move folder" : "Siirrä kansio"
+    "Move folder" : "Siirrä kansio",
+    "Unlimited" : "Rajoittamaton"
 },
 "nplurals=2; plural=(n != 1);");

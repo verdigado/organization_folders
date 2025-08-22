@@ -25,6 +25,9 @@ OC.L10N.register(
     "Uncategorized roles" : "Uncategorised roles",
     "Create folder" : "Create folder",
     "Folder name" : "Folder name",
+    "Cancel" : "Cancel",
+    "Save" : "Save",
+    "Edit" : "Edit",
     "{filePath} has been created" : "{filePath} has been created",
     "{filePath} has been changed" : "{filePath} has been changed",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} has been renamed to {newFilePath}",
@@ -35,7 +38,7 @@ OC.L10N.register(
     "No members yet" : "No members yet",
     "Name" : "Surname",
     "Permission level" : "Permission level",
-    "Cancel" : "Cancel",
+    "Move Resource" : "Move Resource",
     "Move to {target}" : "Move to {target}",
     "Folder Managers" : "Folder Managers",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above",
@@ -93,7 +96,6 @@ OC.L10N.register(
     "Invalid name" : "Invalid name",
     "Organization" : "Organization",
     "Resources" : "Resources",
-    "Edit" : "Edit",
     "Organization Folders Admin Settings" : "Organization Folders Admin Settings",
     "No organization folders yet" : "No organization folders yet",
     "{filePath} will be deleted" : "{filePath} will be deleted",
@@ -134,6 +136,7 @@ OC.L10N.register(
     "Permissions of person" : "Permissions of person",
     "Move folder" : "Move folder",
     "Restore files from a backup" : "Restore files from a backup",
-    "Resource active" : "Resource active"
+    "Resource active" : "Resource active",
+    "Unlimited" : "Unlimited"
 },
 "nplurals=2; plural=(n != 1);");

@@ -10,9 +10,11 @@ OC.L10N.register(
     "Add group" : "グループを追加",
     "Add" : "追加",
     "Folder name" : "フォルダー名",
+    "Cancel" : "Cancel",
+    "Save" : "保存する",
+    "Edit" : "編集",
     "File does not exist" : "ファイルが存在しません",
     "Name" : "名前",
-    "Cancel" : "Cancel",
     "Move to {target}" : "{target} に移動",
     "Read" : "読み込み",
     "Write" : "編集",
@@ -33,10 +35,10 @@ OC.L10N.register(
     "Settings" : "設定",
     "Organization" : "共同作業",
     "Resources" : "リソース",
-    "Edit" : "編集",
     "Finish" : "完了",
     "Delete folder" : "フォルダーを削除",
     "Permissions" : "アクセス権限",
-    "Move folder" : "フォルダーを移動"
+    "Move folder" : "フォルダーを移動",
+    "Unlimited" : "無制限"
 },
 "nplurals=1; plural=0;");

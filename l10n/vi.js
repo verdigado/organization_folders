@@ -10,8 +10,10 @@ OC.L10N.register(
     "Add group" : "Thêm nhóm",
     "Add" : "Thêm",
     "Folder name" : "Tên thư mục",
-    "Name" : "Tên",
     "Cancel" : "Cancel",
+    "Save" : "Lưu",
+    "Edit" : "Chỉnh sửa",
+    "Name" : "Tên",
     "Move to {target}" : "Di chuyển đến {target}",
     "Read" : "Đọc",
     "Create" : "Tạo",
@@ -24,7 +26,7 @@ OC.L10N.register(
     "Admin" : "Quản trị viên",
     "Settings" : "Cài đặt",
     "Resources" : "Các nguồn lực",
-    "Edit" : "Chỉnh sửa",
-    "Delete folder" : "Xoá thư mục"
+    "Delete folder" : "Xoá thư mục",
+    "Unlimited" : "Không giới hạn"
 },
 "nplurals=1; plural=0;");

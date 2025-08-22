@@ -8,8 +8,10 @@ OC.L10N.register(
     "Add group" : "Apondre grop",
     "Add" : "Apondre",
     "Folder name" : "Nom del dorsièr",
-    "Name" : "Nom",
     "Cancel" : "Cancel",
+    "Save" : "Enregistrar",
+    "Edit" : "Modificar",
+    "Name" : "Nom",
     "Move to {target}" : "Desplaçar a {target}",
     "Read" : "Legit",
     "Create" : "Crear",
@@ -19,8 +21,8 @@ OC.L10N.register(
     "Warning" : "Avertiment",
     "Admin" : "Admin",
     "Settings" : "Paramètres",
-    "Edit" : "Modificar",
     "Delete folder" : "Suprimir dossièr",
-    "Permissions" : "Autorizacions"
+    "Permissions" : "Autorizacions",
+    "Unlimited" : "Illimitat"
 },
 "nplurals=2; plural=(n > 1);");

@@ -22,11 +22,13 @@ OC.L10N.register(
     "Add" : "Lägg till",
     "Create folder" : "Skapa mapp",
     "Folder name" : "Mappnamn",
+    "Cancel" : "Avbryt",
+    "Save" : "Spara",
+    "Edit" : "Redigera",
     "File does not exist" : "Filen finns inte",
     "No members yet" : "Inga medlemmar än",
     "Name" : "Namn",
     "Permission level" : "Behörighetsnivå",
-    "Cancel" : "Avbryt",
     "Move to {target}" : "Flytta till {target}",
     "Folder Managers" : "Mappadministratörer",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Dessa behörigheter gäller för alla medlemmar som läggs till i nästa avsnitt med behörighetsnivån “administratör” samt alla administratörer som ärvs från nivån ovanför",
@@ -57,7 +59,6 @@ OC.L10N.register(
     "Invalid name" : "Ogiltig namn",
     "Organization" : "Organisering",
     "Resources" : "Resurser",
-    "Edit" : "Redigera",
     "Organization Folders Admin Settings" : "Administratörsinställningar för organisationsmappar",
     "No organization folders yet" : "Inga organisationsmappar än",
     "Finish" : "Slutför",
@@ -77,6 +78,7 @@ OC.L10N.register(
     "Inherit managers from the level above" : "Ärv administratörer från nivån ovanför",
     "Move folder" : "Flytta mapp",
     "Restore files from a backup" : "Återställ filer från en säkerhetskopia",
-    "Resource active" : "Resurs aktiv"
+    "Resource active" : "Resurs aktiv",
+    "Unlimited" : "Obegränsat"
 },
 "nplurals=2; plural=(n != 1);");

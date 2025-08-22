@@ -9,9 +9,11 @@ OC.L10N.register(
     "Add group" : "Bæta við hópi",
     "Add" : "Bæta við",
     "Folder name" : "Nafn möppu",
+    "Cancel" : "Cancel",
+    "Save" : "Vista",
+    "Edit" : "Breyta",
     "File does not exist" : "Skráin er ekki til",
     "Name" : "Heiti",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Færa í {target}",
     "Read" : "Lesa",
     "Write" : "Skrifa",
@@ -31,10 +33,10 @@ OC.L10N.register(
     "Settings" : "Stillingar",
     "Organization" : "Stofnun/Samtök/Félag",
     "Resources" : "Tilföng",
-    "Edit" : "Breyta",
     "Finish" : "Ljúka",
     "Delete folder" : "Eyða möppu",
     "Permissions" : "Heimildir",
-    "Move folder" : "Færa möppu"
+    "Move folder" : "Færa möppu",
+    "Unlimited" : "Ótakmarkað"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

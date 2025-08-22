@@ -8,9 +8,11 @@ OC.L10N.register(
     "Add group" : "Додади група",
     "Add" : "Додади",
     "Folder name" : "Име на папка",
+    "Cancel" : "Cancel",
+    "Save" : "Сними",
+    "Edit" : "Уреди",
     "File does not exist" : "Датотеката не постои",
     "Name" : "Име",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Премести во {target}",
     "Read" : "Прочитана",
     "Write" : "Пишувај",
@@ -29,10 +31,10 @@ OC.L10N.register(
     "Admin" : "Админ",
     "Settings" : "Параметри",
     "Resources" : "Ресурси",
-    "Edit" : "Уреди",
     "Delete folder" : "Избриши папка",
     "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "Сакате да ја избришете папката \"{folderName}\". Дали сте сигурни?",
     "Permissions" : "Дозволи",
-    "Move folder" : "Премести папка"
+    "Move folder" : "Премести папка",
+    "Unlimited" : "Неограничено"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

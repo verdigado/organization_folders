@@ -7,10 +7,12 @@ OC.L10N.register(
     "Add group" : "Adder gruppo",
     "Folder name" : "Nomine de dossier",
     "Cancel" : "Cancel",
+    "Save" : "Salveguardar",
+    "Edit" : "Modificar",
     "Search" : "Cercar",
     "Confirm" : "Confirmar",
     "Warning" : "Aviso",
     "Settings" : "Configurationes",
-    "Edit" : "Modificar"
+    "Unlimited" : "Ilimitate"
 },
 "nplurals=2; plural=(n != 1);");

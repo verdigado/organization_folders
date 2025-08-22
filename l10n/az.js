@@ -4,8 +4,9 @@ OC.L10N.register(
     "Back" : "Geri",
     "Delete" : "Sil",
     "Folder name" : "Qovluq adı",
-    "Name" : "Ad",
     "Cancel" : "Cancel",
+    "Edit" : "Dəyişiklik et",
+    "Name" : "Ad",
     "Read" : "Oxu",
     "Share" : "Yayımla",
     "Search" : "Axtarış",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "Warning" : "Xəbərdarlıq",
     "Admin" : "İnzibatçı",
     "Settings" : "Quraşdırmalar",
-    "Resources" : "Resurslar",
-    "Edit" : "Dəyişiklik et"
+    "Resources" : "Resurslar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -2,12 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Delete" : "﻿ಅಳಿಸಿ",
-    "Name" : "﻿ಹೆಸರು",
     "Cancel" : "Cancel",
+    "Save" : "﻿ಉಳಿಸಿ",
+    "Edit" : "ಸಂಪಾದಿಸು",
+    "Name" : "﻿ಹೆಸರು",
     "Search" : "Search",
     "Warning" : "﻿ಎಚ್ಚರಿಕೆ",
     "Admin" : "﻿ನಿರ್ವಹಕ",
-    "Settings" : "ಆಯ್ಕೆ",
-    "Edit" : "ಸಂಪಾದಿಸು"
+    "Settings" : "ಆಯ್ಕೆ"
 },
 "nplurals=2; plural=(n > 1);");

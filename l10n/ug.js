@@ -9,9 +9,11 @@ OC.L10N.register(
     "Add group" : "گۇرۇپپا قوشۇڭ",
     "Add" : "قوش",
     "Folder name" : "ھۆججەت قىسقۇچنىڭ ئىسمى",
+    "Cancel" : "Cancel",
+    "Save" : "ساقلاش",
+    "Edit" : "تەھرىر",
     "File does not exist" : "ھۆججەت مەۋجۇت ئەمەس",
     "Name" : "ئاتى",
-    "Cancel" : "Cancel",
     "Move to {target}" : "{target} يۆتكەڭ",
     "Read" : "ئوقۇ",
     "Write" : "يېزىڭ",
@@ -32,11 +34,11 @@ OC.L10N.register(
     "Settings" : "تەڭشەكلەر",
     "Invalid name" : "ئىناۋەتسىز ئىسىم",
     "Resources" : "بايلىق",
-    "Edit" : "تەھرىر",
     "Finish" : "تامام",
     "No changes" : "ھېچقانداق ئۆزگەرتىش يوق",
     "Delete folder" : "ھۆججەت قىسقۇچنى ئۆچۈرۈڭ",
     "Permissions" : "ئىجازەت",
-    "Move folder" : "ھۆججەت قىسقۇچنى يۆتكەڭ"
+    "Move folder" : "ھۆججەت قىسقۇچنى يۆتكەڭ",
+    "Unlimited" : "چەكسىز"
 },
 "nplurals=2; plural=(n != 1);");

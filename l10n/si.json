@@ -3,8 +3,9 @@
     "Select an account" : "ගිණුමක් තෝරන්න",
     "Add" : "එකතු කරන්න",
     "Folder name" : "බහාලුමේ නම",
-    "Name" : "නම",
     "Cancel" : "Cancel",
+    "Edit" : "සංස්කරණය",
+    "Name" : "නම",
     "Read" : "කියවීම",
     "Write" : "ලිවීම",
     "Create" : "සාදන්න",
@@ -15,6 +16,6 @@
     "Member" : "සාමාජික",
     "Admin" : "පරිපාලක",
     "Settings" : "සැකසුම්",
-    "Edit" : "සංස්කරණය"
+    "Unlimited" : "අසීමිත"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -7,8 +7,10 @@ OC.L10N.register(
     "Add account" : "Akkaunt qo'shish",
     "Add" : "Qo'shish",
     "Folder name" : "Folder name",
-    "Name" : "Nomi",
     "Cancel" : "Bekor qilish",
+    "Save" : "Saqlash",
+    "Edit" : "Tahrirlash",
+    "Name" : "Nomi",
     "Move to {target}" : " {target}ga o`tish",
     "Write" : "Yozish",
     "Create" : "Yaratish",
@@ -18,7 +20,7 @@ OC.L10N.register(
     "Admin" : "Admin",
     "Settings" : "Sozlamalar",
     "Resources" : "Resurslar",
-    "Edit" : "Tahrirlash",
-    "Delete folder" : "Jildni o'chirish"
+    "Delete folder" : "Jildni o'chirish",
+    "Unlimited" : "Unlimited"
 },
 "nplurals=1; plural=0;");

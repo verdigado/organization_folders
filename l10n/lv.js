@@ -7,8 +7,10 @@ OC.L10N.register(
     "Add group" : "Pievienot grupu",
     "Add" : "Pievienot",
     "Folder name" : "Mapes nosaukums",
-    "Name" : "Nosaukums",
     "Cancel" : "Atcelt",
+    "Save" : "Saglabāt",
+    "Edit" : "Labot",
+    "Name" : "Nosaukums",
     "Move to {target}" : "Pārvietot uz {target}",
     "Read" : "Lasīt",
     "Write" : "Rakstīt",
@@ -23,10 +25,10 @@ OC.L10N.register(
     "Admin" : "Pārvaldītājs",
     "Settings" : "Iestatījumi",
     "Resources" : "Resursi",
-    "Edit" : "Labot",
     "Finish" : "Pabeigt",
     "The files below have changed since the selected backup.<br>Pick the ones you want to restore to the version in the backup." : "Zemāk esošās datnes tika izmainītas kopš atlasītās rezerves kopijas.<br>Jāizvēlas tās, kuras vēlies atjaunot uz rezerves kopijā esošo versiju.",
     "Delete folder" : "Izdzēst mapi",
-    "Permissions" : "Atļaujas"
+    "Permissions" : "Atļaujas",
+    "Unlimited" : "Neierobežota"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

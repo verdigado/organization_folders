@@ -25,6 +25,9 @@ OC.L10N.register(
     "Uncategorized roles" : "Róil gan chatagóir",
     "Create folder" : "Cruthaigh fillteán",
     "Folder name" : "Ainm fillteáin",
+    "Cancel" : "Cancel",
+    "Save" : "Sábháil",
+    "Edit" : "Cuir in eagar",
     "{filePath} has been created" : "Cruthaíodh {filePath}",
     "{filePath} has been changed" : "Tá {filePath} athraithe",
     "{oldFilePath} has been renamed to {newFilePath}" : "Athainmníodh {oldFilePath} go {newFilePath}",
@@ -35,7 +38,7 @@ OC.L10N.register(
     "No members yet" : "Níl aon bhall fós",
     "Name" : "Ainm",
     "Permission level" : "Leibhéal ceada",
-    "Cancel" : "Cancel",
+    "Move Resource" : "Bog Acmhainn",
     "Move to {target}" : "Bog go {target}",
     "Folder Managers" : "Bainisteoirí Fillteán",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Baineann na ceadanna seo le haon bhall a chuirtear leis sa chéad chuid eile le leibhéal cead an bhainisteora agus le haon bhainisteoir a fhaigheann oidhreacht ón leibhéal thuas",
@@ -93,7 +96,6 @@ OC.L10N.register(
     "Invalid name" : "Ainm neamhbhailí",
     "Organization" : "Eagraíocht",
     "Resources" : "Acmhainní",
-    "Edit" : "Cuir in eagar",
     "Organization Folders Admin Settings" : "Socruithe Riaracháin Fillteáin Eagrúcháin",
     "No organization folders yet" : "Níl aon fhillteán eagraíochta fós",
     "{filePath} will be deleted" : "Scriosfar {filePath}",
@@ -134,6 +136,7 @@ OC.L10N.register(
     "Permissions of person" : "Ceadanna an duine",
     "Move folder" : "Bog fillteán",
     "Restore files from a backup" : "Athchóirigh comhaid ó chúltaca",
-    "Resource active" : "Gníomhach acmhainne"
+    "Resource active" : "Gníomhach acmhainne",
+    "Unlimited" : "Gan teorainn"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

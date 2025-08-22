@@ -2,12 +2,13 @@ OC.L10N.register(
     "organization_folders",
     {
     "Delete" : "Padam",
-    "Name" : "Nama",
     "Cancel" : "Cancel",
+    "Save" : "Simpan",
+    "Edit" : "Sunting",
+    "Name" : "Nama",
     "Search" : "Search",
     "Warning" : "Amaran",
     "Admin" : "Admin",
-    "Settings" : "Tetapan",
-    "Edit" : "Sunting"
+    "Settings" : "Tetapan"
 },
 "nplurals=1; plural=0;");

@@ -25,6 +25,9 @@ OC.L10N.register(
     "Uncategorized roles" : "Nicht kategorisierte Rollen",
     "Create folder" : "Ordner erstellen",
     "Folder name" : "Ordnername",
+    "Cancel" : "Abbrechen",
+    "Save" : "Speichern",
+    "Edit" : "Bearbeiten",
     "{filePath} has been created" : "{filePath} wurde erstellt",
     "{filePath} has been changed" : "{filePath} wurde verändert",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} wurde umbenannt in {newFilePath}",
@@ -35,7 +38,7 @@ OC.L10N.register(
     "No members yet" : "Noch keine Mitglieder",
     "Name" : "Name",
     "Permission level" : "Berechtigungsstufe",
-    "Cancel" : "Abbrechen",
+    "Move Resource" : "Ressource verschieben",
     "Move to {target}" : "Nach {target} verschieben",
     "Folder Managers" : "Ordnermanager",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Diese Berechtigungen gelten für alle Mitglieder, die im nächsten Abschnitt mit der Berechtigungsstufe „Manager“ hinzugefügt werden, sowie für alle Manager, die von der nächsthöheren Stufe übernommen wurden",
@@ -93,7 +96,6 @@ OC.L10N.register(
     "Invalid name" : "Ungültiger Name",
     "Organization" : "Organisation",
     "Resources" : "Ressourcen",
-    "Edit" : "Bearbeiten",
     "Organization Folders Admin Settings" : "Organisationsordner Administrationseinstellungen",
     "No organization folders yet" : "Noch keine Organisationsordner",
     "{filePath} will be deleted" : "{filePath} wird gelöscht",
@@ -134,6 +136,7 @@ OC.L10N.register(
     "Permissions of person" : "Berechtigungen der Person",
     "Move folder" : "Ordner verschieben",
     "Restore files from a backup" : "Dateiwiederherstellung aus einem Backup",
-    "Resource active" : "Ressource aktiv"
+    "Resource active" : "Ressource aktiv",
+    "Unlimited" : "Unbegrenzt"
 },
 "nplurals=2; plural=(n != 1);");

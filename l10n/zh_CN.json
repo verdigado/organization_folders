@@ -8,9 +8,11 @@
     "Add group" : "添加群组",
     "Add" : "添加",
     "Folder name" : "文件夹名称",
+    "Cancel" : "Cancel",
+    "Save" : "保存",
+    "Edit" : "编辑",
     "File does not exist" : "文件不存在",
     "Name" : "名称",
-    "Cancel" : "Cancel",
     "Move to {target}" : "移动到 {target}",
     "Read" : "读取",
     "Write" : "写入",
@@ -31,10 +33,10 @@
     "Invalid name" : "无效名称",
     "Organization" : "组织",
     "Resources" : "资源",
-    "Edit" : "编辑",
     "Finish" : "完成",
     "Delete folder" : "删除文件夹",
     "Permissions" : "权限",
-    "Move folder" : "移动文件夹"
+    "Move folder" : "移动文件夹",
+    "Unlimited" : "无限制"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

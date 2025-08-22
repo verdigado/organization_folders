@@ -5,12 +5,13 @@ OC.L10N.register(
     "Delete" : "நீக்குக",
     "Add" : "சேர்க்க",
     "Folder name" : "கோப்புறை பெயர்",
-    "Name" : "பெயர்",
     "Cancel" : "Cancel",
+    "Save" : "சேமிக்க ",
+    "Edit" : "தொகுக்க",
+    "Name" : "பெயர்",
     "Search" : "தேடுதல்",
     "Admin" : "நிர்வாகம்",
     "Settings" : "அமைப்புகள்",
-    "Organization" : "நிறுவனம்",
-    "Edit" : "தொகுக்க"
+    "Organization" : "நிறுவனம்"
 },
 "nplurals=2; plural=(n != 1);");

@@ -9,9 +9,11 @@
     "Add group" : "Pridať skupinu",
     "Add" : "Pridať",
     "Folder name" : "Názov priečinka",
+    "Cancel" : "Cancel",
+    "Save" : "Uložiť",
+    "Edit" : "Upraviť",
     "File does not exist" : "Súbor neexistuje",
     "Name" : "Názov",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Presunúť do {target}",
     "Read" : "Čítanie",
     "Write" : "Zapisovať",
@@ -31,11 +33,11 @@
     "Settings" : "Nastavenia",
     "Invalid name" : "Neplatné meno",
     "Resources" : "Zdroje",
-    "Edit" : "Upraviť",
     "Finish" : "Dokončiť",
     "No changes" : "Žiadne zmeny",
     "Delete folder" : "Zmazať priečinok",
     "Permissions" : "Oprávnenia",
-    "Move folder" : "Presunúť priečinok"
+    "Move folder" : "Presunúť priečinok",
+    "Unlimited" : "Neobmedzené"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

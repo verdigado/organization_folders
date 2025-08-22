@@ -10,9 +10,11 @@ OC.L10N.register(
     "Add group" : "Pridėti grupę",
     "Add" : "Pridėti",
     "Folder name" : "Aplanko pavadinimas",
+    "Cancel" : "Cancel",
+    "Save" : "Įrašyti",
+    "Edit" : "Taisyti",
     "File does not exist" : "Failo nėra",
     "Name" : "Pavadinimas",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Perkelti į {target}",
     "Read" : "Skaityti",
     "Write" : "Rašyti",
@@ -31,10 +33,10 @@ OC.L10N.register(
     "Invalid name" : "Neteisingas vardas",
     "Organization" : "Organizavimas",
     "Resources" : "Ištekliai",
-    "Edit" : "Taisyti",
     "Finish" : "Užbaigti",
     "Delete folder" : "Ištrinti aplanką",
     "Permissions" : "Leidimai",
-    "Move folder" : "Perkelti aplanką"
+    "Move folder" : "Perkelti aplanką",
+    "Unlimited" : "Neribotai"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

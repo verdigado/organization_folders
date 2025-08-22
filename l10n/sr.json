@@ -21,6 +21,9 @@
     "Uncategorized roles" : "Улоге без категоризације",
     "Create folder" : "Креирај фолдер",
     "Folder name" : "Назив фасцикле",
+    "Cancel" : "Cancel",
+    "Save" : "Сачувај",
+    "Edit" : "Измени",
     "{filePath} has been created" : "{filePath} је креиран",
     "{filePath} has been changed" : "{filePath} је измењен",
     "{oldFilePath} has been renamed to {newFilePath}" : "Име {oldFilePath} је промењено на {newFilePath}",
@@ -31,7 +34,6 @@
     "No members yet" : "Још увек нема чланова",
     "Name" : "Име",
     "Permission level" : "Ниво дозвола",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Премести у {target}",
     "Folder Managers" : "Менаџери фолдера",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Ове дозволе се примењују на било ког члана који се дода у следећем одељку са нивоом дозвола менаџера и било ког менаџера наслеђеног из вишег нивоа",
@@ -62,7 +64,6 @@
     "Invalid name" : "Неисправно име",
     "Organization" : "Организација",
     "Resources" : "Ресурси",
-    "Edit" : "Измени",
     "Organization Folders Admin Settings" : "Админ подешавања фолдера организације",
     "No organization folders yet" : "Још увек нема фолдера организације",
     "{filePath} will be deleted" : "{filePath} ће се обрисати",
@@ -96,6 +97,7 @@
     "Inherit managers from the level above" : "Наследи менаџере из горњег нивоа",
     "Move folder" : "Премести фолдер",
     "Restore files from a backup" : "Врати фајлове из резервне копије",
-    "Resource active" : "Ресурс је активан"
+    "Resource active" : "Ресурс је активан",
+    "Unlimited" : "Неограничено"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

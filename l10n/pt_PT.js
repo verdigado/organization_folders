@@ -9,8 +9,10 @@ OC.L10N.register(
     "Add group" : "Adicionar grupo",
     "Add" : "Adicionar",
     "Folder name" : "Nome da pasta",
-    "Name" : "Nome",
     "Cancel" : "Cancel",
+    "Save" : "Guardar",
+    "Edit" : "Editar",
+    "Name" : "Nome",
     "Move to {target}" : "Mover para {target}",
     "Read" : "Ler",
     "Write" : "Escrever",
@@ -28,8 +30,8 @@ OC.L10N.register(
     "Admin" : "Administrador",
     "Settings" : "Definições",
     "Resources" : "Recursos",
-    "Edit" : "Editar",
     "Finish" : "Terminar",
-    "Delete folder" : "Apagar pasta"
+    "Delete folder" : "Apagar pasta",
+    "Unlimited" : "Ilimitado"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

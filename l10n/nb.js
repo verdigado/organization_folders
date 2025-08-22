@@ -10,9 +10,11 @@ OC.L10N.register(
     "Add group" : "Legg til gruppe",
     "Add" : "Legg til",
     "Folder name" : "Mappenavn",
+    "Cancel" : "Cancel",
+    "Save" : "Lagre",
+    "Edit" : "Rediger",
     "File does not exist" : "Fil finnes ikke",
     "Name" : "Navn",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Flytt til {target}",
     "Read" : "Les",
     "Write" : "Skriv",
@@ -34,11 +36,11 @@ OC.L10N.register(
     "Invalid name" : "Ugyldig navn",
     "Organization" : "Organisering",
     "Resources" : "Ressurser",
-    "Edit" : "Rediger",
     "Finish" : "Fullfør",
     "No changes" : "Ingen endringer",
     "Delete folder" : "Slett mappe",
     "Permissions" : "Rettigheter",
-    "Move folder" : "Flytt mappe"
+    "Move folder" : "Flytt mappe",
+    "Unlimited" : "Ubegrenset"
 },
 "nplurals=2; plural=(n != 1);");

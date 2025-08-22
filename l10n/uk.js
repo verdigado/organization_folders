@@ -25,6 +25,9 @@ OC.L10N.register(
     "Uncategorized roles" : "Ролі без категорії",
     "Create folder" : "Створити каталог",
     "Folder name" : "Назва каталогу",
+    "Cancel" : "Скасувати",
+    "Save" : "Зберегти",
+    "Edit" : "Редагувати",
     "{filePath} has been created" : "{filePath} було створено",
     "{filePath} has been changed" : "{filePath} було змінено",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} було перейменовано у {newFilePath}",
@@ -35,7 +38,6 @@ OC.L10N.register(
     "No members yet" : "Поки відсутні учасники",
     "Name" : "Ім'я",
     "Permission level" : "Рівень дозволів",
-    "Cancel" : "Скасувати",
     "Move to {target}" : "Перемістити до {target}",
     "Folder Managers" : "Менеджери каталогів",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Ці дозволи буде застосовано до всіх учасників, доданих у наступному розділі з рівнем дозволів менеджера та будь-якого менеджера, успадкованого з вищого рівня",
@@ -93,7 +95,6 @@ OC.L10N.register(
     "Invalid name" : "Недійсне ім'я",
     "Organization" : "Організація роботи",
     "Resources" : "Ресурси",
-    "Edit" : "Редагувати",
     "Organization Folders Admin Settings" : "Адміністративні налаштування каталогів організації",
     "No organization folders yet" : "Поки відсутні каталоги організації",
     "{filePath} will be deleted" : "{filePath} буде вилучено",
@@ -134,6 +135,7 @@ OC.L10N.register(
     "Permissions of person" : "Дозволи особи",
     "Move folder" : "Перемістити каталог",
     "Restore files from a backup" : "Відновити файли з резервної копії",
-    "Resource active" : "Ресурс активний"
+    "Resource active" : "Ресурс активний",
+    "Unlimited" : "Необмежено"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -11,9 +11,11 @@ OC.L10N.register(
     "Add group" : "Добавить группу",
     "Add" : "Добавить",
     "Folder name" : "Имя папки",
+    "Cancel" : "Cancel",
+    "Save" : "Сохранить",
+    "Edit" : "Редактирование",
     "File does not exist" : "Файл не существует",
     "Name" : "Имя",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Переместить в «{target}»",
     "Read" : "Чтение",
     "Write" : "Запись",
@@ -34,11 +36,11 @@ OC.L10N.register(
     "Settings" : "Настройки",
     "Organization" : "Организация",
     "Resources" : "Ресурсы",
-    "Edit" : "Редактирование",
     "Finish" : "Завершить",
     "Delete folder" : "Удалить папку",
     "Permissions" : "Права",
     "Unmanaged Subfolders" : "Не управляемые вложенные папки",
-    "Move folder" : "Переместить папку"
+    "Move folder" : "Переместить папку",
+    "Unlimited" : "Неограничено"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

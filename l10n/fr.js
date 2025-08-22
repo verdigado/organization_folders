@@ -15,11 +15,13 @@ OC.L10N.register(
     "Add" : "Ajouter",
     "Create folder" : "Créer un dossier",
     "Folder name" : "Nom du dossier",
+    "Cancel" : "Cancel",
+    "Save" : "Enregistrer",
+    "Edit" : "Éditer",
     "File does not exist" : "Le fichier n’existe pas",
     "No members yet" : "Aucun membre pour le moment",
     "Name" : "Nom",
     "Permission level" : "Niveau d'autorisation",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Déplacer vers {target}",
     "Folder Managers" : "Gestionnaires du Dossier",
     "Folder Members" : "Membres du Dossier",
@@ -44,7 +46,6 @@ OC.L10N.register(
     "Invalid name" : "Nom invalide",
     "Organization" : "Organisation",
     "Resources" : "Ressources",
-    "Edit" : "Éditer",
     "Finish" : "Terminer",
     "No changes" : "Aucune modification",
     "Folder Management \"{folderName}\"" : "Gestion du Dossier \"{folderName}\"",
@@ -58,6 +59,7 @@ OC.L10N.register(
     "Sub-Resources" : "Sous-ressources",
     "Move folder" : "Déplacer le dossier",
     "Restore files from a backup" : "Restaurer des fichiers depuis une sauvegarde",
-    "Resource active" : "Ressource active"
+    "Resource active" : "Ressource active",
+    "Unlimited" : "Illimité"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

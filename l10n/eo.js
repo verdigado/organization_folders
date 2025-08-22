@@ -6,8 +6,10 @@ OC.L10N.register(
     "Delete" : "Forigi",
     "Add group" : "Aldoni grupon",
     "Folder name" : "Dosierujnomo",
-    "Name" : "Nomo",
     "Cancel" : "Cancel",
+    "Save" : "Konservi",
+    "Edit" : "Modifi",
+    "Name" : "Nomo",
     "Move to {target}" : "Movi al {target}",
     "Read" : "Legi",
     "Write" : "Skribi",
@@ -23,6 +25,6 @@ OC.L10N.register(
     "Admin" : "Administranto",
     "Settings" : "Agordoj",
     "Resources" : "Rimedoj",
-    "Edit" : "Modifi"
+    "Unlimited" : "Senlima"
 },
 "nplurals=2; plural=(n != 1);");

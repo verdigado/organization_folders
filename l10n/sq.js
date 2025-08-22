@@ -10,8 +10,10 @@ OC.L10N.register(
     "Add group" : "Shto grupin",
     "Add" : "Shto ",
     "Folder name" : "Emër dosjeje",
-    "Name" : "Emër",
     "Cancel" : "Cancel",
+    "Save" : "Ruaje",
+    "Edit" : "Përpuno",
+    "Name" : "Emër",
     "Read" : "Lexoni",
     "Write" : "Shkruaj",
     "Create" : "Krijo",
@@ -24,9 +26,9 @@ OC.L10N.register(
     "Settings" : "Rregullimet",
     "Organization" : "Organizate",
     "Resources" : "Burimet",
-    "Edit" : "Përpuno",
     "Finish" : "Përfundo",
     "Delete folder" : "Fshije dosjen",
-    "Permissions" : "Lejet"
+    "Permissions" : "Lejet",
+    "Unlimited" : "E palimituar"
 },
 "nplurals=2; plural=(n != 1);");

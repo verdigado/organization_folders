@@ -10,9 +10,11 @@ OC.L10N.register(
     "Add group" : "Taldea gehitu",
     "Add" : "Gehitu",
     "Folder name" : "Karpetaren izena",
+    "Cancel" : "Cancel",
+    "Save" : "Gorde",
+    "Edit" : "Editatu",
     "File does not exist" : "Fitxategia ez da existitzen",
     "Name" : "Izena",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Mugitu hona: {target}",
     "Read" : "Irakurri",
     "Write" : "Idatzi",
@@ -33,11 +35,11 @@ OC.L10N.register(
     "Invalid name" : "Izen baliogabea",
     "Organization" : "Antolakuntza",
     "Resources" : "Baliabideak",
-    "Edit" : "Editatu",
     "Finish" : "Amaitu",
     "No changes" : "Aldaketarik gabe",
     "Delete folder" : "Ezabatu karpeta",
     "Permissions" : "Baimenak",
-    "Move folder" : "Lekuz aldatu karpeta"
+    "Move folder" : "Lekuz aldatu karpeta",
+    "Unlimited" : "Mugagabea"
 },
 "nplurals=2; plural=(n != 1);");

@@ -11,9 +11,11 @@ OC.L10N.register(
     "Add group" : "Csoport hozzáadása",
     "Add" : "Hozzáadás",
     "Folder name" : "Mappanév",
+    "Cancel" : "Cancel",
+    "Save" : "Mentés",
+    "Edit" : "Szerkesztés",
     "File does not exist" : "A fájl nem létezik",
     "Name" : "Név",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Áthelyezés ide: {target}",
     "Read" : "Olvasás",
     "Write" : "Írás",
@@ -34,10 +36,10 @@ OC.L10N.register(
     "Invalid name" : "Érvénytelen név",
     "Organization" : "Szervezet",
     "Resources" : "Erőforrások",
-    "Edit" : "Szerkesztés",
     "Finish" : "Befejez",
     "Delete folder" : "Mappa törlése",
     "Permissions" : "Jogosultságok",
-    "Move folder" : "Mappa áthelyezése"
+    "Move folder" : "Mappa áthelyezése",
+    "Unlimited" : "Korlátlan"
 },
 "nplurals=2; plural=(n != 1);");

@@ -4,6 +4,7 @@ OC.L10N.register(
     "Delete" : "Skrap",
     "Add" : "Voeg toe",
     "Cancel" : "Cancel",
+    "Move to {target}" : "Skuif na {target}",
     "Search" : "Soek",
     "Confirm" : "Bevestig",
     "Admin" : "Admin",

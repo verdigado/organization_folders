@@ -4,13 +4,14 @@ OC.L10N.register(
     "Delete" : "Läschen",
     "Add" : "Dobäisetzen",
     "Folder name" : "Dossiers Numm:",
-    "Name" : "Numm",
     "Cancel" : "Cancel",
+    "Save" : "Späicheren",
+    "Edit" : "Änneren",
+    "Name" : "Numm",
     "Search" : "Sichen",
     "Confirm" : "Konfirméieren",
     "Warning" : "Warnung",
     "Admin" : "Admin",
-    "Settings" : "Astellungen",
-    "Edit" : "Änneren"
+    "Settings" : "Astellungen"
 },
 "nplurals=2; plural=(n != 1);");

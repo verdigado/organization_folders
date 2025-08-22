@@ -22,11 +22,13 @@ OC.L10N.register(
     "Add" : "Ekle",
     "Create folder" : "Klasör ekle",
     "Folder name" : "Klasör adı",
+    "Cancel" : "İptal",
+    "Save" : "Kaydet",
+    "Edit" : "Düzenle",
     "File does not exist" : "Dosya bulunamadı",
     "No members yet" : "Henüz bir üye yok",
     "Name" : "Ad",
     "Permission level" : "İzin düzeyi",
-    "Cancel" : "İptal",
     "Move to {target}" : "{target} içine taşı",
     "Folder Managers" : "Klasör yöneticileri",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Bu izinler, sonraki bölümden sorumlu izin düzeyi ile eklenen tüm üyelere ve yukarıdaki düzeyden devralınan tüm yöneticilere uygulanır.",
@@ -57,7 +59,6 @@ OC.L10N.register(
     "Invalid name" : "Ad geçersiz",
     "Organization" : "Kuruluş",
     "Resources" : "Kaynaklar",
-    "Edit" : "Düzenle",
     "Organization Folders Admin Settings" : "Kuruluş klasörleri yönetici ayarları",
     "No organization folders yet" : "Henüz bir kuruluş klasörü yok",
     "Finish" : "Bitti",
@@ -78,6 +79,7 @@ OC.L10N.register(
     "Inherit managers from the level above" : "Sorumlular üst düzeyden devralınsın",
     "Move folder" : "Klasörü taşı",
     "Restore files from a backup" : "Dosyaları yedekten geri yükle",
-    "Resource active" : "Kaynak etkin"
+    "Resource active" : "Kaynak etkin",
+    "Unlimited" : "Sınırsız"
 },
 "nplurals=2; plural=(n > 1);");

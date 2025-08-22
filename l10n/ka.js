@@ -9,9 +9,11 @@ OC.L10N.register(
     "Add group" : "Add group",
     "Add" : "დამატება",
     "Folder name" : "Folder name",
+    "Cancel" : "Cancel",
+    "Save" : "დამახსოვრება",
+    "Edit" : "Edit",
     "File does not exist" : "File does not exist",
     "Name" : "სახელი",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Move to {target}",
     "Read" : "Read",
     "Write" : "Write",
@@ -32,8 +34,8 @@ OC.L10N.register(
     "Settings" : "ოფციები",
     "Organization" : "Organization",
     "Resources" : "Resources",
-    "Edit" : "Edit",
     "Delete folder" : "Delete folder",
-    "Permissions" : "Permissions"
+    "Permissions" : "Permissions",
+    "Unlimited" : "Unlimited"
 },
 "nplurals=2; plural=(n!=1);");

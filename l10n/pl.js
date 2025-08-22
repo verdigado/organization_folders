@@ -10,9 +10,11 @@ OC.L10N.register(
     "Add group" : "Dodaj grupę",
     "Add" : "Dodaj",
     "Folder name" : "Nazwa katalogu",
+    "Cancel" : "Cancel",
+    "Save" : "Zapisz",
+    "Edit" : "Edycja",
     "File does not exist" : "Plik nie istnieje",
     "Name" : "Nazwa",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Przenieś do {target}",
     "Read" : "Czytaj",
     "Write" : "Zapisz",
@@ -33,10 +35,10 @@ OC.L10N.register(
     "Invalid name" : "Nieprawidłowa nazwa",
     "Organization" : "Organizacja",
     "Resources" : "Zasoby",
-    "Edit" : "Edycja",
     "Finish" : "Koniec",
     "Delete folder" : "Usuń katalog",
     "Permissions" : "Uprawnienia",
-    "Move folder" : "Przenieś katalog"
+    "Move folder" : "Przenieś katalog",
+    "Unlimited" : "Bez limitu"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

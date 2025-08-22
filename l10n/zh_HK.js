@@ -25,6 +25,9 @@ OC.L10N.register(
     "Uncategorized roles" : "未分類的角色",
     "Create folder" : "創建文件夾",
     "Folder name" : "資料夾名稱",
+    "Cancel" : "取消",
+    "Save" : "保存",
+    "Edit" : "編輯",
     "{filePath} has been created" : "已建立 {filePath}",
     "{filePath} has been changed" : "已更新 {filePath}",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} 已重新命名為 {newFilePath}",
@@ -35,7 +38,7 @@ OC.L10N.register(
     "No members yet" : "尚無成員",
     "Name" : "名字",
     "Permission level" : "許可級別",
-    "Cancel" : "取消",
+    "Move Resource" : "移動資源",
     "Move to {target}" : "移動到 {target}",
     "Folder Managers" : "文件夾管理員",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "這些許可適用於在下一部分添加的任何擁有管理員許可級別的成員，以及任何從上級繼承的管理員",
@@ -93,7 +96,6 @@ OC.L10N.register(
     "Invalid name" : "姓名無效",
     "Organization" : "生產力",
     "Resources" : "資源",
-    "Edit" : "編輯",
     "Organization Folders Admin Settings" : "組織文件夾管理員設置",
     "No organization folders yet" : "尚無組織文件夾",
     "{filePath} will be deleted" : "將會刪除 {filePath}",
@@ -134,6 +136,7 @@ OC.L10N.register(
     "Permissions of person" : "個人權限",
     "Move folder" : "移動資料夾",
     "Restore files from a backup" : "從備份中恢復文件",
-    "Resource active" : "資源活動"
+    "Resource active" : "資源活動",
+    "Unlimited" : "無限制"
 },
 "nplurals=1; plural=0;");

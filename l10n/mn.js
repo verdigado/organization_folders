@@ -8,8 +8,10 @@ OC.L10N.register(
     "Add group" : "Бүлэг нэмэх",
     "Add" : "Нэмэх",
     "Folder name" : "Хавтасны нэр",
-    "Name" : "Нэр",
     "Cancel" : "Cancel",
+    "Save" : "Хадгалах",
+    "Edit" : "Өөрчлөх",
+    "Name" : "Нэр",
     "Create" : "үүсгэх",
     "Share" : " Хуваалцах",
     "Search" : "Хайх",
@@ -17,7 +19,6 @@ OC.L10N.register(
     "Member" : "Гишүүн",
     "Admin" : "Админ",
     "Settings" : "Тохиргоо",
-    "Edit" : "Өөрчлөх",
     "Finish" : "Бариа"
 },
 "nplurals=2; plural=(n != 1);");

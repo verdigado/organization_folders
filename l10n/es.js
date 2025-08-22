@@ -25,6 +25,9 @@ OC.L10N.register(
     "Uncategorized roles" : "Roles no categorizados",
     "Create folder" : "Crear carpeta",
     "Folder name" : "Nombre de la carpeta",
+    "Cancel" : "Cancelar",
+    "Save" : "Guardar",
+    "Edit" : "Editar",
     "{filePath} has been created" : "{filePath} ha sido creado",
     "{filePath} has been changed" : "{filePath} ha sido cambiado",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} se ha renombrado a {newFilePath}",
@@ -35,7 +38,6 @@ OC.L10N.register(
     "No members yet" : "No hay miembros todavía",
     "Name" : "Nombre",
     "Permission level" : "Nivel de permisos",
-    "Cancel" : "Cancelar",
     "Move to {target}" : "Mover a {target}",
     "Folder Managers" : "Administradores de Carpeta",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Estos permisos aplicarán a cualquier miembro añadido en la siguiente sección con el nivel de permisos mánager y cualquier mánager heredado del nivel superior",
@@ -93,7 +95,6 @@ OC.L10N.register(
     "Invalid name" : "Nombre inválido",
     "Organization" : "Organización",
     "Resources" : "Recursos",
-    "Edit" : "Editar",
     "Organization Folders Admin Settings" : "Configuraciones de administración de Carpetas de Organización",
     "No organization folders yet" : "No hay carpetas de organización todavía",
     "{filePath} will be deleted" : "{filePath} se eliminará",
@@ -134,6 +135,7 @@ OC.L10N.register(
     "Permissions of person" : "Permisos de la persona",
     "Move folder" : "Mover carpeta",
     "Restore files from a backup" : "Restaurar archivos desde un respaldo",
-    "Resource active" : "Recurso activo"
+    "Resource active" : "Recurso activo",
+    "Unlimited" : "Ilimitado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

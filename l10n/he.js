@@ -9,8 +9,10 @@ OC.L10N.register(
     "Add group" : "הוספת קבוצה",
     "Add" : "הוספה",
     "Folder name" : "שם התיקייה",
-    "Name" : "שם",
     "Cancel" : "Cancel",
+    "Save" : "שמירה",
+    "Edit" : "עריכה",
+    "Name" : "שם",
     "Move to {target}" : "העברה אל {target}",
     "Read" : "קריאה",
     "Write" : "כתיבה",
@@ -27,9 +29,9 @@ OC.L10N.register(
     "Admin" : "מנהל",
     "Settings" : "הגדרות",
     "Resources" : "משאבים",
-    "Edit" : "עריכה",
     "Finish" : "סיים",
     "Delete folder" : "מחק תיקייה",
-    "Permissions" : "הרשאות"
+    "Permissions" : "הרשאות",
+    "Unlimited" : "ללא הגבלה"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

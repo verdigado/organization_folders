@@ -7,9 +7,11 @@ OC.L10N.register(
     "Add group" : "Tambah grup",
     "Add" : "Tambah",
     "Folder name" : "Nama folder",
+    "Cancel" : "Cancel",
+    "Save" : "Simpan",
+    "Edit" : "Sunting",
     "File does not exist" : "File tidak ada",
     "Name" : "Nama",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Pindah ke {target}",
     "Read" : "Baca",
     "Create" : "Buat",
@@ -20,7 +22,7 @@ OC.L10N.register(
     "Admin" : "Admin",
     "Settings" : "Setelan",
     "Resources" : "Sumber daya",
-    "Edit" : "Sunting",
-    "Finish" : "Selesai"
+    "Finish" : "Selesai",
+    "Unlimited" : "Tak terbatas"
 },
 "nplurals=1; plural=0;");

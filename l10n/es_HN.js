@@ -7,8 +7,10 @@ OC.L10N.register(
     "Add group" : "Agregar grupo",
     "Add" : "Guardar",
     "Folder name" : "Nombre de la carpeta",
-    "Name" : "Nombre",
     "Cancel" : "Cancel",
+    "Save" : "Guardar",
+    "Edit" : "Editar",
+    "Name" : "Nombre",
     "Move to {target}" : "Mover a {target}",
     "Read" : "Leer",
     "Write" : "Escribir",
@@ -20,8 +22,8 @@ OC.L10N.register(
     "Admin" : "Administración",
     "Settings" : "Configuraciones ",
     "Resources" : "Recursos",
-    "Edit" : "Editar",
     "Finish" : "Terminar",
-    "Permissions" : "Permisos"
+    "Permissions" : "Permisos",
+    "Unlimited" : "Ilimitado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

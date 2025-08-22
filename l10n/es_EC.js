@@ -8,9 +8,11 @@ OC.L10N.register(
     "Add group" : "Agregar grupo",
     "Add" : "Guardar",
     "Folder name" : "Nombre de la carpeta",
+    "Cancel" : "Cancel",
+    "Save" : "Guardar",
+    "Edit" : "Editar",
     "File does not exist" : "El archivo no existe",
     "Name" : "Nombre",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Mover a {target}",
     "Read" : "Leer",
     "Write" : "Escribir",
@@ -29,8 +31,8 @@ OC.L10N.register(
     "Settings" : "Ajustes",
     "Organization" : "Organización",
     "Resources" : "Recursos",
-    "Edit" : "Editar",
     "Permissions" : "Permisos",
-    "Move folder" : "Mover carpeta"
+    "Move folder" : "Mover carpeta",
+    "Unlimited" : "Ilimitado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

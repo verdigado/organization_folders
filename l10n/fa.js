@@ -8,9 +8,11 @@ OC.L10N.register(
     "Add account" : "افزودن حساب",
     "Add group" : "افزودن گروه",
     "Folder name" : "نام پوشه",
+    "Cancel" : "Cancel",
+    "Save" : "ذخیره",
+    "Edit" : "ویرایش",
     "File does not exist" : "فایل وجود ندارد",
     "Name" : "نام",
-    "Cancel" : "Cancel",
     "Move to {target}" : "جابجایی به {target}",
     "Read" : "خواندن",
     "Write" : "نوشتن",
@@ -31,9 +33,9 @@ OC.L10N.register(
     "Settings" : "تنظیمات",
     "Organization" : "سازمانی",
     "Resources" : "منابع",
-    "Edit" : "ویرایش",
     "Delete folder" : "حذف پوشه",
     "Permissions" : "مجوزها",
-    "Move folder" : "Move folder"
+    "Move folder" : "Move folder",
+    "Unlimited" : "نامحدود"
 },
 "nplurals=2; plural=(n > 1);");

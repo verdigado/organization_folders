@@ -9,9 +9,11 @@
     "Add group" : "إضافة مجموعة",
     "Add" : "إضافة ",
     "Folder name" : "اسم المجلد",
+    "Cancel" : "Cancel",
+    "Edit" : "تحرير",
     "File does not exist" : "الملف غير موجود",
     "Name" : "الاسم",
-    "Cancel" : "Cancel",
+    "Move to {target}" : "نقل إلى {target}",
     "Read" : "قراءة",
     "Write" : "كتابة",
     "Create" : "إنشاء",
@@ -32,10 +34,10 @@
     "Invalid name" : "اسم غير صالح",
     "Organization" : "المنظمة",
     "Resources" : "الموارد",
-    "Edit" : "تحرير",
     "Finish" : "تم",
     "No changes" : "No changes",
     "Delete folder" : "حذف مجلد",
-    "Permissions" : "الصلاحيّات"
+    "Permissions" : "الصلاحيّات",
+    "Move folder" : "أنقُل المُجلّد"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

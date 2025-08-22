@@ -25,6 +25,9 @@ OC.L10N.register(
     "Uncategorized roles" : "Funções sem categoria",
     "Create folder" : "Criar pasta",
     "Folder name" : "Nome da pasta",
+    "Cancel" : "Cancelar",
+    "Save" : "Salvar",
+    "Edit" : "Editar",
     "{filePath} has been created" : "{filePath} foi criado.",
     "{filePath} has been changed" : "{filePath} foi alterado",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} foi renomeado para {newFilePath}",
@@ -35,7 +38,6 @@ OC.L10N.register(
     "No members yet" : "Sem membros ainda",
     "Name" : "Nome",
     "Permission level" : "Nível de permissão",
-    "Cancel" : "Cancelar",
     "Move to {target}" : "Mover para {target}",
     "Folder Managers" : "Gerentes da Pasta",
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Estas permissões se aplicam a qualquer membro adicionado na próxima seção com o nível de permissão de gerente e a qualquer gerente herdado do nível superior",
@@ -84,7 +86,6 @@ OC.L10N.register(
     "Invalid name" : "Nome inválido",
     "Organization" : "Organização",
     "Resources" : "Recursos",
-    "Edit" : "Editar",
     "Organization Folders Admin Settings" : "Configurações de Administração de Pastas da Organização",
     "No organization folders yet" : "Sem pastas da organização ainda",
     "{filePath} will be deleted" : "{filePath} será excluído",
@@ -125,6 +126,7 @@ OC.L10N.register(
     "Permissions of person" : "Permissões da pessoa",
     "Move folder" : "Mover pasta",
     "Restore files from a backup" : "Restaurar arquivos de um backup",
-    "Resource active" : "Recurso ativo"
+    "Resource active" : "Recurso ativo",
+    "Unlimited" : "Ilimitado"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

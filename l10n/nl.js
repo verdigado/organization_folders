@@ -10,9 +10,11 @@ OC.L10N.register(
     "Add group" : "Groep toevoegen",
     "Add" : "Toevoegen",
     "Folder name" : "Mapnaam",
+    "Cancel" : "Cancel",
+    "Save" : "Opslaan",
+    "Edit" : "Bewerken",
     "File does not exist" : "Bestand bestaat niet",
     "Name" : "Naam",
-    "Cancel" : "Cancel",
     "Move to {target}" : "Verplaats naar {target}",
     "Read" : "Lezen",
     "Write" : "Schrijven",
@@ -33,11 +35,11 @@ OC.L10N.register(
     "Invalid name" : "Ongeldige naam",
     "Organization" : "Organisatie",
     "Resources" : "Bronnen",
-    "Edit" : "Bewerken",
     "Finish" : "Afronden",
     "Snapshot Restore Wizard" : "Assistent Momentopname herstellen",
     "Delete folder" : "Map verwijderen",
     "Permissions" : "Rechten",
-    "Move folder" : "Verplaatsen map"
+    "Move folder" : "Verplaatsen map",
+    "Unlimited" : "Ongelimiteerd"
 },
 "nplurals=2; plural=(n != 1);");

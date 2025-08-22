@@ -5,8 +5,9 @@ OC.L10N.register(
     "Select an account" : "ගිණුමක් තෝරන්න",
     "Add" : "එකතු කරන්න",
     "Folder name" : "බහාලුමේ නම",
-    "Name" : "නම",
     "Cancel" : "Cancel",
+    "Edit" : "සංස්කරණය",
+    "Name" : "නම",
     "Read" : "කියවීම",
     "Write" : "ලිවීම",
     "Create" : "සාදන්න",
@@ -17,6 +18,6 @@ OC.L10N.register(
     "Member" : "සාමාජික",
     "Admin" : "පරිපාලක",
     "Settings" : "සැකසුම්",
-    "Edit" : "සංස්කරණය"
+    "Unlimited" : "අසීමිත"
 },
 "nplurals=2; plural=(n != 1);");
