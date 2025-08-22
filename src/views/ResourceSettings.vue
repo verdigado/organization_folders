@@ -61,8 +61,10 @@ organizationProviders.initialize();
 
 const resourceApiIncludes = "model+permissions+members+subresources+unmanagedSubfolders";
 
+const organizationFolder = ref(null);
 const resource = ref(null);
-const loading = ref(false);
+const resourceLoading = ref(false);
+const organizationFolderLoading = ref(false);
 const inheritManagersLoading = ref(false);
 const resourceActiveLoading = ref(false);
 
@@ -88,6 +90,10 @@ const userPermissionsReport = ref(null);
 const currentResourceName = ref(false);
 
 const moveDialogOpen = ref(false);
+
+const loading = computed(() => {
+    return resourceLoading.value || organizationFolderLoading.value;
+});
 
 const resourceNameValid = computed(() => {
     return validResourceName(currentResourceName.value);
@@ -192,12 +198,18 @@ const resourcePermissionsLimited = computed(() => {
 });
 
 watch(() => props.resourceId, async (newResourceId) => {
-    loading.value = true;
-    resource.value = await api.getResource(newResourceId, resourceApiIncludes);
+    resourceLoading.value = true;
+	resource.value = await api.getResource(newResourceId, resourceApiIncludes);
     currentResourceName.value = resource.value.name;
 	permissionsReport.value = undefined;
 	userPermissionsReport.value = undefined;
-    loading.value = false;
+    resourceLoading.value = false;
+}, { immediate: true });
+
+watch(() => props.organizationFolderId, async (newOrganizationFolderId) => {
+    organizationFolderLoading.value = true;
+	organizationFolder.value = await api.getOrganizationFolder(newOrganizationFolderId, "model")
+    organizationFolderLoading.value = false;
 }, { immediate: true });
 
 const saveActive = async (active) => {
@@ -629,6 +641,7 @@ const openMoveDialog = () => {
 					</template>
 				</NcButton>
 				<MoveResourceDialog
+					:organization-folder="organizationFolder"
 					:resource="resource"
 					:open="moveDialogOpen"
 					@update:open="(newValue) => moveDialogOpen = newValue"

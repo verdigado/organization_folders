@@ -15,6 +15,10 @@ import api from "../api";
 const emit = defineEmits(["update:open", "move"]);
 
 const props = defineProps({
+	organizationFolder: {
+		type: Object,
+		required: true,
+	},
 	resource: {
 		type: Object,
 		required: true,
@@ -26,14 +30,6 @@ const props = defineProps({
 });
 
 const loading = ref(false);
-
-const organizationFolder = ref(null);
-
-api.getOrganizationFolder(props.resource.organizationFolderId, "model")
-	.then((result) => {
-		console.log(result);
-		organizationFolder.value = result;
-	});
 
 const currentPickedResource = ref(null);
 
@@ -65,8 +61,7 @@ const dialogConfirm = () => {
 		:name="t('organization_folders', 'Move Resource')"
 		size="large"
 		@update:open="updateOpen">
-		<ResourcePicker v-if="organizationFolder"
-			:organization-folder="organizationFolder"
+		<ResourcePicker :organization-folder="organizationFolder"
 			:initial-resource-id="props.resource.parentResource"
 			:require-full-permissions="true"
 			:resource-blacklist="[props.resource.id]"
@@ -78,7 +73,7 @@ const dialogConfirm = () => {
 				</template>
 				{{ t("organization_folders", "Cancel") }}
 			</NcButton>
-			<NcButton v-if="organizationFolder" :disabled="(currentPickedResource?.id ?? null) === props.resource.parentResource" @click="dialogConfirm">
+			<NcButton :disabled="(currentPickedResource?.id ?? null) === props.resource.parentResource" @click="dialogConfirm">
 				<template #icon>
 					<NcLoadingIcon v-if="loading" />
 					<FolderMove v-else :size="20" />
