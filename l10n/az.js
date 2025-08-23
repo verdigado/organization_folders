@@ -3,10 +3,11 @@ OC.L10N.register(
     {
     "Back" : "Geri",
     "Delete" : "Sil",
-    "Folder name" : "Qovluq adı",
-    "Cancel" : "Cancel",
-    "Edit" : "Dəyişiklik et",
     "Name" : "Ad",
+    "Cancel" : "Cancel",
+    "Folder name" : "Qovluq adı",
+    "Save" : "Saxla",
+    "Edit" : "Dəyişiklik et",
     "Read" : "Oxu",
     "Share" : "Yayımla",
     "Search" : "Axtarış",
@@ -14,6 +15,7 @@ OC.L10N.register(
     "Warning" : "Xəbərdarlıq",
     "Admin" : "İnzibatçı",
     "Settings" : "Quraşdırmalar",
-    "Resources" : "Resurslar"
+    "Resources" : "Resurslar",
+    "Unlimited" : "Limitsiz"
 },
 "nplurals=2; plural=(n != 1);");

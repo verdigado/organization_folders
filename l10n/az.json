@@ -1,10 +1,11 @@
 { "translations": {
     "Back" : "Geri",
     "Delete" : "Sil",
-    "Folder name" : "Qovluq adı",
-    "Cancel" : "Cancel",
-    "Edit" : "Dəyişiklik et",
     "Name" : "Ad",
+    "Cancel" : "Cancel",
+    "Folder name" : "Qovluq adı",
+    "Save" : "Saxla",
+    "Edit" : "Dəyişiklik et",
     "Read" : "Oxu",
     "Share" : "Yayımla",
     "Search" : "Axtarış",
@@ -12,6 +13,7 @@
     "Warning" : "Xəbərdarlıq",
     "Admin" : "İnzibatçı",
     "Settings" : "Quraşdırmalar",
-    "Resources" : "Resurslar"
+    "Resources" : "Resurslar",
+    "Unlimited" : "Limitsiz"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

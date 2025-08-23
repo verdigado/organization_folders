@@ -1,11 +1,11 @@
 { "translations": {
     "Delete" : "Obriši",
     "Select an account" : "Izaberite nalog",
-    "Folder name" : "Naziv fascikle",
+    "Name" : "Ime",
     "Cancel" : "Poništi",
+    "Folder name" : "Naziv fascikle",
     "Save" : "Sačuvaj",
     "Edit" : "Izmeni",
-    "Name" : "Ime",
     "Read" : "Čitaj",
     "Share" : "Deli",
     "Search" : "Traži",

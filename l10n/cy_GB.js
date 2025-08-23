@@ -2,9 +2,10 @@ OC.L10N.register(
     "organization_folders",
     {
     "Delete" : "Dileu",
-    "Cancel" : "Cancel",
-    "Edit" : "Golygu",
     "Name" : "Enw",
+    "Cancel" : "Cancel",
+    "Save" : "Cadw",
+    "Edit" : "Golygu",
     "Search" : "Chwilio",
     "Confirm" : "Cadarnhau",
     "Warning" : "Rhybudd",

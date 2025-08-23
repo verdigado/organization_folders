@@ -2,11 +2,11 @@ OC.L10N.register(
     "organization_folders",
     {
     "Delete" : "հեռացնել",
-    "Folder name" : "Պանակի անուն",
+    "Name" : "Անուն",
     "Cancel" : "Cancel",
+    "Folder name" : "Պանակի անուն",
     "Save" : "Պահպանել",
     "Edit" : "մշակել",
-    "Name" : "Անուն",
     "Share" : "կիսվել",
     "Search" : "Search",
     "Warning" : "Զգուշացում",

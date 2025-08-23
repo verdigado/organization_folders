@@ -4,11 +4,13 @@ OC.L10N.register(
     "Delete" : "Skrap",
     "Add" : "Voeg toe",
     "Cancel" : "Cancel",
+    "Save" : "Stoor",
     "Move to {target}" : "Skuif na {target}",
     "Search" : "Soek",
     "Confirm" : "Bevestig",
     "Admin" : "Admin",
     "Settings" : "Instellings",
-    "Resources" : "Hulpbronne"
+    "Resources" : "Hulpbronne",
+    "Unlimited" : "Onbeperkte"
 },
 "nplurals=2; plural=(n != 1);");

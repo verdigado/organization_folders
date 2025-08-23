@@ -6,16 +6,17 @@ OC.L10N.register(
     "Delete" : "Kkes",
     "Select an account" : "Fren amiḍan",
     "Add account" : "Rnu amiḍan",
+    "Name" : "Nom",
     "Cancel" : "Cancel",
+    "Create" : "Snulfu-d",
     "Save" : "Sekles",
     "Edit" : "Ẓreg",
-    "Name" : "Nom",
-    "Create" : "Snulfu-d",
     "Share" : "Bḍu",
     "Search" : "Nadi",
     "Confirm" : "Serggeg",
     "Warning" : "Alɣu",
     "Admin" : "Anedbal",
-    "Settings" : "Iɣewwaṛen"
+    "Settings" : "Iɣewwaṛen",
+    "No search results" : "Ulac igmaḍ n unadi"
 },
 "nplurals=2; plural=(n != 1);");

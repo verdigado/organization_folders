@@ -3,11 +3,11 @@ OC.L10N.register(
     {
     "Delete" : "Läschen",
     "Add" : "Dobäisetzen",
-    "Folder name" : "Dossiers Numm:",
+    "Name" : "Numm",
     "Cancel" : "Cancel",
+    "Folder name" : "Dossiers Numm:",
     "Save" : "Späicheren",
     "Edit" : "Änneren",
-    "Name" : "Numm",
     "Search" : "Sichen",
     "Confirm" : "Konfirméieren",
     "Warning" : "Warnung",

@@ -3,11 +3,11 @@ OC.L10N.register(
     {
     "Delete" : "លុប",
     "Add" : "បន្ថែម",
-    "Folder name" : "ឈ្មោះ​ថត",
+    "Name" : "ឈ្មោះ",
     "Cancel" : "Cancel",
+    "Folder name" : "ឈ្មោះ​ថត",
     "Save" : "រក្សាទុក",
     "Edit" : "កែប្រែ",
-    "Name" : "ឈ្មោះ",
     "Search" : "ស្វែងរក",
     "Warning" : "បម្រាម",
     "Admin" : "អ្នក​គ្រប់​គ្រង",

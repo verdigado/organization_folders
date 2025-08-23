@@ -5,10 +5,11 @@ OC.L10N.register(
     "Delete" : "Dilemel",
     "Add account" : "Ouzhpenn ur c'hont",
     "Add group" : "Ouzhpenn strollad",
-    "Folder name" : "Anv teuliad",
-    "Cancel" : "Cancel",
-    "Edit" : "Embann",
     "Name" : "Anv",
+    "Cancel" : "Cancel",
+    "Folder name" : "Anv teuliad",
+    "Save" : "Enrollañ",
+    "Edit" : "Embann",
     "Move to {target}" : "Diblasañ da {target}",
     "Share" : "Rannañ",
     "Search" : "Klask",
@@ -17,6 +18,8 @@ OC.L10N.register(
     "Member" : "Ezel",
     "Admin" : "Merour",
     "Settings" : "Arventennoù",
-    "Delete folder" : "Diverkañ an teuliad"
+    "No search results" : "Disoc'h enklask ebet",
+    "Delete folder" : "Diverkañ an teuliad",
+    "Unlimited" : "Didermenet"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");
