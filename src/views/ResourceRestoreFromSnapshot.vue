@@ -58,7 +58,6 @@ const selectedDiffItems = computed(() => {
 })
 
 const parentDirectory = computed(() => {
-	console.log(selectedSnapshotDiff.value);
 	if(step.value >= 2 && !loading.value) {
 		return selectedSnapshotDiff.value?.relativePath;
 	} else {
@@ -115,12 +114,9 @@ async function revertSelectedDiffTaskResults() {
 
 	const numberOfSelectedDiffTaskResults = selectedDiffItems.value.length;
 
-	console.log(numberOfSelectedDiffTaskResults);
-
 	for (const [index, diffTaskResult] of selectedDiffItems.value.entries()) {
 		await api.revertResourceSnapshotDiffItem(props.resourceId, selectedSnapshot.value, selectedSnapshotDiff?.value?.id, diffTaskResult.id);
 		step4Progress.value = Math.round(((index + 1) / numberOfSelectedDiffTaskResults) * 100)
-		console.log(step4Progress.value);
 	}
 
 	setTimeout(() => {

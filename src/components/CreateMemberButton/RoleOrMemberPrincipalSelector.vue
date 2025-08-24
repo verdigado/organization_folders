@@ -27,6 +27,7 @@
 
 <script>
 import { translate as t, translatePlural as n } from "@nextcloud/l10n";
+import PLazy from 'p-lazy';
 
 import NcButton from "@nextcloud/vue/components/NcButton";
 import NcSelect from "@nextcloud/vue/components/NcSelect";
@@ -57,7 +58,11 @@ export default {
 	enableRoles: {
 		type: Boolean,
 		default: true,
-	}
+	},
+	initialRoleOrganizationPath: {
+		type: Array,
+		default: () => [],
+	},
   },
   data() {
 	return {
@@ -76,6 +81,10 @@ export default {
 	},
   },
   async mounted() {
+	for(let organization of this.initialRoleOrganizationPath) {
+		this.selections.push("organization_" + organization.id);
+	}
+
 	// load first selection level
 	this.options = await this.loadSubOptions();
 	await this.recalculateLevels();
@@ -120,7 +129,7 @@ export default {
 						type: "organization",
 						id: subOrganization.id,
 						friendlyName: subOrganization.friendlyName,
-						subOptions: () => new Promise((resolve, reject) => {
+						subOptions: new PLazy((resolve, reject) => {
 							self(subOrganization.id).then((result) => {
 								resolve(result);
 							}).catch((err) => {
@@ -251,7 +260,7 @@ export default {
 			const option = parent.find(option => option.type + '_' + option.id === selection);
 
 			if (option?.type === "organization") {
-				const subOptions = await option.subOptions();
+				const subOptions = await option.subOptions;
 				levels[index + 1] = subOptions;
 				parent = subOptions;
 			} else if(option?.type === "organization_member") {
@@ -280,8 +289,6 @@ export default {
 		this.selections = newSelections;
 
 		await this.recalculateLevels();
-
-		console.log("onSelection", this.selectedPrincipalType, this.organizationProvider, this.selectedPrincipalId);
 
 		if(this.selectedPrincipalId) {
 			this.$emit("selected", this.selectedPrincipalType, this.organizationProvider + ":" + this.selectedPrincipalId);

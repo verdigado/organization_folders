@@ -477,7 +477,6 @@ const findUserPermissionsReportOptions = (search) => {
 };
 
 const selectedPermissionsReportUser = async (principalType, principalId) => {
-	console.log("selected userPrincipal " + principalId);
 	if(principalId) {
 		permissionsReportLoading.value = true;
 		userPermissionsReport.value = await api.getResourceUserPermissionsReport(resource.value.id, principalId);
@@ -579,6 +578,7 @@ const openMoveDialog = () => {
 						:permission-level-options="memberPermissionLevelOptions"
 						:find-group-member-options="findGroupMemberOptions"
 						:find-user-member-options="findUserMemberOptions"
+						:initial-role-organization-path="organizationFolder?.organizationFullHierarchy ?? []"
 						@add-member="addMember" />
 				</HeaderButtonGroup>
 			</template>

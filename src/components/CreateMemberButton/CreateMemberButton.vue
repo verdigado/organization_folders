@@ -46,6 +46,10 @@ const props = defineProps({
 		required: false,
 		default: async () => [],
 	},
+	initialRoleOrganizationPath: {
+		type: Array,
+		default: () => [],
+	},
 });
 
 const emit = defineEmits(["add-member"]);
@@ -159,6 +163,7 @@ const dialogUpdate = (open) => {
 					@selected="selected" />
 				<RoleOrMemberPrincipalSelector v-else-if="newMemberType === 'ORGANIZATION_MEMBER_OR_ROLE'"
 					:organization-provider="newMemberAdditionalParameters?.organizationProvider"
+					:initial-role-organization-path="initialRoleOrganizationPath"
 					@selected="selected" />
 			</div>
 			<template #actions>

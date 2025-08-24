@@ -44,7 +44,6 @@ const subresourcesLoading = ref(true);
 if(props.initialResourceId) {
 	api.getResource(props.initialResourceId, "fullPath+subresources+permissions")
 		.then(({ fullPath, subResources }) => {
-			console.log(fullPath);
 			resourcePath.value = fullPath;
 			currentSubresources.value = subResources;
 			picked();

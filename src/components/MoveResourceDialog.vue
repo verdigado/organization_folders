@@ -34,7 +34,6 @@ const loading = ref(false);
 const currentPickedResource = ref(null);
 
 const resourcePicked = (resource) => {
-	console.log(resource);
 	currentPickedResource.value = resource;
 };
 

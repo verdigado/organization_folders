@@ -350,6 +350,7 @@ const permissionLevelExplanation = t(
                         :enable-user-type="false"
 						:find-group-member-options="findGroupMemberOptions"
 						:find-user-member-options="findUserMemberOptions"
+						:initial-role-organization-path="organizationFolder?.organizationFullHierarchy ?? []"
 						@add-member="addMember" />
 				</HeaderButtonGroup>
 			</template>

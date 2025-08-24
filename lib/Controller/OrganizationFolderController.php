@@ -70,7 +70,8 @@ class OrganizationFolderController extends BaseController {
 					$result["organizationFullHierarchy"] = array_reverse($organizationFullHierarchy);
 					$result["organizationProviderFriendlyName"] = $organizationProvider->getFriendlyName();
 				} catch (\Throwable $e) {
-					$result["organizationFullHierarchy"] = ["Invalid organization"];
+					$result["organizationFullHierarchy"] = null;
+					$result["organizationProviderFriendlyName"] = null;
 				}
 			} else {
 				$result["organizationFullHierarchy"] = null;
