@@ -28,6 +28,7 @@ OC.L10N.register(
     "Settings" : "Configuración",
     "Organization" : "Organización",
     "Resources" : "Recursos",
+    "No search results" : "Nun hai nengún resultáu de la busca",
     "Finish" : "Finar",
     "No changes" : "Nun hai nengún cambéu",
     "Delete folder" : "Desaniciar la carpeta",
