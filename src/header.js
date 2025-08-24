@@ -36,13 +36,13 @@ const OrganizationFoldersHeader = new Header({
 		}
 
         const currentDir = useCurrentDirStore();
-        currentDir.update(folder?.path, folder.attributes);
+        currentDir.update(folder?.path, folder?.displayname, folder.attributes);
         currentFolderFileid = folder?.fileid;
 	},
 
 	updated(folder) {
 		const currentDir = useCurrentDirStore();
-        currentDir.update(folder?.path, folder.attributes);
+        currentDir.update(folder?.path, folder?.displayname, folder.attributes);
         currentFolderFileid = folder?.fileid;
 	},
 })

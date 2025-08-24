@@ -35,10 +35,6 @@ const props = defineProps({
 		type: Number,
 		required: true,
 	},
-	showLabel: {
-		type: Boolean,
-		default: false,
-	},
 });
 
 const emit = defineEmits(["input"])
@@ -108,8 +104,7 @@ const createOption = (quota) => {
 		:create-option="createOption"
 		:clearable="false"
 		:options="quotaOptions"
-		:input-label="t('organization_folders', 'Storage Quota')"
-		:label-outside="!showLabel"
+		:aria-label-combobox="t('organization_folders', 'Select storage quota or input custom quota')"
 		:taggable="true" />
 </template>
 <style lang="scss" scoped>

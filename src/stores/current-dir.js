@@ -5,6 +5,7 @@ export const useCurrentDirStore = defineStore("currentDir", {
 	state: () => ({
 		loading: false,
 		path: "",
+		name: "",
 		organizationFolderId: null,
 		organizationFolderUpdatePermissions: null,
 		organizationFolderReadLimitedPermissions: null,
@@ -16,8 +17,9 @@ export const useCurrentDirStore = defineStore("currentDir", {
 		 * @param {string} path path of new directory
 		 * @param attributes DAV attributes of directory
 		 */
-		async update(path, attributes) {
+		async update(path, name, attributes) {
 			this.path = path
+			this.name = name;
 
 			this.organizationFolderId = attributes["organization-folder-id"];
 			this.organizationFolderUpdatePermissions = attributes["organization-folder-user-has-update-permissions"];

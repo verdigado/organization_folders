@@ -15,7 +15,6 @@ import PageSelector from "../components/PageSelector.vue";
 import CreateOrganizationFolderButton from "../components/CreateOrganizationFolderButton.vue";
 
 import api from "../api.js";
-import { validOrganizationFolderName } from "../helpers/validation.js";
 
 const loading = ref(true);
 

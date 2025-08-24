@@ -12,11 +12,12 @@
 				:reduce="(item) => item.type + '_' + item.id"
 				:selectable="(item) => item.disabled !== true"
 				:filter="filter"
+				:aria-label-combobox="levelIndex === 0 ? t('organization_folders', 'Select organization') : t('organization_folders', 'Select sub-organization or role')"
 				@search="(newValue) => search = newValue"
 				@input="newValue => onSelection(levelIndex, newValue)">
 					<template #option="option">
-						<span v-if="option.disabled" :class="{optionIndented: option.indented}">{{ option.friendlyName }}</span>
-						<NcHighlight v-else :class="{optionIndented: option.indented}" :text="option.friendlyName"
+						<span v-if="option.disabled" :class="{ optionIndented: option.indented }">{{ option.friendlyName }}</span>
+						<NcHighlight v-else :class="{ optionIndented: option.indented }" :text="option.friendlyName"
 							:search="search" />
 					</template>
 			</NcSelect>

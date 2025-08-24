@@ -41,6 +41,22 @@ const buttonText = computed(() => {
     }
 });
 
+const ariaLabel = computed(() => {
+    if(currentDir.organizationFolderId) {
+        return t(
+			"organization_folders",
+			"Manage settings and permissions of folder \"{folderName}\"",
+			{
+				folderName: currentDir.name,
+			},
+		);
+    } else if (userIsAdmin) {
+        return t("organization_folders", "Manage all organization folders");
+    } else {
+        return "";
+    }
+});
+
 function openModal() {
     if(currentDir.organizationFolderResourceId && currentDir.organizationFolderResourceUpdatePermissions) {
         router.push({
@@ -66,6 +82,7 @@ function openModal() {
     <div v-if="showHeader" class="toolbar">
         <NcButton :disabled="currentDir.loading"
             type="primary"
+			:aria-label="ariaLabel"
             @click="openModal">
             <template #icon>
                 <NcLoadingIcon v-if="currentDir.loading" />
