@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import App from './AdminSettings.vue'
+import Vue from "vue";
+import App from "./AdminSettings.vue";
 
 Vue.mixin({ methods: { t, n } })
 

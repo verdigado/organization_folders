@@ -20,9 +20,14 @@
   
   <script setup>
   import { ref } from "vue";
-  import debounceFunction from 'debounce-fn';
-  import { NcSettingsSection, NcTextField, NcPasswordField, NcCheckboxRadioSwitch } from "@nextcloud/vue"
+  import debounceFunction from "debounce-fn";
   import { translate as t, translatePlural as n } from "@nextcloud/l10n";
+
+  import NcSettingsSection from "@nextcloud/vue/components/NcSettingsSection";
+  import NcTextField from "@nextcloud/vue/components/NcTextField";
+  import NcPasswordField from "@nextcloud/vue/components/NcPasswordField";
+  import NcCheckboxRadioSwitch from "@nextcloud/vue/components/NcCheckboxRadioSwitch";
+
 
   import { adminSettingsApi } from "./adminSettingsApi.js";
   
