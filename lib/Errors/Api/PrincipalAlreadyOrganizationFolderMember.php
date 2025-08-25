@@ -2,6 +2,7 @@
 
 namespace OCA\OrganizationFolders\Errors\Api;
 
+use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 
@@ -10,13 +11,28 @@ class PrincipalAlreadyOrganizationFolderMember extends ApiError {
         public readonly Principal $principal,
         public readonly OrganizationFolder $organizationFolder,
     ) {
-		parent::__construct(
-			...$this->t("Principal \"%s\" (id: %s) is already member of organization folder \"%s\" (id: %s)", [
-				$principal->getFriendlyName(),
-				$principal->getKey(),
-				$organizationFolder->getName(),
-				$organizationFolder->getId(),
-			]),
-        );
+		$parameters = [
+			$principal->getFriendlyName(),
+			$principal->getId(),
+			$organizationFolder->getName(),
+			$organizationFolder->getId(),
+		];
+
+		if($principal->getType() === PrincipalType::USER) {
+			parent::__construct(
+				...$this->t("The user \"%s\" (id: %s) has already been added to organization folder \"%s\" (id: %s)", $parameters));
+		} else if($principal->getType() === PrincipalType::GROUP) {
+			parent::__construct(
+				...$this->t("The group \"%s\" (id: %s) has already been added to organization folder \"%s\" (id: %s)", $parameters),
+			);
+		} else if($principal->getType() === PrincipalType::ORGANIZATION_MEMBER) {
+			parent::__construct(
+				...$this->t("The organization members of \"%s\" (id: %s) have already been added to organization folder \"%s\" (id: %s)", $parameters),
+			);
+		} else if($principal->getType() === PrincipalType::ORGANIZATION_MEMBER) {
+			parent::__construct(
+				...$this->t("The organization role \"%s\" (id: %s) has already been added to organization folder \"%s\" (id: %s)", $parameters),
+			);
+		}
 	}
 }
