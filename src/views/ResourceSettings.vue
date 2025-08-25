@@ -118,6 +118,7 @@ const saveName = async () => {
 		}, resourceApiIncludes);
 	} finally {
 		saveNameLoading.value = false;
+		nameEditActive.value = false;
 	}
 };
 
