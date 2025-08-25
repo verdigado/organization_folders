@@ -11,10 +11,12 @@ class PrincipalAlreadyOrganizationFolderMember extends ApiError {
         public readonly OrganizationFolder $organizationFolder,
     ) {
 		parent::__construct(
-            message: "Principal " . $principal->getFriendlyName()
-                . " (id: " . $principal->getKey() . ")"
-                . " is already member of organization folder " . $organizationFolder->getName()
-                . " (id: " . $organizationFolder->getId() . ")",
+			...$this->t("Principal \"%s\" (id: %s) is already member of organization folder \"%s\" (id: %s)", [
+				$principal->getFriendlyName(),
+				$principal->getKey(),
+				$organizationFolder->getName(),
+				$organizationFolder->getId(),
+			]),
         );
 	}
 }

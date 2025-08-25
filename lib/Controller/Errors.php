@@ -13,12 +13,18 @@ use OCA\OrganizationFolders\Errors\Api\ApiError;
 
 trait Errors {
 	protected function errorResponse(
-		\Exception $e,
+		string $class,
+		string $message,
+		string $l10nMessage,
 		$status = Http::STATUS_BAD_REQUEST,
 		?array $details = null,
 		?string $id = null,
 	): JSONResponse {
-		$response = ['class' => get_class($e), 'message' => $e->getMessage()];
+		$response = [
+			'class' => $class,
+			'message' => $message,
+			'l10nMessage' => $l10nMessage,
+		];
 
 		if(isset($id)) {
 			$response["id"] = $id;
@@ -35,9 +41,9 @@ trait Errors {
 		try {
 			return new JSONResponse($callback());
 		} catch (ApiError $e) {
-			return $this->errorResponse($e, $e->getHttpCode(), $e->getDetails(), $e->getId());
+			return $this->errorResponse(get_class($e), $e->getMessage(), $e->getL10nMessage(), $e->getHttpCode(), $e->getDetails(), $e->getId());
 		} catch (\Exception $e) {
-			return $this->errorResponse($e);
+			return $this->errorResponse(get_class($e), $e->getMessage(), $e->getMessage());
 		}
 	}
 
@@ -45,9 +51,9 @@ trait Errors {
 		try {
 			return $callback();
 		} catch (ApiError $e) {
-			return $this->errorResponse($e, $e->getHttpCode(), $e->getDetails(), $e->getId());
+			return $this->errorResponse(get_class($e), $e->getMessage(), $e->getL10nMessage(), $e->getHttpCode(), $e->getDetails(), $e->getId());
 		} catch (\Exception $e) {
-			return $this->errorResponse($e);
+			return $this->errorResponse(get_class($e), $e->getMessage(), $e->getMessage());
 		}
 	}
 }

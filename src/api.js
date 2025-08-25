@@ -2,6 +2,7 @@ import axios from "@nextcloud/axios";
 import { getRequestToken } from '@nextcloud/auth';
 import { generateUrl } from "@nextcloud/router";
 import { showError } from "@nextcloud/dialogs";
+import { translate as t } from "@nextcloud/l10n";
 
 /**
  * @typedef {number} PrincipalType
@@ -149,7 +150,11 @@ const httpErrorCodesNotGloballyHandled = [412];
 
 axios.interceptors.response.use(r => r, function (error) {
 	if(!httpErrorCodesNotGloballyHandled.includes(error.response?.status)) {
-		showError(error.response?.data?.message);
+		if(error.response?.data?.l10nMessage) {
+			showError(error.response?.data?.l10nMessage);
+		} else {
+			showError(t("organization_folders", "An unknown error occurred."));
+		}
 	}
 	
 	return Promise.reject(error);

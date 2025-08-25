@@ -18,6 +18,8 @@ abstract class NotFoundException extends ApiError {
 			$entityName,
 			json_encode($criteria),
 		);
-		parent::__construct($message, Http::STATUS_NOT_FOUND);
+
+		// TODO: find way to l10n this (logic probably needs to be move to the child classes)
+		parent::__construct($message, $message, Http::STATUS_NOT_FOUND);
 	}
 }
