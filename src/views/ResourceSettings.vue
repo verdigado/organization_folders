@@ -611,7 +611,7 @@ const openMoveDialog = () => {
 							name="permissions_report_page"
 							type="radio"
 							button-variant-grouped="horizontal">
-							{{ t("organization_folders", "Permissions overview") }}
+							{{ t("organization_folders", "Permissions Overview") }}
 						</NcCheckboxRadioSwitch>
 						<NcCheckboxRadioSwitch
 							:button-variant="true"
