@@ -9,7 +9,10 @@ class ResourceDoesNotSupportSubresources extends ApiError {
         public readonly Resource $resource,
     ) {
 		parent::__construct(
-            message: "Resource \"" . $resource->getName() . "\" does not support subresources",
-        );
+			...$this->t("Resource \"%s\" (id: %s) does not support subresources", [
+				$resource->getName(),
+				$resource->getId(),
+			])
+		);
 	}
 }

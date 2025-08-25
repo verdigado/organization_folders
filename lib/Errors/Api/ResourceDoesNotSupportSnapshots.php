@@ -9,7 +9,10 @@ class ResourceDoesNotSupportSnapshots extends ApiError {
         public readonly Resource $resource,
     ) {
 		parent::__construct(
-            message: "Resource \"" . $resource->getName() . "\" does not support restoring from snapshots",
-        );
+			...$this->t("Resource \"%s\" (id: %s) does not support restoring from snapshots", [
+				$resource->getName(),
+				$resource->getId(),
+			])
+		);
 	}
 }

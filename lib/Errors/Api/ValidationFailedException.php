@@ -6,7 +6,7 @@ class ValidationFailedException extends ApiError {
 	private array $violations;
 
 	public function __construct(string $message = 'Validation failed.', array $violations) {
-		parent::__construct($message);
+		parent::__construct($message, $message);
 		$this->violations = $violations;
 	}
 

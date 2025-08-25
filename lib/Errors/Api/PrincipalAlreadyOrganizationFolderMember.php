@@ -2,9 +2,9 @@
 
 namespace OCA\OrganizationFolders\Errors\Api;
 
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 
 class PrincipalAlreadyOrganizationFolderMember extends ApiError {
 	public function __construct(
@@ -29,7 +29,7 @@ class PrincipalAlreadyOrganizationFolderMember extends ApiError {
 			parent::__construct(
 				...$this->t("The organization members of \"%s\" (id: %s) have already been added to organization folder \"%s\" (id: %s)", $parameters),
 			);
-		} else if($principal->getType() === PrincipalType::ORGANIZATION_MEMBER) {
+		} else if($principal->getType() === PrincipalType::ORGANIZATION_ROLE) {
 			parent::__construct(
 				...$this->t("The organization role \"%s\" (id: %s) has already been added to organization folder \"%s\" (id: %s)", $parameters),
 			);

@@ -10,9 +10,11 @@ class WouldCauseTooManyPermissionsChanges extends ApiError {
 		private readonly int $numberOfUsersWithPermissionsDeleted,
 	) {
 		parent::__construct(
-            message: "Request cancelled, because it would cause number of permissions additions or deletions above requested limit",
-			httpCode: Http::STATUS_PRECONDITION_FAILED,
-			id: "WouldCauseTooManyPermissionsChanges",
+			...[
+				...$this->t("Request cancelled, because it would cause number of permissions additions or deletions above requested limit"),
+				"httpCode" => Http::STATUS_PRECONDITION_FAILED,
+				"id" => "WouldCauseTooManyPermissionsChanges",
+			]
         );
 	}
 
