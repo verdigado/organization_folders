@@ -20,7 +20,15 @@
 -->
 
 <script setup>
+import { computed } from "vue";
+
+import NcEmptyContent from "@nextcloud/vue/components/NcEmptyContent";
+
+import AccountOff from "vue-material-design-icons/AccountOff.vue";
+
 import PermissionsReportItem from "./PermissionsReportItem.vue";
+
+import api from '../../api.js';
 
 const props = defineProps({
 	resource: {
@@ -32,24 +40,41 @@ const props = defineProps({
 		required: true,
 	},
 });
+
+const emptyContentText = computed(() => {
+	if(props.resource.type === api.ResourceTypes.FOLDER) {
+		return t("organization_folders", "No person or group has permissions in this folder");
+	}
+});
+
 </script>
 
 <template>
-	<table>
-		<tr class="header">
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>{{ t("organization_folders", "Read") }}</td>
-				<td>{{ t("organization_folders", "Write") }}</td>
-				<td>{{ t("organization_folders", "Create") }}</td>
-				<td>{{ t("organization_folders", "Delete") }}</td>
-				<td>{{ t("organization_folders", "Share") }}</td>
-				<td></td>
-		</tr>
-		<PermissionsReportItem v-for="(permissionsReportItem, index) in permissionsReport" :resource="resource" :key="index" :item="permissionsReportItem" />
-	</table>
+	<div class="ignoreForLayout">
+		<table v-if="permissionsReport.length > 0">
+			<tr class="header">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>{{ t("organization_folders", "Read") }}</td>
+					<td>{{ t("organization_folders", "Write") }}</td>
+					<td>{{ t("organization_folders", "Create") }}</td>
+					<td>{{ t("organization_folders", "Delete") }}</td>
+					<td>{{ t("organization_folders", "Share") }}</td>
+					<td></td>
+			</tr>
+			<PermissionsReportItem v-for="(permissionsReportItem, index) in permissionsReport"
+				:key="index"
+				:resource="resource"
+				:item="permissionsReportItem" />
+		</table>
+		<NcEmptyContent v-else :name="emptyContentText">
+			<template #icon>
+				<AccountOff />
+			</template>
+		</NcEmptyContent>
+	</div>
 </template>
 
 <style lang="scss" scoped>
