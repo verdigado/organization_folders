@@ -20,18 +20,18 @@ class PrincipalAlreadyOrganizationFolderMember extends ApiError {
 
 		if($principal->getType() === PrincipalType::USER) {
 			parent::__construct(
-				...$this->t("The user \"%s\" (id: %s) has already been added to organization folder \"%s\" (id: %s)", $parameters));
+				...$this->t("The user \"%s\" (ID: %s) has already been added to organization folder \"%s\" (ID: %s)", $parameters));
 		} else if($principal->getType() === PrincipalType::GROUP) {
 			parent::__construct(
-				...$this->t("The group \"%s\" (id: %s) has already been added to organization folder \"%s\" (id: %s)", $parameters),
+				...$this->t("The group \"%s\" (ID: %s) has already been added to organization folder \"%s\" (ID: %s)", $parameters),
 			);
 		} else if($principal->getType() === PrincipalType::ORGANIZATION_MEMBER) {
 			parent::__construct(
-				...$this->t("The organization members of \"%s\" (id: %s) have already been added to organization folder \"%s\" (id: %s)", $parameters),
+				...$this->t("The organization members of \"%s\" (ID: %s) have already been added to organization folder \"%s\" (ID: %s)", $parameters),
 			);
 		} else if($principal->getType() === PrincipalType::ORGANIZATION_ROLE) {
 			parent::__construct(
-				...$this->t("The organization role \"%s\" (id: %s) has already been added to organization folder \"%s\" (id: %s)", $parameters),
+				...$this->t("The organization role \"%s\" (ID: %s) has already been added to organization folder \"%s\" (ID: %s)", $parameters),
 			);
 		}
 	}
