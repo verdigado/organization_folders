@@ -18,19 +18,19 @@ class PrincipalInvalid extends ApiError {
 
 		if($principal->getType() === PrincipalType::USER) {
 			parent::__construct(
-				...$this->t("A user with id %s does not exist", $parameters)
+				...$this->t("A user with ID %s does not exist", $parameters)
 			);
 		} else if($principal->getType() === PrincipalType::GROUP) {
 			parent::__construct(
-				...$this->t("A group with id %s does not exist", $parameters),
+				...$this->t("A group with ID %s does not exist", $parameters),
 			);
 		} else if($principal->getType() === PrincipalType::ORGANIZATION_MEMBER) {
 			parent::__construct(
-				...$this->t("An organization with id %s does not exist", $parameters),
+				...$this->t("An organization with ID %s does not exist", $parameters),
 			);
 		} else if($principal->getType() === PrincipalType::ORGANIZATION_ROLE) {
 			parent::__construct(
-				...$this->t("An organization role with id: %s does not exist", $parameters),
+				...$this->t("An organization role with ID: %s does not exist", $parameters),
 			);
 		}
 	}
