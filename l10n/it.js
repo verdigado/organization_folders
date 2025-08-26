@@ -123,7 +123,6 @@ OC.L10N.register(
     "Unmanaged Subfolders" : "Sottocartelle non gestite",
     "Inherit managers from the level above" : "Eredita i gestori dal livello superiore",
     "Show Permissions Overview" : "Mostra panoramica delle autorizzazioni",
-    "Permissions overview" : "Panoramica delle autorizzazioni",
     "Permissions of person" : "Permessi della persona",
     "Move folder" : "Sposta cartella",
     "Restore files from a backup" : "Ripristina i file da un backup",

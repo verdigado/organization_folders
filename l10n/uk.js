@@ -144,7 +144,6 @@ OC.L10N.register(
     "Unmanaged Subfolders" : "Підкаталоги, якими не керують",
     "Inherit managers from the level above" : "Успадкувати менеджерів з вищого рівня",
     "Show Permissions Overview" : "Огляд дозволів на показ",
-    "Permissions overview" : "Огляд дозволів",
     "Permissions of person" : "Дозволи особи",
     "Move folder" : "Перемістити каталог",
     "Restore files from a backup" : "Відновити файли з резервної копії",

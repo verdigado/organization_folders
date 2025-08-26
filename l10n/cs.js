@@ -105,7 +105,6 @@ OC.L10N.register(
     "Unmanaged Subfolders" : "Nespravované podsložky",
     "Inherit managers from the level above" : "Převzít nadřízené z úrovně výše",
     "Show Permissions Overview" : "Zobrazit přehled oprávnění",
-    "Permissions overview" : "Přehled oprávnění",
     "Permissions of person" : "Oprávnění osoby",
     "Move folder" : "Přesunout složku",
     "Restore files from a backup" : "Obnovit soubory ze zálohy",

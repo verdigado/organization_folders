@@ -144,7 +144,6 @@ OC.L10N.register(
     "Unmanaged Subfolders" : "Unmanaged Subfolders",
     "Inherit managers from the level above" : "Inherit managers from the level above",
     "Show Permissions Overview" : "Show Permissions Overview",
-    "Permissions overview" : "Permissions overview",
     "Permissions of person" : "Permissions of person",
     "Move folder" : "Move folder",
     "Restore files from a backup" : "Restore files from a backup",

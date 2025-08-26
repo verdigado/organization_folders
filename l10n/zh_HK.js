@@ -144,7 +144,6 @@ OC.L10N.register(
     "Unmanaged Subfolders" : "未受管理的資料夾",
     "Inherit managers from the level above" : "從上級繼承管理員",
     "Show Permissions Overview" : "顯示權限概覽",
-    "Permissions overview" : "權限概覽",
     "Permissions of person" : "個人權限",
     "Move folder" : "移動資料夾",
     "Restore files from a backup" : "從備份中恢復文件",

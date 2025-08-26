@@ -125,7 +125,6 @@ OC.L10N.register(
     "Unmanaged Subfolders" : "Subpastas Não Gerenciadas",
     "Inherit managers from the level above" : "Herdar gerentes do nível superior",
     "Show Permissions Overview" : "Mostrar Visão Geral das Permissões",
-    "Permissions overview" : "Visão geral das permissões",
     "Permissions of person" : "Permissões da pessoa",
     "Move folder" : "Mover pasta",
     "Restore files from a backup" : "Restaurar arquivos de um backup",
