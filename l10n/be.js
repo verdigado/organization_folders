@@ -26,6 +26,7 @@ OC.L10N.register(
     "{usedStorage}/{availableStorage} used" : "{usedStorage}/{availableStorage} выкарыстана",
     "({percent}% used)" : "({percent}% выкарыстана)",
     "Organization" : "Арганізацыя",
+    "Resources" : "Рэсурсы",
     "Delete folder" : "Выдаліць папку",
     "Unmanaged Subfolders" : "Некіруемыя падпапкі",
     "Move folder" : "Перамясціць папку"
