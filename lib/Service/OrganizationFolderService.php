@@ -279,7 +279,7 @@ class OrganizationFolderService {
 		$members = $organizationFolderMemberService->findAll(organizationFolderId: $organizationFolder->getId());
 
 		foreach($members as $member) {
-			if($member->getPermissionLevel() === OrganizationFolderMemberPermissionLevel::MEMBER) {
+			if($member->getPermissionLevel() === OrganizationFolderMemberPermissionLevel::MEMBER->value) {
 				// MEMBER
 				$memberPrincipals[] = $member->getPrincipal();
 			} else {
