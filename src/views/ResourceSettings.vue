@@ -59,7 +59,7 @@ const organizationProviders = useOrganizationProvidersStore();
 
 organizationProviders.initialize();
 
-const resourceApiIncludes = "model+permissions+members+subresources+unmanagedSubfolders";
+const resourceApiIncludes = "model+permissions+members+parentResource+subresources+unmanagedSubfolders";
 
 const organizationFolder = ref(null);
 const resource = ref(null);
@@ -602,7 +602,8 @@ const openMoveDialog = () => {
 				</NcButton>
 				<NcDialog :open.sync="permissionsReportOpen"
 					:name="t('organization_folders', 'Permissions Overview')"
-					size="large">
+					size="large"
+					class="permissions-report-dialog">
 					<div style="display: flex; justify-content: center;">
 						<NcCheckboxRadioSwitch
 							:button-variant="true"
@@ -736,6 +737,11 @@ const openMoveDialog = () => {
 			/* Add primary background color like other buttons */
 			background-color: var(--color-primary-light);
 		}
+	}
+}
+.permissions-report-dialog {
+	:deep(.modal-container) {
+		width: unset !important;
 	}
 }
 

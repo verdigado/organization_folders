@@ -194,13 +194,15 @@ const addMember = async (principalType, principalId, callback) => {
 	}
 };
 
-const updateMember = async (organizationFolderMemberId, updateOrganiationFolderMemberDto) => {
+const updateMember = async (organizationFolderMemberId, updateOrganiationFolderMemberDto, callback) => {
 	const member = await api.updateOrganizationFolderMember(organizationFolderMemberId, updateOrganiationFolderMemberDto);
 	organizationFolder.value.members = organizationFolder.value.members.map((m) => m.id === member.id ? member : m);
+	callback();
 };
 
 const deleteMember = async (organizationFolderMemberId) => {
 	await api.deleteOrganizationFolderMember(organizationFolderMemberId);
+	callback();
 	organizationFolder.value.members = organizationFolder.value.members.filter((m) => m.id !== organizationFolderMemberId);
 };
 

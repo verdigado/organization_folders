@@ -3,10 +3,14 @@ import { computed, ref } from "vue";
 import PermissionsInputRow from "./PermissionsInputRow.vue";
 
 const props = defineProps({
-  resource: {
-	type: Object,
-	required: true,
-  },
+	organizationFolder: {
+		type: Object,
+		required: true,
+	},
+	resource: {
+		type: Object,
+		required: true,
+	},
 })
 
 const emit = defineEmits(["permissionUpdated"]);
@@ -33,8 +37,12 @@ const permissionGroups = computed(() => {
 	},
 	{
 		field: "inheritedAclPermission",
-		label: t("organization_folders", "Inherited Permissions"),
-		explanation: t("organization_folders", "These permissions apply to anyone, that has at least read access on the level above"),
+		label: props.resource.parentResourceId ?
+			t("organization_folders", "Members of \"{parentResourceName}\"", { parentResourceName: props.resource?.parentResource?.name }) :
+			t("organization_folders", "Organization Folder Members"),
+		explanation: props.resource.parentResourceId ?
+			t("organization_folders", "These permissions apply to anyone, that has at least read access to the parent folder \"{parentResourceName}\". If no permissions are selected here members from the parent folder won't have access to this folder unless they are explicitly added as a member to this folder.", { parentResourceName: props.resource.parentResource.name }) :
+			t("organization_folders", "These permissions apply to anyone, that is a member of the organization folder \"{organizationFolderName}\".", { organizationFolderName: props.organizationFolder.name }),
 		value: props.resource.inheritedAclPermission,
 		mask: 31,
 	},
