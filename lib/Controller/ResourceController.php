@@ -26,6 +26,7 @@ class ResourceController extends BaseController {
 
 	public const PERMISSIONS_INCLUDE = 'permissions';
 	public const MEMBERS_INCLUDE = 'members';
+	public const PARENT_RESOURCE_INCLUDE = "parentResource";
 	public const SUBRESOURCES_INCLUDE = 'subresources';
 	public const UNMANAGEDSUBFOLDERS_INCLUDE = 'unmanagedSubfolders';
 	public const FULLPATH_INCLUDE = 'fullPath';
@@ -63,6 +64,23 @@ class ResourceController extends BaseController {
 				$result["permissions"]["level"] = "limited";
 			} else {
 				$result["permissions"]["level"] = "full";
+			}
+		}
+
+		if($this->shouldInclude(self::PARENT_RESOURCE_INCLUDE, $includes)) {
+			if(is_null($resource->getParentResource())) {
+				$result["parentResource"] = null;
+			} else {
+				$parentResource = $this->service->getParentResource($resource);
+
+				if($this->authorizationService->isGranted(["READ"], $parentResource)) {
+					$result["parentResource"] =  $parentResource->jsonSerialize();
+				} else {
+					// since the user is known to have at READ_LIMITED access to the child
+					// resource, they must have at least READ_LIMITED access to the parent, so
+					// we do not have to check for READ_LIMITED here
+					$result["parentResource"] =  $parentResource->limitedJsonSerialize();
+				}
 			}
 		}
 
