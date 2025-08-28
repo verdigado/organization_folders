@@ -28,6 +28,7 @@ OC.L10N.register(
     "Organization" : "Арганізацыя",
     "Resources" : "Рэсурсы",
     "Delete folder" : "Выдаліць папку",
+    "Permissions" : "Дазволы",
     "Unmanaged Subfolders" : "Некіруемыя падпапкі",
     "Move folder" : "Перамясціць папку"
 },
