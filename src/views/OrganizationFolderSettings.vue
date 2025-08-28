@@ -200,7 +200,7 @@ const updateMember = async (organizationFolderMemberId, updateOrganiationFolderM
 	callback();
 };
 
-const deleteMember = async (organizationFolderMemberId) => {
+const deleteMember = async (organizationFolderMemberId, callback) => {
 	await api.deleteOrganizationFolderMember(organizationFolderMemberId);
 	callback();
 	organizationFolder.value.members = organizationFolder.value.members.filter((m) => m.id !== organizationFolderMemberId);
