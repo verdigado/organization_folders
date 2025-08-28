@@ -32,7 +32,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	public function limitedJsonSerialize(): array {
 		return [
 			'id' => $this->id,
-			'parentResource' => $this->parentResource,
+			'parentResourceId' => $this->parentResource,
 			'organizationFolderId' => $this->organizationFolderId,
 			'type' => $this->getType(),
 			'name' => $this->name,

@@ -114,7 +114,7 @@ const saveName = async () => {
 	try {
 		resource.value = await api.moveResource(resource.value.id, {
 			name: currentResourceName.value,
-			parentResourceId: resource.value.parentResource,
+			parentResourceId: resource.value.parentResourceId,
 		}, resourceApiIncludes);
 	} finally {
 		saveNameLoading.value = false;
@@ -329,9 +329,9 @@ const subResourceClicked = (resource) => {
 };
 
 const backButtonClicked = () => {
-	if(resource.value?.parentResource) {
+	if(resource.value?.parentResourceId) {
 		router.push({
-			path: '/organizationFolder/' + props.organizationFolderId + '/resource/' + resource.value.parentResource,
+			path: '/organizationFolder/' + props.organizationFolderId + '/resource/' + resource.value.parentResourceId,
 		});
 	} else {
 		router.push({
@@ -569,7 +569,7 @@ const openMoveDialog = () => {
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Permissions')"></SectionHeader>
 			</template>
-			<Permissions :resource="resource"
+			<Permissions :organization-folder="organizationFolder" :resource="resource"
 				@permissionUpdated="savePermission" />
 		</Section>
 		<Section v-if="!resourcePermissionsLimited">

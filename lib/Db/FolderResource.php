@@ -40,7 +40,7 @@ class FolderResource extends Resource {
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
-			'parentResource' => $this->parentResource,
+			'parentResourceId' => $this->parentResource,
 			'organizationFolderId' => $this->organizationFolderId,
 			'type' => "folder",
 			'name' => $this->name,
@@ -59,7 +59,7 @@ class FolderResource extends Resource {
 	public function limitedJsonSerialize(): array {
 		return [
 			'id' => $this->id,
-			'parentResource' => $this->parentResource,
+			'parentResourceId' => $this->parentResource,
 			'organizationFolderId' => $this->organizationFolderId,
 			'type' => $this->getType(),
 			'name' => $this->name,

@@ -99,7 +99,7 @@ var PermissionOriginTypes = {
  * type: ResourceType
  * organizationFolderId: number
  * name: string
- * parentResource: number|null
+ * parentResourceId: number|null
  * active: bool
  * inheritManagers: bool
  * createdTimestamp: number

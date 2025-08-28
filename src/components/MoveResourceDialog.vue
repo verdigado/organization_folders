@@ -61,7 +61,7 @@ const dialogConfirm = () => {
 		size="large"
 		@update:open="updateOpen">
 		<ResourcePicker :organization-folder="organizationFolder"
-			:initial-resource-id="props.resource.parentResource"
+			:initial-resource-id="props.resource.parentResourceId"
 			:require-full-permissions="true"
 			:resource-blacklist="[props.resource.id]"
 			@picked="resourcePicked" />
@@ -72,7 +72,7 @@ const dialogConfirm = () => {
 				</template>
 				{{ t("organization_folders", "Cancel") }}
 			</NcButton>
-			<NcButton :disabled="(currentPickedResource?.id ?? null) === props.resource.parentResource" @click="dialogConfirm">
+			<NcButton :disabled="(currentPickedResource?.id ?? null) === props.resource.parentResourceId" @click="dialogConfirm">
 				<template #icon>
 					<NcLoadingIcon v-if="loading" />
 					<FolderMove v-else :size="20" />
