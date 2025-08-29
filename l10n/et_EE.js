@@ -71,8 +71,6 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "Need õigused lisatakse kõikidele järgmisest valikust lisatavatele haldaja õigustega kasutajatele",
     "Folder Members" : "Kausta liikmed",
     "These permissions apply to any member added in the next section with the member permission level" : "Need õigused lisatakse kõikidele järgmisest valikust lisatavatele liikmesõigustega kasutajatele",
-    "Inherited Permissions" : "Õigused muude õiguste alusel",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Need õigused kehtivad kõigile, kellel on ülalpool asuvas kaustas vähemalt lugemisõigused",
     "Read" : "Lugemine",
     "Write" : "Kirjuta",
     "Share" : "Jaga",

@@ -55,8 +55,6 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "Ці дозволи буде застосовано до всіх учасників, доданих у наступному розділі з рівнем дозволів менеджера",
     "Folder Members" : "Учасники каталогу",
     "These permissions apply to any member added in the next section with the member permission level" : "Ці дозволи буде застосовано до всіх учасників, доданих у наступному розділі з рівнем дозволів учасника",
-    "Inherited Permissions" : "Успадковані дозволи",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Ці дозволи буде застосовано до всіх учасників, які мають щонайменше рівень читання на вищому рівні",
     "Read" : "Читати",
     "Write" : "Редагувати",
     "Share" : "Спільний доступ",

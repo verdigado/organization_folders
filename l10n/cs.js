@@ -46,8 +46,6 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "Tato oprávnění budou uplatněna na všechny členy přidané do následující sekce se stupněm oprávnění správce",
     "Folder Members" : "Členové složky",
     "These permissions apply to any member added in the next section with the member permission level" : "Tato oprávnění budou uplatněna na všechny členy přidané do následující sekce se stupněm oprávnění člen",
-    "Inherited Permissions" : "Zděděná oprávnění",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Tato oprávnění budou uplatněna na všechny, kteří mají alespoň přístup pro čtení do úrovně nad",
     "Read" : "Nastavit jako přečtené",
     "Write" : "Zapisovat",
     "Share" : "Nasdílet",

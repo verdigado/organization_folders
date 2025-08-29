@@ -83,8 +83,6 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "Baineann na ceadanna seo le haon bhall a chuirtear leis sa chéad chuid eile le leibhéal cead an bhainisteora",
     "Folder Members" : "Baill Fillteáin",
     "These permissions apply to any member added in the next section with the member permission level" : "Baineann na ceadanna seo le haon bhall a chuirtear leis sa chéad chuid eile le leibhéal ceada na mball",
-    "Inherited Permissions" : "Ceadanna Oidhreachta",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Baineann na ceadanna seo le haon duine a bhfuil rochtain léite acu ar an leibhéal thuas ar a laghad",
     "Read" : "Léigh",
     "Write" : "Scríobh",
     "Share" : "Comhroinn",

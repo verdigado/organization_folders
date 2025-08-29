@@ -37,8 +37,6 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "Dessa behörigheter gäller för alla medlemmar som läggs till i nästa avsnitt med behörighetsnivån administratör",
     "Folder Members" : "Mappmedlemmar",
     "These permissions apply to any member added in the next section with the member permission level" : "Dessa behörigheter gäller för alla medlemmar som läggs till i nästa avsnitt med behörighetsnivån medlem",
-    "Inherited Permissions" : "Ärvda behörigheter",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Dessa behörigheter gäller för alla som har minst läsbehörighet på nivån ovanför",
     "Read" : "Läs",
     "Write" : "Skriva",
     "Share" : "Dela",

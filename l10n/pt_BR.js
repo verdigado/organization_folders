@@ -56,8 +56,6 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "Estas permissões se aplicam a qualquer membro adicionado na próxima seção com o nível de permissão de gerente",
     "Folder Members" : "Membros da Pasta",
     "These permissions apply to any member added in the next section with the member permission level" : "Estas permissões se aplicam a qualquer membro adicionado na próxima seção com o nível de permissão de membro",
-    "Inherited Permissions" : "Permissões Herdadas",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Estas permissões se aplicam a qualquer pessoa que tenha pelo menos acesso de leitura no nível superior",
     "Read" : "Ler",
     "Write" : "Escrever",
     "Share" : "Compartilhar",

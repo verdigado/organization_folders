@@ -81,8 +81,6 @@
     "These permissions apply to any member added in the next section with the manager permission level" : "這些許可適用於在下一部分添加的任何擁有管理員許可級別的成員",
     "Folder Members" : "文件夾成員",
     "These permissions apply to any member added in the next section with the member permission level" : "這些許可適用於在下一部分添加的任何擁有成員許可級別的成員",
-    "Inherited Permissions" : "繼承的許可",
-    "These permissions apply to anyone, that has at least read access on the level above" : "這些許可適用於任何在上級至少擁有閱讀權限的人",
     "Read" : "讀取",
     "Write" : "寫入",
     "Share" : "分享",

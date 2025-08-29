@@ -30,7 +30,6 @@ OC.L10N.register(
     "Increment page" : "Incrémenter la page",
     "Folder Managers" : "Gestionnaires du Dossier",
     "Folder Members" : "Membres du Dossier",
-    "Inherited Permissions" : "Autorisations héritées",
     "Read" : "Lire",
     "Write" : "Écrire",
     "Share" : "Partager",

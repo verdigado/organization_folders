@@ -32,8 +32,6 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above" : "Disse tilladelser gælder for ethvert medlem tilføjet i næste afsnit med administratortilladelsesniveauet og enhver administrator, der er arvet fra niveauet ovenfor",
     "These permissions apply to any member added in the next section with the manager permission level" : "Disse tilladelser gælder for ethvert medlem tilføjet i næste afsnit med administratortilladelsesniveauet",
     "These permissions apply to any member added in the next section with the member permission level" : "Disse tilladelser gælder for ethvert medlem tilføjet i næste afsnit med medlemstilladelsesniveauet",
-    "Inherited Permissions" : "Nedarvede Tilladelser",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Disse tilladelser gælder for alle, der mindst har læseadgang på niveauet ovenfor",
     "Read" : "Læs",
     "Write" : "Skriv",
     "Share" : "Del",

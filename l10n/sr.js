@@ -47,8 +47,6 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "Ове дозволе се примењују на било ког члана који се дода у следећем одељку са нивоом дозвола менаџера",
     "Folder Members" : "Чланови фолдера",
     "These permissions apply to any member added in the next section with the member permission level" : "Ове дозволе се примењују на било ког члана који се дода у следећем одељку са нивоом дозвола члана",
-    "Inherited Permissions" : "Наслеђене дозволе",
-    "These permissions apply to anyone, that has at least read access on the level above" : "Ове дозволе се примењују на свакога ко на нивоу изнад има бар право читања",
     "Read" : "Читање",
     "Write" : "Писање",
     "Share" : "Пдели",
