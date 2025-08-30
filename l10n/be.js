@@ -21,6 +21,7 @@ OC.L10N.register(
     "Warning" : "Папярэджанне",
     "Continue anyway" : "Усё роўна працягнуць",
     "Member" : "Удзельнік",
+    "Manager" : "Менеджар",
     "Admin" : "Адміністратар",
     "Settings" : "Налады",
     "{usedStorage}/{availableStorage} used" : "{usedStorage}/{availableStorage} выкарыстана",

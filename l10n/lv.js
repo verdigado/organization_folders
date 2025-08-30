@@ -12,7 +12,7 @@ OC.L10N.register(
     "Save" : "Saglabāt",
     "Edit" : "Labot",
     "Move to {target}" : "Pārvietot uz {target}",
-    "Select Page" : "Izvēlieties lappusi",
+    "Select Page" : "Atlasīt lapu",
     "Read" : "Lasīt",
     "Write" : "Rakstīt",
     "Share" : "Kopīgot",

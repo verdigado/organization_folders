@@ -83,6 +83,7 @@ OC.L10N.register(
     "These permissions apply to any member added in the next section with the manager permission level" : "These permissions apply to any member added in the next section with the manager permission level",
     "Folder Members" : "Folder Members",
     "These permissions apply to any member added in the next section with the member permission level" : "These permissions apply to any member added in the next section with the member permission level",
+    "Organization Folder Members" : "Organisation Folder Members",
     "Read" : "Read",
     "Write" : "Write",
     "Share" : "Share",
