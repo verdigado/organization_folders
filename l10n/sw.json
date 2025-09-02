@@ -16,7 +16,9 @@
     "Edit" : "Hariri",
     "File does not exist" : "File does not exist",
     "Move to {target}" : "Hamishia {target}",
+    "Decrement page" : "Decrement page",
     "Select Page" : "Chagua ukurasa",
+    "Increment page" : "Ukurasa wa kuongeza",
     "Read" : "Soma",
     "Write" : "Andika",
     "Share" : "Shirikisha",
@@ -37,6 +39,8 @@
     "No changes" : "Hakuna mabadiliko",
     "An error occurred: {errorMessage}" : "An error occurred: {errorMessage}",
     "Delete folder" : "Futa kisanduku",
-    "Permissions" : "Ruhusa"
+    "Permissions" : "Ruhusa",
+    "Move folder" : "Move folder",
+    "Unlimited" : "Isiyo na kikomo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

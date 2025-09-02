@@ -16,6 +16,7 @@ OC.L10N.register(
     "Folder name" : "Имя папки",
     "Save" : "Сохранить",
     "Edit" : "Редактирование",
+    "Currently" : "В настоящее время",
     "File does not exist" : "Файл не существует",
     "Move to {target}" : "Переместить в «{target}»",
     "Read" : "Чтение",
