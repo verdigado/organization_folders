@@ -32,6 +32,7 @@ OC.L10N.register(
     "Settings" : "Параметри",
     "Resources" : "Ресурси",
     "No search results" : "Нема резултати од пребарувањето",
+    "Finish" : "Крај",
     "Delete folder" : "Избриши папка",
     "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "Сакате да ја избришете папката \"{folderName}\". Дали сте сигурни?",
     "Permissions" : "Дозволи",

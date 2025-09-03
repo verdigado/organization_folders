@@ -19,6 +19,7 @@ OC.L10N.register(
     "Currently" : "В настоящее время",
     "File does not exist" : "Файл не существует",
     "Move to {target}" : "Переместить в «{target}»",
+    "Select Page" : "Выбрать страницу",
     "Read" : "Чтение",
     "Write" : "Запись",
     "Share" : "Поделиться",
