@@ -1,6 +1,13 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Access Denied" : "Accès refusé",
+    "\"%s\" is not a valid resource name" : "« %s » n'est pas un nom de ressource valide",
+    "\"%s\" is not a valid resource type" : "« %s » n'est pas un type de ressource valide",
+    "A user with ID %s does not exist" : "Un utilisateur avec un identifiant %s n'existe pas",
+    "A group with ID %s does not exist" : "Un groupe avec un identifiant %s n'existe pas",
+    "An organization with ID %s does not exist" : "Une organisation avec un identifiant %s n'existe pas",
+    "A resource cannot be its own parent" : "Une ressource ne peut pas être son propre parent",
     "Members" : "Membres",
     "Hide Virtual Groups" : "Cacher les groupes virtuels",
     "Manage Folder and Permissions" : "Gérer les dossiers et les autorisations",
