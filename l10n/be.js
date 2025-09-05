@@ -8,6 +8,7 @@ OC.L10N.register(
     "Add group" : "Дадаць групу",
     "Add" : "Дадаць",
     "Name" : "Назва",
+    "Storage Quota" : "Квота сховішча",
     "Cancel" : "Скасаваць",
     "Create" : "Стварыць",
     "Folder name" : "Назва папкі",
