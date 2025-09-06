@@ -38,6 +38,7 @@ OC.L10N.register(
     "Manager" : "Xestor/a",
     "Admin" : "Administración",
     "Settings" : "Axustes",
+    "Organization" : "Organización",
     "Resources" : "Recursos",
     "No search results" : "Sen resultados de busca",
     "Finish" : "Rematar",
