@@ -7,6 +7,7 @@ OC.L10N.register(
     "Select an account" : "یک حساب کاربری انتخاب کنید",
     "Add account" : "افزودن حساب",
     "Add group" : "افزودن گروه",
+    "Add" : "افزودن",
     "Name" : "نام",
     "Cancel" : "Cancel",
     "Create" : "ایجاد",
