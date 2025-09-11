@@ -144,7 +144,7 @@ class ResourceMemberService {
 		$resource = $this->resourceService->find($resourceId);
 
 		if($this->mapper->exists($resourceId, $principal->getType()->value, $principal->getId())) {
-			throw new PrincipalAlreadyResourceMember($principal, $resourceId);
+			throw new PrincipalAlreadyResourceMember($principal, $resource);
 		}
 
 		$member = new ResourceMember();
