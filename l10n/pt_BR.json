@@ -84,7 +84,7 @@
     "Members of \"{parentResourceName}\"" : "Membros de \"{parentResourceName}\"",
     "Organization Folder Members" : "Membros da Pasta da Organização",
     "These permissions apply to anyone, that has at least read access to the parent folder \"{parentResourceName}\". If no permissions are selected here members from the parent folder won't have access to this folder unless they are explicitly added as a member to this folder." : "Essas permissões se aplicam a qualquer pessoa que tenha pelo menos acesso de leitura à pasta pai \"{parentResourceName}\". Se nenhuma permissão for selecionada aqui, os membros da pasta pai não terão acesso a esta pasta, a menos que sejam explicitamente adicionados como membros a ela.",
-    "These permissions apply to anyone, that is a member of the organization folder \"{organizationFolderName}\"." : "Essas permissões se aplicam a qualquer pessoa que seja membro da pasta da organização \"{organizationFolderName}\".",
+    "These permissions apply to anyone, that is a member of the organization folder \"{organizationFolderName}\"." : "Estas permissões se aplicam a qualquer pessoa que seja membro da pasta da organização \"{organizationFolderName}\".",
     "Read" : "Ler",
     "Write" : "Escrever",
     "Share" : "Compartilhar",
