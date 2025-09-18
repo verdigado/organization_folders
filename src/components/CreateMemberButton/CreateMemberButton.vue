@@ -46,6 +46,10 @@ const props = defineProps({
 		required: false,
 		default: async () => [],
 	},
+	initialRoleIfOrganizationProvider: {
+		type: String,
+		default: "",
+	},
 	initialRoleOrganizationPath: {
 		type: Array,
 		default: () => [],
@@ -163,7 +167,7 @@ const dialogUpdate = (open) => {
 					@selected="selected" />
 				<RoleOrMemberPrincipalSelector v-else-if="newMemberType === 'ORGANIZATION_MEMBER_OR_ROLE'"
 					:organization-provider="newMemberAdditionalParameters?.organizationProvider"
-					:initial-role-organization-path="initialRoleOrganizationPath"
+					:initial-role-organization-path="initialRoleIfOrganizationProvider === newMemberAdditionalParameters?.organizationProvider ? initialRoleOrganizationPath : []"
 					@selected="selected" />
 			</div>
 			<template #actions>

@@ -6,8 +6,11 @@
 			<SubdirectoryArrowRight v-if="levelIndex !== 0" :size="30" />
 			<NcSelect style="flex-grow: 100;"
 				label="friendlyName"
+				:tabindex="levels.length - levelIndex"
 				:modelValue="selections[levelIndex]"
 				:options="level"
+				:loading="loading[levelIndex] ?? false"
+				:clearable="false"
 				:getOptionKey="(item) => item.type + '_' + item.id"
 				:reduce="(item) => item.type + '_' + item.id"
 				:selectable="(item) => item.disabled !== true"
@@ -68,6 +71,7 @@ export default {
 	return {
 		selections: [],
 		levels: [],
+		loading: [],
 		selectedPrincipalType: null,
 		selectedPrincipalId: null,
 		options: [],
@@ -80,14 +84,28 @@ export default {
 	  return !!this.selectedPrincipalId
 	},
   },
-  async mounted() {
+  beforeMount() {
+	// prepare initial selections and add temporary levels array to supply friendlyNames until recalculateLevels runs and actually fills the levels
 	for(let organization of this.initialRoleOrganizationPath) {
+		this.loading.push(true);
+		this.levels.push([{
+			type: "organization",
+			id: organization.id,
+			friendlyName: organization.friendlyName,
+		}]);
 		this.selections.push("organization_" + organization.id);
 	}
 
+	// as all precreated selections are organizations, one more level to select role or members is guaranteed
+	this.loading.push(true);
+	this.levels.push([]);
+	this.selections.push("");
+  },
+  async mounted() {
 	// load first selection level
 	this.options = await this.loadSubOptions();
-	await this.recalculateLevels();
+	this.loading[0] = false;
+	await this.recalculateLevels(true);
   },
   methods: {
 	async loadSubOptions(parentId) {
@@ -248,10 +266,13 @@ export default {
 
 		return results;
 	},
-	async recalculateLevels() {
-		const levels = [this.options];
+	async recalculateLevels(initialLoad) {
+		this.levels.splice(this.selections.length);
+		this.$set(this.levels, 0, this.options);
 		let selectedPrincipalType = null;
 		let selectedPrincipalId = null;
+
+		let numberOfLevels = 0;
 
 		let parent = this.options;
 		for (let index = 0; index < this.selections.length; index++) {
@@ -260,28 +281,38 @@ export default {
 			const option = parent.find(option => option.type + '_' + option.id === selection);
 
 			if (option?.type === "organization") {
+				if(!initialLoad) {
+					this.$set(this.levels, index + 1, []);
+				}
+				this.loading[index + 1] = true;
 				const subOptions = await option.subOptions;
-				levels[index + 1] = subOptions;
+				this.loading[index + 1] = false;
+				this.$set(this.levels, index + 1, subOptions);
+				numberOfLevels = index + 1;
 				parent = subOptions;
 			} else if(option?.type === "organization_member") {
 				// reached member leaf
 				selectedPrincipalType = api.PrincipalTypes.ORGANIZATION_MEMBER;
 				selectedPrincipalId = option.id;
+				numberOfLevels = index;
 				break;
 			} else if(option?.type === "organization_role") {
 				// reached role leaf
 				selectedPrincipalType = api.PrincipalTypes.ORGANIZATION_ROLE;
 				selectedPrincipalId = option.id;
+				numberOfLevels = index;
 				break;
 			}
 		}
 
+		this.levels.splice(numberOfLevels + 1);
+
 		this.selectedPrincipalType = selectedPrincipalType;
 		this.selectedPrincipalId = selectedPrincipalId;
-		this.levels = levels;
 	},
 	async onSelection(level, value) {
 		// truncate to levels before new selection
+		// TODO: migrate to splice
 		const newSelections = this.selections.filter((_, index) => index < level);
 
 		newSelections[level] = value;

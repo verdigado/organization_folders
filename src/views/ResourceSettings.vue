@@ -579,6 +579,7 @@ const openMoveDialog = () => {
 						:permission-level-options="memberPermissionLevelOptions"
 						:find-group-member-options="findGroupMemberOptions"
 						:find-user-member-options="findUserMemberOptions"
+						:initial-role-if-organization-provider="organizationFolder?.organizationProviderId ?? ''"
 						:initial-role-organization-path="organizationFolder?.organizationFullHierarchy ?? []"
 						@add-member="addMember" />
 				</HeaderButtonGroup>
