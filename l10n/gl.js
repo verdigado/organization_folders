@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Access Denied" : "Acceso denegado",
     "Members" : "Membros",
     "Organization Folders" : "Cartafoles da organización",
     "Back" : "Atrás",
