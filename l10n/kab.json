@@ -7,6 +7,7 @@
     "Name" : "Nom",
     "Cancel" : "Cancel",
     "Create" : "Snulfu-d",
+    "Folder name" : "Isem n ukaram",
     "Save" : "Sekles",
     "Edit" : "Ẓreg",
     "Share" : "Bḍu",
@@ -15,6 +16,7 @@
     "Warning" : "Alɣu",
     "Admin" : "Anedbal",
     "Settings" : "Iɣewwaṛen",
-    "No search results" : "Ulac igmaḍ n unadi"
+    "No search results" : "Ulac igmaḍ n unadi",
+    "Delete folder" : "Kkes akaram"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
