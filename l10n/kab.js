@@ -12,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Isem n ukaram",
     "Save" : "Sekles",
     "Edit" : "Ẓreg",
+    "Select Page" : "Fren asebter",
+    "Read" : "Taɣuri",
     "Share" : "Bḍu",
     "Search" : "Nadi",
     "Confirm" : "Serggeg",
