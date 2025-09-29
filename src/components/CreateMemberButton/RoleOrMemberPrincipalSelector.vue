@@ -242,7 +242,10 @@ export default {
 
 				categoryOption = option;
 			} else {
-				if((option["friendlyName"].toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) > -1)) {
+				if(
+					(option["friendlyName"].toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) > -1)
+					|| (option["id"].toString().indexOf(search) > -1)
+				) {
 					if(categoryOption) {
 						categoryItems.push(option);
 					} else {
