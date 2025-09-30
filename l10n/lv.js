@@ -17,6 +17,7 @@ OC.L10N.register(
     "Write" : "Rakstīt",
     "Share" : "Kopīgot",
     "Denied (Inherited permission)" : "Liegts (Mantota atļauja)",
+    "Access denied" : "Piekļuve liegta",
     "Allowed (Inherited permission)" : "Atļauts (Mantota atļauja)",
     "Denied" : "Liegts",
     "Allowed" : "Atļauts",
