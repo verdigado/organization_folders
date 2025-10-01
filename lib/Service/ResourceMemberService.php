@@ -24,13 +24,13 @@ use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\GroupPrincipal;
 use OCA\OrganizationFolders\Model\UserPrincipal;
 
-class ResourceMemberService {
+class ResourceMemberService extends AMemberService {
 	public function __construct(
-		protected IGroupManager $groupManager,
-		protected IUserManager $userManager,
-        protected ResourceMemberMapper $mapper,
-		protected ResourceService $resourceService,
-		protected OrganizationFolderService $organizationFolderService,
+		protected readonly IGroupManager $groupManager,
+		protected readonly IUserManager $userManager,
+        protected readonly ResourceMemberMapper $mapper,
+		protected readonly ResourceService $resourceService,
+		protected readonly OrganizationFolderService $organizationFolderService,
     ) {
 	}
 
@@ -124,10 +124,10 @@ class ResourceMemberService {
 	}
 
 	public function findByPrincipal(int $resourceId, Principal $principal): ResourceMember {
+		$principalType = $principal->getType()->value;
+		$principalId = $principal->getId();
+		
 		try {
-			$principalType = $principal->getType()->value;
-			$principalId = $principal->getId();
-
 			return $this->mapper->findByPrincipal($resourceId, $principalType, $principalId);
 		} catch (Exception $e) {
 			$this->handleException($e, ["resourceId" => $resourceId, "principalType" => $principalType, "principalId" => $principalId]);
@@ -189,7 +189,7 @@ class ResourceMemberService {
 
 			return $member;
 		} catch (Exception $e) {
-			$this->handleException($e, $id);
+			$this->handleException($e, ["id" => $id]);
 		}
 	}
 
@@ -205,19 +205,8 @@ class ResourceMemberService {
 
 			return $member;
 		} catch (Exception $e) {
-			$this->handleException($e, $id);
+			$this->handleException($e, ["id" => $id]);
 		}
-	}
-
-	/**
-	 * @param IGroup|GroupPrincipal object1
-	 * @param IGroup|GroupPrincipal object2
-	 */
-	protected function iGroupGroupPrincipalComparison($object1, $object2): int {
-		$value1 = method_exists($object1, "getGID") ? $object1?->getGID() : $object1?->getId();
-		$value2 = method_exists($object2, "getGID") ? $object2?->getGID() : $object2?->getId();
-
-		return $value1 <=> $value2;
 	}
 
 	/**
@@ -232,18 +221,7 @@ class ResourceMemberService {
 
 		$existingPrincipals = array_map(fn($member): GroupPrincipal => $member->getPrincipal(), $existingMembers);
 
-		return array_values(array_udiff($results, $existingPrincipals, $this->iGroupGroupPrincipalComparison(...)));
-	}
-
-	/**
-	 * @param IUser|UserPrincipal object1
-	 * @param IUser|UserPrincipal object2
-	 */
-	 protected function iUserUserPrincipalComparison($object1, $object2): int {
-		$value1 = method_exists($object1, "getUID") ? $object1?->getUID() : $object1?->getId();
-		$value2 = method_exists($object2, "getUID") ? $object2?->getUID() : $object2?->getId();
-
-		return $value1 <=> $value2;
+		return $this->groupDiff($results, $existingPrincipals);
 	}
 
 	/**
@@ -258,6 +236,6 @@ class ResourceMemberService {
 
 		$existingPrincipals = array_map(fn($member): UserPrincipal => $member->getPrincipal(), $existingMembers);
 
-		return array_values(array_udiff($results, $existingPrincipals, $this->iUserUserPrincipalComparison(...)));
+		return $this->userDiff($results, $existingPrincipals);
 	}
 }

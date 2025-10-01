@@ -227,6 +227,19 @@ export default {
 		return axios.post(`/organizationFolders`, createOrganizationFolderDto).then((res) => res.data);
 	},
 
+	/* Organization Folder Member Options */
+
+	/**
+	 * Search for groups, that could be added to the organization folder as members
+	 *
+	 * @param {number|string} organizationFolderId Organization Folder id
+	 * @param {string} search
+	 * @param {number} limit
+	 */
+	findGroupOrganizationFolderMemberOptions(organizationFolderId, search = '', limit = 20) {
+		return axios.get(`/organizationFolders/${organizationFolderId}/groupMemberOptions`, { params: { search, limit } }).then((res) => res.data);
+	},
+
 	/* Organization Folder Members */
 
 	/**

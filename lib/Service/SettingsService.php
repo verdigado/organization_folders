@@ -23,7 +23,7 @@ class SettingsService {
 	];
 	
 	public function __construct(
-		private readonly IAppConfig $appConfig
+		private readonly IAppConfig $appConfig,
 	) {
 	}
 

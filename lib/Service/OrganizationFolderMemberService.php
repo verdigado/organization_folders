@@ -6,6 +6,8 @@ namespace OCA\OrganizationFolders\Service;
 
 use Exception;
 
+use OCP\IGroupManager;
+use OCP\IGroup;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
@@ -19,11 +21,13 @@ use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\GroupPrincipal;
 
-class OrganizationFolderMemberService {
+class OrganizationFolderMemberService extends AMemberService {
 	public function __construct(
-        protected OrganizationFolderMemberMapper $mapper,
-		protected OrganizationFolderService $organizationFolderService,
+		protected readonly IGroupManager $groupManager,
+        protected readonly OrganizationFolderMemberMapper $mapper,
+		protected readonly OrganizationFolderService $organizationFolderService,
     ) {
 	}
 
@@ -144,5 +148,21 @@ class OrganizationFolderMemberService {
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
+	}
+
+	/**
+	 * @return IGroup[]
+	 */
+	public function findGroupMemberOptions(int $organizationFolderId, string $search = '', ?int $limit = null): array {
+		// TODO: currently less groups than $limit can be returned, because some are filtered out with groupDiff
+		$results = $this->groupManager->search($search, $limit);
+
+		$existingMembers = $this->findAll($organizationFolderId, [
+			"principalType" => PrincipalType::GROUP,
+		]);
+
+		$existingPrincipals = array_map(fn($member): GroupPrincipal => $member->getPrincipal(), $existingMembers);
+
+		return $this->groupDiff($results, $existingPrincipals);
 	}
 }

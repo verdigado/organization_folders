@@ -238,10 +238,9 @@ const createResource = async (type, name) => {
 	resourceClicked(newResource);
 }
 
-const findGroupMemberOptions = () => {
-	// api route for this does not exist yet
-	return [];
-}
+const findGroupMemberOptions = (search) => {
+	return api.findGroupOrganizationFolderMemberOptions(organizationFolder.value.id, search);
+};
 
 const findUserMemberOptions = () => {
 	// api route for this does not exist yet

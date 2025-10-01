@@ -10,6 +10,7 @@ return [
 		['name' => 'organization_folder#create', 'url' => '/organizationFolders', 'verb' => 'POST'], // ADMIN ONLY
 		['name' => 'organization_folder#update', 'url' => '/organizationFolders/{organizationFolderId}', 'verb' => 'PUT'],
 		['name' => 'organization_folder#resources', 'url' => '/organizationFolders/{organizationFolderId}/resources', 'verb' => 'GET'],
+		['name' => 'organization_folder#findGroupMemberOptions', 'url' => '/organizationFolders/{organizationFolderId}/groupMemberOptions', 'verb' => 'GET'],
 
 		/* Organization Folder Members */
 		['name' => 'organization_folder_member#index', 'url' => '/organizationFolders/{organizationFolderId}/members', 'verb' => 'GET'],

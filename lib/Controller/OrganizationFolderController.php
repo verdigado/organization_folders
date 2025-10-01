@@ -220,4 +220,20 @@ class OrganizationFolderController extends BaseController {
 
 		return $result;
 	}
+
+	#[NoAdminRequired]
+	public function findGroupMemberOptions(int $organizationFolderId, string $search = '', int $limit = 20): JSONResponse {
+		return $this->handleErrors(function () use ($organizationFolderId, $search, $limit) {
+			$organizationFolder = $this->service->find($organizationFolderId);
+
+			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $organizationFolder);
+
+			$options = $this->memberService->findGroupMemberOptions($organizationFolderId, $search, $limit);
+
+			return array_map(fn (\OCP\IGroup $group) => [
+				'id' => $group->getGID(),
+				'displayName' => $group->getDisplayName(),
+			], $options);
+		});
+	}
 }

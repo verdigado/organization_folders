@@ -125,7 +125,7 @@ const dialogUpdate = (open) => {
 
 <template>
 	<div>
-		<NcActions type="secondary">
+		<NcActions type="secondary" :force-menu="true">
 			<template #icon>
 				<Plus :size="20" />
 			</template>
