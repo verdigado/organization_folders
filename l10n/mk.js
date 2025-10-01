@@ -30,6 +30,7 @@ OC.L10N.register(
     "Manager" : "Менаџер",
     "Admin" : "Админ",
     "Settings" : "Параметри",
+    "Organization" : "Организација",
     "Resources" : "Ресурси",
     "No search results" : "Нема резултати од пребарувањето",
     "Finish" : "Крај",
