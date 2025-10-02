@@ -5,13 +5,9 @@
 	<name>Organization Folders</name>
 	<summary>Group folders for your organization, that are easy and intuitive to manage.</summary>
 	<description><![CDATA[
-Organization Folders are Team Folders (formerly Group Folders) designed for large organizations, with permissions managed via an intuitive web interface.
+Organization Folders is a new way to manage Team Folders (formerly known as group folders) and the permissions within them designed for large organizations.
 
-**This app is currently released as a beta! It's stable, but not yet feature-complete.**
-
-
-To install follow these instructions: https://github.com/verdigado/organization_folders?tab=readme-ov-file#how-to-install 
-
+To install follow these instructions: https://github.com/verdigado/organization_folders?tab=readme-ov-file#how-to-install
 
 **Features**:
   - ✨ No need to create ACL rules manually anymore
