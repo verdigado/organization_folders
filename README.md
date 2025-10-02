@@ -3,7 +3,7 @@
 
 # Organization Folders
 
-The Organization Folders Nextcloud app is a new way to manage Team Folders (formerly known as group folders) and the permissions within them. It is designed for large organizations.
+The Organization Folders Nextcloud app is a new way to manage Team Folders (formerly known as group folders) and the permissions within them, designed for large organizations.
 
 ## Features
   - ✨ No need to create any ACL rules manually anymore
