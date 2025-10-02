@@ -19,7 +19,7 @@ To install follow these instructions: https://github.com/verdigado/organization_
   - 🔧 Management in the web interface and using occ commands
   - 🏢 Support for adding your organizations structure/hierarchy, to allow roles within them to be picked in a structured and intuitive way
 	]]></description>
-	<version>0.0.3</version>
+	<version>1.0.0</version>
 	<licence>agpl</licence>
 	<author mail="mail@jonathan-treffler.de">Jonathan Treffler</author>
 	<namespace>OrganizationFolders</namespace>
