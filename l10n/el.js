@@ -26,6 +26,7 @@ OC.L10N.register(
     "Denied (Inherited permission)" : "Απαγορεύτηκε (Κληρονομικά δικαιώματα)",
     "Access denied" : "Δεν επιτρέπεται η πρόσβαση",
     "Allowed (Inherited permission)" : "Επετράπη (Κληρονομικά δικαιώματα)",
+    "Access allowed" : "Επιτρέπεται η πρόσβαση",
     "Denied" : "Απαγορεύτηκε",
     "Allowed" : "Επετράπη",
     "Search" : "Αναζήτηση",
