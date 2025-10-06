@@ -16,6 +16,7 @@ OC.L10N.register(
     "Folder name" : "Όνομα φακέλου",
     "Save" : "Αποθήκευση",
     "Edit" : "Επεξεργασία",
+    "File does not exist" : "Το αρχείο δεν υπάρχει",
     "Move to {target}" : "Μετακίνηση σε {target}",
     "Decrement page" : "Μείωση σελίδας",
     "Select Page" : "Επιλογή σελίδας",
