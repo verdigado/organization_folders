@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Członkowie",
+    "Organization Folders" : "Foldery organizacyjne",
     "Back" : "Poprzednia",
     "Next" : "Następna",
     "Delete" : "Usuń",
