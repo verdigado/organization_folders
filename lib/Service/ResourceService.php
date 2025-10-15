@@ -239,7 +239,7 @@ class ResourceService {
 						$resource->setParentResource($parentResource->getId());
 					}
 				} else {
-					throw new Exception("Cannot create child-resource of parent in different organizationId");
+					throw new Exception("Cannot create child-resource of parent in different organization folder");
 				}
 
 				$parentNode = $this->getFolderResourceFilesystemNode($parentResource);
@@ -248,6 +248,14 @@ class ResourceService {
 			}
 
 			if($type === "folder") {
+				if(!isset($membersAclPermission, $managersAclPermission, $inheritedAclPermission)) {
+					throw new \InvalidArgumentException("Folder specific parameters must be included, when creating a resource of type folder");
+				}
+
+				$resource->setMembersAclPermission($membersAclPermission);
+				$resource->setManagersAclPermission($managersAclPermission);
+				$resource->setInheritedAclPermission($inheritedAclPermission);
+
 				if($folderAlreadyExists) {
 					$resourceNode = $parentNode->get($name);
 
@@ -268,14 +276,7 @@ class ResourceService {
 					throw new Exception("Unknown error occured while creating resource folder");
 				}
 
-				if(isset($membersAclPermission, $managersAclPermission, $inheritedAclPermission)) {
-					$resource->setMembersAclPermission($membersAclPermission);
-					$resource->setManagersAclPermission($managersAclPermission);
-					$resource->setInheritedAclPermission($inheritedAclPermission);
-					$resource->setFileId($fileId);
-				} else {
-					throw new \InvalidArgumentException("Folder specific parameters must be included, when creating a resource of type folder");
-				}
+				$resource->setFileId($fileId);
 			}
 
 			try {
