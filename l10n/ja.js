@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Access Denied" : "アクセス拒否されました",
     "Members" : "メンバー",
     "Back" : "戻る",
     "Next" : "次へ",

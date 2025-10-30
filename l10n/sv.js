@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Access Denied" : "Åtkomst nekad",
     "Members" : "Medlemmar",
     "Organization Folders" : "Organisationsmappar",
     "Group folders for your organization, that are easy and intuitive to manage." : "Gruppmappar för din organisation som är enkla och intuitiva att hantera.",
