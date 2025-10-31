@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Членове",
+    "Back" : "Назад",
     "Next" : "Следващо",
     "Delete" : "Изтриване",
     "Select an account" : "Избор на профил",
