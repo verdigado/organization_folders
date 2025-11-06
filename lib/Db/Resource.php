@@ -29,6 +29,10 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 
 	abstract public function getType(): string;
 
+    public function getOrganizationFolderId(): int {
+        return $this->organizationFolderId;
+    }
+
 	public function limitedJsonSerialize(): array {
 		return [
 			'id' => $this->id,

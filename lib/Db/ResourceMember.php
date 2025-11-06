@@ -54,6 +54,10 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 		return $this->principal?->getId();
 	}
 
+    public function getResourceId(): int {
+        return $this->resourceId;
+    }
+
 	public function setPermissionLevel(int $permissionLevel) {
 		if($permissionLevel >= 1 && $permissionLevel <= 2) {
 			if ($permissionLevel === $this->permissionLevel) {

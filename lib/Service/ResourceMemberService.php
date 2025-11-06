@@ -10,11 +10,14 @@ use OCP\IGroupManager;
 use OCP\IGroup;
 use OCP\IUserManager;
 use OCP\IUser;
+use OCP\IUserSession;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\EventDispatcher\IEventDispatcher;
 
 use OCA\OrganizationFolders\Errors\Api\ResourceMemberNotFound;
 use OCA\OrganizationFolders\Errors\Api\PrincipalAlreadyResourceMember;
+use OCA\OrganizationFolders\Errors\Api\ActionCancelled;
 
 use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Db\ResourceMemberMapper;
@@ -23,6 +26,9 @@ use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\GroupPrincipal;
 use OCA\OrganizationFolders\Model\UserPrincipal;
+use OCA\OrganizationFolders\Events\BeforeResourceMemberCreatedEvent;
+use OCA\OrganizationFolders\Events\BeforeResourceMemberUpdatedEvent;
+use OCA\OrganizationFolders\Events\BeforeResourceMemberDeletedEvent;
 
 class ResourceMemberService extends AMemberService {
 	public function __construct(
@@ -31,6 +37,8 @@ class ResourceMemberService extends AMemberService {
         protected readonly ResourceMemberMapper $mapper,
 		protected readonly ResourceService $resourceService,
 		protected readonly OrganizationFolderService $organizationFolderService,
+		protected readonly IEventDispatcher $eventDispatcher,
+		protected readonly IUserSession $userSession,
     ) {
 	}
 
@@ -157,6 +165,19 @@ class ResourceMemberService extends AMemberService {
         $member->setCreatedTimestamp($creationTime);
         $member->setLastUpdatedTimestamp($creationTime);
 
+        // emit cancellable event before doing any changes
+        $beforeEvent = new BeforeResourceMemberCreatedEvent(
+            $member,
+            $resource,
+            $this->userSession->getUser()?->getUID(),
+        );
+        $this->eventDispatcher->dispatchTyped($beforeEvent);
+        if ($beforeEvent->isCancelled()) {
+            throw new ActionCancelled(
+                $beforeEvent->getErrorMessage(),
+            );
+        }
+
 		$member = $this->mapper->insert($member);
 
 		if(!$skipPermssionsApply) {
@@ -169,6 +190,22 @@ class ResourceMemberService extends AMemberService {
 	public function update(int $id, ?ResourceMemberPermissionLevel $permissionLevel = null, ?Principal $principal = null): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
+			$resource = $this->resourceService->find($member->getResourceId());
+
+			// emit cancellable event before doing any changes
+			$beforeEvent = new BeforeResourceMemberUpdatedEvent(
+				$member,
+				$resource,
+				$this->userSession->getUser()?->getUID(),
+				$permissionLevel,
+				$principal,
+			);
+			$this->eventDispatcher->dispatchTyped($beforeEvent);
+			if ($beforeEvent->isCancelled()) {
+				throw new ActionCancelled(
+					$beforeEvent->getErrorMessage(),
+				);
+			}
 
             if(isset($permissionLevel)) {
                 $member->setPermissionLevel($permissionLevel->value);
@@ -177,14 +214,13 @@ class ResourceMemberService extends AMemberService {
             if(isset($principal)) {
 				$member->setPrincipal($principal);
             }
-			
+
             if(count($member->getUpdatedFields()) > 0) {
                 $member->setLastUpdatedTimestamp(time());
 
 				$member = $this->mapper->update($member);
             }
 
-			$resource = $this->resourceService->find($member->getResourceId());
 			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
 
 			return $member;
@@ -196,11 +232,22 @@ class ResourceMemberService extends AMemberService {
 	public function delete(int $id): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
+			$resource = $this->resourceService->find($member->getResourceId());
+
+			// emit cancellable event before doing any changes
+			$beforeEvent = new BeforeResourceMemberDeletedEvent(
+				$member,
+				$resource,
+				$this->userSession->getUser()?->getUID(),
+			);
+			$this->eventDispatcher->dispatchTyped($beforeEvent);
+			if ($beforeEvent->isCancelled()) {
+				throw new ActionCancelled(
+					$beforeEvent->getErrorMessage(),
+				);
+			}
 
 			$this->mapper->delete($member);
-
-			$resource = $this->resourceService->find($member->getResourceId());
-			
 			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
 
 			return $member;
