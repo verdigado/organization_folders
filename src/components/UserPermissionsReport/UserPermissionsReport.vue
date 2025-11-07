@@ -22,6 +22,8 @@
 <script setup>
 import { computed } from 'vue';
 
+import Alert from "vue-material-design-icons/Alert.vue";
+
 import UserPermissionsReportItem from "./UserPermissionsReportItem.vue";
 import PermissionsIcon from "../PermissionsIcon.vue";
 
@@ -64,6 +66,13 @@ const calculatedOverallPermissions = computed(() => {
 			</tr>
 		</table>
 
+		<table class="warningsTable">
+			<tr v-for="warning in userPermissionsReport.warnings" :key="warning.type">
+				<td><Alert /></td>
+				<td>{{ warning.l10n }}</td>
+			</tr>
+		</table>
+
 		<template v-if="userPermissionsReport.applicablePermissions.length > 0">
 			<p class="explanation">{{ t("organization_folders", "The following are the sources of those permissions:")}}</p>
 			<table class="applicablePermissionsTable">
@@ -93,6 +102,7 @@ const calculatedOverallPermissions = computed(() => {
 	align-items: center;
 
 	.explanation {
+		font-weight: bold;
 		text-align: center;
 		margin-bottom: 10px;
 	}
@@ -100,15 +110,22 @@ const calculatedOverallPermissions = computed(() => {
 	table {
 		margin-bottom: 20px;
 		display: grid;
+		column-gap: 5px;
 
 		&.overallPermissionsTable {
 			width: max-content;
 			grid-template-columns: repeat(5, minmax(max-content, 1fr));
 		}
 
+		&.warningsTable {
+			width: max-content;
+			grid-template-columns: max-content max-content;
+			color: var(--color-error-text);
+		}
+
 		&.applicablePermissionsTable {
 			width: 100%;
-			grid-template-columns: max-content 5px minmax(30px, 5fr) repeat(5, minmax(max-content, 1fr));
+			grid-template-columns: max-content 5px minmax(30px, 10fr) repeat(5, minmax(max-content, 1fr));
 		}
 
 		:deep(tr) {
