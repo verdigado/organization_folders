@@ -18,6 +18,7 @@ OC.L10N.register(
     "Edit" : "Редактиране",
     "File does not exist" : "Файлът не съществува",
     "Move to {target}" : "Премести в {target}",
+    "Select Page" : "Изберете страница",
     "Read" : "Прочитане",
     "Write" : "Писане",
     "Share" : "Споделяне",
