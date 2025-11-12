@@ -331,7 +331,19 @@ const permissionLevelExplanation = t(
 				<div style="display: flex; flex-direction: row; align-items: center; column-gap: 3px; padding-left: 10px;">
 					<Hierarchy v-if="organizationFolder?.organizationFullHierarchy"
 						:hierarchy-names="organizationFullHierarchyNames" />
-					<p v-else>{{ t('organization_folders', 'No organization assigned') }}</p>
+					<p v-else-if="organizationFolder?.organizationProviderId && organizationFolder?.organizationId" style="color: var(--color-error-text);">
+						{{ t(
+							'organization_folders',
+							'Assigned organization {organizationProviderId}:{organizationId} no longer exists!',
+							{
+								organizationProviderId: organizationFolder.organizationProviderId,
+								organizationId: organizationFolder.organizationId,
+							}
+						) }}
+					</p>
+					<p v-else>
+						{{ t('organization_folders', 'No organization assigned') }}
+					</p>
 					<NcActions v-if="!organizationFolderPermissionsLimited">
 						<NcActionButton @click="openOrganizationPicker">
 							<template #icon>
