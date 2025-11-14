@@ -137,6 +137,7 @@ OC.L10N.register(
     "{usedStorage}/{availableStorage} used" : "Kasutusel {usedStorage}/{availableStorage} ",
     "({percent}% used)" : "(kasutusel {percent}%)",
     "Organization" : "Organisatsioon",
+    "Assigned organization {organizationProviderId}:{organizationId} no longer exists!" : "Määratud organisatsiooni pole enam olemas - {organizationProviderId}:{organizationId}",
     "No organization assigned" : "Ühtegi organisatsiooni pole valitud",
     "Resources" : "Ressursid",
     "No organization folders yet" : "Organisatsioonikaustu veel ei leidu",

@@ -137,6 +137,7 @@ OC.L10N.register(
     "{usedStorage}/{availableStorage} used" : "{usedStorage}/{availableStorage} used",
     "({percent}% used)" : "({percent}% used)",
     "Organization" : "Organisation",
+    "Assigned organization {organizationProviderId}:{organizationId} no longer exists!" : "Assigned organisation {organizationProviderId}:{organizationId} no longer exists!",
     "No organization assigned" : "No organisation assigned",
     "Resources" : "Resources",
     "No organization folders yet" : "No organisation folders yet",

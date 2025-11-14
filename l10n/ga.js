@@ -137,6 +137,7 @@ OC.L10N.register(
     "{usedStorage}/{availableStorage} used" : "{usedStorage}/{availableStorage} úsáidte",
     "({percent}% used)" : "({percent}% úsáidte)",
     "Organization" : "Eagraíocht",
+    "Assigned organization {organizationProviderId}:{organizationId} no longer exists!" : "Níl an eagraíocht sannta {organizationProviderId}:{organizationId} ann a thuilleadh!",
     "No organization assigned" : "Gan eagraíocht sannta",
     "Resources" : "Acmhainní",
     "No organization folders yet" : "Níl aon fhillteán eagraíochta fós",

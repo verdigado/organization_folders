@@ -135,6 +135,7 @@
     "{usedStorage}/{availableStorage} used" : "{usedStorage} / {availableStorage} verwendet",
     "({percent}% used)" : "({percent}% verwendet)",
     "Organization" : "Organisation",
+    "Assigned organization {organizationProviderId}:{organizationId} no longer exists!" : "Zugewiesene Organisation {organizationProviderId}:{organizationId} existiert nicht mehr!",
     "No organization assigned" : "Keine Organisation zugewiesen",
     "Resources" : "Ressourcen",
     "No organization folders yet" : "Noch keine Organisationsordner",
