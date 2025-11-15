@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Back" : "ກັບຄືນ",
     "Delete" : "ລຶບ",
     "Add account" : "ເພີ່ມບັນຊີ",
     "Name" : "ຊື່",
@@ -10,10 +11,13 @@ OC.L10N.register(
     "Save" : "ບັນທຶກ",
     "Edit" : "ແກ້ໄຂ",
     "Move to {target}" : "ຍ້າຍໄປ {target}",
+    "Read" : "ອ່ານ",
     "Share" : "ແບ່ງປັນ",
+    "Access denied" : "ການເຂົ້າເຖິງຖືກປະຕິເສດ",
     "Search" : "ຄົ້ນຫາ",
     "Confirm" : "ຢືນຢັນ",
     "Admin" : "ຜູ້ເບິ່ງເເຍງລະບົບ",
-    "Settings" : "ການຕັ້ງຄ່າ"
+    "Settings" : "ການຕັ້ງຄ່າ",
+    "Permissions" : "ການອະນຸຍາດ"
 },
 "nplurals=1; plural=0;");
