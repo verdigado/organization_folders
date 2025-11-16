@@ -136,6 +136,7 @@ OC.L10N.register(
     "{usedStorage}/{availableStorage} used" : "{usedStorage}/{availableStorage}využito",
     "({percent}% used)" : "({percent}% využito)",
     "Organization" : "Organizování",
+    "Assigned organization {organizationProviderId}:{organizationId} no longer exists!" : "Přiřazené organizace {organizationProviderId}:{organizationId} už neexistují!",
     "No organization assigned" : "Nepřiřazena žádná organizace",
     "Resources" : "Prostředky",
     "No organization folders yet" : "Doposud žádné organizační složky",

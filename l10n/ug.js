@@ -36,6 +36,7 @@ OC.L10N.register(
     "Manager" : "باشقۇرغۇچى",
     "Admin" : "باشقۇرغۇچى",
     "Settings" : "تەڭشەكلەر",
+    "Organization" : "ئورگان",
     "Resources" : "بايلىق",
     "No search results" : "ئىزدەش نەتىجىسى يوق",
     "Finish" : "تامام",
