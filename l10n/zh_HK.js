@@ -137,6 +137,7 @@ OC.L10N.register(
     "{usedStorage}/{availableStorage} used" : "已使用 {usedStorage}/{availableStorage}",
     "({percent}% used)" : "(已使用 {percent}%)",
     "Organization" : "生產力",
+    "Assigned organization {organizationProviderId}:{organizationId} no longer exists!" : "指定組織 {organizationProviderId}：{organizationId} 已不存在！",
     "No organization assigned" : "未指定組織",
     "Resources" : "資源",
     "No organization folders yet" : "尚無組織文件夾",
