@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid name" : "Invalid name",
     "Cancel" : "Sitisha",
     "Create" : "Tengeneza",
+    "Create folder" : "Unda folda",
     "Folder name" : "Jina la kisanduku",
     "Save" : "Hifadhi",
     "Edit" : "Hariri",

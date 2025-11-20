@@ -12,6 +12,7 @@ OC.L10N.register(
     "Storage Quota" : "Квота сховішча",
     "Cancel" : "Скасаваць",
     "Create" : "Стварыць",
+    "Create folder" : "Стварыць папку",
     "Folder name" : "Назва папкі",
     "Save" : "Захаваць",
     "Edit" : "Рэдагаваць",

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Edit" : "ແກ້ໄຂ",
     "File does not exist" : "File does not exist",
     "Move to {target}" : "ຍ້າຍໄປ {target}",
+    "Select Page" : "ເລືອກໜ້າ",
     "Read" : "ອ່ານ",
     "Write" : "Write",
     "Share" : "ແບ່ງປັນ",
