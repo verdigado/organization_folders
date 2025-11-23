@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Access Denied" : "Odmowa dostępu",
     "Members" : "Członkowie",
     "Organization Folders" : "Foldery organizacyjne",
     "Back" : "Poprzednia",
