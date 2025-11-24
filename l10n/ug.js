@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "ئەزالار",
     "Back" : "قايتىش",
+    "Next" : "كېيىنكى",
     "Delete" : "ئۆچۈر",
     "Select an account" : "ھېسابات تاللاڭ",
     "Add account" : "ھېسابات قوشۇڭ",

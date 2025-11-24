@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Members" : "اعضا",
     "Back" : "بازگشت",
+    "Next" : "بعدی",
     "Delete" : "حذف",
     "Select an account" : "یک حساب کاربری انتخاب کنید",
     "Add account" : "افزودن حساب",
