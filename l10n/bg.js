@@ -31,6 +31,7 @@ OC.L10N.register(
     "Search" : "Търсене",
     "Confirm" : "Потвърдете",
     "Warning" : "Внимание",
+    "Manager" : "Управител",
     "Admin" : "Админ",
     "Settings" : "Настройки",
     "Organization" : "Организиране",

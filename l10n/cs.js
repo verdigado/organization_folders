@@ -154,7 +154,7 @@ OC.L10N.register(
     "No changes" : "Žádné změny",
     "No files have changed since the backup." : "Od provedení zálohy nebyly změněny žádné soubory.",
     "From which backup do you want to restore?" : "Ze které zálohy chcete obnovit?",
-    "Calculating changes since the selected backup..." : "Vypočítávání změn od vybrané zálohy…",
+    "Calculating changes since the selected backup..." : "Vypočítávání změn od vybrané zálohy …",
     "An error occurred: {errorMessage}" : "Došlo k chybě: {errorMessage}",
     "Review and confirm the actions listed below." : "Zkontrolujte a potvrďte níže vypsané akce.",
     "Folder Management \"{folderName}\"" : "Správa složky „{folderName}“",
