@@ -10,6 +10,7 @@ OC.L10N.register(
     "Add" : "הוספה",
     "Name" : "שם",
     "Cancel" : "Cancel",
+    "Create" : "יצירה",
     "Folder name" : "שם התיקייה",
     "Save" : "שמירה",
     "Edit" : "עריכה",
