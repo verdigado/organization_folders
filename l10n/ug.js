@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid name" : "ئىناۋەتسىز ئىسىم",
     "Cancel" : "Cancel",
     "Create" : "قۇر",
+    "Create folder" : "قىسقۇچ قۇرۇش",
     "Folder name" : "ھۆججەت قىسقۇچنىڭ ئىسمى",
     "Save" : "ساقلاش",
     "Edit" : "تەھرىر",
