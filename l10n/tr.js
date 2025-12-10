@@ -137,6 +137,7 @@ OC.L10N.register(
     "{usedStorage}/{availableStorage} used" : "{usedStorage}/{availableStorage} kullanılmış",
     "({percent}% used)" : "(%{percent} kullanılmış)",
     "Organization" : "Kuruluş",
+    "Assigned organization {organizationProviderId}:{organizationId} no longer exists!" : "Atanmış {organizationProviderId}:{organizationId} kuruluşu artık yok!",
     "No organization assigned" : "Henüz bir kuruluş atanmamış",
     "Resources" : "Kaynaklar",
     "No organization folders yet" : "Henüz bir kuruluş klasörü yok",
