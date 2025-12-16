@@ -124,6 +124,7 @@ OC.L10N.register(
     "Move folder" : "Sposta cartella",
     "Restore files from a backup" : "Ripristina i file da un backup",
     "Resource active" : "Risorsa attiva",
+    "An unknown error occurred." : "Si è verificato un errore sconosciuto.",
     "Unlimited" : "Illimitata"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
