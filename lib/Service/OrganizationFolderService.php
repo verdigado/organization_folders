@@ -16,6 +16,7 @@ use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 use OCA\GroupFolders\ACL\Rule;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 
+use OCA\OrganizationFolders\DTO\CreateOrganizationFolderDto;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Errors\Api\OrganizationProviderNotFound;
@@ -127,6 +128,15 @@ class OrganizationFolderService {
 		return $this->pathManager->getOrganizationFolderNode($organizationFolder)->getSize(includeMounts: false);
 	}
 
+
+	public function createFromDto(CreateOrganizationFolderDto $dto): OrganizationFolder {
+		return $this->create(
+			name: $dto->name,
+			quota: $dto->quota,
+			organizationProvider: $dto->organizationProviderId,
+			organizationId: $dto->organizationId,
+		);
+	}
 	public function create(
 		string $name,
 		int $quota,
