@@ -45,12 +45,33 @@ class OrganizationFolderService {
 	) {
 	}
 
-	public function findAll() {
+	/**
+	 * @param array{organizationProvider: string, organizationId: int} $filters
+	 * @return array
+	 * @psalm-return OrganizationFolder[]
+	 */
+	public function findAll(array $filters = []) {
 		$result = [];
 
-		$groupfolders = $this->tagService->findGroupfoldersWithTagsGenerator([
+		$tagFilters = [
 			["key" => "organization_folder"],
-		], ["organization_provider", "organization_id"]);
+		];
+
+		$additionalReturnTags = [];
+
+		if(isset($filters["organizationProvider"])) {
+			$tagFilters[] = ["key" => "organization_provider", "value" => $filters["organizationProvider"], "includeInOutput" => True];
+		} else {
+			$additionalReturnTags[] = "organization_provider";
+		}
+
+		if(isset($filters["organizationId"])) {
+			$tagFilters[] = ["key" => "organization_id", "value" => $filters["organizationId"], "includeInOutput" => True];
+		} else {
+			$additionalReturnTags[] = "organization_id";
+		}
+
+		$groupfolders = $this->tagService->findGroupfoldersWithTagsGenerator($tagFilters, $additionalReturnTags);
 
 		foreach ($groupfolders as $groupfolder) {
 			$result[] = new OrganizationFolder(
