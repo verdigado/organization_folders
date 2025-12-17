@@ -77,6 +77,7 @@ OC.L10N.register(
     "Move folder" : "Flytta mapp",
     "Restore files from a backup" : "Återställ filer från en säkerhetskopia",
     "Resource active" : "Resurs aktiv",
+    "An unknown error occurred." : "Ett okänt fel uppstod.",
     "Unlimited" : "Obegränsat"
 },
 "nplurals=2; plural=(n != 1);");
