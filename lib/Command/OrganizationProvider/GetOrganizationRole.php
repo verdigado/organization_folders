@@ -26,7 +26,7 @@ class GetOrganizationRole extends BaseCommand {
 
 			if(!$this->organizationProviderManager->hasOrganizationProvider($providerId)) {
 				$output->writeln("<error>organization provider not found</error>");
-				return 0;
+				return 1;
 			}
 
 			$role = $this->organizationProviderManager->getOrganizationProvider($providerId)->getRole($roleId);

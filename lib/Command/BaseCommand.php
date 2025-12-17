@@ -11,9 +11,12 @@ use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
+use OCA\OrganizationFolders\Service\ResourceTemplateService;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Interface\TableSerializable;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
+use OCA\OrganizationFolders\Registry\ResourceTemplateProviderRegistry;
+use OCA\OrganizationFolders\Validation\ValidatorService;
 
 abstract class BaseCommand extends Base {
 
@@ -23,8 +26,11 @@ abstract class BaseCommand extends Base {
 		protected readonly OrganizationFolderMemberService $organizationFolderMemberService,
 		protected readonly ResourceService $resourceService,
 		protected readonly ResourceMemberService $resourceMemberService,
+		protected readonly ResourceTemplateService $resourceTemplateService,
 		protected readonly OrganizationProviderManager $organizationProviderManager,
+		protected readonly ResourceTemplateProviderRegistry $resourceTemplateProviderRegistry,
 		protected readonly PrincipalFactory $principalFactory,
+		protected readonly ValidatorService $validatorService,
 	) {
 		parent::__construct();
 	}

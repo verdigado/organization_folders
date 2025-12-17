@@ -192,6 +192,10 @@ class ResourceService {
 		}
 	}
 
+	public function existAnyCreatedFromTemplate(int $organizationFolderId, string $providerId, string $templateId): bool {
+		return $this->mapper->existAnyCreatedFromTemplate($organizationFolderId, $providerId, $templateId);
+	}
+
 	public function isValidResourceName(string $name): bool {
 		return !preg_match('/[`$%^*={};"\\\\|<>\/?~]/', $name);
 	}
@@ -202,6 +206,8 @@ class ResourceService {
 	 */
 	public function createFromDTO(
 		CreateResourceDto $createResourceDto,
+
+		?string $createdFromTemplateId = null,
 	) {
 		return $this->create(
 			type: $createResourceDto->type,
@@ -214,6 +220,8 @@ class ResourceService {
 			membersAclPermission: $createResourceDto->membersAclPermission,
 			managersAclPermission: $createResourceDto->managersAclPermission,
 			inheritedAclPermission: $createResourceDto->inheritedAclPermission,
+
+			createdFromTemplateId: $createdFromTemplateId,
 		);
 	}
 
@@ -241,6 +249,7 @@ class ResourceService {
 		?bool $folderAlreadyExists = false,
 
 		?bool $skipPermssionsApply = false,
+		?string $createdFromTemplateId = null,
 	) {
 		if($type === "folder") {
 			$resource = new FolderResource();
@@ -257,7 +266,9 @@ class ResourceService {
 			$resource->setName($name);
 			$resource->setActive($active);
 			$resource->setInheritManagers($inheritManagers);
+			$resource->setCreatedTimestamp(time());
 			$resource->setLastUpdatedTimestamp(time());
+			$resource->setCreatedFromTemplateId($createdFromTemplateId);
 
 			if(isset($parentResourceId)) {
 				$parentResource = $this->find($parentResourceId);

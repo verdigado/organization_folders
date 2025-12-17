@@ -175,6 +175,17 @@ class ResourceMapper extends QBMapper {
 		return $qb->executeQuery()->fetch()["COUNT(1)"] === 1;
 	}
 
+	public function existAnyCreatedFromTemplate(int $organizationFolderId, string $providerId, string $templateId): bool {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select($qb->createFunction('COUNT(1)'))
+			->from(self::RESOURCES_TABLE)
+			->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->eq('created_from_template_id', $qb->createNamedParameter($providerId . ":" . $templateId, IQueryBuilder::PARAM_STR)));
+
+		return $qb->executeQuery()->fetch()["COUNT(1)"] === 1;
+	}
+
 	/**
 	 * Creates a new entry in the db from an entity
 	 *
@@ -187,7 +198,7 @@ class ResourceMapper extends QBMapper {
 	 */
 	public function insert(Entity $entity): Entity {
 		$setProperties = array_keys($entity->getUpdatedFields());
-		$setResourceProperties = ["type", "organizationFolderId", ...array_intersect(["id", ...self::updateableResourceProperties], $setProperties)];
+		$setResourceProperties = ["type", "organizationFolderId", "createdTimestamp", "createdFromTemplateId", ...array_intersect(["id", ...self::updateableResourceProperties], $setProperties)];
 
 		if($entity->getType() === "folder") {
 			$typeSpecificTable = self::FOLDER_RESOURCES_TABLE;
