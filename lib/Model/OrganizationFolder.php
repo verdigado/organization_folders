@@ -29,7 +29,15 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		return $this->quota;
 	}
 
+	/**
+	 * @deprecated use getOrganizationProviderId()
+	 * @return string|null
+	 */
 	public function getOrganizationProvider(): ?string {
+		return $this->organizationProvider;
+	}
+
+	public function getOrganizationProviderId(): ?string {
 		return $this->organizationProvider;
 	}
 
@@ -63,8 +71,8 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'Id' => $this->id,
 			'Name' => $this->name,
 			'Quota' => $this->quota,
-			'Organization Provider' => $this->organizationProvider,
-			'Organization Id' => $this->organizationId,
+			'Organization Provider ID' => $this->organizationProvider,
+			'Organization ID' => $this->organizationId,
 		];
 	}
 }
