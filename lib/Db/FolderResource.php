@@ -27,6 +27,7 @@ class FolderResource extends Resource {
 		$instance->setInheritManagers($row["inherit_managers"]);
 		$instance->setCreatedTimestamp($row["created_timestamp"]);
 		$instance->setLastUpdatedTimestamp($row["last_updated_timestamp"]);
+		$instance->setCreatedFromTemplateId($row["created_from_template_id"]);
 		$instance->setMembersAclPermission($row["members_acl_permission"]);
 		$instance->setManagersAclPermission($row["managers_acl_permission"]);
 		$instance->setInheritedAclPermission($row["inherited_acl_permission"]);
@@ -48,6 +49,7 @@ class FolderResource extends Resource {
 			'inheritManagers' => $this->inheritManagers,
 			'createdTimestamp' => $this->createdTimestamp,
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
+			'createdFromTemplateId' => $this->createdFromTemplateId,
 
 			'membersAclPermission' => $this->membersAclPermission,
 			'managersAclPermission' => $this->managersAclPermission,
@@ -66,6 +68,7 @@ class FolderResource extends Resource {
 			'active' => $this->active,
 			'inheritManagers' => $this->inheritManagers,
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
+			'createdFromTemplateId' => $this->createdFromTemplateId,
 			
 			'fileId' => $this->fileId,
 		];
@@ -83,6 +86,8 @@ class FolderResource extends Resource {
 			'Members ACL Permission' => $this->membersAclPermission,
 			'Managers ACL Permission' => $this->managersAclPermission,
 			'Inherited ACL Permission' => $this->inheritedAclPermission,
+
+			'Created From Template' => $this->createdFromTemplateId,
 		];
 	}
 
