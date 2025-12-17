@@ -13,9 +13,9 @@ class ListOrganizations extends BaseCommand {
 	protected function configure(): void {
 		$this
 			->setName('organization-folders:organizations:list')
-			->setDescription('List all organizations provided by a specific organization provider')
+			->setDescription('For a specific organization provider lists top-level organizations or direct sub-organizations of a given parent organization.')
 			->addArgument('provider-id', InputArgument::REQUIRED, 'provider to query')
-			->addArgument('parent-organization-id', InputArgument::OPTIONAL, 'parent organization to fetch child organizations of. Using top-level if omitted');
+			->addArgument('parent-organization-id', InputArgument::OPTIONAL, 'parent organization to fetch sub-organizations of. Top-level organizations if omitted');
 		parent::configure();
 	}
 

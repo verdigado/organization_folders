@@ -64,6 +64,7 @@ To install follow these instructions: https://github.com/verdigado/organization_
 		<command>OCA\OrganizationFolders\Command\ResourceMember\DeleteResourceMember</command>
 		<command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationProviders</command>
 		<command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizations</command>
+		<command>OCA\OrganizationFolders\Command\OrganizationProvider\ListAllOrganizations</command>
 		<command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganization</command>
 		<command>OCA\OrganizationFolders\Command\OrganizationProvider\ListOrganizationRoles</command>
 		<command>OCA\OrganizationFolders\Command\OrganizationProvider\GetOrganizationRole</command>
