@@ -16,7 +16,7 @@ abstract class AbstractResourceTemplateProvider {
 		return $this->id;
 	}
 
-    public function getFriendlyName(): string {
+	public function getFriendlyName(): string {
 		return $this->getId();
 	}
 
