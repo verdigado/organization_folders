@@ -21,6 +21,7 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
+use OCA\OrganizationFolders\DTO\CreateResourceDto;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\UserPrincipal;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
@@ -195,7 +196,36 @@ class ResourceService {
 		return !preg_match('/[`$%^*={};"\\\\|<>\/?~]/', $name);
 	}
 
-	/* Use named arguments to call this function */
+	/**
+	 * @param CreateResourceDto $createResourceDto
+	 * @return Resource
+	 */
+	public function createFromDTO(
+		CreateResourceDto $createResourceDto,
+	) {
+		return $this->create(
+			type: $createResourceDto->type,
+			organizationFolderId: $createResourceDto->organizationFolderId,
+			name: $createResourceDto->name,
+			parentResourceId: $createResourceDto->parentResourceId,
+			active: $createResourceDto->active,
+			inheritManagers: $createResourceDto->inheritManagers,
+
+			membersAclPermission: $createResourceDto->membersAclPermission,
+			managersAclPermission: $createResourceDto->managersAclPermission,
+			inheritedAclPermission: $createResourceDto->inheritedAclPermission,
+		);
+	}
+
+	/**
+	 * Use named arguments to call this function!
+	 * 
+	 * @throws InvalidResourceType
+	 * @throws InvalidResourceName
+	 * @throws ResourceDoesNotSupportSubresources
+	 * @throws ResourceNameNotUnique
+	 * @return Resource
+	 */
 	public function create(
 		string $type,
 		int $organizationFolderId,

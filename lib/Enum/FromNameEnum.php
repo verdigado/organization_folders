@@ -19,4 +19,15 @@ trait FromNameEnum {
 			return self::fromName($scalar);
 		}
 	}
+
+	public static function getAllValidValues() {
+		$result = [];
+
+		foreach(self::cases() as $status) {
+			$result[] = $status->name;
+			$result[] = $status->value;
+		}
+
+		return $result;
+	}
 }

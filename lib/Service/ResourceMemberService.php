@@ -21,9 +21,11 @@ use OCA\OrganizationFolders\Errors\Api\ActionCancelled;
 
 use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Db\ResourceMemberMapper;
+use OCA\OrganizationFolders\DTO\CreateResourceMemberDto;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\Principal;
+use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\Model\GroupPrincipal;
 use OCA\OrganizationFolders\Model\UserPrincipal;
 use OCA\OrganizationFolders\Events\BeforeResourceMemberCreatedEvent;
@@ -37,6 +39,7 @@ class ResourceMemberService extends AMemberService {
         protected readonly ResourceMemberMapper $mapper,
 		protected readonly ResourceService $resourceService,
 		protected readonly OrganizationFolderService $organizationFolderService,
+		protected readonly PrincipalFactory $principalFactory,
 		protected readonly IEventDispatcher $eventDispatcher,
 		protected readonly IUserSession $userSession,
     ) {
@@ -140,6 +143,16 @@ class ResourceMemberService extends AMemberService {
 		} catch (Exception $e) {
 			$this->handleException($e, ["resourceId" => $resourceId, "principalType" => $principalType, "principalId" => $principalId]);
 		}
+	}
+
+	public function createFromDTO(CreateResourceMemberDto $createResourceMemberDto): ResourceMember {
+		$principal = $this->principalFactory->buildPrincipal($createResourceMemberDto->principalType, $createResourceMemberDto->principalId);
+
+		return $this->create(
+			resourceId: $createResourceMemberDto->resourceId,
+			permissionLevel: $createResourceMemberDto->permissionLevel,
+			principal: $principal,
+		);
 	}
 
 	public function create(
