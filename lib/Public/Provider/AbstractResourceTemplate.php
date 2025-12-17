@@ -13,6 +13,10 @@ abstract class AbstractResourceTemplate {
 		return $this->id;
 	}
 
+	public function getFriendlyName(): string {
+		return $this->getId();
+	}
+
 	public function getDescription(): string {
 		return "";
 	}

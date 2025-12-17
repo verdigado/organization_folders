@@ -34,6 +34,7 @@ class ListResourceTemplates extends BaseCommand {
 					$result[] = [
 						"Provider ID" => $providerId,
 						"ID" => $template->getId(),
+						"Name" => $template->getFriendlyName(),
 						"Class" => $template::class,
 						"Description" => $template->getDescription(),
 					];

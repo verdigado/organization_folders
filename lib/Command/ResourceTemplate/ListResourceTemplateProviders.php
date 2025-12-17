@@ -30,6 +30,7 @@ class ListResourceTemplateProviders extends BaseCommand {
 			foreach($providers as $id => $provider) {
 				$result[] = [
 					"Id" => $id,
+					"Name" => $provider->getFriendlyName(),
 					"Class" => $provider::class,
 				];
 			}
