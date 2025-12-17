@@ -8,11 +8,11 @@ use OCA\OrganizationFolders\Interface\TableSerializable;
 
 class OrganizationRole implements \JsonSerializable, TableSerializable {
 	public function __construct(
-		private string $id,
-		private int $organizationId,
-		private string $friendlyName,
-		private string $membersGroup,
-		private ?OrganizationRoleCategory $category = null,
+		protected readonly string $id,
+		protected readonly int $organizationId,
+		protected readonly string $friendlyName,
+		protected readonly string $membersGroup,
+		protected readonly ?OrganizationRoleCategory $category = null,
 	) {
 	}
 
