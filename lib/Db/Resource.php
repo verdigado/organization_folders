@@ -40,16 +40,16 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @deprecated use getParentResourceId()
 	 * @return int
 	 */
-	public function getParentResource(): int {
+	public function getParentResource(): ?int {
 		return $this->parentResource;
 	}
 
-	public function getParentResourceId(): int {
+	public function getParentResourceId(): ?int {
 		return $this->parentResource;
 	}
 
-	public function setParentResourceId(int $newParentResourceId): int {
-		return $this->setParentResource($newParentResourceId);
+	public function setParentResourceId(?int $newParentResourceId): void {
+		$this->setParentResource($newParentResourceId);
 	}
 
 	public function getActive(): bool {
