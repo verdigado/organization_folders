@@ -7,7 +7,7 @@ namespace OCA\OrganizationFolders\Events;
 use OCP\EventDispatcher\Event;
 
 use OCA\OrganizationFolders\Registry\ResourceTemplateProviderRegistry;
-use OCA\OrganizationFolders\Public\Provider\AbstractResourceTemplateProvider;
+use OCA\OrganizationFolders\Public\Provider\ResourceTemplate\AbstractResourceTemplateProvider;
 
 /**
  * Other apps can use this event to register a ResourceTemplateProvider

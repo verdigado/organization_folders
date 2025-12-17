@@ -10,7 +10,7 @@ class ResourceTemplateNotFound extends NotFoundException {
 		public readonly string $id
 	) {
 		parent::__construct(
-			entity: \OCA\OrganizationFolders\Public\Provider\AbstractResourceTemplate::class,
+			entity: \OCA\OrganizationFolders\Public\Provider\ResourceTemplate\AbstractResourceTemplate::class,
 			criteria: ["providerId" => $providerId, "id" => $id],
 		);
 	}

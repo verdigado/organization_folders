@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\OrganizationFolders\Public\Provider;
+namespace OCA\OrganizationFolders\Public\Provider\ResourceTemplate;
 
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Db\FolderResource;

@@ -8,7 +8,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 
 use OCA\OrganizationFolders\Errors\Api\ResourceTemplateProviderNotFound;
 use OCA\OrganizationFolders\Events\RegisterResourceTemplateProviderEvent;
-use OCA\OrganizationFolders\Public\Provider\AbstractResourceTemplateProvider;
+use OCA\OrganizationFolders\Public\Provider\ResourceTemplate\AbstractResourceTemplateProvider;
 
 class ResourceTemplateProviderRegistry {
 	private array $resourceTemplateProviders = [];

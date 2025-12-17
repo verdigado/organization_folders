@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCA\OrganizationFolders\Public\Provider;
+namespace OCA\OrganizationFolders\Public\Provider\ResourceTemplate;
 
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Db\FolderResource;
