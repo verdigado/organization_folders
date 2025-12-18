@@ -68,7 +68,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 		return $this->lastUpdatedTimestamp;
 	}
 
-	public function getCreatedFromTemplateId(): string {
+	public function getCreatedFromTemplateId(): ?string {
 		return $this->createdFromTemplateId;
 	}
 
