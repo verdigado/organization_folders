@@ -20,6 +20,7 @@
     "Resource \"%s\" (ID: %s) does not support restoring from snapshots" : "\"%s\" kaynağı (%s kimlikli), anlık yedeklerden geri yüklemeyi desteklemiyor ",
     "Resource \"%s\" (ID: %s) does not support subresources" : "\"%s\" kaynağı (%s kimlikli), alt kaynakları desteklemiyor ",
     "A resource cannot have the same name as a sibling resource" : "Bir kaynağın adı, kendi alt kaynağıyla aynı olamaz",
+    "This resource template is not available for this organization folder or for this parent-resource" : "Bu kaynak kalıbı bu kuruluş klasörü veya bu üst kaynak için kullanılamıyor",
     "The snapshot integration is not active" : "Anlık yedek bütünleştirmesi etkin değil",
     "Request cancelled, because it would cause number of permissions additions or deletions above requested limit" : "İstek iptal edildi. İstenilen sınırın üzerinde izin ekleme veya silme sayısına neden olacak",
     "Request cancelled, because it would cause user to loose the management permissions they used to send the request" : "İstek iptal edildi. Kullanıcının isteği göndermek için kullandığı yönetim izinlerini kaybetmesine neden olacak",

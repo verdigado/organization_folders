@@ -22,6 +22,7 @@ OC.L10N.register(
     "Resource \"%s\" (ID: %s) does not support restoring from snapshots" : "Ní thacaíonn an acmhainn \"%s\" (ID: %s) le hathchóiriú ó snapshots",
     "Resource \"%s\" (ID: %s) does not support subresources" : "Ní thacaíonn an acmhainn \"%s\" (ID: %s) le fo-acmhainní",
     "A resource cannot have the same name as a sibling resource" : "Ní féidir leis an ainm céanna a bheith ar acmhainn agus atá ar acmhainn deirfiúr",
+    "This resource template is not available for this organization folder or for this parent-resource" : "Níl an teimpléad acmhainne seo ar fáil don fhillteán eagraíochta seo ná don acmhainn thuismitheora seo",
     "The snapshot integration is not active" : "Níl an comhtháthú pictiúr gníomhach",
     "Request cancelled, because it would cause number of permissions additions or deletions above requested limit" : "Cuireadh an t-iarratas ar ceal, mar go mbeadh líon na gceadanna breise nó scriosta thar an teorainn iarrtha mar thoradh air",
     "Request cancelled, because it would cause user to loose the management permissions they used to send the request" : "Cuireadh an t-iarratas ar ceal, mar go gcaillfeadh an t-úsáideoir na ceadanna bainistíochta a d'úsáid siad chun an t-iarratas a sheoladh",

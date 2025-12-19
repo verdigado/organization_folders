@@ -22,6 +22,7 @@ OC.L10N.register(
     "Resource \"%s\" (ID: %s) does not support restoring from snapshots" : "Die Ressource \"%s\" (ID: %s) unterstützt keine Wiederherstellung aus Snapshots",
     "Resource \"%s\" (ID: %s) does not support subresources" : "Die Ressource \"%s\" (ID: %s) unterstützt keine Unterressourcen",
     "A resource cannot have the same name as a sibling resource" : "Eine Ressource kann nicht denselben Namen wie eine gleichgeordnete Ressource haben",
+    "This resource template is not available for this organization folder or for this parent-resource" : "Diese Ressourcenvorlage ist weder für diesen Organisationsordner noch für diese übergeordnete Ressource verfügbar",
     "The snapshot integration is not active" : "Die Snapshot-Einbindung ist nicht aktiv",
     "Request cancelled, because it would cause number of permissions additions or deletions above requested limit" : "Anfrage abgebrochen, da dies zu einer Anzahl von Hinzufügungen oder Löschungen von Berechtigungen über dem angeforderten Limit führen würde",
     "Request cancelled, because it would cause user to loose the management permissions they used to send the request" : "Anfrage abgebrochen, da der Benutzer dadurch die Verwaltungsberechtigungen verlieren würde, die er zum Senden der Anfrage verwendet hat",

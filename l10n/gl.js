@@ -22,6 +22,7 @@ OC.L10N.register(
     "Resource \"%s\" (ID: %s) does not support restoring from snapshots" : "O recurso «%s» (ID: %s) non admite a restauración a partir de instantáneas",
     "Resource \"%s\" (ID: %s) does not support subresources" : "O recurso «%s» (ID: %s) non admite subrecursos",
     "A resource cannot have the same name as a sibling resource" : "Un recurso non pode ter o mesmo nome que un recurso do mesmo nivel",
+    "This resource template is not available for this organization folder or for this parent-resource" : "Este modelo de recurso non está dispoñíbel para este cartafol de organización nin para este recurso superior",
     "The snapshot integration is not active" : "A integración de instantáneas non está activa",
     "Request cancelled, because it would cause number of permissions additions or deletions above requested limit" : "Solicitude cancelada, porque provocaría un número de permisos, adicións ou borrados por riba do límite solicitado",
     "Request cancelled, because it would cause user to loose the management permissions they used to send the request" : "Solicitude cancelada, porque provocaría que o usuario perda os permisos de xestión que utilizou para enviar a solicitude",
