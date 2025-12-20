@@ -3,6 +3,26 @@
 The format of this file is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-12-20
+
+### Added
+- Added resource templating sub-system
+  - Other apps can register themselves as template providers
+    - First inter-app-integration interface of Organization Folders with guaranteed API stability (OCA\OrganizationFolders\Public namespace) (breaking changes only in major version updates); other APIs to follow
+  - Resources created from a template start out with the template's values, but can be edited as usual
+  - Currently available through occ commands; integration into the web interface will be added in future updates
+ 
+### Changed
+- Organization provider sub-system
+  - Added IListAllOrganizations capability
+    - Optional interface that OrganizationProviders can implement to allow recursive querying of all organizations at once
+  - Providers are now allowed to extend the Organization and OrganizationRole model classes
+- Translations were updated (thanks to the Nextcloud translation community ❤️)
+
+### Fixed
+- Properly showing in frontend if organization assigned to organization folder no longer exists
+- Warnings now appear not only in the overall permissions report but also in the individual user report too
+
 ## [1.0.1] - 2025-11-07
 
 ### Added
