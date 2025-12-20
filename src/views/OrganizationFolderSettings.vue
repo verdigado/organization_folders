@@ -220,22 +220,28 @@ const backButtonClicked = () => {
 	}
 };
 
-const createResource = async (type, name) => {
-	const newResource = await api.createResource({
-		type,
-		organizationFolderId: organizationFolder.value.id,
-		name,
-		active: true,
-		inheritManagers: true,
+const createResource = async (type, name, callback) => {
+	try {
+		const newResource = await api.createResource({
+			type,
+			organizationFolderId: organizationFolder.value.id,
+			name,
+			active: true,
+			inheritManagers: true,
 
-		membersAclPermission: 0,
-		managersAclPermission: 31,
-		inheritedAclPermission: 0,
-	});
+			membersAclPermission: 0,
+			managersAclPermission: 31,
+			inheritedAclPermission: 0,
+		});
 
-	organizationFolder.value?.resources.push(newResource);
+		callback(true);
 
-	resourceClicked(newResource);
+		organizationFolder.value?.resources.push(newResource);
+
+		resourceClicked(newResource);
+	} catch (error) {
+		callback(false);
+	}
 }
 
 const findGroupMemberOptions = (search) => {
