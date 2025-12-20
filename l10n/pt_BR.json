@@ -20,6 +20,7 @@
     "Resource \"%s\" (ID: %s) does not support restoring from snapshots" : "Recurso \"%s\" (ID: %s) não suporta restauração a partir de snapshots",
     "Resource \"%s\" (ID: %s) does not support subresources" : "Recurso \"%s\" (ID: %s) não suporta sub-recursos",
     "A resource cannot have the same name as a sibling resource" : "Um recurso não pode ter o mesmo nome que um recurso irmão.",
+    "This resource template is not available for this organization folder or for this parent-resource" : "Este modelo de recurso não está disponível para esta pasta da organização ou para este recurso pai",
     "The snapshot integration is not active" : "A integração de snapshot não está ativa",
     "Request cancelled, because it would cause number of permissions additions or deletions above requested limit" : "Solicitação cancelada porque causaria um número de adições ou exclusões de permissões acima do limite solicitado",
     "Request cancelled, because it would cause user to loose the management permissions they used to send the request" : "Solicitação cancelada, pois isso faria com que o usuário perdesse as permissões de gerenciamento que ele usou para enviar a solicitação",
