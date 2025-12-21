@@ -22,6 +22,7 @@ OC.L10N.register(
     "Resource \"%s\" (ID: %s) does not support restoring from snapshots" : "資源「%s」（ID：%s）不支援從快照還原",
     "Resource \"%s\" (ID: %s) does not support subresources" : "資源「%s」（ID：%s）不支援子資源",
     "A resource cannot have the same name as a sibling resource" : "資源不能與手足資源有相同的名稱",
+    "This resource template is not available for this organization folder or for this parent-resource" : "此資源範本無法用於此組織資料夾或此上層資源",
     "The snapshot integration is not active" : "快照整合並未啟用",
     "Request cancelled, because it would cause number of permissions additions or deletions above requested limit" : "取消請求，因為會導致權限新增或刪除的次數超過所要求的限制",
     "Request cancelled, because it would cause user to loose the management permissions they used to send the request" : "請求已取消，因為這會導致使用者失去用來傳送請求的管理權限",
