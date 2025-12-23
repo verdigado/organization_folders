@@ -37,6 +37,7 @@ OC.L10N.register(
     "Member" : "Mwanachama",
     "Admin" : "Msimamizi",
     "Settings" : "Mipangilio",
+    "Organization" : "Organization",
     "Resources" : "Rasilimali",
     "No search results" : "Hakuna matokeo ya utafutaji",
     "No changes" : "Hakuna mabadiliko",

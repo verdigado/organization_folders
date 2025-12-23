@@ -17,6 +17,7 @@ OC.L10N.register(
     "Share" : "Ulashish",
     "Search" : "Qidirish",
     "Confirm" : "Tasdiqlang",
+    "Warning" : "Ogohlantirish",
     "Admin" : "Admin",
     "Settings" : "Sozlamalar",
     "Resources" : "Resurslar",
