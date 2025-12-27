@@ -22,6 +22,7 @@ OC.L10N.register(
     "Resource \"%s\" (ID: %s) does not support restoring from snapshots" : "Prostředek „%s“ (identif. %s) nepodporuje obnovování ze zachycených stavů",
     "Resource \"%s\" (ID: %s) does not support subresources" : "Prostředek „%s“ (identif. %s) nepodporuje dílčí prostředky",
     "A resource cannot have the same name as a sibling resource" : "Prostředek nemůže mít stejný název jako příbuzný prostředek",
+    "This resource template is not available for this organization folder or for this parent-resource" : "Tato šablona prostředku není pro složku této organizace k dispozici nebo pro tento nadřazený prostředek",
     "The snapshot integration is not active" : "Napojení na zachycený stav není aktivní",
     "Request cancelled, because it would cause number of permissions additions or deletions above requested limit" : "Požadavek zrušen, protože by způsobil množství přidání nebo smazání oprávnění nad požadovaný limit",
     "Request cancelled, because it would cause user to loose the management permissions they used to send the request" : "Požadavek zrušen, protože by způsobil, že uživatel ztratí oprávnění ke správě, které použil pro odeslání požadavku",
