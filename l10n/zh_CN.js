@@ -40,6 +40,7 @@ OC.L10N.register(
     "Delete folder" : "删除文件夹",
     "Permissions" : "权限",
     "Move folder" : "移动文件夹",
+    "An unknown error occurred." : "发生未知错误。",
     "Unlimited" : "无限制"
 },
 "nplurals=1; plural=0;");
