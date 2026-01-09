@@ -44,6 +44,7 @@ OC.L10N.register(
     "Delete folder" : "Ezabatu karpeta",
     "Permissions" : "Baimenak",
     "Move folder" : "Lekuz aldatu karpeta",
+    "An unknown error occurred." : "Akats ezezagun bat gertatu da",
     "Unlimited" : "Mugagabea"
 },
 "nplurals=2; plural=(n != 1);");
