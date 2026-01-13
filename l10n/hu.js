@@ -44,6 +44,7 @@ OC.L10N.register(
     "Delete folder" : "Mappa törlése",
     "Permissions" : "Jogosultságok",
     "Move folder" : "Mappa áthelyezése",
+    "An unknown error occurred." : "Ismeretlen hiba történt.",
     "Unlimited" : "Korlátlan"
 },
 "nplurals=2; plural=(n != 1);");

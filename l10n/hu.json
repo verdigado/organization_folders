@@ -42,6 +42,7 @@
     "Delete folder" : "Mappa törlése",
     "Permissions" : "Jogosultságok",
     "Move folder" : "Mappa áthelyezése",
+    "An unknown error occurred." : "Ismeretlen hiba történt.",
     "Unlimited" : "Korlátlan"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
