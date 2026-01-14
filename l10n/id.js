@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Members" : "Anggota",
+    "Back" : "Kembali",
     "Next" : "Berikutnya",
     "Delete" : "Hapus",
     "Add group" : "Tambah grup",
@@ -19,11 +20,13 @@ OC.L10N.register(
     "Search" : "Cari",
     "Confirm" : "Konfirmasi",
     "Warning" : "Peringatan",
+    "Member" : "Anggota",
     "Admin" : "Admin",
     "Settings" : "Setelan",
     "Resources" : "Sumber daya",
     "No search results" : "Tidak ada hasil pencarian",
     "Finish" : "Selesai",
+    "Delete folder" : "Hapus folder",
     "Unlimited" : "Tak terbatas"
 },
 "nplurals=1; plural=0;");
