@@ -15,16 +15,19 @@
     "Move to {target}" : "Pindah ke {target}",
     "Read" : "Baca",
     "Share" : "Bagikan",
+    "Access denied" : "Akses ditolak",
     "Search" : "Cari",
     "Confirm" : "Konfirmasi",
     "Warning" : "Peringatan",
     "Member" : "Anggota",
     "Admin" : "Admin",
     "Settings" : "Setelan",
+    "Organization" : "Organisasi",
     "Resources" : "Sumber daya",
     "No search results" : "Tidak ada hasil pencarian",
     "Finish" : "Selesai",
     "Delete folder" : "Hapus folder",
+    "An unknown error occurred." : "Terjadi kesalahan yang tidak diketahui.",
     "Unlimited" : "Tak terbatas"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
