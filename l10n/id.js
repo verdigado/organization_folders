@@ -22,6 +22,7 @@ OC.L10N.register(
     "Confirm" : "Konfirmasi",
     "Warning" : "Peringatan",
     "Member" : "Anggota",
+    "Manager" : "Manajer",
     "Admin" : "Admin",
     "Settings" : "Setelan",
     "Organization" : "Organisasi",
