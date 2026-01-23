@@ -91,7 +91,7 @@
     "{filePath} will be restored" : "{filePath} sarà ripristinato",
     "Finish" : "Fine",
     "Snapshot Restore Wizard" : "Procedura guidata di ripristino snapshot",
-    "Accidentally deleted a file? Need an older version of a file?<br>No worries—you can restore it from the backups.<br>To select from which backup you want to restore, click Next." : "Hai cancellato un file per sbaglio? Hai bisogno di una versione precedente di un file?<br>Nessun problema: puoi ripristinarlo dai backup.<br>Per selezionare il backup da cui si desidera effettuare il ripristino, fare clic su Prossimo.",
+    "Accidentally deleted a file? Need an older version of a file?<br>No worries—you can restore it from the backups.<br>To select from which backup you want to restore, click Next." : "Hai eliminato un file per sbaglio? Hai bisogno di una versione precedente di un file?<br>Nessun problema: puoi ripristinarlo dai backup.<br>Per selezionare il backup da cui si desidera effettuare il ripristino, fai clic su Prossimo.",
     "No backups containing this folder exist yet." : "Non esiste ancora alcun backup contenente questa cartella.",
     "The files below have changed since the selected backup.<br>Pick the ones you want to restore to the version in the backup." : "I file sottostanti sono stati modificati dopo il backup selezionato.<br>Seleziona quelli che vuoi ripristinare nella versione presente nel backup.",
     "No changes" : "Nessun cambiamento",

@@ -30,6 +30,7 @@ OC.L10N.register(
     "No search results" : "Tidak ada hasil pencarian",
     "Finish" : "Selesai",
     "Delete folder" : "Hapus folder",
+    "Move folder" : "Pindahkan folder",
     "An unknown error occurred." : "Terjadi kesalahan yang tidak diketahui.",
     "Unlimited" : "Tak terbatas"
 },
