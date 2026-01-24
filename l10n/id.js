@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Access Denied" : "Akses Ditolak",
     "Members" : "Anggota",
     "Back" : "Kembali",
     "Next" : "Berikutnya",
@@ -30,6 +31,7 @@ OC.L10N.register(
     "No search results" : "Tidak ada hasil pencarian",
     "Finish" : "Selesai",
     "Delete folder" : "Hapus folder",
+    "Permissions" : "Izin",
     "Move folder" : "Pindahkan folder",
     "An unknown error occurred." : "Terjadi kesalahan yang tidak diketahui.",
     "Unlimited" : "Tak terbatas"
