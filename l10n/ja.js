@@ -42,6 +42,7 @@ OC.L10N.register(
     "Delete folder" : "フォルダーを削除",
     "Permissions" : "アクセス権限",
     "Move folder" : "フォルダーを移動",
+    "An unknown error occurred." : "不明なエラーが発生しました。",
     "Unlimited" : "無制限"
 },
 "nplurals=1; plural=0;");

@@ -30,6 +30,7 @@ OC.L10N.register(
     "Warning" : "Upozorenje",
     "Admin" : "Admin",
     "Settings" : "Postavke",
+    "Organization" : "Organizacija",
     "Resources" : "Resursi",
     "No search results" : "Nema rezultata pretraživanja",
     "Delete folder" : "Izbriši mapu",
