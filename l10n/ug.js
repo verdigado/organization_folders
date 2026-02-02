@@ -59,7 +59,7 @@ OC.L10N.register(
     "Name" : "ئاتى",
     "Invalid name" : "ئىناۋەتسىز ئىسىم",
     "Storage Quota" : "ساقلاش كۋوتاسى",
-    "Cancel" : "Cancel",
+    "Cancel" : "ۋاز كەچ",
     "Create" : "قۇر",
     "Create folder" : "قىسقۇچ قۇرۇش",
     "Folder name" : "ھۆججەت قىسقۇچنىڭ ئىسمى",
