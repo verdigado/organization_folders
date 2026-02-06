@@ -28,6 +28,7 @@ OC.L10N.register(
     "Search" : "Traži",
     "Confirm" : "Potvrdi",
     "Warning" : "Upozorenje",
+    "Manager" : "Voditelj",
     "Admin" : "Admin",
     "Settings" : "Postavke",
     "Organization" : "Organizacija",
