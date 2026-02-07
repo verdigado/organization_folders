@@ -59,7 +59,7 @@ OC.L10N.register(
     "Name" : "Ainm",
     "Invalid name" : "Ainm neamhbhailí",
     "Storage Quota" : "Cuóta Stórála",
-    "Cancel" : "Cancel",
+    "Cancel" : "Cealaigh",
     "Create" : "Cruthaigh",
     "Create folder" : "Cruthaigh fillteán",
     "Folder name" : "Ainm fillteáin",

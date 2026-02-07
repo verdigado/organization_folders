@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Access Denied" : "Pristup odbijen",
     "Members" : "Članovi",
     "Back" : "Natrag",
     "Next" : "Dalje",
