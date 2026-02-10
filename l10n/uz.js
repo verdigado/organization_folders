@@ -18,6 +18,7 @@ OC.L10N.register(
     "Search" : "Qidirish",
     "Confirm" : "Tasdiqlang",
     "Warning" : "Ogohlantirish",
+    "Member" : "A'zo",
     "Admin" : "Admin",
     "Settings" : "Sozlamalar",
     "Resources" : "Resurslar",
