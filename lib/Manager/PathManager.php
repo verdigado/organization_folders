@@ -36,7 +36,7 @@ class PathManager {
 
 		$folderWithPermissions = FolderDefinitionWithPermissions::fromFolder($folder, $folder->rootCacheEntry, Constants::PERMISSION_ALL);
 
-		$mountPoint = '/dummy/organization_folders/groupfolders/' . $folder->id;
+		$mountPoint = '/__organization_folders/tmp_groupfolder_mounts/' . $folder->id;
 		$mount = $this->mountProvider->getMount(folder: $folderWithPermissions, mountPoint: $mountPoint);
 
 		$this->mountManager->addMount($mount);
