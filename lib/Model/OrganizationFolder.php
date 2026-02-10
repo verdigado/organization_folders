@@ -9,9 +9,11 @@ use OCA\OrganizationFolders\Interface\TableSerializable;
 
 class OrganizationFolder implements JsonSerializable, TableSerializable {
 	public function __construct(
-		private int $id,
+		private readonly int $id,
 		private string $name,
 		private int $quota,
+		private readonly int $storageId,
+		private readonly int $rootNodeFileId,
 		private ?string $organizationProvider = null,
 		private ?int $organizationId = null,
 	) {
@@ -27,6 +29,14 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 
 	public function getQuota(): int {
 		return $this->quota;
+	}
+
+	public function getStorageId(): int {
+		return $this->storageId;
+	}
+
+	public function getRootNodeFileId(): int {
+		return $this->rootNodeFileId;
 	}
 
 	/**
