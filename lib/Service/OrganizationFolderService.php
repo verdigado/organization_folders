@@ -79,6 +79,8 @@ class OrganizationFolderService {
 				id: $groupfolder["id"],
 				name: $groupfolder["mount_point"],
 				quota: $groupfolder["quota"],
+				storageId: $groupfolder["storage_id"],
+				rootNodeFileId: $groupfolder["root_id"],
 				organizationProvider: $groupfolder["organization_provider"],
 				organizationId: (int)$groupfolder["organization_id"],
 			);
@@ -100,6 +102,8 @@ class OrganizationFolderService {
 			id: $groupfolder["id"],
 			name: $groupfolder["mount_point"],
 			quota: $groupfolder["quota"],
+			storageId: $groupfolder["storage_id"],
+			rootNodeFileId: $groupfolder["root_id"],
 			organizationProvider: $groupfolder["organization_provider"],
 			organizationId: (int)$groupfolder["organization_id"],
 		);
@@ -165,13 +169,7 @@ class OrganizationFolderService {
 				$this->tagService->update($groupfolderId, "organization_id", (string)$organization->getId());
 			}
 
-			$organizationFolder = new OrganizationFolder(
-				id: $groupfolderId,
-				name: $name,
-				quota: $quota,
-				organizationProvider: $organizationProvider,
-				organizationId: $organizationId,
-			);
+			$organizationFolder = $this->find($groupfolderId);
 			
 			$this->applyAllPermissions($organizationFolder);
 			
@@ -371,8 +369,7 @@ class OrganizationFolderService {
 	 * To prevent adding files there all member groups of the groupfolder need to have a read-only ACL rule on the root folder
 	 */
 	protected function setRootFolderACLs(OrganizationFolder $organizationFolder, $groups) {
-		$folderNode = $this->pathManager->getOrganizationFolderNode($organizationFolder);
-		$fileId = $folderNode->getId();
+		$fileId = $organizationFolder->getRootNodeFileId();
 
 		$acls = [];
 		foreach($groups as $group) {
