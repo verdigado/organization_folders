@@ -39,14 +39,6 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		return $this->rootNodeFileId;
 	}
 
-	/**
-	 * @deprecated use getOrganizationProviderId()
-	 * @return string|null
-	 */
-	public function getOrganizationProvider(): ?string {
-		return $this->organizationProvider;
-	}
-
 	public function getOrganizationProviderId(): ?string {
 		return $this->organizationProvider;
 	}

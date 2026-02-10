@@ -56,9 +56,9 @@ class OrganizationFolderController extends BaseController {
 				$result = $organizationFolder->jsonSerialize();
 			}
 
-			if($organizationFolder->getOrganizationProvider() && $organizationFolder->getOrganizationId()) {
+			if($organizationFolder->getOrganizationProviderId() && $organizationFolder->getOrganizationId()) {
 				try {
-					$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProvider());
+					$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationFolder->getOrganizationProviderId());
 					$organization = $organizationProvider->getOrganization($organizationFolder->getOrganizationId());
 
 					$organizationFullHierarchy = [$organization];
