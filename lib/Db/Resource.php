@@ -36,14 +36,6 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
         return $this->organizationFolderId;
     }
 
-	/**
-	 * @deprecated use getParentResourceId()
-	 * @return int
-	 */
-	public function getParentResource(): ?int {
-		return $this->parentResource;
-	}
-
 	public function getParentResourceId(): ?int {
 		return $this->parentResource;
 	}
