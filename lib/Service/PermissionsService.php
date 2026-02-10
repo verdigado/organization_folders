@@ -187,8 +187,10 @@ class PermissionsService {
 	private function getOrganizationFolderMemberInheritedPrincipals(OrganizationFolder $organizationFolder) {
 		[$organizationFolderMemberPrincipals, $organizationFolderManagerPrincipals] = $this->organizationFolderService->getMemberAndManagerPrincipals($organizationFolder);
 
-		$inheritedMemberPrincipals = $this->addInheritanceOriginToPrincipals($organizationFolderMemberPrincipals, $organizationFolder);
 		$inheritedManagerPrincipals = $this->addInheritanceOriginToPrincipals($organizationFolderManagerPrincipals, $organizationFolder);
+		
+		// manager principals get member permissions too
+		$inheritedMemberPrincipals = [...$this->addInheritanceOriginToPrincipals($organizationFolderMemberPrincipals, $organizationFolder), ...$inheritedManagerPrincipals];
 
 		return [$inheritedMemberPrincipals, $inheritedManagerPrincipals];
 	}
