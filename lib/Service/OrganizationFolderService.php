@@ -318,9 +318,10 @@ class OrganizationFolderService {
 			}
 		}
 
-		if(!is_null($organizationFolder->getOrganizationProvider()) && !is_null($organizationFolder->getOrganizationId())) {
+		/* If an organization is assigned to the organization folder it's members are members of the folder automatically */
+		if(!is_null($organizationFolder->getOrganizationProviderId()) && !is_null($organizationFolder->getOrganizationId())) {
 			$memberPrincipals[] = $this->principalFactory->buildOrganizationMemberPrincipal(
-				organizationProviderId: $organizationFolder->getOrganizationProvider(),
+				organizationProviderId: $organizationFolder->getOrganizationProviderId(),
 				organizationId: $organizationFolder->getOrganizationId(),
 			);
 		}
