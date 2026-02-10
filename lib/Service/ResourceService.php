@@ -467,7 +467,7 @@ class ResourceService {
 		}
 
 		$oldName = $resource->getName();
-		$oldParentResourceId = $resource->getParentResource();
+		$oldParentResourceId = $resource->getParentResourceId();
 
 		$resource->setName($name);
 		$resource->setParentResource($parentResource?->getId());
@@ -532,6 +532,10 @@ class ResourceService {
 		return $resource;
 	}
 
+	/**
+	 * @param Resource $resource
+	 * @return string[]
+	 */
 	public function getResourcePath(Resource $resource): array {
 		$currentResource = $resource;
 		
@@ -539,8 +543,8 @@ class ResourceService {
 
 		$invertedPath[] = $currentResource->getName();
 
-		while($currentResource->getParentResource()) {
-			$currentResource = $this->find($currentResource->getParentResource());
+		while($currentResource->getParentResourceId()) {
+			$currentResource = $this->find($currentResource->getParentResourceId());
 			$invertedPath[] = $currentResource->getName();
 		}
 
@@ -572,8 +576,8 @@ class ResourceService {
 	}
 
 	public function getParentResource(Resource $resource): ?Resource {
-		if(!is_null($resource->getParentResource())) {
-			return $this->find($resource->getParentResource());
+		if(!is_null($resource->getParentResourceId())) {
+			return $this->find($resource->getParentResourceId());
 		} else {
 			return null;
 		}
@@ -595,8 +599,8 @@ class ResourceService {
 		}
 		
 
-		while($currentResource->getParentResource()) {
-			$currentResource = $this->find($currentResource->getParentResource());
+		while($currentResource->getParentResourceId()) {
+			$currentResource = $this->find($currentResource->getParentResourceId());
 			$invertedResourcesPath[] = $currentResource;
 		}
 

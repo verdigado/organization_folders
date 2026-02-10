@@ -68,7 +68,7 @@ class ResourceController extends BaseController {
 		}
 
 		if($this->shouldInclude(self::PARENT_RESOURCE_INCLUDE, $includes)) {
-			if(is_null($resource->getParentResource())) {
+			if(is_null($resource->getParentResourceId())) {
 				$result["parentResource"] = null;
 			} else {
 				$parentResource = $this->service->getParentResource($resource);
@@ -239,7 +239,7 @@ class ResourceController extends BaseController {
 
 			$this->denyAccessUnlessGranted(['UPDATE'], $resource);
 
-			if($parentResourceId !== $resource->getParentResource()) {
+			if($parentResourceId !== $resource->getParentResourceId()) {
 				// only allow moving to places where the user is allowed to create resources
 				if(isset($parentResourceId)) {
 					$newParentResource = $this->service->find($parentResourceId);

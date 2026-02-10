@@ -107,7 +107,7 @@ class ResourceVoter extends Voter {
 
 		// inherit manager permissions from level above
 		if($resource->getInheritManagers()) {
-			if(!is_null($resource->getParentResource())) {
+			if(!is_null($resource->getParentResourceId())) {
 				// not top-level resource -> allowed to manage resource if allowed to manage parent resource
 				$parentResource = $this->resourceService->getParentResource($resource);
 
