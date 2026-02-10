@@ -23,15 +23,15 @@ class PathManager {
 		private IMountManager $mountManager,
 	){}
 
-	public function getOrganizationFolderNode(OrganizationFolder $organizationFolder): ?Folder {
-		return $this->getOrganizationFolderNodeById($organizationFolder->getId());
+	public function getOrganizationFolderRootNode(OrganizationFolder $organizationFolder): ?Folder {
+		return $this->getOrganizationFolderRootNodeById($organizationFolder->getId());
 	}
 
 	/** 
 	 * Get underlying groupfolder folder node for the organization folder
 	 * @TODO Expose node only to a given closure and unmount afterwards
 	*/
-	public function getOrganizationFolderNodeById(int $id): Folder {
+	public function getOrganizationFolderRootNodeById(int $id): Folder {
 		$folder = $this->groupfolderFolderManager->getFolder($id);
 
 		$folderWithPermissions = FolderDefinitionWithPermissions::fromFolder($folder, $folder->rootCacheEntry, Constants::PERMISSION_ALL);
@@ -49,8 +49,8 @@ class PathManager {
 	}
 
 	public function getOrganizationFolderByIdSubfolder(int $id, array $path): ?Folder {
-		$organizationFolderNode = $this->getOrganizationFolderNodeById($id);
-		$currentFolder = $organizationFolderNode;
+		$rootNode = $this->getOrganizationFolderRootNodeById($id);
+		$currentFolder = $rootNode;
 
 		foreach($path as $subfolder) {
 			try {

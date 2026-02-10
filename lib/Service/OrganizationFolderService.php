@@ -129,7 +129,8 @@ class OrganizationFolderService {
 	}
 
 	public function getOrganizationFolderQuotaUsed(OrganizationFolder $organizationFolder): int {
-		return $this->pathManager->getOrganizationFolderNode($organizationFolder)->getSize(includeMounts: false);
+		// TODO: This could be done using the filecache layer instead of the filesystem node layer, which would be faster as it does not require a temporary mount
+		return $this->pathManager->getOrganizationFolderRootNode($organizationFolder)->getSize(includeMounts: false);
 	}
 
 

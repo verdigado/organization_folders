@@ -186,7 +186,7 @@ class PermissionsPlugin extends ServerPlugin {
 		list($parent, $filename) = \Sabre\Uri\split($relativePath);
 		$parentPath = explode('/', $parent);
 
-		$folder = $this->pathManager->getOrganizationFolderNode($organizationFolder);
+		$folder = $this->pathManager->getOrganizationFolderRootNode($organizationFolder);
 
 		$log = function($message) use ($organizationFolder, $relativePath) {
 			$this->logger->warning(

@@ -285,7 +285,7 @@ class ResourceService {
 
 				$parentNode = $this->getFolderResourceFilesystemNode($parentResource);
 			} else {
-				$parentNode = $this->pathManager->getOrganizationFolderNodeById($organizationFolderId);
+				$parentNode = $this->pathManager->getOrganizationFolderRootNodeById($organizationFolderId);
 			}
 
 			if($type === "folder") {
@@ -458,7 +458,7 @@ class ResourceService {
 			if(isset($parentResource)) {
 				$parentNode = $this->getFolderResourceFilesystemNode($parentResource);
 			} else {
-				$parentNode = $this->pathManager->getOrganizationFolderNodeById($resource->getOrganizationFolderId());
+				$parentNode = $this->pathManager->getOrganizationFolderRootNodeById($resource->getOrganizationFolderId());
 			}
 
 			$parentNode->lock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
