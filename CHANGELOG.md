@@ -3,6 +3,21 @@
 The format of this file is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-02-10
+
+### Added
+- Added support for Nextcloud v32/Team Folders v20
+
+### Removed
+- Removed support for Nextcloud v30 and v31
+
+### Fixed
+- Fixed bug causing managers of organization folder to not qualify for member inheritance into top level resources
+
+### Changed
+- Translations were updated (thanks to the Nextcloud translation community ❤️)
+- Dependencies were updated
+
 ## [1.1.0] - 2025-12-20
 
 ### Added
