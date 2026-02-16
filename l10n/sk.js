@@ -37,6 +37,7 @@ OC.L10N.register(
     "Manager" : "Manažér",
     "Admin" : "Admi",
     "Settings" : "Nastavenia",
+    "Organization" : "Organizácia",
     "Resources" : "Zdroje",
     "No search results" : "Žiadne výsledky vyhľadávania",
     "Finish" : "Dokončiť",
@@ -44,6 +45,7 @@ OC.L10N.register(
     "Delete folder" : "Zmazať priečinok",
     "Permissions" : "Oprávnenia",
     "Move folder" : "Presunúť priečinok",
+    "An unknown error occurred." : "Nastala neznáma chyba.",
     "Unlimited" : "Neobmedzené"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
