@@ -49,6 +49,7 @@ OC.L10N.register(
     "Confirm" : "Vahvista",
     "This person has the following permissions:" : "Tällä henkilöllä on seuraavat oikeudet:",
     "Warning" : "Varoitus",
+    "Continue anyway" : "Jatka silti",
     "Member" : "Jäsen",
     "Admin" : "Ylläpito",
     "Organization Folder Settings" : "Organisaatiokansion asetukset",
