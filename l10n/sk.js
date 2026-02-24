@@ -34,6 +34,7 @@ OC.L10N.register(
     "Search" : "Hľadať",
     "Confirm" : "Potvrdiť",
     "Warning" : "Varovanie",
+    "Continue anyway" : "Aj tak pokračovať",
     "Manager" : "Manažér",
     "Admin" : "Admi",
     "Settings" : "Nastavenia",
