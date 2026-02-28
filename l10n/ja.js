@@ -13,6 +13,7 @@ OC.L10N.register(
     "Name" : "名前",
     "Cancel" : "Cancel",
     "Create" : "作成",
+    "Create folder" : "フォルダーの作成",
     "Folder name" : "フォルダー名",
     "Save" : "保存する",
     "Edit" : "編集",
