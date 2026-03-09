@@ -25,6 +25,7 @@ OC.L10N.register(
     "Denied (Inherited permission)" : "Geweigerd (Overgeërfde machtiging)",
     "Access denied" : "Toegang geweigerd",
     "Allowed (Inherited permission)" : "Toegelaten (Overgeërfde machtiging)",
+    "Access allowed" : "Toegang toegestaan",
     "Denied" : "Geweigerd",
     "Allowed" : "Toegelaten",
     "Search" : "Zoeken",
