@@ -34,6 +34,7 @@ OC.L10N.register(
     "Search" : "Tafuta",
     "Confirm" : "Thibitisha",
     "Warning" : "Onyo",
+    "Continue anyway" : "Continue anyway",
     "Member" : "Mwanachama",
     "Admin" : "Msimamizi",
     "Settings" : "Mipangilio",
