@@ -156,7 +156,7 @@ OC.L10N.register(
     "No changes" : "Keine Änderungen",
     "No files have changed since the backup." : "Seit dem Backup wurden keine Dateien geändert.",
     "From which backup do you want to restore?" : "Aus welchem Backup möchten Sie Dateien wiederherstellen?",
-    "Calculating changes since the selected backup..." : "Änderungen seit dem ausgewählten Backup werden berechnet…",
+    "Calculating changes since the selected backup..." : "Änderungen seit dem ausgewählten Backup werden berechnet …",
     "An error occurred: {errorMessage}" : "Es ist ein Fehler aufgetreten: {errorMessage}",
     "Review and confirm the actions listed below." : "Überprüfen und bestätige Sie die unten aufgeführten Aktionen.",
     "Folder Management \"{folderName}\"" : "Ordnerverwaltung \"{folderName}\"",
