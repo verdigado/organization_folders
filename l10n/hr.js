@@ -24,6 +24,7 @@ OC.L10N.register(
     "Denied (Inherited permission)" : "Odbijeno (naslijeđeno dopuštenje)",
     "Access denied" : "Pristup odbijen",
     "Allowed (Inherited permission)" : "Dopušteno (naslijeđeno dopuštenje)",
+    "Access allowed" : "Pristup dopušten",
     "Denied" : "Odbijeno",
     "Allowed" : "Dopušteno",
     "Search" : "Traži",
