@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid name" : "Ongeldige naam",
     "Cancel" : "Cancel",
     "Create" : "Creëer",
+    "Create folder" : "Creëer map",
     "Folder name" : "Mapnaam",
     "Save" : "Opslaan",
     "Edit" : "Bewerken",
