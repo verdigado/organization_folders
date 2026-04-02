@@ -366,12 +366,15 @@ class PermissionsService {
 	 * @param OrganizationFolder $organizationFolder
 	 * @psalm-param ?list<PrincipalBackedByGroup> $organizationFolderMemberPrincipals
 	 * @psalm-param ?list<PrincipalBackedByGroup> $organizationFolderManagerPrincipals
+	 * @return int number of ACL changes made
 	 */
 	public function applyAllResourcePermissionsInOrganizationFolder(
 		OrganizationFolder $organizationFolder,
 		?array $organizationFolderMemberPrincipals = null,
 		?array $organizationFolderManagerPrincipals = null,
-	): void {
+	): int {
+		$changes = 0;
+
 		$permissionsListsGenerator = $this->generateAllResourcePermissionListsInOrganizationFolder(
 			organizationFolder: $organizationFolder,
 			organizationFolderMemberPrincipals: $organizationFolderMemberPrincipals,
@@ -379,8 +382,12 @@ class PermissionsService {
 		);
 
 		foreach($permissionsListsGenerator as $permissionsList) {
-			$this->resourcePermissionsApplyPlanFactory->buildPlan($permissionsList)->apply();
+			$plan = $this->resourcePermissionsApplyPlanFactory->buildPlan($permissionsList);
+			$changes += $plan->getNumberOfEffectivePermissionsChanges();
+			$plan->apply();
 		}
+
+		return $changes;
     }
 
 	/**

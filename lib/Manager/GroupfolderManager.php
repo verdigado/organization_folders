@@ -19,6 +19,10 @@ class GroupfolderManager {
 	) {
 	}
 
+	/**
+	 * @param int $id groupfolder id
+	 * @return array{group_id: string, permissions: int}[]
+	 */
 	public function getMemberGroups(int $id) {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('group_id', 'permissions')
@@ -52,6 +56,15 @@ class GroupfolderManager {
 		return $memberGroup1["group_id"] <=> $memberGroup2["group_id"] ?: $memberGroup1["permissions"] <=> $memberGroup2["permissions"];
 	}
 
+	/**
+	 * @param int $id groupfolder id
+	 * @param array{group_id: string, permissions: int}[] $memberGroups
+	 * @return array{
+	 *   created: array{group_id: string, permissions: int},
+	 *   updated: array{group_id: string, permissions: int},
+	 *   removed: array{group_id: string, permissions: int}
+	 * }
+	 */
 	public function overwriteMemberGroups(int $id, array $memberGroups): array {
 		$existingMemberGroups = $this->getMemberGroups($id);
 
@@ -79,6 +92,6 @@ class GroupfolderManager {
 			$this->folderManager->setGroupPermissions($id, $updatedMemberGroup["group_id"], $updatedMemberGroup["permissions"]);
 		}
 
-		return ["created" => $newMemberGroups, "removed" => $removedMemberGroups, "updated" => $updatedMemberGroups];
+		return ["created" => $newMemberGroups, "updated" => $updatedMemberGroups, "removed" => $removedMemberGroups];
 	}
 }

@@ -18,4 +18,16 @@ class GroupfolderACLsUpdatePlan {
 		public readonly array $toUpdate,
 		public readonly array $toRemove,
 	) {}
+
+	public function getNumberOfAdditions(): int {
+		return count($this->toCreate);
+	}
+
+	public function getNumberOfUpdates(): int {
+		return count($this->toUpdate);
+	}
+
+	public function getNumberOfDeletions(): int {
+		return count($this->toRemove);
+	}
 }

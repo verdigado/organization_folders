@@ -18,6 +18,14 @@ use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\AclList;
 use OCA\OrganizationFolders\Model\GroupfolderACLsUpdatePlan;
 
+/**
+ * @psalm-type RuleRow = array{
+ *   mapping_type: string,
+ *   mapping_id: string,
+ *   mask: int,
+ *   permissions: int,
+ * }
+ */
 class ACLManager {
 	use TTransactional;
 
@@ -29,13 +37,32 @@ class ACLManager {
 	) {
 	}
 
-	protected function createRuleEntityFromRow(array $data): Rule {
+	/**
+	 * @param int $fileId
+	 * @psalm-param RuleRow $row
+	 * @return Rule
+	 */
+	protected function createRuleEntityFromRow(int $fileId, array $row): Rule {
 		return new Rule(
-			new UserMapping(type: $data['mapping_type'], id: $data['mapping_id'], displayName: null),
-			(int)$data['fileid'],
-			(int)$data['mask'],
-			(int)$data['permissions']
+			new UserMapping(type: $row['mapping_type'], id: $row['mapping_id'], displayName: null),
+			$fileId,
+			(int)$row['mask'],
+			(int)$row['permissions']
 		);
+	}
+
+	/**
+	 * @param int $fileId
+	 * @psalm-return RuleRow[]
+	 */
+	public function getAllRuleRowsForFileId(int $fileId) {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select(['mapping_type', 'mapping_id', 'mask', 'permissions'])
+			->from('group_folders_acl')
+			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+
+		return $qb->executeQuery()->fetchAll();
 	}
 
 	/**
@@ -43,37 +70,7 @@ class ACLManager {
 	 * @return Rule[]
 	 */
 	public function getAllRulesForFileId(int $fileId) {
-		$qb = $this->db->getQueryBuilder();
-
-		$qb->select(['fileid', 'mapping_type', 'mapping_id', 'mask', 'permissions'])
-			->from('group_folders_acl')
-			->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
-
-		$rows = $qb->executeQuery()->fetchAll();
-
-		return array_map($this->createRuleEntityFromRow(...), $rows);
-	}
-
-	public function createAclRuleForPrincipal(Principal $principal, int $fileId, int $mask, int $permissions): ?Rule {
-		$mapping = $principal->toGroupfolderAclMapping();
-
-		if(is_null($mapping)) {
-			return null;
-		}
-
-		return new Rule(
-			userMapping: $mapping,
-			fileId: $fileId,
-			mask: $mask,
-			permissions: $permissions,
-		);
-	}
-
-	protected function ruleMappingComparison(Rule $rule1, Rule $rule2): int {
-		$mapping1 = $rule1->getUserMapping();
-		$mapping2 = $rule2->getUserMapping();
-
-		return $mapping1->getType() <=> $mapping2->getType() ?: $mapping1->getId() <=> $mapping2->getId();
+		return array_map(fn($row) => $this->createRuleEntityFromRow($fileId, $row), $this->getAllRuleRowsForFileId($fileId));
 	}
 
 	/**
@@ -82,40 +79,66 @@ class ACLManager {
 	 * @return GroupfolderACLsUpdatePlan
 	 */
 	public function createUpdatePlan(int $fileId, array $rules): GroupfolderACLsUpdatePlan {
-		$existingRules = $this->getAllRulesForFileId($fileId);
+		$existingRuleRows = $this->getAllRuleRowsForFileId($fileId);
 
-		$existingMasks = [];
-		$existingPermissions = [];
+		/** @var array{
+		 *   user: array<string, RuleRow>,
+		 *   group: array<string, RuleRow>,
+		 *   circle: array<string, RuleRow>,
+		 * }
+		 */
+		$existingRuleRowsByKey = [
+			"user" => [],
+			"group" => [],
+			"circle" => [],
+		];
 
-		foreach($existingRules as $existingRule) {
-			$key = $existingRule->getUserMapping()->getKey();
-			$existingMasks[$key] = $existingRule->getMask();
-			$existingPermissions[$key] = $existingRule->getPermissions();
+		foreach($existingRuleRows as $existingRuleRow) {
+			$existingRuleRowsByKey[$existingRuleRow["mapping_type"]][$existingRuleRow["mapping_id"]] = $existingRuleRow;
 		}
 
-		// TODO: Investigate if sorting rules arrays first increases performance, because the internal sorting in the diff function is probably faster if presorted
+		/** @var array{
+		 *   user: array<string, Rule>,
+		 *   group: array<string, Rule>,
+		 *   circle: array<string, Rule>,
+		 * }
+		 */
+		$rulesByKey = [
+			"user" => [],
+			"group" => [],
+			"circle" => [],
+		];
 
-		// new rules to be added
 		/** @var Rule[] */
-		$rulesToCreate = array_udiff($rules, $existingRules, $this->ruleMappingComparison(...));
+		$rulesToCreate = [];
 
-		// old rules to be deleted
-		/** @var Rule[] */
-		$rulesToRemove = array_udiff($existingRules, $rules, $this->ruleMappingComparison(...));
-
-		// rules for user or group for which a rule already exists, but it might need to be updated
-		/** @var Rule[] */
-		$rulesToPotentiallyUpdate = array_uintersect($rules, $existingRules, $this->ruleMappingComparison(...));
-
-		// rules that actually need to be updated
 		/** @var Rule[] */
 		$rulesToUpdate = [];
 
-		foreach($rulesToPotentiallyUpdate as $ruleToPotentiallyUpdate) {
-			$key = $ruleToPotentiallyUpdate->getUserMapping()->getKey();
+		foreach($rules as $rule) {
+			$mapping = $rule->getUserMapping();
+			$mappingType = $mapping->getType();
+			$mappingId = $mapping->getId();
 
-			if($ruleToPotentiallyUpdate->getMask() !== $existingMasks[$key] || $ruleToPotentiallyUpdate->getPermissions() !== $existingPermissions[$key]) {
-				$rulesToUpdate[] = $ruleToPotentiallyUpdate;
+			$rulesByKey[$mappingType][$mappingId] = $rule;
+
+			$existingRuleRow = $existingRuleRowsByKey[$mappingType][$mappingId] ?? null;
+
+			if($existingRuleRow === null) {
+				$rulesToCreate[] = $rule;
+			} else {
+				if($existingRuleRow['mask'] !== $rule->getMask() || $existingRuleRow['permissions'] !== $rule->getPermissions()) {
+					$rulesToUpdate[] = $rule;
+				}
+			}
+		}
+
+		/** @var Rule[] */
+		$rulesToRemove = [];
+
+		foreach($existingRuleRows as $existingRuleRow) {
+			if (!isset($rulesByKey[$existingRuleRow['mapping_type']][$existingRuleRow['mapping_id']])) {
+        		$rulesToRemove[] = $this->createRuleEntityFromRow($fileId, $existingRuleRow);
 			}
 		}
 

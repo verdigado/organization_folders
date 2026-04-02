@@ -26,15 +26,15 @@ class FolderResourcePermissionsApplyPlan extends ResourcePermissionsApplyPlan {
 	}
 
 	function getNumberOfEffectivePermissionsAdditions(): int {
-		return count($this->groupfolderACLsUpdatePlan->toCreate);
+		return $this->groupfolderACLsUpdatePlan->getNumberOfAdditions();
 	}
 
 	function getNumberOfEffectivePermissionsUpdates(): int {
-		return count($this->groupfolderACLsUpdatePlan->toUpdate);
+		return $this->groupfolderACLsUpdatePlan->getNumberOfUpdates();
 	}
 
 	function getNumberOfEffectivePermissionsDeletions(): int {
-		return count($this->groupfolderACLsUpdatePlan->toRemove);
+		return $this->groupfolderACLsUpdatePlan->getNumberOfDeletions();
 	}
 
 	private function getNumberOfUsersInACLs(array $acls): int {

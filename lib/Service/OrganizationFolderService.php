@@ -223,8 +223,13 @@ class OrganizationFolderService {
 		return $organizationFolder;
 	}
 
-	public function applyAllPermissionsById(int $id): void {
-		$this->applyAllPermissions($this->find($id));
+	/**
+	 * Applies groupfolder members, top level groupfolder ACLs and resource permissions
+	 * @param int organization folder id
+	 * @return int number of changes made
+	 */
+	public function applyAllPermissionsById(int $id): int {
+		return $this->applyAllPermissions($this->find($id));
 	}
 
 	/**
@@ -234,13 +239,13 @@ class OrganizationFolderService {
 	 * @param OrganizationFolder $organizationFolder
 	 * @param ?list<PrincipalBackedByGroup> $organizationFolderMemberPrincipals
 	 * @param ?list<PrincipalBackedByGroup> $organizationFolderManagerPrincipals
-	 * @return void
+	 * @return int number of member changes made
 	 */
 	public function refreshGroupfolderMembers(
 		OrganizationFolder $organizationFolder,
 		?array $organizationFolderMemberPrincipals = null,
 		?array $organizationFolderManagerPrincipals = null,
-	): void {
+	): int {
 		if(!(isset($organizationFolderMemberPrincipals) && isset($organizationFolderManagerPrincipals))) {
 			[$organizationFolderMemberPrincipals, $organizationFolderManagerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
 		}
@@ -277,18 +282,31 @@ class OrganizationFolderService {
 
 		$groupfolderMemberGroups = array_unique($groupfolderMemberGroups);
 
-		$this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $groupfolderMemberGroups);
+		$changes = $this->setGroupsAsGroupfolderMembers($organizationFolder->getId(), $groupfolderMemberGroups);
+
+		// TODO: Adding this ACL for the "everyone" group only should be enough, but this theory should be checked thoroughly before removing the other groups
 		$this->setRootFolderACLs($organizationFolder, ["everyone", ...$groupfolderMemberGroups]);
+
+		return $changes;
 	}
 
-	public function applyAllPermissions(OrganizationFolder $organizationFolder): void {
+	/**
+	 * Applies groupfolder members, top level groupfolder ACLs and resource permissions
+	 * @param OrganizationFolder $organizationFolder
+	 * @return int number of changes made
+	 */
+	public function applyAllPermissions(OrganizationFolder $organizationFolder): int {
+		$changes = 0;
+
 		[$memberPrincipals, $managerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
 
-		$this->refreshGroupfolderMembers($organizationFolder, $memberPrincipals, $managerPrincipals);
+		$changes += $this->refreshGroupfolderMembers($organizationFolder, $memberPrincipals, $managerPrincipals);
 
 		/** @var PermissionsService */
 		$permissionsService = $this->container->get(PermissionsService::class);
-		$permissionsService->applyAllResourcePermissionsInOrganizationFolder($organizationFolder, $memberPrincipals, $managerPrincipals);
+		$changes += $permissionsService->applyAllResourcePermissionsInOrganizationFolder($organizationFolder, $memberPrincipals, $managerPrincipals);
+
+		return $changes;
 	}
 
 	/**
@@ -354,7 +372,7 @@ class OrganizationFolderService {
 		return $principals;
 	}
 
-	protected function setGroupsAsGroupfolderMembers($groupfolderId, array $groups) {
+	protected function setGroupsAsGroupfolderMembers($groupfolderId, array $groups): int {
 		$groupfolderMembers = [];
 
 		foreach($groups as $group) {
@@ -364,7 +382,11 @@ class OrganizationFolderService {
 			];
 		}
 
-		return $this->groupfolderManager->overwriteMemberGroups($groupfolderId, $groupfolderMembers);
+		$memberChanges = $this->groupfolderManager->overwriteMemberGroups($groupfolderId, $groupfolderMembers);
+
+		$changes = count($memberChanges["created"]) + count($memberChanges["updated"]) + count($memberChanges["removed"]);
+
+		return $changes;
 	}
 	/**
 	 * In the root folder of an organization folder only resource folders can exist
