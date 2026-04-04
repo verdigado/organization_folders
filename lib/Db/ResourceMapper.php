@@ -17,9 +17,9 @@ class ResourceMapper extends QBMapper {
 	public const RESOURCES_TABLE = "organizationfolders_resources";
 	public const FOLDER_RESOURCES_TABLE = "organizationfolders_folder_resources";
 
-	private const updateableResourceProperties = ["parentResource", "active", "name", "inheritManagers", "lastUpdatedTimestamp"];
-	private const updateableFolderResourceProperties = ["membersAclPermission", "managersAclPermission", "inheritedAclPermission", "fileId"];
-	private const tableColumnsToSelect = ['resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id'];
+	private const updateableResourceProperties = ["parentResource", "active", "name", "inheritManagers", "lastUpdatedTimestamp", "memberPermissionsBitfield", "managerPermissionsBitfield", "inheritedMemberPermissionsBitfield"];
+	private const updateableFolderResourceProperties = ["fileId"];
+	private const tableColumnsToSelect = ['resource.*', 'folder.file_id'];
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::RESOURCES_TABLE, Resource::class);
@@ -101,7 +101,7 @@ class ResourceMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('resource.*', 'folder.members_acl_permission', 'folder.managers_acl_permission', 'folder.inherited_acl_permission', 'folder.file_id')
+		$qb->select(self::tableColumnsToSelect)
 			->from(self::RESOURCES_TABLE, "resource")
 			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
 

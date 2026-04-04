@@ -2,18 +2,14 @@
 
 namespace OCA\OrganizationFolders\Db;
 
+use OCP\DB\Types;
+
 class FolderResource extends Resource {
-	protected $membersAclPermission;
-	protected $managersAclPermission;
-	protected $inheritedAclPermission;
 	protected $fileId;
 
 	public function __construct() {
 		parent::__construct();
-		$this->addType('membersAclPermission','integer');
-		$this->addType('managersAclPermission','integer');
-		$this->addType('inheritedAclPermission','integer');
-		$this->addType('fileId','integer');
+		$this->addType('fileId', Types::INTEGER);
 	}
 
 	public static function fromRow(array $row): static {
@@ -28,9 +24,9 @@ class FolderResource extends Resource {
 		$instance->setCreatedTimestamp($row["created_timestamp"]);
 		$instance->setLastUpdatedTimestamp($row["last_updated_timestamp"]);
 		$instance->setCreatedFromTemplateId($row["created_from_template_id"]);
-		$instance->setMembersAclPermission($row["members_acl_permission"]);
-		$instance->setManagersAclPermission($row["managers_acl_permission"]);
-		$instance->setInheritedAclPermission($row["inherited_acl_permission"]);
+		$instance->setMemberPermissionsBitfield($row["member_permissions_bitfield"]);
+		$instance->setManagerPermissionsBitfield($row["manager_permissions_bitfield"]);
+		$instance->setInheritedMemberPermissionsBitfield($row["inherited_member_permissions_bitfield"]);
 		$instance->setFileId($row["file_id"]);
 
 		$instance->resetUpdatedFields();
@@ -51,9 +47,9 @@ class FolderResource extends Resource {
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 			'createdFromTemplateId' => $this->createdFromTemplateId,
 
-			'membersAclPermission' => $this->membersAclPermission,
-			'managersAclPermission' => $this->managersAclPermission,
-			'inheritedAclPermission' => $this->inheritedAclPermission,
+			'memberPermissionsBitfield' => $this->memberPermissionsBitfield,
+			'managerPermissionsBitfield' => $this->managerPermissionsBitfield,
+			'inheritedMemberPermissionsBitfield' => $this->inheritedMemberPermissionsBitfield,
 			'fileId' => $this->fileId,
 		];
 	}
@@ -83,9 +79,9 @@ class FolderResource extends Resource {
 			'Inherit Managers' =>  ((bool)$this->inheritManagers) ? 'yes' : 'no',
 			'Last Updated' => $this->lastUpdatedTimestamp,
 
-			'Members ACL Permission' => $this->membersAclPermission,
-			'Managers ACL Permission' => $this->managersAclPermission,
-			'Inherited ACL Permission' => $this->inheritedAclPermission,
+			'Members ACL Permission' => $this->memberPermissionsBitfield,
+			'Managers ACL Permission' => $this->managerPermissionsBitfield,
+			'Inherited ACL Permission' => $this->inheritedMemberPermissionsBitfield,
 
 			'Created From Template' => $this->createdFromTemplateId,
 		];
