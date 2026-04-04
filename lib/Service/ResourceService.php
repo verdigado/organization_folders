@@ -217,9 +217,9 @@ class ResourceService {
 			active: $createResourceDto->active,
 			inheritManagers: $createResourceDto->inheritManagers,
 
-			membersAclPermission: $createResourceDto->membersAclPermission,
-			managersAclPermission: $createResourceDto->managersAclPermission,
-			inheritedAclPermission: $createResourceDto->inheritedAclPermission,
+			memberPermissionsBitfield: $createResourceDto->memberPermissionsBitfield,
+			managerPermissionsBitfield: $createResourceDto->managerPermissionsBitfield,
+			inheritedMemberPermissionsBitfield: $createResourceDto->inheritedMemberPermissionsBitfield,
 
 			createdFromTemplateId: $createdFromTemplateId,
 		);
@@ -242,9 +242,9 @@ class ResourceService {
 		bool $active = true,
 		bool $inheritManagers = true,
 
-		?int $membersAclPermission = null,
-		?int $managersAclPermission = null,
-		?int $inheritedAclPermission = null,
+		?int $memberPermissionsBitfield = null,
+		?int $managerPermissionsBitfield = null,
+		?int $inheritedMemberPermissionsBitfield = null,
 		// special mode only applicable if type = "folder", that uses an existing folder with the resource name 
 		?bool $folderAlreadyExists = false,
 
@@ -289,13 +289,13 @@ class ResourceService {
 			}
 
 			if($type === "folder") {
-				if(!isset($membersAclPermission, $managersAclPermission, $inheritedAclPermission)) {
+				if(!isset($memberPermissionsBitfield, $managerPermissionsBitfield, $inheritedMemberPermissionsBitfield)) {
 					throw new \InvalidArgumentException("Folder specific parameters must be included, when creating a resource of type folder");
 				}
 
-				$resource->setMembersAclPermission($membersAclPermission);
-				$resource->setManagersAclPermission($managersAclPermission);
-				$resource->setInheritedAclPermission($inheritedAclPermission);
+				$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
+				$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
+				$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
 
 				if($folderAlreadyExists) {
 					$resourceNode = $parentNode->get($name);
@@ -347,9 +347,9 @@ class ResourceService {
 			?bool $active = null,
 			?bool $inheritManagers = null,
 
-			?int $membersAclPermission = null,
-			?int $managersAclPermission = null,
-			?int $inheritedAclPermission = null,
+			?int $memberPermissionsBitfield = null,
+			?int $managerPermissionsBitfield = null,
+			?int $inheritedMemberPermissionsBitfield = null,
 
 			?int $maxiumumUsersPermissionsAddedOrDeleted = null,
 		): Resource {
@@ -364,16 +364,16 @@ class ResourceService {
 		}
 
 		if($resource->getType() === "folder") {
-			if(isset($membersAclPermission)) {
-				$resource->setMembersAclPermission($membersAclPermission);
+			if(isset($memberPermissionsBitfield)) {
+				$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
 			}
 
-			if(isset($managersAclPermission)) {
-				$resource->setManagersAclPermission($managersAclPermission);
+			if(isset($managerPermissionsBitfield)) {
+				$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
 			}
 
-			if(isset($inheritedAclPermission)) {
-				$resource->setInheritedAclPermission($inheritedAclPermission);
+			if(isset($inheritedMemberPermissionsBitfield)) {
+				$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
 			}
 		}  else {
 			throw new InvalidResourceType($resource->getType());
@@ -657,9 +657,9 @@ class ResourceService {
 			name: $unmanagedSubfolderName,
 			parentResourceId: $resource->getId(),
 			// match current permissions in subfolder
-			inheritedAclPermission: $resource->getMembersAclPermission(), // Members in parent resource will be inherited members in new resource
-			membersAclPermission: $resource->getMembersAclPermission(),
-			managersAclPermission: $resource->getManagersAclPermission(),
+			inheritedMemberPermissionsBitfield: $resource->getMemberPermissionsBitfield(), // Members in parent resource will be inherited members in new resource
+			memberPermissionsBitfield: $resource->getMemberPermissionsBitfield(),
+			managerPermissionsBitfield: $resource->getManagerPermissionsBitfield(),
 			folderAlreadyExists: true,
 		);
 	}

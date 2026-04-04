@@ -71,35 +71,35 @@ class PermissionsService {
 		// calculate actual permissions and if
 		// inherited principals should be forwarded down the tree
 		if($resource->getActive() && !$implicitlyDeactivated) {
-			$inheritedMemberPermissions = $resource->getInheritedAclPermission();
+			$inheritedMemberPermissionsBitfield = $resource->getInheritedMemberPermissionsBitfield();
 
-			if($inheritedMemberPermissions > 0) {
+			if($inheritedMemberPermissionsBitfield > 0) {
 				$nextInheritedMemberPrincipals = $inheritedMemberPrincipals;
 			} else {
 				$nextInheritedMemberPrincipals = [];
 			}
 
 			if($resource->getInheritManagers()) {
-				$inheritedManagerPermissions = $resource->getManagersAclPermission();
+				$inheritedManagerPermissions = $resource->getManagerPermissionsBitfield();
 				$nextInheritedManagerPrincipals = $inheritedManagerPrincipals;
 			} else {
 				$inheritedManagerPermissions = 0;
 				$nextInheritedManagerPrincipals = [];
 			}
 
-			$resourceMembersAclPermission = $resource->getMembersAclPermission();
+			$resourceMemberPermissionsBitfield = $resource->getMemberPermissionsBitfield();
 
-			$resourceManagersAclPermission = $resource->getManagersAclPermission();
+			$resourceManagerPermissionsBitfield = $resource->getManagerPermissionsBitfield();
 		} else {
-			$inheritedMemberPermissions = 0;
+			$inheritedMemberPermissionsBitfield = 0;
 			$nextInheritedMemberPrincipals = [];
 
 			$inheritedManagerPermissions = 0;
 			$nextInheritedManagerPrincipals = [];
 
-			$resourceMembersAclPermission = 0;
+			$resourceMemberPermissionsBitfield = 0;
 
-			$resourceManagersAclPermission = 0;
+			$resourceManagerPermissionsBitfield = 0;
 		}
 		
 		if($enableOriginTracing) {
@@ -112,7 +112,7 @@ class PermissionsService {
 		foreach($inheritedMemberPrincipals as $inheritedMemberPrincipal) {
 			$permissionsList->addPermission(
 				principal: $inheritedMemberPrincipal->getPrincipal(),
-				permissionsBitmap: $inheritedMemberPermissions,
+				permissionsBitmap: $inheritedMemberPermissionsBitfield,
 				permissionOriginType: PermissionOriginType::INHERITED_MEMBER,
 				permissionInheritedFrom: $inheritedMemberPrincipal->getOrigin(),
 			);
@@ -129,13 +129,13 @@ class PermissionsService {
 		}
 
 		// Member Permissions
-		if($resourceMembersAclPermission > 0) {
+		if($resourceMemberPermissionsBitfield > 0) {
 			foreach($resourceMembers as $resourceMember) {
 				$memberPrincipal = $resourceMember->getPrincipal();
 
 				$permissionsList->addPermission(
 					principal: $memberPrincipal,
-					permissionsBitmap: $resourceMembersAclPermission,
+					permissionsBitmap: $resourceMemberPermissionsBitfield,
 					permissionOriginType: PermissionOriginType::MEMBER,
 				);
 
@@ -147,15 +147,15 @@ class PermissionsService {
 		foreach($resourceManagers as $resourceManager) {
 			$memberPrincipal = $resourceManager->getPrincipal();
 			
-			if($resourceManagersAclPermission > 0) {
+			if($resourceManagerPermissionsBitfield > 0) {
 				$permissionsList->addPermission(
 					principal: $memberPrincipal,
-					permissionsBitmap: $resourceManagersAclPermission,
+					permissionsBitmap: $resourceManagerPermissionsBitfield,
 					permissionOriginType: PermissionOriginType::MANAGER,
 				);
 
 				// NOTE: Managers will get added to both nextInheritedMemberPrincipals and nextInheritedManagerPrincipals,
-				// because even if manager inheritance is disabled in a child resource if they have read permissions they qualify for resourceInheritedAclPermission permissions
+				// because even if manager inheritance is disabled in a child resource if they have read permissions they qualify for resourceInheritedMemberPermissionsBitfield permissions
 				$nextInheritedMemberPrincipals[] = $this->addInheritanceOriginToPrincipal($memberPrincipal, $resource);
 			}
 

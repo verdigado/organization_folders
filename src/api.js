@@ -104,9 +104,9 @@ var PermissionOriginTypes = {
  * inheritManagers: bool
  * createdTimestamp: number
  * lastUpdatedTimestamp: number
- * membersAclPermission: number
- * managersAclPermission: number
- * inheritedAclPermission: number
+ * memberPermissionsBitfield: number
+ * managerPermissionsBitfield: number
+ * inheritedMemberPermissionsBitfield: number
  * members: Array<ResourceMember>|undefined
  * subResources: Array<Resource>|undefined
  * }} FolderResource
@@ -310,9 +310,9 @@ export default {
 	 *   name: string|undefined
 	 *   active: boolean|undefined
 	 *   inheritManagers: boolean|undefined
-	 *   membersAclPermission: number|undefined
-	 *   managersAclPermission: number|undefined
-	 *   inheritedAclPermission: number|undefined
+	 *   memberPermissionsBitfield: number|undefined
+	 *   managerPermissionsBitfield: number|undefined
+	 *   inheritedMemberPermissionsBitfield: number|undefined
 	 * }} updateResourceDto UpdateResourceDto
 	 * @param {string} include
 	 * @param {string} cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove
@@ -359,9 +359,9 @@ export default {
 	 * active: bool
 	 * inheritManagers: bool
 	 *
-	 * membersAclPermission: number|undefined
-	 * managersAclPermission: number|undefined
-	 * inheritedAclPermission: number|undefined
+	 * memberPermissionsBitfield: number|undefined
+	 * managerPermissionsBitfield: number|undefined
+	 * inheritedMemberPermissionsBitfield: number|undefined
 	 * }} createResourceDto CreateResourceDto
 	 * @param string include
 	 * @return {Promise<Resource>}
