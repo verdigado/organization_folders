@@ -350,9 +350,9 @@ const createSubResource = async (type, name, callback) => {
 			active: true,
 			inheritManagers: true,
 
-			membersAclPermission: 0,
-			managersAclPermission: 31,
-			inheritedAclPermission: 1,
+			memberPermissionsBitfield: 0,
+			managerPermissionsBitfield: 31,
+			inheritedMemberPermissionsBitfield: 1,
 		}));
 
 		callback(true);

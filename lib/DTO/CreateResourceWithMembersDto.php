@@ -26,9 +26,9 @@ readonly class CreateResourceWithMembersDto extends CreateResourceDto {
 		bool $active = true,
 		bool $inheritManagers = true,
 
-		int $membersAclPermission,
-		int $managersAclPermission,
-		int $inheritedAclPermission,
+		int $memberPermissionsBitfield,
+		int $managerPermissionsBitfield,
+		int $inheritedMemberPermissionsBitfield,
 
 		public array $members = [],
 	) {
@@ -40,9 +40,9 @@ readonly class CreateResourceWithMembersDto extends CreateResourceDto {
 			active: $active,
 			inheritManagers: $inheritManagers,
 
-			membersAclPermission: $membersAclPermission,
-			managersAclPermission: $managersAclPermission,
-			inheritedAclPermission: $inheritedAclPermission,
+			memberPermissionsBitfield: $memberPermissionsBitfield,
+			managerPermissionsBitfield: $managerPermissionsBitfield,
+			inheritedMemberPermissionsBitfield: $inheritedMemberPermissionsBitfield,
 		);
 	}
 	public static function GetValidator(): ChainedValidator {

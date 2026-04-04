@@ -229,9 +229,9 @@ const createResource = async (type, name, callback) => {
 			active: true,
 			inheritManagers: true,
 
-			membersAclPermission: 0,
-			managersAclPermission: 31,
-			inheritedAclPermission: 0,
+			memberPermissionsBitfield: 0,
+			managerPermissionsBitfield: 31,
+			inheritedMemberPermissionsBitfield: 0,
 		});
 
 		callback(true);
