@@ -38,6 +38,7 @@ OC.L10N.register(
     "Manager" : "Vadovas",
     "Admin" : "Administravimas",
     "Settings" : "Nustatymai",
+    "Organization" : "Organizacija",
     "Resources" : "Ištekliai",
     "No search results" : "Nėra paieškos rezultatų",
     "{filePath} will be deleted" : "{filePath} bus ištrintas",
