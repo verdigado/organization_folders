@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Access Denied" : "ການເຂົ້າເຖິງຖືກປະຕິເສດ",
     "Members" : "Members",
     "Back" : "ກັບຄືນ",
     "Next" : "Next",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "Search" : "ຄົ້ນຫາ",
     "Confirm" : "ຢືນຢັນ",
     "Warning" : "ຄຳເຕືອນ",
+    "Continue anyway" : "ດຳເນີນການຕໍ່ໄປ",
     "Member" : "Member",
     "Manager" : "Manager",
     "Admin" : "ຜູ້ເບິ່ງເເຍງລະບົບ",
