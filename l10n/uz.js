@@ -24,6 +24,7 @@ OC.L10N.register(
     "Resources" : "Resurslar",
     "No search results" : "Qidiruv natijalari yo‘q",
     "Delete folder" : "Jildni o'chirish",
+    "Permissions" : "Ruxsatnomalar",
     "Unlimited" : "Unlimited"
 },
 "nplurals=1; plural=0;");
