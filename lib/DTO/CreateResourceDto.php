@@ -14,9 +14,9 @@ readonly class CreateResourceDto {
 		public bool $active = true,
 		public bool $inheritManagers = true,
 
-		public int $membersAclPermission,
-		public int $managersAclPermission,
-		public int $inheritedAclPermission,
+		public int $memberPermissionsBitfield,
+		public int $managerPermissionsBitfield,
+		public int $inheritedMemberPermissionsBitfield,
 	) {}
 
 	public static function GetValidator(): ChainedValidator {
@@ -31,9 +31,9 @@ readonly class CreateResourceDto {
 			->key('inheritManagers', v::boolType())
 
 			->when(v::key('type', v::stringVal()->equals('folder')), v::allOf(
-				v::key('membersAclPermission', v::intVal()->between(0, 31)),
-				v::key('managersAclPermission', v::intVal()->between(0, 31)),
-				v::key('inheritedAclPermission', v::intVal()->between(0, 31)),
+				v::key('memberPermissionsBitfield', v::intVal()->between(0, 31)),
+				v::key('managerPermissionsBitfield', v::intVal()->between(0, 31)),
+				v::key('inheritedMemberPermissionsBitfield', v::intVal()->between(0, 31)),
 			));
 	}
 }

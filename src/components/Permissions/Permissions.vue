@@ -20,30 +20,30 @@ const locked = ref(false);
 const permissionGroups = computed(() => {
   return [
 	{
-		field: "managersAclPermission",
+		field: "managerPermissionsBitfield",
 		label: t("organization_folders", "Folder Managers"),
 		explanation: props.resource.inheritManagers ?
 			t("organization_folders", "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above") :
 			t("organization_folders", "These permissions apply to any member added in the next section with the manager permission level"),
-		value: props.resource.managersAclPermission,
+		value: props.resource.managerPermissionsBitfield,
 		mask: 31,
 	},
 	{
-		field: "membersAclPermission",
+		field: "memberPermissionsBitfield",
 		label: t("organization_folders", "Folder Members"),
 		explanation: t("organization_folders", "These permissions apply to any member added in the next section with the member permission level"),
-		value: props.resource.membersAclPermission,
+		value: props.resource.memberPermissionsBitfield,
 		mask: 31,
 	},
 	{
-		field: "inheritedAclPermission",
+		field: "inheritedMemberPermissionsBitfield",
 		label: props.resource.parentResourceId ?
 			t("organization_folders", "Members of \"{parentResourceName}\"", { parentResourceName: props.resource?.parentResource?.name }) :
 			t("organization_folders", "Organization Folder Members"),
 		explanation: props.resource.parentResourceId ?
 			t("organization_folders", "These permissions apply to anyone, that has at least read access to the parent folder \"{parentResourceName}\". If no permissions are selected here members from the parent folder won't have access to this folder unless they are explicitly added as a member to this folder.", { parentResourceName: props.resource.parentResource.name }) :
 			t("organization_folders", "These permissions apply to anyone, that is a member of the organization folder \"{organizationFolderName}\".", { organizationFolderName: props.organizationFolder.name }),
-		value: props.resource.inheritedAclPermission,
+		value: props.resource.inheritedMemberPermissionsBitfield,
 		mask: 31,
 	},
   ]

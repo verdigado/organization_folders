@@ -144,13 +144,13 @@ class ResourceController extends BaseController {
 		bool $inheritManagers = true,
 
 		// for type folder
-		?int $membersAclPermission = null,
-		?int $managersAclPermission = null,
-		?int $inheritedAclPermission = null,
+		?int $memberPermissionsBitfield = null,
+		?int $managerPermissionsBitfield = null,
+		?int $inheritedMemberPermissionsBitfield = null,
 
 		?string $include = null,
 	): JSONResponse {
-		return $this->handleErrors(function () use ($organizationFolderId, $type, $name, $parentResourceId, $active, $inheritManagers, $membersAclPermission, $managersAclPermission, $inheritedAclPermission, $include) {
+		return $this->handleErrors(function () use ($organizationFolderId, $type, $name, $parentResourceId, $active, $inheritManagers, $memberPermissionsBitfield, $managerPermissionsBitfield, $inheritedMemberPermissionsBitfield, $include) {
 			$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
 			
 			if(!is_null($parentResourceId)) {
@@ -169,9 +169,9 @@ class ResourceController extends BaseController {
 				active: $active,
 				inheritManagers: $inheritManagers,
 
-				membersAclPermission: $membersAclPermission,
-				managersAclPermission: $managersAclPermission,
-				inheritedAclPermission: $inheritedAclPermission,
+				memberPermissionsBitfield: $memberPermissionsBitfield,
+				managerPermissionsBitfield: $managerPermissionsBitfield,
+				inheritedMemberPermissionsBitfield: $inheritedMemberPermissionsBitfield,
 			);
 
 			return $this->getApiObjectFromEntity($resource, false, $include);
@@ -185,15 +185,15 @@ class ResourceController extends BaseController {
 		?bool $inheritManagers = null,
 
 		// for type folder
-		?int $membersAclPermission = null,
-		?int $managersAclPermission = null,
-		?int $inheritedAclPermission = null,
+		?int $memberPermissionsBitfield = null,
+		?int $managerPermissionsBitfield = null,
+		?int $inheritedMemberPermissionsBitfield = null,
 
 		?string $include = null,
 		?int $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove = null,
 		?bool $cancelIfRevokesOwnManagementRights = false,
 	): JSONResponse {
-		return $this->handleErrors(function () use ($resourceId, $active, $inheritManagers, $membersAclPermission, $managersAclPermission, $inheritedAclPermission, $include, $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove, $cancelIfRevokesOwnManagementRights) {
+		return $this->handleErrors(function () use ($resourceId, $active, $inheritManagers, $memberPermissionsBitfield, $managerPermissionsBitfield, $inheritedMemberPermissionsBitfield, $include, $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove, $cancelIfRevokesOwnManagementRights) {
 			$resource = $this->service->find($resourceId);
 			
 			$this->denyAccessUnlessGranted(['UPDATE'], $resource);
@@ -215,9 +215,9 @@ class ResourceController extends BaseController {
 				active: $active,
 				inheritManagers: $inheritManagers,
 
-				membersAclPermission: $membersAclPermission,
-				managersAclPermission: $managersAclPermission,
-				inheritedAclPermission: $inheritedAclPermission,
+				memberPermissionsBitfield: $memberPermissionsBitfield,
+				managerPermissionsBitfield: $managerPermissionsBitfield,
+				inheritedMemberPermissionsBitfield: $inheritedMemberPermissionsBitfield,
 
 				maxiumumUsersPermissionsAddedOrDeleted: $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove,
 			);

@@ -19,6 +19,9 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	protected $createdTimestamp;
 	protected $lastUpdatedTimestamp;
 	protected $createdFromTemplateId;
+	protected $memberPermissionsBitfield;
+	protected $managerPermissionsBitfield;
+	protected $inheritedMemberPermissionsBitfield;
 	
 	public function __construct() {
 		$this->addType('organizationFolderId', Types::INTEGER);
@@ -28,6 +31,9 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 		$this->addType('createdTimestamp', Types::INTEGER);
 		$this->addType('lastUpdatedTimestamp', Types::INTEGER);
 		$this->addType('createdFromTemplateId', Types::STRING);
+		$this->addType('memberPermissionsBitfield', Types::INTEGER);
+		$this->addType('managerPermissionsBitfield', Types::INTEGER);
+		$this->addType('inheritedMemberPermissionsBitfield', Types::INTEGER);
 	}
 
 	abstract public function getType(): string;
