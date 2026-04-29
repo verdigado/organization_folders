@@ -55,7 +55,7 @@ OC.L10N.register(
     "Managers have access to the settings of top-level resources with manager inheritance enabled. Admins have access to the settings of all resources, regardless of their inheritance setting." : "Administratörer har åtkomst till inställningarna för toppnivåresurser med aktiverad administratörsarv. Administratörer har åtkomst till inställningarna för alla resurser, oavsett arvinställning.",
     "Organization Folder Settings" : "Inställningar för organisationsmapp",
     "Settings" : "Inställningar",
-    "Organization" : "Organisering",
+    "Organization" : "Organisation",
     "Resources" : "Resurser",
     "No organization folders yet" : "Inga organisationsmappar än",
     "No search results" : "Inga sökresultat",
