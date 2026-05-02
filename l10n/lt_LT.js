@@ -22,6 +22,7 @@ OC.L10N.register(
     "Edit" : "Taisyti",
     "File does not exist" : "Failo nėra",
     "Move to {target}" : "Perkelti į {target}",
+    "Select Page" : "Pasirinkite puslapį",
     "Read" : "Skaityti",
     "Write" : "Rašyti",
     "Share" : "Bendrinti",
