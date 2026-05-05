@@ -11,6 +11,12 @@ use OCP\Log\Audit\CriticalActionPerformedEvent;
 
 use OCA\GroupFolders\Folder\FolderManager;
 
+/**
+ * @psalm-type GroupfolderMemberGroup = array{
+ *   group_id: string,
+ *   permissions: int,
+ * }
+ */
 class GroupfolderManager {
 	public function __construct(
 		protected IDBConnection $db,
@@ -21,7 +27,7 @@ class GroupfolderManager {
 
 	/**
 	 * @param int $id groupfolder id
-	 * @return array{group_id: string, permissions: int}[]
+	 * @return GroupfolderMemberGroup[]
 	 */
 	public function getMemberGroups(int $id) {
 		$qb = $this->db->getQueryBuilder();
@@ -58,40 +64,71 @@ class GroupfolderManager {
 
 	/**
 	 * @param int $id groupfolder id
-	 * @param array{group_id: string, permissions: int}[] $memberGroups
+	 * @param GroupfolderMemberGroup[] $memberGroups
 	 * @return array{
-	 *   created: array{group_id: string, permissions: int},
-	 *   updated: array{group_id: string, permissions: int},
-	 *   removed: array{group_id: string, permissions: int}
+	 *   created: GroupfolderMemberGroup[],
+	 *   updated: GroupfolderMemberGroup[],
+	 *   removed: string[],
 	 * }
 	 */
 	public function overwriteMemberGroups(int $id, array $memberGroups): array {
 		$existingMemberGroups = $this->getMemberGroups($id);
 
-		// new members to be added
-		$newMemberGroups = array_udiff($memberGroups, $existingMemberGroups, $this->memberGroupIdComparison(...));
+		/** @var array<string, int> */
+		$existingGroupPermissionsById = [];
 
-		// old members to be deleted
-		$removedMemberGroups = array_udiff($existingMemberGroups, $memberGroups, $this->memberGroupIdComparison(...));
-
-		$potentiallyUpdatedMemberGroups = array_uintersect($memberGroups, $existingMemberGroups, $this->memberGroupIdComparison(...));
-		$notUpdatedMemberGroups = array_uintersect($memberGroups, $existingMemberGroups, $this->memberGroupComparison(...));
-
-		// member groups with changed permissions
-		$updatedMemberGroups = array_udiff($potentiallyUpdatedMemberGroups, $notUpdatedMemberGroups, $this->memberGroupIdComparison(...));
-
-		foreach($removedMemberGroups as $removedMemberGroup) {
-			$this->folderManager->removeApplicableGroup($id, $removedMemberGroup["group_id"]);
+		foreach($existingMemberGroups as $existingMember) {
+			$existingGroupPermissionsById[$existingMember['group_id']] = $existingMember['permissions'];
 		}
 
-		foreach($newMemberGroups as $newMemberGroup) {
-			$this->addMemberGroup($id, $newMemberGroup["group_id"], $newMemberGroup["permissions"]);
+		/** @var array<string, int> */
+		$groupPermissionsById = [];
+
+		/** @var GroupfolderMemberGroup[] */
+		$groupsToAdd = [];
+
+		/** @var GroupfolderMemberGroup[] */
+		$groupsToUpdate = [];
+
+		foreach($memberGroups as $member) {
+			$groupId = $member['group_id'];
+
+			$groupPermissionsById[$groupId] = $member['permissions'];
+
+			$existingGroupPermission = $existingGroupPermissionsById[$groupId] ?? null;
+
+			if($existingGroupPermission === null) {
+				$groupsToAdd[] = $member;
+			} else {
+				if($existingGroupPermission !== $member['permissions']) {
+					$groupsToUpdate[] = $member;
+				}
+			}
 		}
 
-		foreach($updatedMemberGroups as $updatedMemberGroup) {
-			$this->folderManager->setGroupPermissions($id, $updatedMemberGroup["group_id"], $updatedMemberGroup["permissions"]);
+		/** @var string[] */
+		$groupsToRemove = [];
+
+		foreach($existingMemberGroups as $existingMember) {
+			$groupId = $existingMember['group_id'];
+
+			if (!isset($groupPermissionsById[$groupId])) {
+        		$groupsToRemove[] = $groupId;
+			}
 		}
 
-		return ["created" => $newMemberGroups, "updated" => $updatedMemberGroups, "removed" => $removedMemberGroups];
+		foreach($groupsToRemove as $group) {
+			$this->folderManager->removeApplicableGroup($id, $group);
+		}
+
+		foreach($groupsToAdd as $group) {
+			$this->addMemberGroup($id, $group["group_id"], $group["permissions"]);
+		}
+
+		foreach($groupsToUpdate as $group) {
+			$this->folderManager->setGroupPermissions($id, $group["group_id"], $group["permissions"]);
+		}
+
+		return ["created" => $groupsToAdd, "updated" => $groupsToUpdate, "removed" => $groupsToRemove];
 	}
 }
