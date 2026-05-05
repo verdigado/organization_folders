@@ -27,6 +27,7 @@ var PrincipalTypes = {
  */
 var ResourceTypes = {
 	FOLDER: "folder",
+	CALENDAR: "calendar",
 }
 
 /**
@@ -68,6 +69,10 @@ var PermissionOriginTypes = {
 	INHERITED_MANAGER: 4,
 }
 
+var RessourcePermissionKeysByType = {
+	folder: ["READ", "UPDATE", "CREATE", "DELETE", "SHARE"],
+	calendar: ["READ", "UPDATE"],
+}
 
 /**
  * @typedef {{
@@ -93,6 +98,19 @@ var PermissionOriginTypes = {
  * createdTimestamp: number,
  * lastUpdatedTimestamp: number,
  * }} OrganizationFolderMember
+ * 
+ * @typedef {{
+ * READ: bool,
+ * UPDATE: bool,
+ * CREATE: bool,
+ * DELETE: bool,
+ * SHARE: bool,
+ * }} FolderRessourcePermissions
+ * 
+ * @typedef {{
+ * READ: bool,
+ * UPDATE: bool,
+ * }} CalendarRessourcePermissions
  *
  * @typedef {{
  * id: number
@@ -104,12 +122,29 @@ var PermissionOriginTypes = {
  * inheritManagers: bool
  * createdTimestamp: number
  * lastUpdatedTimestamp: number
- * memberPermissionsBitfield: number
- * managerPermissionsBitfield: number
- * inheritedMemberPermissionsBitfield: number
+ * memberPermissions: FolderRessourcePermissions
+ * managerPermissions: FolderRessourcePermissions
+ * inheritedMemberPermissions: FolderRessourcePermissions
  * members: Array<ResourceMember>|undefined
  * subResources: Array<Resource>|undefined
  * }} FolderResource
+ * 
+ * @typedef {{
+ * id: number
+ * type: ResourceType
+ * organizationFolderId: number
+ * name: string
+ * parentResourceId: number|null
+ * active: bool
+ * inheritManagers: bool
+ * createdTimestamp: number
+ * lastUpdatedTimestamp: number
+ * memberPermissions: CalendarRessourcePermissions
+ * managerPermissions: CalendarRessourcePermissions
+ * inheritedMemberPermissions: CalendarRessourcePermissions
+ * members: Array<ResourceMember>|undefined
+ * linkShares: array
+ * }} CalendarResource
  *
  * @typedef {(FolderResource)} Resource
  * 

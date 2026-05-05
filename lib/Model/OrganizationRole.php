@@ -6,6 +6,8 @@ namespace OCA\OrganizationFolders\Model;
 
 use OCA\OrganizationFolders\Interface\TableSerializable;
 
+use OCP\IL10N;
+
 class OrganizationRole implements \JsonSerializable, TableSerializable {
 	public function __construct(
 		protected readonly string $id,
@@ -46,7 +48,7 @@ class OrganizationRole implements \JsonSerializable, TableSerializable {
 		];
 	}
 
-	public function tableSerialize(?array $params = null): array {
+	public function tableSerialize(IL10N $l10n, ?array $params = null): array {
 		return [
 			'Id' => $this->id,
 			'Name' => $this->friendlyName,

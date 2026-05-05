@@ -7,6 +7,8 @@ namespace OCA\OrganizationFolders\Model;
 use \JsonSerializable;
 use OCA\OrganizationFolders\Interface\TableSerializable;
 
+use OCP\IL10N;
+
 class OrganizationFolder implements JsonSerializable, TableSerializable {
 	public function __construct(
 		private readonly int $id,
@@ -68,7 +70,7 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		];
 	}
 
-	public function tableSerialize(?array $params = null): array {
+	public function tableSerialize(IL10N $l10n, ?array $params = null): array {
 		return [
 			'Id' => $this->id,
 			'Name' => $this->name,

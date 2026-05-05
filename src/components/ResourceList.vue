@@ -8,6 +8,7 @@ import NcEmptyContent from "@nextcloud/vue/components/NcEmptyContent";
 import Magnify from "vue-material-design-icons/Magnify.vue";
 import CheckboxBlankCircle from "vue-material-design-icons/CheckboxBlankCircle.vue";
 import Folder from "vue-material-design-icons/Folder.vue";
+import Calendar from "vue-material-design-icons/Calendar.vue";
 import FolderOff from "vue-material-design-icons/FolderOff.vue";
 
 import api from "../api.js";
@@ -56,6 +57,7 @@ const filteredResources = computed(() => props.resources.filter((r) => r.name.to
 				@click="() => emit('click:resource', resource)">
 				<template #icon>
 					<Folder v-if="resource.type === api.ResourceTypes.FOLDER" :size="44" />
+					<Calendar v-else-if="resource.type === api.ResourceTypes.CALENDAR" :size="44" />
 				</template>
 				<template #indicator>
 					<CheckboxBlankCircle v-tooltip="resource.active ? 'aktiviert' : 'nicht aktiviert'" :size="16" :fill-color="resource.active ? 'var(--color-primary)' : '#333'" />

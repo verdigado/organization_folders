@@ -1,8 +1,6 @@
 <script setup>
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
-import Delete from "vue-material-design-icons/Delete.vue";
-
 import api from "../api.js";
 
 const props = defineProps({
