@@ -5,18 +5,18 @@ namespace OCA\OrganizationFolders\Db;
 use OCP\IL10N;
 use OCP\DB\Types;
 
-class FolderResource extends Resource {
-	protected $fileId;
+class CalendarResource extends Resource {
+	protected $calendarId;
 
-	public const PERMISSION_KEYS = ["READ", "UPDATE", "CREATE", "DELETE", "SHARE"];
+	public const PERMISSION_KEYS = ["READ", "UPDATE"];
 
 	public function __construct() {
 		parent::__construct();
-		$this->addType('fileId', Types::INTEGER);
+		$this->addType('calendarId', Types::INTEGER);
 	}
 
-	public function getType(): string {
-		return "folder";
+    public function getType(): string {
+		return "calendar";
 	}
 
 	public static function fromRow(array $row): static {
@@ -24,7 +24,7 @@ class FolderResource extends Resource {
 
 		self::fromRowCommon($entity, $row);
 		
-		$entity->setFileId($row["file_id"]);
+		$entity->setCalendarId($row["calendar_id"]);
 
 		$entity->resetUpdatedFields();
 
@@ -49,8 +49,8 @@ class FolderResource extends Resource {
 			'memberPermissions' => $this->getMemberPermissions(),
 			'managerPermissions' => $this->getManagerPermissions(),
 			'inheritedMemberPermissions' => $this->getInheritedMemberPermissions(),
-
-			'fileId' => $this->fileId,
+			
+			'calendarId' => $this->calendarId,
 		];
 	}
 
@@ -66,15 +66,15 @@ class FolderResource extends Resource {
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 			'createdFromTemplateId' => $this->createdFromTemplateId,
 			
-			'fileId' => $this->fileId,
+			'calendarId' => $this->calendarId,
 		];
 	}
 
-	public function tableSerialize(IL10N $l10n, ?array $params = null): array {
+    public function tableSerialize(IL10N $l10n, ?array $params = null): array {
 		return [
 			'Id' => $this->id,
 			'Name' => $this->name,
-			'Type' => $l10n->t("Folder"),
+			'Type' => $l10n->t("Calendar"),
 			'Active' => ((bool)$this->active) ? 'yes' : 'no',
 			'Inherit Managers' =>  ((bool)$this->inheritManagers) ? 'yes' : 'no',
 			'Last Updated' => $this->lastUpdatedTimestamp,

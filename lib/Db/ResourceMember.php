@@ -5,10 +5,11 @@ namespace OCA\OrganizationFolders\Db;
 use JsonSerializable;
 use OCA\OrganizationFolders\Interface\TableSerializable;
 
+use OCP\IL10N;
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
-use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\Principal;
 
 class ResourceMember extends Entity implements JsonSerializable, TableSerializable {
@@ -23,11 +24,11 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 	protected $lastUpdatedTimestamp;
 	
 	public function __construct() {
-		$this->addType('resourceId','integer');
-		$this->addType('permissionLevel','integer');
-		$this->addType('principalType','integer');
-		$this->addType('createdTimestamp','integer');
-		$this->addType('lastUpdatedTimestamp','integer');
+		$this->addType('resourceId', Types::INTEGER);
+		$this->addType('permissionLevel', Types::INTEGER);
+		$this->addType('principalType', Types::INTEGER);
+		$this->addType('createdTimestamp', Types::INTEGER);
+		$this->addType('lastUpdatedTimestamp', Types::INTEGER);
 	}
 
 	public function setPrincipal(Principal $principal) {
@@ -83,7 +84,7 @@ class ResourceMember extends Entity implements JsonSerializable, TableSerializab
 		];
 	}
 
-	public function tableSerialize(?array $params = null): array {
+	public function tableSerialize(IL10N $l10n, ?array $params = null): array {
 		return [
 			'Id' => $this->id,
 			'Resource Id' => $this->resourceId,

@@ -20,6 +20,7 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
+use OCA\OrganizationFolders\Db\CalendarResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\DTO\CreateResourceDto;
 use OCA\OrganizationFolders\Model\Principal;
@@ -59,23 +60,20 @@ class ResourceService {
 
 	/**
 	 * @param int $organizationFolderId
-	 * @psalm-param int $organizationFolderId
 	 * @param int|null $parentResourceId
-	 * @psalm-param int|null $parentResourceId
 	 * @param array $filters
-	 * @psalm-param array $filters
-	 * @psalm-return Resource[]
+	 * @return Resource[]
 	 */
 	public function findAll(int $organizationFolderId, ?int $parentResourceId = null, array $filters = []): array {
 		return $this->mapper->findAll($organizationFolderId, $parentResourceId, $filters);
 	}
 
-	private function handleException(Exception $e, array $criteria): void {
+	private function handleException(Exception $e, array $criteria): Exception {
 		if ($e instanceof DoesNotExistException ||
 			$e instanceof MultipleObjectsReturnedException) {
-			throw new ResourceNotFound($criteria);
+			return new ResourceNotFound($criteria);
 		} else {
-			throw $e;
+			return $e;
 		}
 	}
 
@@ -83,7 +81,7 @@ class ResourceService {
 		try {
 			return $this->mapper->find($id);
 		} catch (Exception $e) {
-			$this->handleException($e, ["id" => $id]);
+			throw $this->handleException($e, ["id" => $id]);
 		}
 	}
 
@@ -91,7 +89,7 @@ class ResourceService {
 		try {
 			return $this->mapper->findByFileId($fileId);
 		} catch (Exception $e) {
-			$this->handleException($e, ["fileId" => $fileId]);
+			throw $this->handleException($e, ["fileId" => $fileId]);
 		}
 	}
 
@@ -99,7 +97,7 @@ class ResourceService {
 		try {
 			return $this->mapper->findByName($organizationFolderId, $parentResourceId, $name);
 		} catch (Exception $e) {
-			$this->handleException($e, [
+			throw $this->handleException($e, [
 				"organizationFolderId" => $organizationFolderId,
 				"parentResourceId" => $parentResourceId,
 				"name" => $name,
@@ -253,7 +251,9 @@ class ResourceService {
 	) {
 		if($type === "folder") {
 			$resource = new FolderResource();
-		}  else {
+		} else if ($type === "calendar") {
+			$resource = new CalendarResource();
+		} else {
 			throw new InvalidResourceType($type);
 		}
 
@@ -807,7 +807,7 @@ class ResourceService {
 			$resource = $this->mapper->find($id);
 			return $this->delete($resource);
 		} catch (Exception $e) {
-			$this->handleException($e, ["id" => $id]);
+			throw $this->handleException($e, ["id" => $id]);
 		}
 	}
 

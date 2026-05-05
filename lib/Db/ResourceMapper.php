@@ -16,20 +16,26 @@ class ResourceMapper extends QBMapper {
 
 	public const RESOURCES_TABLE = "organizationfolders_resources";
 	public const FOLDER_RESOURCES_TABLE = "organizationfolders_folder_resources";
+	public const CALENDAR_RESOURCES_TABLE = "organizationfolders_calendar_resources";
 
 	private const updateableResourceProperties = ["parentResource", "active", "name", "inheritManagers", "lastUpdatedTimestamp", "memberPermissionsBitfield", "managerPermissionsBitfield", "inheritedMemberPermissionsBitfield"];
 	private const updateableFolderResourceProperties = ["fileId"];
-	private const tableColumnsToSelect = ['resource.*', 'folder.file_id'];
+	private const updateableCalendarResourceProperties = ["calendarId"];
+	private const tableColumnsToSelect = ['resource.*', 'folder.file_id', 'calendar.calendar_id'];
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::RESOURCES_TABLE, Resource::class);
 	}
 
 	protected function mapRowToEntity(array $row): Resource {
-		if($row["type"] == "folder") {
+		$type = $row["type"];
+
+		if($type === "folder") {
 			return FolderResource::fromRow($row);
+		} else if($type === "calendar") {
+			return CalendarResource::fromRow($row);
 		} else {
-			throw new InvalidResourceType($row["type"]);
+			throw new InvalidResourceType($type);
 		}
 	}
 
@@ -47,7 +53,8 @@ class ResourceMapper extends QBMapper {
 			->from(self::RESOURCES_TABLE, "resource")
 			->where($qb->expr()->eq('resource.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
-		$qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'),);
+		$qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'));
+		$qb->leftJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $qb->expr()->eq('resource.id', 'calendar.resource_id'));
 
 		return $this->findEntity($qb);
 	}
@@ -59,9 +66,23 @@ class ResourceMapper extends QBMapper {
 		$qb->select(self::tableColumnsToSelect)
 			->from(self::RESOURCES_TABLE, "resource");
 
-		$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'),);
+		$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'));
 
 		$qb->where($qb->expr()->eq('folder.file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+
+		return $this->findEntity($qb);
+	}
+
+	public function findByCalendarId(int $calendarId): CalendarResource {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select(self::tableColumnsToSelect)
+			->from(self::RESOURCES_TABLE, "resource");
+
+		$qb->leftJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $qb->expr()->eq('resource.id', 'calendar.resource_id'));
+
+		$qb->where($qb->expr()->eq('calendar.calendar_id', $qb->createNamedParameter($calendarId, IQueryBuilder::PARAM_INT)));
 
 		return $this->findEntity($qb);
 	}
@@ -82,7 +103,8 @@ class ResourceMapper extends QBMapper {
 
 		$qb->andWhere($qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)));
 
-		$qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'),);
+		$qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'));
+		$qb->leftJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $qb->expr()->eq('resource.id', 'calendar.resource_id'));
 
 		return $this->findEntity($qb);
 	}
@@ -112,11 +134,18 @@ class ResourceMapper extends QBMapper {
 		}
 
 		$folderJoinCondition = $qb->expr()->eq('resource.id', 'folder.resource_id');
-		if(isset($filters["type"]) && $filters["type"] === "folder") {
-			$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter("folder")));
-			$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $folderJoinCondition);
+		$calendarJoinCondition = $qb->expr()->eq('resource.id', 'calendar.resource_id');
+		if(isset($filters["type"])) {
+			if($filters["type"] === "folder") {
+				$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter("folder")));
+				$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $folderJoinCondition);
+			} else if($filters["type"] === "calendar") {
+				$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter("calendar")));
+				$qb->innerJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $calendarJoinCondition);
+			}
 		} else {
 			$qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $folderJoinCondition);
+			$qb->leftJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $calendarJoinCondition);
 		}
 
 		return $this->findEntities($qb);
@@ -146,9 +175,8 @@ class ResourceMapper extends QBMapper {
 			$qb->andWhere($qb->expr()->eq('resource.parent_resource', $qb->createNamedParameter($parentResourceId, IQueryBuilder::PARAM_INT)));
 		}
 
-		if(isset($filters["type"]) && $filters["type"] === "folder") {
-			$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter("folder")));
-			$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'));
+		if(isset($filters["type"])) {
+			$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter($filters["type"])));
 		}
 
 		$qb->orderBy('resource.name');
@@ -203,6 +231,9 @@ class ResourceMapper extends QBMapper {
 		if($entity->getType() === "folder") {
 			$typeSpecificTable = self::FOLDER_RESOURCES_TABLE;
 			$setTypeSpecificProperties = array_intersect(self::updateableFolderResourceProperties, $setProperties);
+		} else if($entity->getType() === "calendar") {
+			$typeSpecificTable = self::CALENDAR_RESOURCES_TABLE;
+			$setTypeSpecificProperties = array_intersect(self::updateableCalendarResourceProperties, $setProperties);
 		} else {
 			throw new InvalidResourceType($entity->getType());
 		}
