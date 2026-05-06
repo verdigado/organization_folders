@@ -14,6 +14,7 @@ use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Service\ResourceTemplateService;
+use OCA\OrganizationFolders\Service\PermissionsService;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Interface\TableSerializable;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
@@ -30,6 +31,7 @@ abstract class BaseCommand extends Base {
 		protected readonly ResourceService $resourceService,
 		protected readonly ResourceMemberService $resourceMemberService,
 		protected readonly ResourceTemplateService $resourceTemplateService,
+		protected readonly PermissionsService $permissionsService,
 		protected readonly OrganizationProviderManager $organizationProviderManager,
 		protected readonly ResourceTemplateProviderRegistry $resourceTemplateProviderRegistry,
 		protected readonly PrincipalFactory $principalFactory,
