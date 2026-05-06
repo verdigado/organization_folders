@@ -225,7 +225,7 @@ class OrganizationFolderService {
 
 	/**
 	 * Applies groupfolder members, top level groupfolder ACLs and resource permissions
-	 * @param int organization folder id
+	 * @param int $id organization folder id
 	 * @return int number of changes made
 	 */
 	public function applyAllPermissionsById(int $id): int {
@@ -239,13 +239,13 @@ class OrganizationFolderService {
 	 * @param OrganizationFolder $organizationFolder
 	 * @param ?list<PrincipalBackedByGroup> $organizationFolderMemberPrincipals
 	 * @param ?list<PrincipalBackedByGroup> $organizationFolderManagerPrincipals
-	 * @return int number of member changes made
+	 * @return array{created: string[], updated: string[], removed: string[]} groups added, updated and removed
 	 */
 	public function refreshGroupfolderMembers(
 		OrganizationFolder $organizationFolder,
 		?array $organizationFolderMemberPrincipals = null,
 		?array $organizationFolderManagerPrincipals = null,
-	): int {
+	): array {
 		if(!(isset($organizationFolderMemberPrincipals) && isset($organizationFolderManagerPrincipals))) {
 			[$organizationFolderMemberPrincipals, $organizationFolderManagerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
 		}
@@ -372,7 +372,12 @@ class OrganizationFolderService {
 		return $principals;
 	}
 
-	protected function setGroupsAsGroupfolderMembers($groupfolderId, array $groups): int {
+	/**
+	 * @param int $groupfolderId
+	 * @param string[] $groups
+	 * @return array{created: string[], updated: string[], removed: string[]} groups added, updated and removed
+	 */
+	protected function setGroupsAsGroupfolderMembers(int $groupfolderId, array $groups): array {
 		$groupfolderMembers = [];
 
 		foreach($groups as $group) {
@@ -384,10 +389,15 @@ class OrganizationFolderService {
 
 		$memberChanges = $this->groupfolderManager->overwriteMemberGroups($groupfolderId, $groupfolderMembers);
 
-		$changes = count($memberChanges["created"]) + count($memberChanges["updated"]) + count($memberChanges["removed"]);
+		$result = [
+			"created" => array_column($memberChanges["created"], 'group_id'),
+			"updated" => array_column($memberChanges["updated"], 'group_id'),
+			"removed" => array_column($memberChanges["removed"], 'group_id'),
+		];
 
-		return $changes;
+		return $result;
 	}
+
 	/**
 	 * In the root folder of an organization folder only resource folders can exist
 	 * To prevent adding files there all member groups of the groupfolder need to have a read-only ACL rule on the root folder

@@ -15,6 +15,7 @@ use OCA\OrganizationFolders\Model\InheritedPrincipal;
 use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsList;
 use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsListWithOriginTracing;
 use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsApplyPlanFactory;
+use OCA\OrganizationFolders\Model\ResourcePermissions\ResourcePermissionsApplyPlan;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PermissionOriginType;
 use OCA\OrganizationFolders\Errors\Api\WouldCauseTooManyPermissionsChanges;
@@ -366,12 +367,15 @@ class PermissionsService {
 	 * @param OrganizationFolder $organizationFolder
 	 * @psalm-param ?list<PrincipalBackedByGroup> $organizationFolderMemberPrincipals
 	 * @psalm-param ?list<PrincipalBackedByGroup> $organizationFolderManagerPrincipals
+	 * @param ?callable(ResourcePermissionsApplyPlan): void $progress called after every resource with the ResourcePermissionsApplyPlan that was applied
 	 * @return int number of ACL changes made
 	 */
 	public function applyAllResourcePermissionsInOrganizationFolder(
 		OrganizationFolder $organizationFolder,
 		?array $organizationFolderMemberPrincipals = null,
 		?array $organizationFolderManagerPrincipals = null,
+
+		?callable $progress = null,
 	): int {
 		$changes = 0;
 
@@ -381,10 +385,19 @@ class PermissionsService {
 			organizationFolderManagerPrincipals: $organizationFolderManagerPrincipals,
 		);
 
-		foreach($permissionsListsGenerator as $permissionsList) {
-			$plan = $this->resourcePermissionsApplyPlanFactory->buildPlan($permissionsList);
-			$changes += $plan->getNumberOfEffectivePermissionsChanges();
-			$plan->apply();
+		if(is_null($progress)) {
+			foreach($permissionsListsGenerator as $permissionsList) {
+				$plan = $this->resourcePermissionsApplyPlanFactory->buildPlan($permissionsList);
+				$plan->apply();
+				$changes += $plan->getNumberOfChanges();
+			}
+		} else {
+			foreach($permissionsListsGenerator as $permissionsList) {
+				$plan = $this->resourcePermissionsApplyPlanFactory->buildPlan($permissionsList);
+				$plan->apply();
+				$changes += $plan->getNumberOfChanges();
+				$progress($plan);
+			}
 		}
 
 		return $changes;
@@ -392,9 +405,9 @@ class PermissionsService {
 
 	/**
 	 * Applies all Permissions, that could have been changed by the update.
-	 * The amount of changes in the updated resource can be limited with maxiumumPermissionsChanges.
+	 * The amount of changes in the updated resource can be limited with maxiumumUsersPermissionsAddedOrDeleted.
 	 * @param \OCA\OrganizationFolders\Db\Resource $updatedResource
-	 * @param mixed $maxiumumPermissionsChanges Throw when the permissions of more than this number of users were added or delted to the updated resource (changes to existing permissions are not counted) (changes to other resources are not counted)
+	 * @param mixed $maxiumumUsersPermissionsAddedOrDeleted Throw when the permissions of more than this number of users were added or delted to the updated resource (changes to existing permissions are not counted) (changes to other resources are not counted)
 	 * @return void
 	 */
 	public function applyResourcePermissionsAfterResourceUpdate(
