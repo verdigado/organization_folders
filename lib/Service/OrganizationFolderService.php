@@ -46,6 +46,16 @@ class OrganizationFolderService {
 	) {
 	}
 
+	private const TAG_ORGANIZATION_FOLDER = "organization_folder";
+
+	// TODO: Prefix with "organization_folder:"
+	private const TAG_ORGANIZATION_PROVIDER = "organization_provider";
+
+	// TODO: Prefix with "organization_folder:"
+	private const TAG_ORGANIZATION_ID = "organization_id";
+
+	private const TAG_SERVICE_ACCOUNT_UID = "organization_folder:service_account_uid";
+
 	/**
 	 * @param array{organizationProvider: string, organizationId: int} $filters
 	 * @return array
@@ -55,21 +65,21 @@ class OrganizationFolderService {
 		$result = [];
 
 		$tagFilters = [
-			["key" => "organization_folder"],
+			["key" => static::TAG_ORGANIZATION_FOLDER],
 		];
 
-		$additionalReturnTags = [];
+		$additionalReturnTags = [static::TAG_SERVICE_ACCOUNT_UID];
 
 		if(isset($filters["organizationProvider"])) {
-			$tagFilters[] = ["key" => "organization_provider", "value" => $filters["organizationProvider"], "includeInOutput" => True];
+			$tagFilters[] = ["key" => static::TAG_ORGANIZATION_PROVIDER, "value" => $filters["organizationProvider"], "includeInOutput" => True];
 		} else {
-			$additionalReturnTags[] = "organization_provider";
+			$additionalReturnTags[] = static::TAG_ORGANIZATION_PROVIDER;
 		}
 
 		if(isset($filters["organizationId"])) {
-			$tagFilters[] = ["key" => "organization_id", "value" => $filters["organizationId"], "includeInOutput" => True];
+			$tagFilters[] = ["key" => static::TAG_ORGANIZATION_ID, "value" => $filters["organizationId"], "includeInOutput" => True];
 		} else {
-			$additionalReturnTags[] = "organization_id";
+			$additionalReturnTags[] = static::TAG_ORGANIZATION_ID;
 		}
 
 		$groupfolders = $this->tagService->findGroupfoldersWithTagsGenerator($tagFilters, $additionalReturnTags);
@@ -81,8 +91,9 @@ class OrganizationFolderService {
 				quota: $groupfolder["quota"],
 				storageId: $groupfolder["storage_id"],
 				rootNodeFileId: $groupfolder["root_id"],
-				organizationProvider: $groupfolder["organization_provider"],
-				organizationId: (int)$groupfolder["organization_id"],
+				organizationProvider: $groupfolder[static::TAG_ORGANIZATION_PROVIDER],
+				organizationId: (int)$groupfolder[static::TAG_ORGANIZATION_ID],
+				serviceAccountUid: $groupfolder[static::TAG_SERVICE_ACCOUNT_UID],
 			);
 		}
 
@@ -91,8 +102,8 @@ class OrganizationFolderService {
 
 	public function find(int $id): OrganizationFolder {
 		$groupfolder = $this->tagService->findGroupfolderWithTags($id,[
-			["key" => "organization_folder"],
-		], ["organization_provider", "organization_id"]);
+			["key" => static::TAG_ORGANIZATION_FOLDER],
+		], [static::TAG_ORGANIZATION_PROVIDER, static::TAG_ORGANIZATION_ID, static::TAG_SERVICE_ACCOUNT_UID]);
 
 		if(is_null($groupfolder)) {
 			throw new OrganizationFolderNotFound(["id" => $id]);
@@ -104,8 +115,9 @@ class OrganizationFolderService {
 			quota: $groupfolder["quota"],
 			storageId: $groupfolder["storage_id"],
 			rootNodeFileId: $groupfolder["root_id"],
-			organizationProvider: $groupfolder["organization_provider"],
-			organizationId: (int)$groupfolder["organization_id"],
+			organizationProvider: $groupfolder[static::TAG_ORGANIZATION_PROVIDER],
+			organizationId: (int)$groupfolder[static::TAG_ORGANIZATION_ID],
+			serviceAccountUid: $groupfolder[static::TAG_SERVICE_ACCOUNT_UID],
 		);
 	}
 
@@ -147,11 +159,12 @@ class OrganizationFolderService {
 		int $quota,
 		?string $organizationProvider = null,
 		?int $organizationId = null,
+		?string $serviceAccountUid = null,
 
 		// special mode, that re-uses an existing groupfolder
 		?int $existingGroupfolderId = null,
 	): OrganizationFolder {
-		return $this->atomic(function () use ($name, $quota, $organizationProvider, $organizationId, $existingGroupfolderId): OrganizationFolder {
+		return $this->atomic(function () use ($name, $quota, $organizationProvider, $organizationId, $serviceAccountUid, $existingGroupfolderId): OrganizationFolder {
 			if(!isset($existingGroupfolderId)) {
 				$groupfolderId = $this->folderManager->createFolder($name);
 			} else {
@@ -161,13 +174,17 @@ class OrganizationFolderService {
 			$this->folderManager->setFolderQuota($groupfolderId, $quota);
 			$this->folderManager->setFolderACL($groupfolderId, true);
 
-			$this->tagService->update($groupfolderId, "organization_folder");
+			$this->tagService->update($groupfolderId, static::TAG_ORGANIZATION_FOLDER);
 
 			if(isset($organizationProvider) && $this->organizationProviderManager->hasOrganizationProvider($organizationProvider) && isset($organizationId)) {
 				$organization = $this->organizationProviderManager->getOrganizationProvider($organizationProvider)->getOrganization($organizationId);
 
-				$this->tagService->update($groupfolderId, "organization_provider", $organizationProvider);
-				$this->tagService->update($groupfolderId, "organization_id", (string)$organization->getId());
+				$this->tagService->update($groupfolderId, static::TAG_ORGANIZATION_PROVIDER, $organizationProvider);
+				$this->tagService->update($groupfolderId, static::TAG_ORGANIZATION_ID, (string)$organization->getId());
+			}
+
+			if(isset($serviceAccountUid)) {
+				$this->tagService->update($groupfolderId, static::TAG_SERVICE_ACCOUNT_UID, $serviceAccountUid);
 			}
 
 			$organizationFolder = $this->find($groupfolderId);
@@ -183,9 +200,10 @@ class OrganizationFolderService {
 		?string $name = null,
 		?int $quota = null,
 		?string $organizationProviderId = null,
-		?int $organizationId = null
+		?int $organizationId = null,
+		?string $serviceAccountUid = null,
 	): OrganizationFolder {
-		$this->atomic(function () use ($id, $name, $quota, $organizationProviderId, $organizationId) {
+		$this->atomic(function () use ($id, $name, $quota, $organizationProviderId, $organizationId, $serviceAccountUid) {
 			if(isset($name)) {
 				$this->folderManager->renameFolder($id, $name);
 			}
@@ -196,7 +214,7 @@ class OrganizationFolderService {
 			
 			if(isset($organizationProviderId) || isset($organizationId)) {
 				if(!isset($organizationProviderId)) {
-					$organizationProviderId = $this->tagService->find($id, "organization_provider")->getTagValue();
+					$organizationProviderId = $this->tagService->find($id, static::TAG_ORGANIZATION_PROVIDER)->getTagValue();
 				}
 	
 				if(!$this->organizationProviderManager->hasOrganizationProvider($organizationProviderId)) {
@@ -206,13 +224,17 @@ class OrganizationFolderService {
 				$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($organizationProviderId);
 	
 				if(!isset($organizationId)) {
-					$organizationId = (int)$this->tagService->find($id, "organization_id")->getTagValue();
+					$organizationId = (int)$this->tagService->find($id, static::TAG_ORGANIZATION_ID)->getTagValue();
 				}
 	
 				$organization = $organizationProvider->getOrganization($organizationId);
 	
-				$this->tagService->update($id, "organization_provider", $organizationProviderId);
-				$this->tagService->update($id, "organization_id", (string)$organization->getId());
+				$this->tagService->update($id, static::TAG_ORGANIZATION_PROVIDER, $organizationProviderId);
+				$this->tagService->update($id, static::TAG_ORGANIZATION_ID, (string)$organization->getId());
+			}
+
+			if(isset($serviceAccountUid)) {
+				$this->tagService->update($id, static::TAG_SERVICE_ACCOUNT_UID, $serviceAccountUid);
 			}
 		}, $this->db);
 

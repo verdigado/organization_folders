@@ -19,7 +19,8 @@ class UpdateOrganizationFolder extends BaseCommand {
 			->addOption('name', null, InputOption::VALUE_OPTIONAL, 'New name of the organization folder')
 			->addOption('quota', null, InputOption::VALUE_OPTIONAL, 'New storage quota of the organization folder')
 			->addOption('organization-provider', null, InputOption::VALUE_OPTIONAL, 'New organization provider of the organization this folder will be part of')
-			->addOption('organization-id', null, InputOption::VALUE_OPTIONAL, 'New Organization id of the organization this folder will be part of');
+			->addOption('organization-id', null, InputOption::VALUE_OPTIONAL, 'New organization ID of the organization this folder will be part of')
+			->addOption('service-account-uid', null, InputOption::VALUE_OPTIONAL, 'New service account UID');
 		parent::configure();
 	}
 
@@ -28,6 +29,7 @@ class UpdateOrganizationFolder extends BaseCommand {
 		$name = $input->getOption('name');
 		$quota = $input->getOption('quota');
 		$organizationProviderId = $input->getOption('organization-provider');
+		$serviceAccountUid = $input->getOption('service-account-uid');
 
 		if(ctype_digit($input->getOption('organization-id'))) {
 			$organizationId = (int)$input->getOption('organization-id');
@@ -42,6 +44,7 @@ class UpdateOrganizationFolder extends BaseCommand {
 				quota: $quota,
 				organizationProviderId: $organizationProviderId,
 				organizationId: $organizationId,
+				serviceAccountUid: $serviceAccountUid,
 			);
 
 			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($organizationFolder)]);

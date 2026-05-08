@@ -14,14 +14,11 @@ class CreateResource extends BaseCommand {
 		$this
 			->setName('organization-folders:resources:create')
 			->setDescription('Create a new resource in organization folder')
-			->addOption('organization-folder', null, InputOption::VALUE_REQUIRED, 'Id of organization folder to create resource in')
-			->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of resource (valid values: folder)')
+			->addOption('organization-folder', null, InputOption::VALUE_REQUIRED, 'ID of organization folder to create resource in')
+			->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of resource (valid values: folder, calendar)')
 			->addOption('name', null, InputOption::VALUE_REQUIRED, 'Name of resource')
-			->addOption('parent-resource', null, InputOption::VALUE_OPTIONAL, 'Id of parent resource (leave out if creating at top level in organization folder)')
-			->addOption('inherit-managers', null, InputOption::VALUE_REQUIRED, 'Wether managers of the parent level (parent resource or organization folder for top level resources) should have management permissions');
-
-		// folder type options
-		$this
+			->addOption('parent-resource', null, InputOption::VALUE_OPTIONAL, 'ID of parent resource (leave out if creating at top level in organization folder)')
+			->addOption('inherit-managers', null, InputOption::VALUE_REQUIRED, 'Wether managers of the parent level (parent resource or organization folder for top level resources) should have management permissions')
 			->addOption('member-permissions', null, InputOption::VALUE_OPTIONAL, 'acl permissions for members of resource')
 			->addOption('manager-permissions', null, InputOption::VALUE_OPTIONAL, 'acl permissions for managers of resource')
 			->addOption('inherited-member-permissions', null, InputOption::VALUE_OPTIONAL, 'acl permissions for users with access to the resource level above (or organization in case resource is top-level)');
@@ -48,7 +45,6 @@ class CreateResource extends BaseCommand {
 				parentResourceId: $parentResource,
 				active: true,
 				inheritManagers : $inheritManagers,
-
 				memberPermissionsBitfield: $memberPermissionsBitfield,
 				managerPermissionsBitfield: $managerPermissionsBitfield,
 				inheritedMemberPermissionsBitfield: $inheritedMemberPermissionsBitfield,
