@@ -18,6 +18,7 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		private readonly int $rootNodeFileId,
 		private ?string $organizationProvider = null,
 		private ?int $organizationId = null,
+		private ?string $serviceAccountUid = null,
 	) {
 	}
 
@@ -49,6 +50,10 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		return $this->organizationId;
 	}
 
+	public function getServiceAccountUid(): ?string {
+		return $this->serviceAccountUid;
+	}
+
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
@@ -77,6 +82,7 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'Quota' => $this->quota,
 			'Organization Provider ID' => $this->organizationProvider,
 			'Organization ID' => $this->organizationId,
+			'Service Account UID' => $this->serviceAccountUid,
 		];
 	}
 }
