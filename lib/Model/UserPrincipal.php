@@ -66,6 +66,10 @@ class UserPrincipal extends Principal {
 		}
 	}
 
+	public function toDavPrincipalURI(): string {
+		return "principals/users/" . $this->id;
+	}
+
 	public function isEquivalent(Principal $principal): bool {
 		if($this->isValid() && $principal->isValid()) {
 			if($principal instanceof UserPrincipal) {

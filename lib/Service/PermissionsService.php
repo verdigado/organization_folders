@@ -53,8 +53,8 @@ class PermissionsService {
 	 * @param Resource $resource
 	 * @param InheritedPrincipal[] $inheritedMemberPrincipals
 	 * @param InheritedPrincipal[] $inheritedManagerPrincipals
-	 * @param ResourceMember $resourceMembers
-	 * @param ResourceMember $resourceManagers
+	 * @param ResourceMember[] $resourceMembers
+	 * @param ResourceMember[] $resourceManagers
 	 * @param bool $implicitlyDeactivated
 	 * @return array{ permissionsList: ResourcePermissionsList, nextInheritedMemberPrincipals: InheritedPrincipal[], nextInheritedManagerPrincipals: InheritedPrincipal[], nextImplicitlyDeactivated: bool }
 	 */

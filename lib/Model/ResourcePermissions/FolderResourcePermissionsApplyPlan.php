@@ -15,13 +15,13 @@ use OCA\OrganizationFolders\Model\GroupfolderACLsUpdatePlan;
 
 class FolderResourcePermissionsApplyPlan extends ResourcePermissionsApplyPlan {
 	public function __construct(
-		protected readonly ACLManager $aclManager,
-		protected readonly IGroupManager $groupManager,
+		private readonly ACLManager $aclManager,
+		private readonly IGroupManager $groupManager,
 		private readonly FolderResource $resource,
 		private readonly GroupfolderACLsUpdatePlan $groupfolderACLsUpdatePlan,
 	){}
 
-	function getResource(): Resource {
+	function getResource(): FolderResource {
 		return $this->resource;
 	}
 
