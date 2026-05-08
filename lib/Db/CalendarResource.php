@@ -10,6 +10,10 @@ class CalendarResource extends Resource {
 
 	public const PERMISSION_KEYS = ["READ", "UPDATE"];
 
+	public const PERMISSION_READ = 1;
+	
+	public const PERMISSION_UPDATE = 2;
+
 	public function __construct() {
 		parent::__construct();
 		$this->addType('calendarId', Types::INTEGER);
@@ -17,6 +21,10 @@ class CalendarResource extends Resource {
 
     public function getType(): string {
 		return "calendar";
+	}
+
+	public function getCalendarId(): int {
+		return $this->calendarId;
 	}
 
 	public static function fromRow(array $row): static {

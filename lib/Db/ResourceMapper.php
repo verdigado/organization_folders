@@ -302,6 +302,9 @@ class ResourceMapper extends QBMapper {
 		if($entity->getType() === "folder") {
 			$typeSpecificTable = self::FOLDER_RESOURCES_TABLE;
 			$updatedTypeSpecificProperties = array_intersect(self::updateableFolderResourceProperties, $updatedProperties);
+		} else if($entity->getType() === "calendar") {
+			$typeSpecificTable = self::CALENDAR_RESOURCES_TABLE;
+			$updatedTypeSpecificProperties = array_intersect(self::updateableCalendarResourceProperties, $updatedProperties);
 		} else {
 			throw new InvalidResourceType($entity->getType());
 		}

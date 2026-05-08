@@ -10,6 +10,17 @@ class FolderResource extends Resource {
 
 	public const PERMISSION_KEYS = ["READ", "UPDATE", "CREATE", "DELETE", "SHARE"];
 
+	public const PERMISSION_READ = 1;
+
+	public const PERMISSION_UPDATE = 2;
+
+	public const PERMISSION_CREATE = 4;
+
+	public const PERMISSION_DELETE = 8;
+
+	public const PERMISSION_SHARE = 16;
+
+
 	public function __construct() {
 		parent::__construct();
 		$this->addType('fileId', Types::INTEGER);
@@ -17,6 +28,10 @@ class FolderResource extends Resource {
 
 	public function getType(): string {
 		return "folder";
+	}
+
+	public function getFileId(): int {
+		return $this->fileId;
 	}
 
 	public static function fromRow(array $row): static {
