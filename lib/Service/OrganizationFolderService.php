@@ -300,7 +300,9 @@ class OrganizationFolderService {
 
 		[$memberPrincipals, $managerPrincipals] = $this->getMemberAndManagerPrincipals($organizationFolder);
 
-		$changes += $this->refreshGroupfolderMembers($organizationFolder, $memberPrincipals, $managerPrincipals);
+		$groupfolderMemberChanges = $this->refreshGroupfolderMembers($organizationFolder, $memberPrincipals, $managerPrincipals);
+
+		$changes += count($groupfolderMemberChanges["created"]) + count($groupfolderMemberChanges["updated"]) + count($groupfolderMemberChanges["removed"]);
 
 		/** @var PermissionsService */
 		$permissionsService = $this->container->get(PermissionsService::class);
