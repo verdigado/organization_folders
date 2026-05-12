@@ -20,6 +20,8 @@ class FolderResource extends Resource {
 
 	public const PERMISSION_SHARE = 16;
 
+	protected const PERMISSIONS_BITFIELD_MAX = 31; // precalculation of pow(2, count(static::PERMISSION_KEYS)) - 1
+
 
 	public function __construct() {
 		parent::__construct();

@@ -54,6 +54,19 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 		return $this->serviceAccountUid;
 	}
 
+	/**
+	 * @return string[]
+	 */
+	public function getEnabledResourceTypes(): array {
+		// TODO: currently all available types are enabled, add configuration options to organization folders for this
+
+		if(is_null($this->serviceAccountUid)) {
+			return ["folder"];
+		}
+
+		return ["folder", "calendar"];
+	}
+
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
@@ -61,10 +74,11 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'quota' => $this->quota,
 			'organizationProviderId' => $this->organizationProvider,
 			'organizationId' => $this->organizationId,
+			'serviceAccountUid' => $this->serviceAccountUid,
+			'enabledResourceTypes' => $this->getEnabledResourceTypes(),
 		];
 	}
 
-	// currently no different than non-limited
 	public function limitedJsonSerialize(): array {
 		return [
 			'id' => $this->id,
@@ -72,6 +86,7 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'quota' => $this->quota,
 			'organizationProviderId' => $this->organizationProvider,
 			'organizationId' => $this->organizationId,
+			'enabledResourceTypes' => $this->getEnabledResourceTypes(),
 		];
 	}
 

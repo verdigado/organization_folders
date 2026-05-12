@@ -3,7 +3,9 @@
 namespace OCA\OrganizationFolders\Db;
 
 use JsonSerializable;
+
 use OCA\OrganizationFolders\Interface\TableSerializable;
+use OCA\OrganizationFolders\Errors\Api\ResourcePermissionsBitfieldInvalid;
 
 use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
@@ -26,6 +28,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 
 	/* Set by child-classes */
 	public const PERMISSION_KEYS = [];
+	protected const PERMISSIONS_BITFIELD_MAX = 0;
 	
 	public function __construct() {
 		$this->addType('organizationFolderId', Types::INTEGER);
@@ -99,6 +102,48 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 
 	public function getInheritedMemberPermissionsBitfield(): int {
 		return $this->inheritedMemberPermissionsBitfield;
+	}
+
+	private function ensurePermissionsBitfieldValid(int $bitfield): void {
+		if($bitfield < 0 || $bitfield > static::PERMISSIONS_BITFIELD_MAX) {
+			throw new ResourcePermissionsBitfieldInvalid($bitfield, 0, static::PERMISSIONS_BITFIELD_MAX);
+		}
+	}
+
+	public function setMemberPermissionsBitfield(int $bitfield) {
+		$this->ensurePermissionsBitfieldValid($bitfield);
+
+		if ($bitfield === $this->memberPermissionsBitfield) {
+			// no change
+			return;
+		}
+
+		$this->markFieldUpdated("memberPermissionsBitfield");
+		$this->memberPermissionsBitfield = $bitfield;
+	}
+
+	public function setManagerPermissionsBitfield(int $bitfield) {
+		$this->ensurePermissionsBitfieldValid($bitfield);
+
+		if ($bitfield === $this->managerPermissionsBitfield) {
+			// no change
+			return;
+		}
+
+		$this->markFieldUpdated("managerPermissionsBitfield");
+		$this->managerPermissionsBitfield = $bitfield;
+	}
+
+	public function setInheritedMemberPermissionsBitfield(int $bitfield) {
+		$this->ensurePermissionsBitfieldValid($bitfield);
+
+		if ($bitfield === $this->inheritedMemberPermissionsBitfield) {
+			// no change
+			return;
+		}
+
+		$this->markFieldUpdated("inheritedMemberPermissionsBitfield");
+		$this->inheritedMemberPermissionsBitfield = $bitfield;
 	}
 
 	/**
