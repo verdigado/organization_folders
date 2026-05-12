@@ -8,6 +8,8 @@ use OCP\IDBConnection;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\AppFramework\Db\TTransactional;
 
+use Sabre\DAV\PropPatch;
+
 use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\OrganizationFolders\Model\CalendarShareList;
@@ -30,6 +32,10 @@ use OCA\OrganizationFolders\Model\CalendarSharesUpdatePlan;
 class CalendarIntegration {
 	use TTransactional;
 
+	private const PROPERTY_DISPLAYNAME = "{DAV:}displayname";
+
+	private const PROPERTY_DESCRIPTION = "{urn:ietf:params:xml:ns:caldav}calendar-description";
+
 	public function __construct(
 		private readonly CalDavBackend $calDavBackend,
 		private readonly Service $sharingService,
@@ -43,8 +49,45 @@ class CalendarIntegration {
 		return $this->calDavBackend->getCalendarById($calendarId);
 	}
 
+/**
+	 * @psalm-return CalendarInfo
+	 */
+	public function createCalendar(string $principalUri, string $calendarUri, string $displayname, string $description = ""): array {
+		$calendarId = $this->calDavBackend->createCalendar(
+			$principalUri,
+			$calendarUri,
+			[
+				self::PROPERTY_DISPLAYNAME => $displayname,
+				self::PROPERTY_DESCRIPTION => $description,
+			],
+		);
+
+		return $this->calDavBackend->getCalendarById($calendarId);
+	}
+
+	public function updateCalendar(int $calendarId, ?string $displayname = null, ?string $description = null): void {
+		$mutations = [];
+
+		if(isset($displayname)) {
+			$mutations[self::PROPERTY_DISPLAYNAME] = $displayname;
+		}
+
+		if(isset($description)) {
+			$mutations[self::PROPERTY_DESCRIPTION] = $description;
+		}
+
+		if(!count($mutations) != 0) {
+			$propPatch = new PropPatch($mutations);
+			$this->calDavBackend->updateCalendar($calendarId, $propPatch);
+		}
+	}
+
+	public function deleteCalendar(int $calendarId): void {
+		$this->calDavBackend->deleteCalendar($calendarId);
+	}
+
 	/**
-	 * Get all shares of a calenar (includes unshares) (does not include link shares)
+	 * Get all shares of a calendar (includes unshares) (does not include link shares)
 	 * @param int $calendarId
 	 * @return array{id: int, principaluri: string, access: int}[]
 	 */
@@ -64,7 +107,7 @@ class CalendarIntegration {
 	}
 
 	/**
-	 * If it exists get the link share of a calenar
+	 * If it exists get the link share of a calendar
 	 * @param int $calendarId
 	 * @return array{id: int, publicuri: string}[]
 	 */

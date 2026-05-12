@@ -38,8 +38,10 @@ use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeMovedIntoADifferentOrgani
 use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeMovedIntoASubResource;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Errors\Api\PrincipalInvalid;
+use OCA\OrganizationFolders\Errors\Api\ResourceTypeNotEnabled;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Integration\Dav\CalendarIntegration;
 
 class ResourceService {
 	use TTransactional;
@@ -55,6 +57,7 @@ class ResourceService {
 		protected readonly ContainerInterface $container,
 		protected readonly PrincipalFactory $principalFactory,
 		protected readonly ResourcePermissionsApplyPlanFactory $resourcePermissionsApplyPlanFactory,
+		protected readonly CalendarIntegration $calendarIntegration,
 	) {
 	}
 
@@ -226,6 +229,13 @@ class ResourceService {
 	/**
 	 * Use named arguments to call this function!
 	 * 
+	 * @param bool $alreadyExists special mode, that for type = "folder" uses an existing folder with the resource name
+	 *                            and for type = "calendar" uses an existing calendar with the given id $existingCalendarId
+	 * 
+	 * @param ?string $calendarUri special mode only for type = "calendar" to use a specific calendar URI instead of generating one
+	 * 
+	 * @param ?bool $skipPermssionsApply Do not apply permissions after making changes
+	 * 
 	 * @throws InvalidResourceType
 	 * @throws InvalidResourceName
 	 * @throws ResourceDoesNotSupportSubresources
@@ -236,19 +246,27 @@ class ResourceService {
 		string $type,
 		int $organizationFolderId,
 		string $name,
-		?int $parentResourceId = null,
-		bool $active = true,
-		bool $inheritManagers = true,
+		?int $parentResourceId,
+		bool $active,
+		bool $inheritManagers,
+		int $memberPermissionsBitfield,
+		int $managerPermissionsBitfield,
+		int $inheritedMemberPermissionsBitfield,
+		?string $createdFromTemplateId = null,
 
-		?int $memberPermissionsBitfield = null,
-		?int $managerPermissionsBitfield = null,
-		?int $inheritedMemberPermissionsBitfield = null,
-		// special mode only applicable if type = "folder", that uses an existing folder with the resource name 
-		?bool $folderAlreadyExists = false,
+		bool $alreadyExists = false,
+		?int $existingCalendarId = null,
+
+		?string $calendarUri = null,
 
 		?bool $skipPermssionsApply = false,
-		?string $createdFromTemplateId = null,
 	) {
+		$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+
+		if(!in_array($type, $organizationFolder->getEnabledResourceTypes())) {
+			throw new ResourceTypeNotEnabled($organizationFolder, $type);
+		}
+
 		if($type === "folder") {
 			$resource = new FolderResource();
 		} else if ($type === "calendar") {
@@ -266,6 +284,9 @@ class ResourceService {
 			$resource->setName($name);
 			$resource->setActive($active);
 			$resource->setInheritManagers($inheritManagers);
+			$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
+			$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
+			$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
 			$resource->setCreatedTimestamp(time());
 			$resource->setLastUpdatedTimestamp(time());
 			$resource->setCreatedFromTemplateId($createdFromTemplateId);
@@ -289,15 +310,7 @@ class ResourceService {
 			}
 
 			if($type === "folder") {
-				if(!isset($memberPermissionsBitfield, $managerPermissionsBitfield, $inheritedMemberPermissionsBitfield)) {
-					throw new \InvalidArgumentException("Folder specific parameters must be included, when creating a resource of type folder");
-				}
-
-				$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
-				$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
-				$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
-
-				if($folderAlreadyExists) {
+				if($alreadyExists) {
 					$resourceNode = $parentNode->get($name);
 
 					if(!(isset($resourceNode) && $resourceNode instanceof Folder)) {
@@ -318,14 +331,41 @@ class ResourceService {
 				}
 
 				$resource->setFileId($fileId);
+			} else if ($type === "calendar") {
+				if($alreadyExists) {
+					$calendar = $this->calendarIntegration->getCalendarById($existingCalendarId);
+
+					if(!isset($calendar)) {
+						throw new Exception("Existing calendar not found");
+					}
+
+					if($calendar['principaluri'] !== "principals/users/" . $organizationFolder->getServiceAccountUid()) {
+						throw new Exception("Existing calendar needs to be owned by organization folder service account");
+					}
+
+					$this->calendarIntegration->updateCalendar($calendar["id"], displayname: $name, description: "");
+				} else {
+					$calendar = $this->calendarIntegration->createCalendar(
+						principalUri: "principals/users/" . $organizationFolder->getServiceAccountUid(),
+						calendarUri: $calendarUri ?? hash('sha256', $name . "_" . time()),
+						displayname: $name,
+						description: "",
+					);
+				}
+
+				$resource->setCalendarId($calendar["id"]);
 			}
 
 			try {
 				$resource = $this->mapper->insert($resource);
 			} catch (\Throwable $e) {
 				// an error occured, rewind all changes, depending on resource type
-				if($type === "folder" && !$folderAlreadyExists) {
-					$resourceNode?->delete();
+				if(!$alreadyExists) {
+					if($type === "folder") {
+						$resourceNode?->delete();
+					} else if ($type === "calendar") {
+						$this->calendarIntegration->deleteCalendar($calendar["id"]);
+					}
 				}
 				throw $e;
 			}
@@ -363,20 +403,16 @@ class ResourceService {
 			$resource->setInheritManagers($inheritManagers);
 		}
 
-		if($resource->getType() === "folder") {
-			if(isset($memberPermissionsBitfield)) {
-				$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
-			}
+		if(isset($memberPermissionsBitfield)) {
+			$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
+		}
 
-			if(isset($managerPermissionsBitfield)) {
-				$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
-			}
+		if(isset($managerPermissionsBitfield)) {
+			$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
+		}
 
-			if(isset($inheritedMemberPermissionsBitfield)) {
-				$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
-			}
-		}  else {
-			throw new InvalidResourceType($resource->getType());
+		if(isset($inheritedMemberPermissionsBitfield)) {
+			$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
 		}
 
 		if(count($resource->getUpdatedFields()) > 0) {
@@ -656,11 +692,13 @@ class ResourceService {
 			organizationFolderId: $resource->getOrganizationFolderId(),
 			name: $unmanagedSubfolderName,
 			parentResourceId: $resource->getId(),
+			active: true,
+			inheritManagers: true,
 			// match current permissions in subfolder
 			inheritedMemberPermissionsBitfield: $resource->getMemberPermissionsBitfield(), // Members in parent resource will be inherited members in new resource
 			memberPermissionsBitfield: $resource->getMemberPermissionsBitfield(),
 			managerPermissionsBitfield: $resource->getManagerPermissionsBitfield(),
-			folderAlreadyExists: true,
+			alreadyExists: true,
 		);
 	}
 

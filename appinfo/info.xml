@@ -56,6 +56,7 @@ To install follow these instructions: https://github.com/verdigado/organization_
 		<command>OCA\OrganizationFolders\Command\OrganizationFolderMember\DeleteOrganizationFolderMember</command>
 		<command>OCA\OrganizationFolders\Command\Resource\CreateResource</command>
 		<command>OCA\OrganizationFolders\Command\Resource\CreateResourceFromTemplate</command>
+		<command>OCA\OrganizationFolders\Command\Resource\ImportCalendar</command>
 		<command>OCA\OrganizationFolders\Command\Resource\ListResources</command>
 		<command>OCA\OrganizationFolders\Command\Resource\UpdateResource</command>
 		<command>OCA\OrganizationFolders\Command\Resource\DeleteResource</command>
