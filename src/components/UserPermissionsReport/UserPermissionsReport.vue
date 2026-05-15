@@ -27,7 +27,7 @@ import Alert from "vue-material-design-icons/Alert.vue";
 import UserPermissionsReportItem from "./UserPermissionsReportItem.vue";
 import PermissionsIcon from "../PermissionsIcon.vue";
 
-import { calcBits } from "../../helpers/permission-helpers.js";
+import api from '../../api.js';
 
 const props = defineProps({
 	resource: {
@@ -40,29 +40,21 @@ const props = defineProps({
 	},
 });
 
-const calculatedOverallPermissions = computed(() => {
-	return calcBits(props.userPermissionsReport.overallPermissionsBitmap, 31);
-});
-
 </script>
 
 <template>
-	<div class="container">
+	<div class="container" :style="{ '--permissions-columns': api.RessourcePermissionKeysByType[resource.type].length }">
 		<p class="explanation">{{ t("organization_folders", "This person has the following permissions:")}}</p>
 		<table class="overallPermissionsTable">
 			<tr class="header">
-				<td>{{ t("organization_folders", "Read") }}</td>
-				<td>{{ t("organization_folders", "Write") }}</td>
-				<td>{{ t("organization_folders", "Create") }}</td>
-				<td>{{ t("organization_folders", "Delete") }}</td>
-				<td>{{ t("organization_folders", "Share") }}</td>
+				<td v-for="permissionKeyLabel in api.RessourcePermissionKeyLabelsByType[resource.type]" style="text-align: center;">
+					{{ permissionKeyLabel }}
+				</td>
 			</tr>
 			<tr class="noRowBorder">
-				<td><PermissionsIcon :granted="calculatedOverallPermissions?.READ?.value" /></td>
-				<td><PermissionsIcon :granted="calculatedOverallPermissions?.UPDATE?.value" /></td>
-				<td><PermissionsIcon :granted="calculatedOverallPermissions?.CREATE?.value" /></td>
-				<td><PermissionsIcon :granted="calculatedOverallPermissions?.DELETE?.value" /></td>
-				<td><PermissionsIcon :granted="calculatedOverallPermissions?.SHARE?.value" /></td>
+				<td v-for="permissionKey in api.RessourcePermissionKeysByType[resource.type]">
+					<PermissionsIcon :granted="userPermissionsReport.overallPermissions?.[permissionKey]" />
+				</td>
 			</tr>
 		</table>
 
@@ -76,20 +68,18 @@ const calculatedOverallPermissions = computed(() => {
 		<template v-if="userPermissionsReport.applicablePermissions.length > 0">
 			<p class="explanation">{{ t("organization_folders", "The following are the sources of those permissions:")}}</p>
 			<table class="applicablePermissionsTable">
-					<tr class="header">
-							<td></td>
-							<td></td>
-							<td></td>
-							<td>{{ t("organization_folders", "Read") }}</td>
-							<td>{{ t("organization_folders", "Write") }}</td>
-							<td>{{ t("organization_folders", "Create") }}</td>
-							<td>{{ t("organization_folders", "Delete") }}</td>
-							<td>{{ t("organization_folders", "Share") }}</td>
-					</tr>
-					<UserPermissionsReportItem v-for="(applicablePermission, index) in userPermissionsReport.applicablePermissions"
-						:key="index"
-						:resource="resource"
-						:item="applicablePermission" />
+				<tr class="header">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td v-for="permissionKeyLabel in api.RessourcePermissionKeyLabelsByType[resource.type]" style="text-align: center;">
+						{{ permissionKeyLabel }}
+					</td>
+				</tr>
+				<UserPermissionsReportItem v-for="(applicablePermission, index) in userPermissionsReport.applicablePermissions"
+					:key="index"
+					:resource="resource"
+					:item="applicablePermission" />
 			</table>
 		</template>
 	</div>
@@ -114,7 +104,7 @@ const calculatedOverallPermissions = computed(() => {
 
 		&.overallPermissionsTable {
 			width: max-content;
-			grid-template-columns: repeat(5, minmax(max-content, 1fr));
+			grid-template-columns: repeat(var(--permissions-columns), 1fr);
 		}
 
 		&.warningsTable {
@@ -125,7 +115,7 @@ const calculatedOverallPermissions = computed(() => {
 
 		&.applicablePermissionsTable {
 			width: 100%;
-			grid-template-columns: max-content 5px minmax(30px, 10fr) repeat(5, minmax(max-content, 1fr));
+			grid-template-columns: max-content 5px minmax(30px, 12fr) repeat(var(--permissions-columns), minmax(max-content, 1fr));
 		}
 
 		:deep(tr) {

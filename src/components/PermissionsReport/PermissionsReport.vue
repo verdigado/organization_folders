@@ -51,17 +51,16 @@ const emptyContentText = computed(() => {
 
 <template>
 	<div class="ignoreForLayout">
-		<table v-if="permissionsReport.length > 0">
+		<table v-if="permissionsReport.length > 0"
+			:style="{ '--permissions-columns': api.RessourcePermissionKeysByType[resource.type].length }">
 			<tr class="header">
 					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>
-					<td>{{ t("organization_folders", "Read") }}</td>
-					<td>{{ t("organization_folders", "Write") }}</td>
-					<td>{{ t("organization_folders", "Create") }}</td>
-					<td>{{ t("organization_folders", "Delete") }}</td>
-					<td>{{ t("organization_folders", "Share") }}</td>
+					<td v-for="permissionKeyLabel in api.RessourcePermissionKeyLabelsByType[resource.type]" style="text-align: center;">
+						{{ permissionKeyLabel }}
+					</td>
 					<td></td>
 			</tr>
 			<PermissionsReportItem v-for="(permissionsReportItem, index) in permissionsReport"
@@ -82,7 +81,7 @@ table {
 	width: 100%;
 	margin-bottom: 14px;
 	display: grid;
-	grid-template-columns: max-content 5px minmax(30px, 5fr) max-content repeat(5, minmax(max-content, 1fr)) max-content;
+	grid-template-columns: max-content 5px minmax(30px, 10fr) max-content repeat(var(--permissions-columns), 1fr) max-content;
 
 	tr.header {
 		display: contents;
