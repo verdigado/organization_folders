@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 import NcDialog from "@nextcloud/vue/components/NcDialog";
 import NcButton from "@nextcloud/vue/components/NcButton";
@@ -33,6 +33,16 @@ const loading = ref(false);
 
 const currentPickedResource = ref(null);
 
+const moveResourceText = computed(() => {
+	if(props.resource.value?.type === api.ResourceTypes.FOLDER) {
+		return t("organization_folders", "Move folder");
+	} else if(props.resource.value?.type === api.ResourceTypes.CALENDAR) {
+		return t("organization_folders", "Move calendar");
+	} else {
+		return "";
+	}
+});
+
 const resourcePicked = (resource) => {
 	currentPickedResource.value = resource;
 };
@@ -57,7 +67,7 @@ const dialogConfirm = () => {
 
 <template>
 	<NcDialog :open="open"
-		:name="t('organization_folders', 'Move Resource')"
+		:name="moveResourceText"
 		size="large"
 		@update:open="updateOpen">
 		<ResourcePicker :organization-folder="organizationFolder"

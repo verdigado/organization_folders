@@ -74,6 +74,61 @@ var RessourcePermissionKeysByType = {
 	calendar: ["READ", "UPDATE"],
 }
 
+var RessourcePermissionKeyLabelsByType = {
+	folder: [
+		// TRANSLATORS Read permission checkbox title
+		t("organization_folders", "Read"),
+		// TRANSLATORS Write permission checkbox title
+		t("organization_folders", "Write"),
+		// TRANSLATORS Create permission checkbox title
+		t("organization_folders", "Create"),
+		// TRANSLATORS Delete permission checkbox title
+		t("organization_folders", "Delete"),
+		// TRANSLATORS Share permission checkbox title
+		t("organization_folders", "Share"),
+	],
+	calendar: [
+		// TRANSLATORS Read permission checkbox title
+		t("organization_folders", "Read"),
+		// TRANSLATORS Write permission checkbox title
+		t("organization_folders", "Write"),
+	],
+}
+
+var SubresourceSupportByType = {
+	folder: true,
+}
+
+var SnapshotsSupportByType = {
+	folder: true,
+}
+
+var ResourceDefaultPermissionsByType = {
+	folder: {
+		memberPermissions: {
+			READ: true,
+		},
+		managerPermissions: {
+			READ: true,
+			UPDATE: true,
+			CREATE: true,
+			DELETE: true,
+			SHARE: false,
+		},
+		inheritedMemberPermissions: {},
+	},
+	calendar: {
+		memberPermissions: {
+			READ: true,
+		},
+		managerPermissions: {
+			READ: true,
+			UPDATE: true,
+		},
+		inheritedMemberPermissions: {},
+	},
+}
+
 /**
  * @typedef {{
  * id: string
@@ -86,6 +141,8 @@ var RessourcePermissionKeysByType = {
  * quota: number
  * organizationProviderId: string|undefined
  * organizationId: number
+ * serviceAccountUid: string
+ * enabledResourceTypes: string[]
  * members: Array<OrganizationFolderMember>|undefined
  * resources: Array<Resource>|undefined
  * }} OrganizationFolder
@@ -201,6 +258,11 @@ export default {
 	ResourceMemberPermissionLevels,
 	ResourceTypes,
 	PermissionOriginTypes,
+	RessourcePermissionKeysByType,
+	RessourcePermissionKeyLabelsByType,
+	SubresourceSupportByType,
+	SnapshotsSupportByType,
+	ResourceDefaultPermissionsByType,
 
 	/* Organization Folders */
 
@@ -345,9 +407,9 @@ export default {
 	 *   name: string|undefined
 	 *   active: boolean|undefined
 	 *   inheritManagers: boolean|undefined
-	 *   memberPermissionsBitfield: number|undefined
-	 *   managerPermissionsBitfield: number|undefined
-	 *   inheritedMemberPermissionsBitfield: number|undefined
+	 *   memberPermissions: FolderRessourcePermissions|CalendarRessourcePermissions|undefined
+	 *   managerPermissions: FolderRessourcePermissions|CalendarRessourcePermissions|undefined
+	 *   inheritedMemberPermissions: FolderRessourcePermissions|CalendarRessourcePermissions|undefined
 	 * }} updateResourceDto UpdateResourceDto
 	 * @param {string} include
 	 * @param {string} cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove
@@ -394,9 +456,9 @@ export default {
 	 * active: bool
 	 * inheritManagers: bool
 	 *
-	 * memberPermissionsBitfield: number|undefined
-	 * managerPermissionsBitfield: number|undefined
-	 * inheritedMemberPermissionsBitfield: number|undefined
+	 * memberPermissions: FolderRessourcePermissions|CalendarRessourcePermissions
+	 * managerPermissions: FolderRessourcePermissions|CalendarRessourcePermissions
+	 * inheritedMemberPermissions: FolderRessourcePermissions|CalendarRessourcePermissions
 	 * }} createResourceDto CreateResourceDto
 	 * @param string include
 	 * @return {Promise<Resource>}

@@ -26,7 +26,7 @@ import Principal from "../Principal.vue";
 import PrincipalAvatar from "../PrincipalAvatar.vue";
 import PermissionsIcon from "../PermissionsIcon.vue";
 
-import { calcBits } from "../../helpers/permission-helpers.js";
+import api from '../../api.js';
 
 const props = defineProps({
 	resource: {
@@ -37,10 +37,6 @@ const props = defineProps({
 		type: Object,
 		required: true,
 	},
-});
-
-const calculatedPermissions = computed(() => {
-	return calcBits(props.item.permissionsBitmap, 31);
 });
 
 </script>
@@ -54,10 +50,8 @@ const calculatedPermissions = computed(() => {
 		<td>
 			<Principal :principal="item.principal" />
 		</td>
-		<td><PermissionsIcon :granted="calculatedPermissions?.READ?.value" /></td>
-		<td><PermissionsIcon :granted="calculatedPermissions?.UPDATE?.value" /></td>
-		<td><PermissionsIcon :granted="calculatedPermissions?.CREATE?.value" /></td>
-		<td><PermissionsIcon :granted="calculatedPermissions?.DELETE?.value" /></td>
-		<td><PermissionsIcon :granted="calculatedPermissions?.SHARE?.value" /></td>
+		<td v-for="permissionKey in api.RessourcePermissionKeysByType[resource.type]">
+			<PermissionsIcon :granted="item.permissions?.[permissionKey]" />
+		</td>
 	</tr>
 </template>

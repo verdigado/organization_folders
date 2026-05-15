@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import PermissionsInputRow from "./PermissionsInputRow.vue";
+import api from "../../api.js";
 
 const props = defineProps({
 	organizationFolder: {
@@ -20,40 +21,37 @@ const locked = ref(false);
 const permissionGroups = computed(() => {
   return [
 	{
-		field: "managerPermissionsBitfield",
-		label: t("organization_folders", "Folder Managers"),
+		field: "managerPermissions",
+		label: props.resource.type === api.ResourceTypes.FOLDER ? t("organization_folders", "Folder Managers") : t("organization_folders", "Calendar Managers"),
 		explanation: props.resource.inheritManagers ?
 			t("organization_folders", "These permissions apply to any member added in the next section with the manager permission level and any manager inherited from the level above") :
 			t("organization_folders", "These permissions apply to any member added in the next section with the manager permission level"),
-		value: props.resource.managerPermissionsBitfield,
-		mask: 31,
+		value: props.resource.managerPermissions,
 	},
 	{
-		field: "memberPermissionsBitfield",
-		label: t("organization_folders", "Folder Members"),
+		field: "memberPermissions",
+		label: props.resource.type === api.ResourceTypes.FOLDER ? t("organization_folders", "Folder Members"): t("organization_folders", "Calendar Members"),
 		explanation: t("organization_folders", "These permissions apply to any member added in the next section with the member permission level"),
-		value: props.resource.memberPermissionsBitfield,
-		mask: 31,
+		value: props.resource.memberPermissions,
 	},
 	{
-		field: "inheritedMemberPermissionsBitfield",
+		field: "inheritedMemberPermissions",
 		label: props.resource.parentResourceId ?
 			t("organization_folders", "Members of \"{parentResourceName}\"", { parentResourceName: props.resource?.parentResource?.name }) :
 			t("organization_folders", "Organization Folder Members"),
 		explanation: props.resource.parentResourceId ?
 			t("organization_folders", "These permissions apply to anyone, that has at least read access to the parent folder \"{parentResourceName}\". If no permissions are selected here members from the parent folder won't have access to this folder unless they are explicitly added as a member to this folder.", { parentResourceName: props.resource.parentResource.name }) :
 			t("organization_folders", "These permissions apply to anyone, that is a member of the organization folder \"{organizationFolderName}\".", { organizationFolderName: props.organizationFolder.name }),
-		value: props.resource.inheritedMemberPermissionsBitfield,
-		mask: 31,
+		value: props.resource.inheritedMemberPermissions,
 	},
   ]
 });
 
-const permissionUpdated = async (field, value, callback) => {
+const permissionUpdated = async (field, patch, callback) => {
 	locked.value = true;
 	emit("permissionUpdated", {
 		field,
-		value,
+		patch,
 		callback: () => {
 			callback();
 			locked.value = false;
@@ -64,42 +62,24 @@ const permissionUpdated = async (field, value, callback) => {
 </script>
 
 <template>
-	<table>
+	<table :style="{ '--permissions-columns': api.RessourcePermissionKeysByType[props.resource.type].length }">
 		<thead class="ignoreForLayout">
 			<tr>
 				<th />
 				<th />
-				<!-- TRANSLATORS Folder read permissions checkbox title -->
-				<th>
-					{{ t("organization_folders", "Read") }}
-				</th>
-				<!-- TRANSLATORS Folder write permissions checkbox title -->
-				<th>
-					{{ t("organization_folders", "Write") }}
-				</th>
-				<!-- TRANSLATORS Folder create permissions checkbox title -->
-				<th>
-					{{ t("organization_folders", "Create") }}
-				</th>
-				<!-- TRANSLATORS Folder delete permissions checkbox title -->
-				<th>
-					{{ t("organization_folders", "Delete") }}
-				</th>
-				<!-- TRANSLATORS Folder share permissions checkbox title -->
-				<th>
-					{{ t("organization_folders", "Share") }}
+				<th v-for="permissionKeyLabel in api.RessourcePermissionKeyLabelsByType[props.resource.type]">
+					{{ permissionKeyLabel }}
 				</th>
 			</tr>
 		</thead>
 		<tbody class="ignoreForLayout">
-			<PermissionsInputRow v-for="{ field, label, explanation, mask, value } in permissionGroups"
+			<PermissionsInputRow v-for="{ field, label, explanation, value } in permissionGroups"
 				:key="field"
 				:locked="locked"
 				:label="label"
 				:explanation="explanation"
-				:mask="mask"
 				:value="value"
-				@change="(val, callback) => permissionUpdated(field, val, callback)" />
+				@change="(patch, callback) => permissionUpdated(field, patch, callback)" />
 		</tbody>
 	</table>
 </template>
@@ -109,7 +89,7 @@ table {
 	width: 100%;
 	margin-bottom: 14px;
 	display: grid;
-	grid-template-columns: max-content 7fr repeat(5, minmax(max-content, 1fr));
+	grid-template-columns: max-content 7fr repeat(var(--permissions-columns), minmax(max-content, 1fr));
 
 	thead {
 		th {
