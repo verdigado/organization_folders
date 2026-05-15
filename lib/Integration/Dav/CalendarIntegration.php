@@ -76,9 +76,13 @@ class CalendarIntegration {
 			$mutations[self::PROPERTY_DESCRIPTION] = $description;
 		}
 
-		if(!count($mutations) != 0) {
+		if(!empty($mutations)) {
+			//throw new \Exception("test " . json_encode($mutations));
 			$propPatch = new PropPatch($mutations);
 			$this->calDavBackend->updateCalendar($calendarId, $propPatch);
+			if(!$propPatch->commit()) {
+				throw new \Exception("Calendar update failed");
+			}
 		}
 	}
 
