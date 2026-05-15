@@ -11,6 +11,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCA\OrganizationFolders\Security\AuthorizationService;
 use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Db\Resource;
+use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
@@ -84,7 +85,7 @@ class ResourceController extends BaseController {
 			}
 		}
 
-		if($this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
+		if($resource::SUPPORTS_SUBRESOURCES && $this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
 			// do not recursively fetch whole resource tree when requesting subResources
 			// TODO: add depth filter to enable both usecases
 			$subInclude = implode('+', array_filter(["model", ...$includes], fn($include) => $include !== self::SUBRESOURCES_INCLUDE));
@@ -109,7 +110,7 @@ class ResourceController extends BaseController {
 				$result["members"] = $this->memberService->findAll($resource->getId());
 			}
 
-			if($this->shouldInclude(self::UNMANAGEDSUBFOLDERS_INCLUDE, $includes)) {
+			if($resource instanceof FolderResource && $this->shouldInclude(self::UNMANAGEDSUBFOLDERS_INCLUDE, $includes)) {
 				$result["unmanagedSubfolders"] = $this->service->getUnmanagedSubfolders($resource);
 			}
 		}
@@ -139,18 +140,16 @@ class ResourceController extends BaseController {
 		int $organizationFolderId,
 		string $type,
 		string $name,
+		array $memberPermissions,
+		array $managerPermissions,
+		array $inheritedMemberPermissions,
 		?int $parentResourceId = null,
 		bool $active = true,
 		bool $inheritManagers = true,
 
-		// for type folder
-		?int $memberPermissionsBitfield = null,
-		?int $managerPermissionsBitfield = null,
-		?int $inheritedMemberPermissionsBitfield = null,
-
 		?string $include = null,
 	): JSONResponse {
-		return $this->handleErrors(function () use ($organizationFolderId, $type, $name, $parentResourceId, $active, $inheritManagers, $memberPermissionsBitfield, $managerPermissionsBitfield, $inheritedMemberPermissionsBitfield, $include) {
+		return $this->handleErrors(function () use ($organizationFolderId, $type, $name, $parentResourceId, $active, $inheritManagers, $memberPermissions, $managerPermissions, $inheritedMemberPermissions, $include) {
 			$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
 			
 			if(!is_null($parentResourceId)) {
@@ -168,10 +167,9 @@ class ResourceController extends BaseController {
 				parentResourceId: $parentResourceId,
 				active: $active,
 				inheritManagers: $inheritManagers,
-
-				memberPermissionsBitfield: $memberPermissionsBitfield,
-				managerPermissionsBitfield: $managerPermissionsBitfield,
-				inheritedMemberPermissionsBitfield: $inheritedMemberPermissionsBitfield,
+				memberPermissions: $memberPermissions,
+				managerPermissions: $managerPermissions,
+				inheritedMemberPermissions: $inheritedMemberPermissions,
 			);
 
 			return $this->getApiObjectFromEntity($resource, false, $include);
@@ -183,17 +181,15 @@ class ResourceController extends BaseController {
 		int $resourceId,
 		?bool $active = null,
 		?bool $inheritManagers = null,
-
-		// for type folder
-		?int $memberPermissionsBitfield = null,
-		?int $managerPermissionsBitfield = null,
-		?int $inheritedMemberPermissionsBitfield = null,
+		?array $memberPermissions = null,
+		?array $managerPermissions = null,
+		?array $inheritedMemberPermissions = null,
 
 		?string $include = null,
 		?int $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove = null,
 		?bool $cancelIfRevokesOwnManagementRights = false,
 	): JSONResponse {
-		return $this->handleErrors(function () use ($resourceId, $active, $inheritManagers, $memberPermissionsBitfield, $managerPermissionsBitfield, $inheritedMemberPermissionsBitfield, $include, $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove, $cancelIfRevokesOwnManagementRights) {
+		return $this->handleErrors(function () use ($resourceId, $active, $inheritManagers, $memberPermissions, $managerPermissions, $inheritedMemberPermissions, $include, $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove, $cancelIfRevokesOwnManagementRights) {
 			$resource = $this->service->find($resourceId);
 			
 			$this->denyAccessUnlessGranted(['UPDATE'], $resource);
@@ -214,10 +210,9 @@ class ResourceController extends BaseController {
 				id: $resourceId,
 				active: $active,
 				inheritManagers: $inheritManagers,
-
-				memberPermissionsBitfield: $memberPermissionsBitfield,
-				managerPermissionsBitfield: $managerPermissionsBitfield,
-				inheritedMemberPermissionsBitfield: $inheritedMemberPermissionsBitfield,
+				memberPermissions: $memberPermissions,
+				managerPermissions: $managerPermissions,
+				inheritedMemberPermissions: $inheritedMemberPermissions,
 
 				maxiumumUsersPermissionsAddedOrDeleted: $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove,
 			);

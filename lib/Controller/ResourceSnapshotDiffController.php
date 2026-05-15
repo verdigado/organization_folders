@@ -49,8 +49,6 @@ class ResourceSnapshotDiffController extends BaseController {
 		}
 	}
 
-    use Errors;
-
     #[NoAdminRequired]
     public function create(int $resourceId, string $snapshotId, bool $streamed = false, bool $includeResults = false): JSONResponse|StreamedProgressResponse {
 		return $this->handleErrorsWithoutResponseWrapping(function () use ($resourceId, $snapshotId, $streamed, $includeResults) {

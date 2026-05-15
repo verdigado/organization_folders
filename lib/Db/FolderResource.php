@@ -22,6 +22,8 @@ class FolderResource extends Resource {
 
 	protected const PERMISSIONS_BITFIELD_MAX = 31; // precalculation of pow(2, count(static::PERMISSION_KEYS)) - 1
 
+	public const SUPPORTS_SUBRESOURCES = true;
+
 
 	public function __construct() {
 		parent::__construct();
@@ -60,9 +62,6 @@ class FolderResource extends Resource {
 			'createdTimestamp' => $this->createdTimestamp,
 			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 			'createdFromTemplateId' => $this->createdFromTemplateId,
-			'memberPermissionsBitfield' => $this->memberPermissionsBitfield,
-			'managerPermissionsBitfield' => $this->managerPermissionsBitfield,
-			'inheritedMemberPermissionsBitfield' => $this->inheritedMemberPermissionsBitfield,
 			'memberPermissions' => $this->getMemberPermissions(),
 			'managerPermissions' => $this->getManagerPermissions(),
 			'inheritedMemberPermissions' => $this->getInheritedMemberPermissions(),
