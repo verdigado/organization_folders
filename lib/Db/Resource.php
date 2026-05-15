@@ -29,6 +29,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	/* Set by child-classes */
 	public const PERMISSION_KEYS = [];
 	protected const PERMISSIONS_BITFIELD_MAX = 0;
+	public const SUPPORTS_SUBRESOURCES = false;
 	
 	public function __construct() {
 		$this->addType('organizationFolderId', Types::INTEGER);
@@ -150,7 +151,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @param int $bitfield
 	 * @return array
 	 */
-	private function bitfieldToPermissions(int $bitfield): array {
+	public static function bitfieldToPermissions(int $bitfield): array {
 		$permissions = [];
 		
 		foreach(static::PERMISSION_KEYS as $index => $key) {
@@ -164,28 +165,28 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @return array<string, bool>
 	 */
 	public function getMemberPermissions(): array {
-		return $this->bitfieldToPermissions($this->memberPermissionsBitfield);
+		return static::bitfieldToPermissions($this->memberPermissionsBitfield);
 	}
 
 	/**
 	 * @return array<string, bool>
 	 */
 	public function getManagerPermissions(): array {
-		return $this->bitfieldToPermissions($this->managerPermissionsBitfield);
+		return static::bitfieldToPermissions($this->managerPermissionsBitfield);
 	}
 
 	/**
 	 * @return array<string, bool>
 	 */
 	public function getInheritedMemberPermissions(): array {
-		return $this->bitfieldToPermissions($this->inheritedMemberPermissionsBitfield);
+		return static::bitfieldToPermissions($this->inheritedMemberPermissionsBitfield);
 	}
 
 	/**
 	 * @param array $permissions
 	 * @return int
 	 */
-	private function permissionsToBitfield(array $permissions): int {
+	public static function permissionsToBitfield(array $permissions): int {
 		$bitfield = 0;
 
 		foreach(static::PERMISSION_KEYS as $index => $key) {
@@ -202,7 +203,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @return void
 	 */
 	public function setMemberPermissions(array $permissions): void {
-		$this->setMemberPermissionsBitfield($this->permissionsToBitfield($permissions));
+		$this->setMemberPermissionsBitfield(static::permissionsToBitfield($permissions));
 	}
 
 	/**
@@ -210,7 +211,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @return void
 	 */
 	public function setManagerPermissions(array $permissions): void {
-		$this->setManagerPermissionsBitfield($this->permissionsToBitfield($permissions));
+		$this->setManagerPermissionsBitfield(static::permissionsToBitfield($permissions));
 	}
 
 	/**
@@ -218,7 +219,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @return void
 	 */
 	public function setInheritedMemberPermissions(array $permissions): void {
-		$this->setInheritedMemberPermissionsBitfield($this->permissionsToBitfield($permissions));
+		$this->setInheritedMemberPermissionsBitfield(static::permissionsToBitfield($permissions));
 	}
 
 	/**
@@ -226,7 +227,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @param array $permissions patches
 	 * @return int new value
 	 */
-	private function patchPermissionsBitfield(int $bitfield, array $permissions): int {
+	public static function patchPermissionsBitfield(int $bitfield, array $permissions): int {
 		foreach(static::PERMISSION_KEYS as $index => $key) {
 			if(isset($permissions[$key])) {
 				if($permissions[$key]) {
@@ -245,7 +246,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @return void
 	 */
 	public function patchMemberPermissions(array $permissions): void {
-		$this->setMemberPermissionsBitfield($this->patchPermissionsBitfield($this->memberPermissionsBitfield, $permissions));
+		$this->setMemberPermissionsBitfield(static::patchPermissionsBitfield($this->memberPermissionsBitfield, $permissions));
 	}
 
 	/**
@@ -253,7 +254,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @return void
 	 */
 	public function patchManagerPermissions(array $permissions): void {
-		$this->setManagerPermissionsBitfield($this->patchPermissionsBitfield($this->managerPermissionsBitfield, $permissions));
+		$this->setManagerPermissionsBitfield(static::patchPermissionsBitfield($this->managerPermissionsBitfield, $permissions));
 	}
 
 	/**
@@ -261,6 +262,6 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 * @return void
 	 */
 	public function patchInheritedMemberPermissions(array $permissions): void {
-		$this->setInheritedMemberPermissionsBitfield($this->patchPermissionsBitfield($this->inheritedMemberPermissionsBitfield, $permissions));
+		$this->setInheritedMemberPermissionsBitfield(static::patchPermissionsBitfield($this->inheritedMemberPermissionsBitfield, $permissions));
 	}
 }

@@ -32,7 +32,6 @@ class ResourceSnapshotController extends BaseController {
 		private readonly IAppManager $appManager,
 		private readonly ContainerInterface $container,
 		private readonly ResourceService $resourceService,
-        private ?string $userId,
 	) {
 		parent::__construct($authorizationService, $validatorService);
 
@@ -43,8 +42,6 @@ class ResourceSnapshotController extends BaseController {
 			$this->pathManager = $this->container->get(PathManager::class);
 		}
 	}
-
-    use Errors;
 
     #[NoAdminRequired]
     public function index(int $resourceId): JSONResponse {

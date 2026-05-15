@@ -218,9 +218,9 @@ class ResourceService {
 			active: $createResourceDto->active,
 			inheritManagers: $createResourceDto->inheritManagers,
 
-			memberPermissionsBitfield: $createResourceDto->memberPermissionsBitfield,
-			managerPermissionsBitfield: $createResourceDto->managerPermissionsBitfield,
-			inheritedMemberPermissionsBitfield: $createResourceDto->inheritedMemberPermissionsBitfield,
+			memberPermissions: $createResourceDto->memberPermissionsBitfield,
+			managerPermissions: $createResourceDto->managerPermissionsBitfield,
+			inheritedMemberPermissions: $createResourceDto->inheritedMemberPermissionsBitfield,
 
 			createdFromTemplateId: $createdFromTemplateId,
 		);
@@ -249,9 +249,9 @@ class ResourceService {
 		?int $parentResourceId,
 		bool $active,
 		bool $inheritManagers,
-		int $memberPermissionsBitfield,
-		int $managerPermissionsBitfield,
-		int $inheritedMemberPermissionsBitfield,
+		array $memberPermissions,
+		array $managerPermissions,
+		array $inheritedMemberPermissions,
 		?string $createdFromTemplateId = null,
 
 		bool $alreadyExists = false,
@@ -284,9 +284,9 @@ class ResourceService {
 			$resource->setName($name);
 			$resource->setActive($active);
 			$resource->setInheritManagers($inheritManagers);
-			$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
-			$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
-			$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
+			$resource->setMemberPermissions($memberPermissions);
+			$resource->setManagerPermissions($managerPermissions);
+			$resource->setInheritedMemberPermissions($inheritedMemberPermissions);
 			$resource->setCreatedTimestamp(time());
 			$resource->setLastUpdatedTimestamp(time());
 			$resource->setCreatedFromTemplateId($createdFromTemplateId);
@@ -295,7 +295,7 @@ class ResourceService {
 				$parentResource = $this->find($parentResourceId);
 
 				if($parentResource->getOrganizationFolderId() === $organizationFolderId) {
-					if($parentResource->getType() !== "folder") {
+					if(!$parentResource::SUPPORTS_SUBRESOURCES) {
 						throw new ResourceDoesNotSupportSubresources($parentResource);
 					} else {
 						$resource->setParentResource($parentResource->getId());
@@ -387,9 +387,9 @@ class ResourceService {
 			?bool $active = null,
 			?bool $inheritManagers = null,
 
-			?int $memberPermissionsBitfield = null,
-			?int $managerPermissionsBitfield = null,
-			?int $inheritedMemberPermissionsBitfield = null,
+			?array $memberPermissions = null,
+			?array $managerPermissions = null,
+			?array $inheritedMemberPermissions = null,
 
 			?int $maxiumumUsersPermissionsAddedOrDeleted = null,
 		): Resource {
@@ -403,16 +403,16 @@ class ResourceService {
 			$resource->setInheritManagers($inheritManagers);
 		}
 
-		if(isset($memberPermissionsBitfield)) {
-			$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
+		if(isset($memberPermissions)) {
+			$resource->patchMemberPermissions($memberPermissions);
 		}
 
-		if(isset($managerPermissionsBitfield)) {
-			$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
+		if(isset($managerPermissions)) {
+			$resource->patchManagerPermissions($managerPermissions);
 		}
 
-		if(isset($inheritedMemberPermissionsBitfield)) {
-			$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
+		if(isset($inheritedMemberPermissions)) {
+			$resource->patchInheritedMemberPermissions($inheritedMemberPermissions);
 		}
 
 		if(count($resource->getUpdatedFields()) > 0) {
@@ -439,7 +439,7 @@ class ResourceService {
 		string $name,
 		?int $parentResourceId,
 	) {
-		if($resource->getType() === "folder") {
+		if($resource instanceof FolderResource) {
 			$resourceNode = $this->getFolderResourceFilesystemNode($resource);
 
 			// aquire lock so nothing changes until ready to actually move the folder
@@ -488,7 +488,7 @@ class ResourceService {
 			throw new ResourceNameNotUnique();
 		}
 
-		if($resource->getType() === "folder") {
+		if($resource instanceof FolderResource) {
 			$oldPath = $resourceNode->getPath();
 
 			if(isset($parentResource)) {
@@ -521,14 +521,14 @@ class ResourceService {
 						. "failed, not proceeding with any filesystem changes"
 				);
 
-				if($resource->getType() === "folder") {
+				if($resource instanceof FolderResource) {
 					$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 					$parentNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 				}
 				throw $e;
 			}
 
-			if($resource->getType() === "folder") {
+			if($resource instanceof FolderResource) {
 				// release lock, as move will create it's own exclusive locks
 				// upgrading locks to exclusive would be better, but that does not seem to be possible
 				$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
@@ -551,10 +551,12 @@ class ResourceService {
 					$resource->setParentResource($oldParentResourceId);
 					$resource = $this->mapper->update($resource);
 				}
+			} else if ($resource instanceof CalendarResource) {
+				$this->calendarIntegration->updateCalendar($resource->getCalendarId(), $name, "");
 			}
 		} else {
 			// no changes need to be made, releasing locks
-			if($resource->getType() === "folder") {
+			if($resource instanceof FolderResource) {
 				$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 				$parentNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 			}
@@ -695,9 +697,9 @@ class ResourceService {
 			active: true,
 			inheritManagers: true,
 			// match current permissions in subfolder
-			inheritedMemberPermissionsBitfield: $resource->getMemberPermissionsBitfield(), // Members in parent resource will be inherited members in new resource
-			memberPermissionsBitfield: $resource->getMemberPermissionsBitfield(),
-			managerPermissionsBitfield: $resource->getManagerPermissionsBitfield(),
+			inheritedMemberPermissions: $resource->getMemberPermissions(), // Members in parent resource will be inherited members in new resource
+			memberPermissions: $resource->getMemberPermissions(),
+			managerPermissions: $resource->getManagerPermissions(),
 			alreadyExists: true,
 		);
 	}
@@ -746,7 +748,11 @@ class ResourceService {
 				foreach($permission->getPermissionOrigins() as $permissionOrigin) {
 					if($permissionOrigin["permissionsBitmap"] > 0) {
 						// only keep last (least inheritedFrom distance to resource) of each type
-						$filteredPermissionOrigins[$permissionOrigin["type"]->value] = $permissionOrigin;
+						$filteredPermissionOrigins[$permissionOrigin["type"]->value] = [
+							"type" => $permissionOrigin["type"],
+							"permissions" => $resource->bitfieldToPermissions($permissionOrigin["permissionsBitmap"]),
+							"inheritedFrom" => $permissionOrigin["inheritedFrom"],
+						];
 					}
 				}
 
@@ -778,7 +784,7 @@ class ResourceService {
 
 				$result[] = [
 					'principal' => $principal,
-					'permissionsBitmap' => $permission->getPermissionsBitmap(),
+					'permissions' => $resource->bitfieldToPermissions($permission->getPermissionsBitmap()),
 					'permissionOrigins' => array_values($filteredPermissionOrigins),
 					'warnings' => $warnings,
 				];
@@ -813,7 +819,7 @@ class ResourceService {
 
 					$applicablePermissions[] = [
 						'principal' => $principal,
-						'permissionsBitmap' => $permission->getPermissionsBitmap(),
+						'permissions' => $resource->bitfieldToPermissions($permission->getPermissionsBitmap()),
 					];
 				}
 			}
@@ -835,7 +841,7 @@ class ResourceService {
 
 		return [
 			"applicablePermissions" => $applicablePermissions,
-			"overallPermissionsBitmap" => $overallPermissionsBitmap,
+			"overallPermissions" => $resource->bitfieldToPermissions($overallPermissionsBitmap),
 			"warnings" => $warnings,
 		];
 	}
