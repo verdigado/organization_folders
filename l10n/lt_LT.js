@@ -30,6 +30,7 @@ OC.L10N.register(
     "Access denied" : "Prieiga negalima",
     "Allowed (Inherited permission)" : "Leista (Paveldėtas leidimas)",
     "Access allowed" : "Prieiga leidžiama",
+    "Denied" : "Atsisakyta",
     "Allowed" : "Leista",
     "Show explanation" : "Rodyti paaiškinimą",
     "Search" : "Paieška",
