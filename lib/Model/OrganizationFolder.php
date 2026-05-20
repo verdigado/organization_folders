@@ -57,14 +57,20 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 	/**
 	 * @return string[]
 	 */
-	public function getEnabledResourceTypes(): array {
-		// TODO: currently all available types are enabled, add configuration options to organization folders for this
-
+	public function getAvailableResourceTypes(): array {
 		if(is_null($this->serviceAccountUid)) {
 			return ["folder"];
 		}
 
 		return ["folder", "calendar"];
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getEnabledResourceTypes(): array {
+		// TODO: currently all available types are enabled, add configuration options to organization folders for this
+		return $this->getAvailableResourceTypes();
 	}
 
 	public function jsonSerialize(): array {
