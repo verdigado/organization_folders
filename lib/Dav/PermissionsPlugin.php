@@ -82,12 +82,9 @@ class PermissionsPlugin extends ServerPlugin {
 
 
 	/**
-	 * Deny restoring nodes when gliederungs folder has been removed
-	 * Deny moving nodes outside the group folder storage
-	 *
 	 * @param string $source
 	 * @param string $destination
-	 * @return void
+	 * @return bool
 	 */
 	public function beforeMove($source, $destination): bool {
 		$sourceSabreNode = $this->server->tree->getNodeForPath($source);
@@ -101,7 +98,7 @@ class PermissionsPlugin extends ServerPlugin {
 		if ($sourceFileInfo instanceof GroupTrashItem) {
 			// file getting restored from trash
 
-			/** @var GroupMountPoint $mount */
+			/** @var GroupMountPoint */
 			$sourceMount = $sourceFileInfo->getMountPoint();
 
 			$groupFolderId = $sourceMount->getFolderId();
@@ -114,7 +111,7 @@ class PermissionsPlugin extends ServerPlugin {
 			}
 
 			$relativePath = $sourceFileInfo->getInternalOriginalLocation();
-			$relativePathParts = array_filter(explode('/', trim($relativePath, '/')));
+			$relativePathParts = array_values(array_filter(explode('/', trim($relativePath, '/'))));
 
 			if(count($relativePathParts) < 2) {
 				// tried to restore to root of organzation folder, where only resources can exist
@@ -123,20 +120,25 @@ class PermissionsPlugin extends ServerPlugin {
 
 			// While the parent folders of the destination path can be created for it to be restored into
 			// folder resources should not be created, so at the least the first directory needs to be a valid resource.
-			// TODO: once other resource types are implemented we need to check the whole path for name conflicts
-			try {
-				$resource = $this->resourceService->findByName(
-					organizationFolderId: $organizationFolder->getId(),
-					parentResourceId: null,
-					name: $relativePathParts[0],
-				);
-			} catch (ResourceNotFound $e) {
-				// trying to restore to a resource, that no longer exists
-				return false;
-			}
+			// For the deeper levels conflicts with resources of other types are prevented.
+			foreach($relativePathParts as $index => $relativePathPart) {
+				try {
+					$resource = $this->resourceService->findByName(
+						organizationFolderId: $organizationFolder->getId(),
+						parentResourceId: $resource?->getId(),
+						name: $relativePathPart,
+					);
 
-			if($resource->getType() !== "folder") {
-				return false;
+					if($resource->getType() !== "folder") {
+						throw new \Exception("Cannot restore file into non-folder resource");
+					}
+				} catch (ResourceNotFound $e) {
+					if($index === 0) {
+						throw new \Exception("Top-level folder to restore file into cannot be created automatically, you need to create a folder resource manually");
+					} else {
+						break;
+					}
+				}
 			}
 
 			return $this->restoreAncestorPath($organizationFolder, $relativePath);
@@ -179,7 +181,7 @@ class PermissionsPlugin extends ServerPlugin {
 	/**
 	 * Restores ancestor folders if they dont exist
 	 *
-	 * @param Folder $organizationFolderNode
+	 * @param OrganizationFolder $organizationFolder
 	 * @param string $relativePath
 	 */
 	public function restoreAncestorPath(OrganizationFolder $organizationFolder, string $relativePath): bool {
@@ -230,7 +232,7 @@ class PermissionsPlugin extends ServerPlugin {
 	 * @param string $target
 	 */
 	public function beforeBind($target): bool {
-		[$parentPath, ] = \Sabre\Uri\split($target);
+		[$parentPath, $filename] = \Sabre\Uri\split($target);
 
 		$parentSabreNode = $this->server->tree->getNodeForPath($parentPath);
 
@@ -250,12 +252,10 @@ class PermissionsPlugin extends ServerPlugin {
 		$mount = $parentNode->getMountPoint();
 
 		$relativePath = $mount->getInternalPath($parentNode->getPath());
-		$relativePathParts = array_filter(explode('/', trim($relativePath, '/')));
+		$relativePathParts = array_values(array_filter(explode('/', trim($relativePath, '/'))));
 
-		// accept, if parent of new file or folder is at least one directory level deep in organization folder
-		if(count($relativePathParts) >= 1) {
-			return true;
-		} else {
+		// prevent creating files or folders in root of org folder
+		if(count($relativePathParts) < 1) {
 			$this->logger->warning(
 				"Prevented creation of file or folder at path $target",
 				['app' => 'organization_folders']
@@ -263,5 +263,16 @@ class PermissionsPlugin extends ServerPlugin {
 
 			throw new CannotCreateFileInRootOfOrganizationFolder();
 		}
+
+		// prevent collisions with resources of other types
+		try {
+			$parentResource = $this->resourceService->findByFilesystemNode($parentNode);
+
+			if($this->resourceService->existsWithName($parentResource->getOrganizationFolderId(), $parentResource->getId(), $filename)) {
+				throw new \Exception("Name-collision with resource");
+			}
+		} catch (ResourceNotFound $e) {}
+
+		return true;
 	}
 }
