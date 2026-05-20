@@ -63,7 +63,7 @@ class ResourceMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select(self::tableColumnsToSelect)
+		$qb->select('resource.*', 'folder.file_id')
 			->from(self::RESOURCES_TABLE, "resource");
 
 		$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $qb->expr()->eq('resource.id', 'folder.resource_id'));
@@ -77,7 +77,7 @@ class ResourceMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select(self::tableColumnsToSelect)
+		$qb->select('resource.*', 'calendar.calendar_id')
 			->from(self::RESOURCES_TABLE, "resource");
 
 		$qb->leftJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $qb->expr()->eq('resource.id', 'calendar.resource_id'));
