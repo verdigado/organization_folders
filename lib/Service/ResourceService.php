@@ -193,6 +193,10 @@ class ResourceService {
 		}
 	}
 
+	public function existsWithName(int $organizationFolderId, ?int $parentResourceId, string $name): bool {
+		return $this->mapper->existsWithName($organizationFolderId, $parentResourceId, $name);
+	}
+
 	public function existAnyCreatedFromTemplate(int $organizationFolderId, string $providerId, string $templateId): bool {
 		return $this->mapper->existAnyCreatedFromTemplate($organizationFolderId, $providerId, $templateId);
 	}
@@ -590,7 +594,13 @@ class ResourceService {
 	}
 
 	public function getFolderResourceFilesystemNode(FolderResource $resource) {
-		return $this->pathManager->getOrganizationFolderByIdSubfolder($resource->getOrganizationFolderId(), $this->getResourcePath($resource));
+		$result = $this->pathManager->getOrganizationFolderByIdSubfolder($resource->getOrganizationFolderId(), $this->getResourcePath($resource));
+
+		if($result->getId() !== $resource->getFileId()) {
+			throw new Exception("Invalid state: FolderResource Node has different ID than expected");
+		}
+
+		return $result;
 	}
 
 	/** 
@@ -865,7 +875,7 @@ class ResourceService {
 			}
 
 			// delete in filesystem if type folder
-			if($resource->getType() === "folder") {
+			if($resource instanceof FolderResource) {
 				$node = $this->getFolderResourceFilesystemNode($resource);
 				
 				if(isset($node)) {
@@ -877,6 +887,8 @@ class ResourceService {
 						. ", but it did not exist. This should not happen, investigate the cause! Proceeding normally."
 					);
 				}
+			} else if($resource instanceof CalendarResource) {
+				$this->calendarIntegration->deleteCalendar($resource->getCalendarId());
 			}
 			
 			// delete in database
