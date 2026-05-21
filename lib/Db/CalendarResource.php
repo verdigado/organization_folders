@@ -16,6 +16,8 @@ class CalendarResource extends Resource {
 
 	protected const PERMISSIONS_BITFIELD_MAX = 3; // precalculation of pow(2, count(static::PERMISSION_KEYS)) - 1
 
+	public const SUPPORTS_LINK_SHARES = true;
+
 	public function __construct() {
 		parent::__construct();
 		$this->addType('calendarId', Types::INTEGER);
