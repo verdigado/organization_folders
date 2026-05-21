@@ -99,7 +99,11 @@ var SubresourceSupportByType = {
 	folder: true,
 }
 
-var SnapshotsSupportByType = {
+var LinkShareSupportByType = {
+	calendar: true,
+}
+
+var SnapshotSupportByType = {
 	folder: true,
 }
 
@@ -214,14 +218,14 @@ var ResourceDefaultPermissionsByType = {
  * @typedef {{
  * type: PrincipalType,
  * id: string,
- * friendlyName: string
- * fullHierarchyNames: string[]
+ * friendlyName: string,
+ * fullHierarchyNames: string[],
  * }} Principal
  *
  * @typedef {{
- * id: number
- * resourceId: number
- * permissionLevel: ResourceMemberPermissionLevel
+ * id: number,
+ * resourceId: number,
+ * permissionLevel: ResourceMemberPermissionLevel,
  * principal: Principal,
  * createdTimestamp: number,
  * lastUpdatedTimestamp: number,
@@ -232,6 +236,13 @@ var ResourceDefaultPermissionsByType = {
  * friendlyName: string,
  * membersGroup: string,
  * }} Organization
+ * 
+ * @typedef {{
+ * id: number,
+ * resourceId: number,
+ * name: string,
+ * linkUrl: string,
+ * }} ResourceLinkShare
  *
  */
 
@@ -261,7 +272,8 @@ export default {
 	RessourcePermissionKeysByType,
 	RessourcePermissionKeyLabelsByType,
 	SubresourceSupportByType,
-	SnapshotsSupportByType,
+	LinkShareSupportByType,
+	SnapshotSupportByType,
 	ResourceDefaultPermissionsByType,
 
 	/* Organization Folders */
@@ -577,6 +589,33 @@ export default {
 	 */
 	deleteResourceMember(resourceMemberId, cancelIfRevokesOwnManagementRights = true) {
 		return axios.delete(`/resources/members/${resourceMemberId}`, { data: { cancelIfRevokesOwnManagementRights } }).then((res) => res.data);
+	},
+
+	/* Resource Link Shares */
+
+	/**
+	 * @param {number|string} resourceId Resource ID
+	 * @return {Promise<Array<ResourceLinkShare>>}
+	 */
+	getResourceLinkShares(resourceId) {
+		return axios.get(`/resources/${resourceId}/linkShares`, {}).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number|string} resourceId Resource ID
+	 * @return {Promise<ResourceLinkShare>}
+	 */
+	createResourceLinkShare(resourceId) {
+		return axios.post(`/resources/${resourceId}/linkShares`).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number|string} resourceId Resource ID
+	 * @param {number} resourcelinkShareId Resource link share ID
+	 * @return {Promise<ResourceLinkShare>}
+	 */
+	deleteResourceLinkShare(resourceId, resourceLinkShareId) {
+		return axios.delete(`/resources/${resourceId}/linkShares/${resourceLinkShareId}`).then((res) => res.data);
 	},
 
 	/* Resource Snapshots */
