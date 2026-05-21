@@ -17,13 +17,10 @@ class UpdateResource extends BaseCommand {
 			->setDescription('Update a resource')
 			->addArgument('id', InputArgument::REQUIRED, 'Id of the resource to update')
 			->addOption('active', null, InputOption::VALUE_OPTIONAL, 'Activate/deactivate resource')
-			->addOption('inherit-managers', null, InputOption::VALUE_OPTIONAL, 'Set wether managers of the parent level (parent resource or organization folder for top level resources) should have management permissions');
-
-		// folder type options
-		$this
-			->addOption('member-permissions', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for members of resource')
-			->addOption('manager-permissions', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for managers of resource')
-			->addOption('inherited-member-permissions', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for users with access to the resource level above (or organization in case resource is top-level)');
+			->addOption('inherit-managers', null, InputOption::VALUE_OPTIONAL, 'Set whether managers of the parent level (parent resource or organization folder for top level resources) should have management permissions. Valid values: true, false')
+			->addOption('member-permissions', null, InputOption::VALUE_OPTIONAL, 'New permissions for members of resource. Valid values: Any selection of [READ, UPDATE, CREATE, DELETE, SHARE] for folder resource or [READ, UPDATE] for calendar resources seperated by +. Example: "READ+UPDATE"')
+			->addOption('manager-permissions', null, InputOption::VALUE_OPTIONAL, 'New permissions for managers of resource. Valid values: see --member-permissions')
+			->addOption('inherited-member-permissions', null, InputOption::VALUE_OPTIONAL, 'New permissions for users with access to the resource level above (or organization in case resource is top-level). Valid values: see --member-permissions');
 		
 		parent::configure();
 	}
@@ -45,9 +42,9 @@ class UpdateResource extends BaseCommand {
 			$inheritManagers = null;
 		}
 
-		$memberPermissionsBitfield = $input->getOption('member-permissions');
-		$managerPermissionsBitfield = $input->getOption('manager-permissions');
-		$inheritedMemberPermissionsBitfield = $input->getOption('inherited-member-permissions');
+		$memberPermissions = $this->parsePermissionsInput($input->getOption('member-permissions'));
+		$managerPermissions = $this->parsePermissionsInput($input->getOption('manager-permissions'));
+		$inheritedMemberPermissions = $this->parsePermissionsInput($input->getOption('inherited-member-permissions'));
 
 		try {
 			$resource = $this->resourceService->update(
@@ -55,9 +52,10 @@ class UpdateResource extends BaseCommand {
 				active: $active,
 				inheritManagers: $inheritManagers,
 
-				memberPermissionsBitfield: $memberPermissionsBitfield,
-				managerPermissionsBitfield: $managerPermissionsBitfield,
-				inheritedMemberPermissionsBitfield: $inheritedMemberPermissionsBitfield,
+				memberPermissions: $memberPermissions,
+				managerPermissions: $managerPermissions,
+				inheritedMemberPermissions: $inheritedMemberPermissions,
+				permissionsPatchMode: false,
 			);
 
 			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($resource)]);

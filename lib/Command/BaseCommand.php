@@ -61,4 +61,27 @@ abstract class BaseCommand extends Base {
 		}
 		return $result;
 	}
+
+	/**
+	 * Transforms "READ+WRITE" into {READ: true, WRITE: true}
+	 * @param ?string $input
+	 * @return ?array<string, bool>
+	 */
+	protected function parsePermissionsInput(?string $input): ?array {
+		if(!isset($input)) {
+			return null;
+		}
+
+		$result = [];
+
+		$permissions = explode("+", $input);
+
+		foreach($permissions as $permission) {
+			if($permission !== "") {
+				$result[strtoupper($permission)] = true;
+			}
+		}
+
+		return $result;
+	}
 }

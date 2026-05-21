@@ -152,6 +152,7 @@ class OrganizationFolderService {
 			quota: $dto->quota,
 			organizationProvider: $dto->organizationProviderId,
 			organizationId: $dto->organizationId,
+			serviceAccountUid: $dto->serviceAccountUid,
 		);
 	}
 	public function create(

@@ -11,6 +11,7 @@ readonly class CreateOrganizationFolderDto {
 		public ?int $quota = null,
 		public ?string $organizationProviderId = null,
 		public ?int $organizationId = null,
+		public ?string $serviceAccountUid = null,
 	) {}
 
 	public static function GetValidator(): ChainedValidator {
@@ -26,6 +27,7 @@ readonly class CreateOrganizationFolderDto {
 					v::key('organizationProviderId', v::stringType()),
 					v::key('organizationId', v::intType())
 				),
-			);
+			)
+			->key('serviceAccountUid', v::nullable(v::stringType()));
 	}
 }
