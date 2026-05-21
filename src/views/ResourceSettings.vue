@@ -29,6 +29,8 @@ import ConfirmDeleteDialog from "../components/ConfirmDeleteDialog.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
 import CreateMemberButton from "../components/CreateMemberButton/CreateMemberButton.vue";
+import CreateLinkShareButton from "../components/CreateLinkShareButton.vue";
+import LinkShareList from "../components/LinkShareList/LinkShareList.vue";
 import UnmanagedSubfoldersList from "../components/UnmanagedSubfoldersList.vue";
 import UserPrincipalSelector from "../components/UserPrincipalSelector.vue";
 import PermissionsReport from "../components/PermissionsReport/PermissionsReport.vue";
@@ -59,7 +61,7 @@ const organizationProviders = useOrganizationProvidersStore();
 
 organizationProviders.initialize();
 
-const resourceApiIncludes = "model+permissions+members+parentResource+subresources+unmanagedSubfolders";
+const resourceApiIncludes = "model+permissions+members+parentResource+subresources+unmanagedSubfolders+linkShares";
 
 const organizationFolder = ref(null);
 const resource = ref(null);
@@ -93,6 +95,14 @@ const moveDialogOpen = ref(false);
 
 const subresourcesSupportedByResource = computed(() => {
     return api.SubresourceSupportByType[resource.value?.type] ?? false;
+});
+
+const linkSharesSupportedByResource = computed(() => {
+    return api.LinkShareSupportByType[resource.value?.type] ?? false;
+});
+
+const snapshotsSupportedByResource = computed(() => {
+    return api.SnapshotSupportByType[resource.value?.type] ?? false;
 });
 
 const loading = computed(() => {
@@ -318,6 +328,24 @@ const deleteMember = (memberId, callback) => {
 			} else {
 				callback();
 			}
+		});
+};
+
+const addLinkShare = async (callback) => {
+	try {
+		resource.value.linkShares.push(await api.createResourceLinkShare(resource.value.id));
+	} finally {
+		callback();
+	}
+};
+
+const deleteLinkShare = (linkShareId, callback) => {
+	api.deleteResourceLinkShare(resource.value.id, linkShareId)
+		.then(() => {
+			resource.value.linkShares = resource.value.linkShares.filter((s) => s.id !== linkShareId);
+		})
+		.finally(() => {
+			callback();
 		});
 };
 
@@ -621,6 +649,15 @@ const openMoveDialog = () => {
 				@update-member="updateMember"
 				@delete-member="deleteMember" />
 		</Section>
+		<Section v-if="!resourcePermissionsLimited && linkSharesSupportedByResource">
+			<template #header>
+				<HeaderButtonGroup :text="t('organization_folders', 'Link Shares')">
+					<CreateLinkShareButton @add-link-share="addLinkShare" />
+				</HeaderButtonGroup>
+			</template>
+			<LinkShareList :linkShares="resource?.linkShares"
+				@delete-link-share="deleteLinkShare" />
+		</Section>
 		<Section v-if="!resourcePermissionsLimited">
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Management Actions')"></SectionHeader>
@@ -680,7 +717,7 @@ const openMoveDialog = () => {
 					:open="moveDialogOpen"
 					@update:open="(newValue) => moveDialogOpen = newValue"
 					@move="move" />
-				<NcButton v-if="snapshotIntegrationActive && api.SnapshotsSupportByType[resource.type]" @click="switchToSnapshotRestoreView">
+				<NcButton v-if="snapshotIntegrationActive && snapshotsSupportedByResource" @click="switchToSnapshotRestoreView">
 					<template #icon>
 						<BackupRestore />
 					</template>
