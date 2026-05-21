@@ -29,7 +29,7 @@ const props = defineProps({
 	},
 	typeAllowlist: {
 		type: Array,
-		default: [api.ResourceTypes.FOLDER],
+		default: () => [api.ResourceTypes.FOLDER],
 	},
 });
 

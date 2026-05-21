@@ -69,6 +69,10 @@ abstract class PrincipalBackedByGroup extends Principal {
 		}
 	}
 
+	public function toDavPrincipalURI(): string {
+		return "principals/groups/" . $this->getBackingGroupId();
+	}
+
 	public function isEquivalent(Principal $principal): bool {
 		if($this->isValid() && $principal->isValid()) {
 			if($principal instanceof PrincipalBackedByGroup) {

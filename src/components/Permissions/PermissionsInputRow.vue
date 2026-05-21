@@ -8,8 +8,6 @@ import Check from "vue-material-design-icons/Check.vue";
 import Cancel from "vue-material-design-icons/Cancel.vue";
 import HelpCircle from "vue-material-design-icons/HelpCircle.vue";
 
-import { calcBits, toggleBit } from "../../helpers/permission-helpers.js";
-
 const props = defineProps({
 	locked: {
 		type: Boolean,
@@ -22,60 +20,24 @@ const props = defineProps({
 	explanation: {
 		type: String,
 	},
-	mask: {
-		type: Number,
-		default: 31,
-	},
 	value: {
-		type: Number,
-		default: 0,
+		type: Object,
 	},
 });
 
 const emit = defineEmits(["change"]);
 
-const buttonStates = {
-	INHERIT_DENY: {
-		tooltipText: t("organization_folders", "Denied (Inherited permission)"),
-		ariaLabel: t('organization_folders', "Access denied"),
-		classes: "inherited",
-		icon: Cancel,
-	},
-	INHERIT_ALLOW: {
-		tooltipText: t("organization_folders", "Allowed (Inherited permission)"),
-		ariaLabel: t("organization_folders", "Access allowed"),
-		classes: "inherited",
-		icon: Check,
-	},
-	SELF_DENY: {
-		tooltipText: t("organization_folders", "Denied"),
-		ariaLabel: t('organization_folders', "Access denied"),
-		classes: "",
-		icon: Cancel,
-	},
-	SELF_ALLOW: {
-		tooltipText: t("organization_folders", "Allowed"),
-		ariaLabel: t("organization_folders", "Access allowed"),
-		classes: "",
-		icon: Check,
-	},
-}
+const tooltipAllow = t("organization_folders", "Allowed");
+const tooltipDenied = t("organization_folders", "Denied");
+const labelAllowed = t("organization_folders", "Access allowed");
+const labelDenied = t("organization_folders", "Access denied");
 
 const loading = ref(false);
 
-const calcBitButtonProps = (bitName, bitState) => {
-  return {
-	...buttonStates[bitState],
-	bitName,
-  }
-};
-
-const bitButtonProps = computed(() => Object.entries(calcBits(props.value, props.mask)).map(([bitName, { state }]) => calcBitButtonProps(bitName, state)));
-
-const onClick = (bitName) => {
+const onClick = (permissionKey) => {
 	if(!props.locked) {
-		loading.value = bitName;
-		emit("change", toggleBit(props.value, bitName), () => {
+		loading.value = permissionKey;
+		emit("change", { [permissionKey]: !props.value[permissionKey] }, () => {
 			loading.value = false;
 		});
 	}
@@ -94,14 +56,13 @@ const onClick = (bitName) => {
 			</div>
 		</td>
 		<th />
-		<td v-for="({ bitName, tooltipText, classes, ariaLabel, icon }) in bitButtonProps" :key="bitName" class="buttonTd">
-			<NcButton v-tooltip="tooltipText"
-				:class="classes"
-				:aria-label="ariaLabel"
-				@click="() => onClick(bitName)">
+		<td v-for="(permissionValue, permissionKey) in value" :key="permissionKey" class="buttonTd">
+			<NcButton v-tooltip="permissionValue ? tooltipAllow : tooltipDenied"
+				:aria-label="permissionValue ? labelAllowed : labelDenied"
+				@click="() => onClick(permissionKey)">
 				<template #icon>
-					<NcLoadingIcon v-if="loading === bitName" />
-					<component v-else :is="icon" :size="16" />
+					<NcLoadingIcon v-if="loading === permissionKey" />
+					<component v-else :is="permissionValue ? Check : Cancel" :size="16" />
 				</template>
 			</NcButton>
 		</td>

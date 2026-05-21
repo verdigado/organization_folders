@@ -40,6 +40,8 @@ abstract class Principal implements \JsonSerializable {
 
 	abstract public function toGroupfolderAclMapping(): ?IUserMapping;
 
+	abstract public function toDavPrincipalURI(): string;
+
 	/**
 	 * Return if the given principal references the same permissions subject.
 	 * Unlike checking principal equality through comparing type+id this

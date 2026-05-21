@@ -20,6 +20,7 @@ use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
+use OCA\OrganizationFolders\Db\CalendarResource;
 use OCA\OrganizationFolders\Db\ResourceMapper;
 use OCA\OrganizationFolders\DTO\CreateResourceDto;
 use OCA\OrganizationFolders\Model\Principal;
@@ -37,8 +38,10 @@ use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeMovedIntoADifferentOrgani
 use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeMovedIntoASubResource;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Errors\Api\PrincipalInvalid;
+use OCA\OrganizationFolders\Errors\Api\ResourceTypeNotEnabled;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Integration\Dav\CalendarIntegration;
 
 class ResourceService {
 	use TTransactional;
@@ -54,28 +57,26 @@ class ResourceService {
 		protected readonly ContainerInterface $container,
 		protected readonly PrincipalFactory $principalFactory,
 		protected readonly ResourcePermissionsApplyPlanFactory $resourcePermissionsApplyPlanFactory,
+		protected readonly CalendarIntegration $calendarIntegration,
 	) {
 	}
 
 	/**
 	 * @param int $organizationFolderId
-	 * @psalm-param int $organizationFolderId
 	 * @param int|null $parentResourceId
-	 * @psalm-param int|null $parentResourceId
 	 * @param array $filters
-	 * @psalm-param array $filters
-	 * @psalm-return Resource[]
+	 * @return Resource[]
 	 */
 	public function findAll(int $organizationFolderId, ?int $parentResourceId = null, array $filters = []): array {
 		return $this->mapper->findAll($organizationFolderId, $parentResourceId, $filters);
 	}
 
-	private function handleException(Exception $e, array $criteria): void {
+	private function handleException(Exception $e, array $criteria): Exception {
 		if ($e instanceof DoesNotExistException ||
 			$e instanceof MultipleObjectsReturnedException) {
-			throw new ResourceNotFound($criteria);
+			return new ResourceNotFound($criteria);
 		} else {
-			throw $e;
+			return $e;
 		}
 	}
 
@@ -83,7 +84,7 @@ class ResourceService {
 		try {
 			return $this->mapper->find($id);
 		} catch (Exception $e) {
-			$this->handleException($e, ["id" => $id]);
+			throw $this->handleException($e, ["id" => $id]);
 		}
 	}
 
@@ -91,7 +92,7 @@ class ResourceService {
 		try {
 			return $this->mapper->findByFileId($fileId);
 		} catch (Exception $e) {
-			$this->handleException($e, ["fileId" => $fileId]);
+			throw $this->handleException($e, ["fileId" => $fileId]);
 		}
 	}
 
@@ -99,7 +100,7 @@ class ResourceService {
 		try {
 			return $this->mapper->findByName($organizationFolderId, $parentResourceId, $name);
 		} catch (Exception $e) {
-			$this->handleException($e, [
+			throw $this->handleException($e, [
 				"organizationFolderId" => $organizationFolderId,
 				"parentResourceId" => $parentResourceId,
 				"name" => $name,
@@ -192,12 +193,16 @@ class ResourceService {
 		}
 	}
 
+	public function existsWithName(int $organizationFolderId, ?int $parentResourceId, string $name): bool {
+		return $this->mapper->existsWithName($organizationFolderId, $parentResourceId, $name);
+	}
+
 	public function existAnyCreatedFromTemplate(int $organizationFolderId, string $providerId, string $templateId): bool {
 		return $this->mapper->existAnyCreatedFromTemplate($organizationFolderId, $providerId, $templateId);
 	}
 
 	public function isValidResourceName(string $name): bool {
-		return !preg_match('/[`$%^*={};"\\\\|<>\/?~]/', $name);
+		return (strlen($name) >= 3) && (!preg_match('/[`$%^*={};"\\\\|<>\/?~]/', $name));
 	}
 
 	/**
@@ -217,9 +222,9 @@ class ResourceService {
 			active: $createResourceDto->active,
 			inheritManagers: $createResourceDto->inheritManagers,
 
-			membersAclPermission: $createResourceDto->membersAclPermission,
-			managersAclPermission: $createResourceDto->managersAclPermission,
-			inheritedAclPermission: $createResourceDto->inheritedAclPermission,
+			memberPermissions: $createResourceDto->memberPermissionsBitfield,
+			managerPermissions: $createResourceDto->managerPermissionsBitfield,
+			inheritedMemberPermissions: $createResourceDto->inheritedMemberPermissionsBitfield,
 
 			createdFromTemplateId: $createdFromTemplateId,
 		);
@@ -227,6 +232,13 @@ class ResourceService {
 
 	/**
 	 * Use named arguments to call this function!
+	 * 
+	 * @param bool $alreadyExists special mode, that for type = "folder" uses an existing folder with the resource name
+	 *                            and for type = "calendar" uses an existing calendar with the given id $existingCalendarId
+	 * 
+	 * @param ?string $calendarUri special mode only for type = "calendar" to use a specific calendar URI instead of generating one
+	 * 
+	 * @param ?bool $skipPermssionsApply Do not apply permissions after making changes
 	 * 
 	 * @throws InvalidResourceType
 	 * @throws InvalidResourceName
@@ -238,22 +250,32 @@ class ResourceService {
 		string $type,
 		int $organizationFolderId,
 		string $name,
-		?int $parentResourceId = null,
-		bool $active = true,
-		bool $inheritManagers = true,
+		?int $parentResourceId,
+		bool $active,
+		bool $inheritManagers,
+		array $memberPermissions,
+		array $managerPermissions,
+		array $inheritedMemberPermissions,
+		?string $createdFromTemplateId = null,
 
-		?int $membersAclPermission = null,
-		?int $managersAclPermission = null,
-		?int $inheritedAclPermission = null,
-		// special mode only applicable if type = "folder", that uses an existing folder with the resource name 
-		?bool $folderAlreadyExists = false,
+		bool $alreadyExists = false,
+		?int $existingCalendarId = null,
+
+		?string $calendarUri = null,
 
 		?bool $skipPermssionsApply = false,
-		?string $createdFromTemplateId = null,
 	) {
+		$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+
+		if(!in_array($type, $organizationFolder->getEnabledResourceTypes())) {
+			throw new ResourceTypeNotEnabled($organizationFolder, $type);
+		}
+
 		if($type === "folder") {
 			$resource = new FolderResource();
-		}  else {
+		} else if ($type === "calendar") {
+			$resource = new CalendarResource();
+		} else {
 			throw new InvalidResourceType($type);
 		}
 
@@ -266,6 +288,9 @@ class ResourceService {
 			$resource->setName($name);
 			$resource->setActive($active);
 			$resource->setInheritManagers($inheritManagers);
+			$resource->setMemberPermissions($memberPermissions);
+			$resource->setManagerPermissions($managerPermissions);
+			$resource->setInheritedMemberPermissions($inheritedMemberPermissions);
 			$resource->setCreatedTimestamp(time());
 			$resource->setLastUpdatedTimestamp(time());
 			$resource->setCreatedFromTemplateId($createdFromTemplateId);
@@ -274,7 +299,7 @@ class ResourceService {
 				$parentResource = $this->find($parentResourceId);
 
 				if($parentResource->getOrganizationFolderId() === $organizationFolderId) {
-					if($parentResource->getType() !== "folder") {
+					if(!$parentResource::SUPPORTS_SUBRESOURCES) {
 						throw new ResourceDoesNotSupportSubresources($parentResource);
 					} else {
 						$resource->setParentResource($parentResource->getId());
@@ -289,15 +314,7 @@ class ResourceService {
 			}
 
 			if($type === "folder") {
-				if(!isset($membersAclPermission, $managersAclPermission, $inheritedAclPermission)) {
-					throw new \InvalidArgumentException("Folder specific parameters must be included, when creating a resource of type folder");
-				}
-
-				$resource->setMembersAclPermission($membersAclPermission);
-				$resource->setManagersAclPermission($managersAclPermission);
-				$resource->setInheritedAclPermission($inheritedAclPermission);
-
-				if($folderAlreadyExists) {
+				if($alreadyExists) {
 					$resourceNode = $parentNode->get($name);
 
 					if(!(isset($resourceNode) && $resourceNode instanceof Folder)) {
@@ -318,14 +335,41 @@ class ResourceService {
 				}
 
 				$resource->setFileId($fileId);
+			} else if ($type === "calendar") {
+				if($alreadyExists) {
+					$calendar = $this->calendarIntegration->getCalendarById($existingCalendarId);
+
+					if(!isset($calendar)) {
+						throw new Exception("Existing calendar not found");
+					}
+
+					if($calendar['principaluri'] !== "principals/users/" . $organizationFolder->getServiceAccountUid()) {
+						throw new Exception("Existing calendar needs to be owned by organization folder service account");
+					}
+
+					$this->calendarIntegration->updateCalendar($calendar["id"], displayname: $name, description: "");
+				} else {
+					$calendar = $this->calendarIntegration->createCalendar(
+						principalUri: "principals/users/" . $organizationFolder->getServiceAccountUid(),
+						calendarUri: $calendarUri ?? hash('sha256', $name . "_" . time()),
+						displayname: $name,
+						description: "",
+					);
+				}
+
+				$resource->setCalendarId($calendar["id"]);
 			}
 
 			try {
 				$resource = $this->mapper->insert($resource);
 			} catch (\Throwable $e) {
 				// an error occured, rewind all changes, depending on resource type
-				if($type === "folder" && !$folderAlreadyExists) {
-					$resourceNode?->delete();
+				if(!$alreadyExists) {
+					if($type === "folder") {
+						$resourceNode?->delete();
+					} else if ($type === "calendar") {
+						$this->calendarIntegration->deleteCalendar($calendar["id"]);
+					}
 				}
 				throw $e;
 			}
@@ -347,9 +391,9 @@ class ResourceService {
 			?bool $active = null,
 			?bool $inheritManagers = null,
 
-			?int $membersAclPermission = null,
-			?int $managersAclPermission = null,
-			?int $inheritedAclPermission = null,
+			?array $memberPermissions = null,
+			?array $managerPermissions = null,
+			?array $inheritedMemberPermissions = null,
 
 			?int $maxiumumUsersPermissionsAddedOrDeleted = null,
 		): Resource {
@@ -363,20 +407,16 @@ class ResourceService {
 			$resource->setInheritManagers($inheritManagers);
 		}
 
-		if($resource->getType() === "folder") {
-			if(isset($membersAclPermission)) {
-				$resource->setMembersAclPermission($membersAclPermission);
-			}
+		if(isset($memberPermissions)) {
+			$resource->patchMemberPermissions($memberPermissions);
+		}
 
-			if(isset($managersAclPermission)) {
-				$resource->setManagersAclPermission($managersAclPermission);
-			}
+		if(isset($managerPermissions)) {
+			$resource->patchManagerPermissions($managerPermissions);
+		}
 
-			if(isset($inheritedAclPermission)) {
-				$resource->setInheritedAclPermission($inheritedAclPermission);
-			}
-		}  else {
-			throw new InvalidResourceType($resource->getType());
+		if(isset($inheritedMemberPermissions)) {
+			$resource->patchInheritedMemberPermissions($inheritedMemberPermissions);
 		}
 
 		if(count($resource->getUpdatedFields()) > 0) {
@@ -403,7 +443,7 @@ class ResourceService {
 		string $name,
 		?int $parentResourceId,
 	) {
-		if($resource->getType() === "folder") {
+		if($resource instanceof FolderResource) {
 			$resourceNode = $this->getFolderResourceFilesystemNode($resource);
 
 			// aquire lock so nothing changes until ready to actually move the folder
@@ -452,7 +492,7 @@ class ResourceService {
 			throw new ResourceNameNotUnique();
 		}
 
-		if($resource->getType() === "folder") {
+		if($resource instanceof FolderResource) {
 			$oldPath = $resourceNode->getPath();
 
 			if(isset($parentResource)) {
@@ -485,14 +525,14 @@ class ResourceService {
 						. "failed, not proceeding with any filesystem changes"
 				);
 
-				if($resource->getType() === "folder") {
+				if($resource instanceof FolderResource) {
 					$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 					$parentNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 				}
 				throw $e;
 			}
 
-			if($resource->getType() === "folder") {
+			if($resource instanceof FolderResource) {
 				// release lock, as move will create it's own exclusive locks
 				// upgrading locks to exclusive would be better, but that does not seem to be possible
 				$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
@@ -515,10 +555,12 @@ class ResourceService {
 					$resource->setParentResource($oldParentResourceId);
 					$resource = $this->mapper->update($resource);
 				}
+			} else if ($resource instanceof CalendarResource) {
+				$this->calendarIntegration->updateCalendar($resource->getCalendarId(), $name, "");
 			}
 		} else {
 			// no changes need to be made, releasing locks
-			if($resource->getType() === "folder") {
+			if($resource instanceof FolderResource) {
 				$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 				$parentNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 			}
@@ -552,7 +594,13 @@ class ResourceService {
 	}
 
 	public function getFolderResourceFilesystemNode(FolderResource $resource) {
-		return $this->pathManager->getOrganizationFolderByIdSubfolder($resource->getOrganizationFolderId(), $this->getResourcePath($resource));
+		$result = $this->pathManager->getOrganizationFolderByIdSubfolder($resource->getOrganizationFolderId(), $this->getResourcePath($resource));
+
+		if($result->getId() !== $resource->getFileId()) {
+			throw new Exception("Invalid state: FolderResource Node has different ID than expected");
+		}
+
+		return $result;
 	}
 
 	/** 
@@ -656,11 +704,13 @@ class ResourceService {
 			organizationFolderId: $resource->getOrganizationFolderId(),
 			name: $unmanagedSubfolderName,
 			parentResourceId: $resource->getId(),
+			active: true,
+			inheritManagers: true,
 			// match current permissions in subfolder
-			inheritedAclPermission: $resource->getMembersAclPermission(), // Members in parent resource will be inherited members in new resource
-			membersAclPermission: $resource->getMembersAclPermission(),
-			managersAclPermission: $resource->getManagersAclPermission(),
-			folderAlreadyExists: true,
+			inheritedMemberPermissions: $resource->getMemberPermissions(), // Members in parent resource will be inherited members in new resource
+			memberPermissions: $resource->getMemberPermissions(),
+			managerPermissions: $resource->getManagerPermissions(),
+			alreadyExists: true,
 		);
 	}
 
@@ -708,7 +758,11 @@ class ResourceService {
 				foreach($permission->getPermissionOrigins() as $permissionOrigin) {
 					if($permissionOrigin["permissionsBitmap"] > 0) {
 						// only keep last (least inheritedFrom distance to resource) of each type
-						$filteredPermissionOrigins[$permissionOrigin["type"]->value] = $permissionOrigin;
+						$filteredPermissionOrigins[$permissionOrigin["type"]->value] = [
+							"type" => $permissionOrigin["type"],
+							"permissions" => $resource->bitfieldToPermissions($permissionOrigin["permissionsBitmap"]),
+							"inheritedFrom" => $permissionOrigin["inheritedFrom"],
+						];
 					}
 				}
 
@@ -740,7 +794,7 @@ class ResourceService {
 
 				$result[] = [
 					'principal' => $principal,
-					'permissionsBitmap' => $permission->getPermissionsBitmap(),
+					'permissions' => $resource->bitfieldToPermissions($permission->getPermissionsBitmap()),
 					'permissionOrigins' => array_values($filteredPermissionOrigins),
 					'warnings' => $warnings,
 				];
@@ -775,7 +829,7 @@ class ResourceService {
 
 					$applicablePermissions[] = [
 						'principal' => $principal,
-						'permissionsBitmap' => $permission->getPermissionsBitmap(),
+						'permissions' => $resource->bitfieldToPermissions($permission->getPermissionsBitmap()),
 					];
 				}
 			}
@@ -797,7 +851,7 @@ class ResourceService {
 
 		return [
 			"applicablePermissions" => $applicablePermissions,
-			"overallPermissionsBitmap" => $overallPermissionsBitmap,
+			"overallPermissions" => $resource->bitfieldToPermissions($overallPermissionsBitmap),
 			"warnings" => $warnings,
 		];
 	}
@@ -807,7 +861,7 @@ class ResourceService {
 			$resource = $this->mapper->find($id);
 			return $this->delete($resource);
 		} catch (Exception $e) {
-			$this->handleException($e, ["id" => $id]);
+			throw $this->handleException($e, ["id" => $id]);
 		}
 	}
 
@@ -821,7 +875,7 @@ class ResourceService {
 			}
 
 			// delete in filesystem if type folder
-			if($resource->getType() === "folder") {
+			if($resource instanceof FolderResource) {
 				$node = $this->getFolderResourceFilesystemNode($resource);
 				
 				if(isset($node)) {
@@ -833,6 +887,8 @@ class ResourceService {
 						. ", but it did not exist. This should not happen, investigate the cause! Proceeding normally."
 					);
 				}
+			} else if($resource instanceof CalendarResource) {
+				$this->calendarIntegration->deleteCalendar($resource->getCalendarId());
 			}
 			
 			// delete in database

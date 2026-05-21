@@ -29,6 +29,8 @@ import ConfirmDeleteDialog from "../components/ConfirmDeleteDialog.vue";
 import ResourceList from "../components/ResourceList.vue";
 import CreateResourceButton from "../components/CreateResourceButton.vue";
 import CreateMemberButton from "../components/CreateMemberButton/CreateMemberButton.vue";
+import CreateLinkShareButton from "../components/CreateLinkShareButton.vue";
+import LinkShareList from "../components/LinkShareList/LinkShareList.vue";
 import UnmanagedSubfoldersList from "../components/UnmanagedSubfoldersList.vue";
 import UserPrincipalSelector from "../components/UserPrincipalSelector.vue";
 import PermissionsReport from "../components/PermissionsReport/PermissionsReport.vue";
@@ -59,7 +61,7 @@ const organizationProviders = useOrganizationProvidersStore();
 
 organizationProviders.initialize();
 
-const resourceApiIncludes = "model+permissions+members+parentResource+subresources+unmanagedSubfolders";
+const resourceApiIncludes = "model+permissions+members+parentResource+subresources+unmanagedSubfolders+linkShares";
 
 const organizationFolder = ref(null);
 const resource = ref(null);
@@ -90,6 +92,18 @@ const userPermissionsReport = ref(null);
 const currentResourceName = ref(false);
 
 const moveDialogOpen = ref(false);
+
+const subresourcesSupportedByResource = computed(() => {
+    return api.SubresourceSupportByType[resource.value?.type] ?? false;
+});
+
+const linkSharesSupportedByResource = computed(() => {
+    return api.LinkShareSupportByType[resource.value?.type] ?? false;
+});
+
+const snapshotsSupportedByResource = computed(() => {
+    return api.SnapshotSupportByType[resource.value?.type] ?? false;
+});
 
 const loading = computed(() => {
     return resourceLoading.value || organizationFolderLoading.value;
@@ -222,9 +236,9 @@ const saveActive = async (active) => {
 	}
 };
 
-const savePermission = async ({ field, value, callback }) => {
+const savePermission = async ({ field, patch, callback }) => {
     api.updateResource(resource.value.id, {
-	  [field]: value,
+	  [field]: patch,
 	}, resourceApiIncludes, false).then((updatedResource) => {
 		resource.value = updatedResource;
 		callback();
@@ -232,7 +246,7 @@ const savePermission = async ({ field, value, callback }) => {
 	.catch((error) => {
 		if(error.response?.data?.id === "WouldCauseTooManyPermissionsChanges") {
 			tooManyPermissionsChangesDialogRetryApiRequest = async () => {
-				resource.value = await api.updateResource(resource.value.id, { [field]: value }, resourceApiIncludes, false, null);
+				resource.value = await api.updateResource(resource.value.id, { [field]: patch }, resourceApiIncludes, false, null);
 				callback();
 			};
 			tooManyPermissionsChangesDialogCancelApiRequest = () => {
@@ -317,6 +331,24 @@ const deleteMember = (memberId, callback) => {
 		});
 };
 
+const addLinkShare = async (callback) => {
+	try {
+		resource.value.linkShares.push(await api.createResourceLinkShare(resource.value.id));
+	} finally {
+		callback();
+	}
+};
+
+const deleteLinkShare = (linkShareId, callback) => {
+	api.deleteResourceLinkShare(resource.value.id, linkShareId)
+		.then(() => {
+			resource.value.linkShares = resource.value.linkShares.filter((s) => s.id !== linkShareId);
+		})
+		.finally(() => {
+			callback();
+		});
+};
+
 const snapshotIntegrationActive = loadState('organization_folders', 'snapshot_integration_active', false);
 const subfoldersEnabled = loadState('organization_folders', 'subresources_enabled', false);
 
@@ -350,9 +382,7 @@ const createSubResource = async (type, name, callback) => {
 			active: true,
 			inheritManagers: true,
 
-			membersAclPermission: 0,
-			managersAclPermission: 31,
-			inheritedAclPermission: 1,
+			...api.ResourceDefaultPermissionsByType[type],
 		}));
 
 		callback(true);
@@ -429,9 +459,31 @@ const noPermissionExplanation = computed(() => {
 	}
 });
 
+const resourceActiveText = computed(() => {
+	if(resource.value?.type === api.ResourceTypes.FOLDER) {
+		return t("organization_folders", "Folder active");
+	} else if(resource.value?.type === api.ResourceTypes.CALENDAR) {
+		return t("organization_folders", "Calendar active");
+	} else {
+		return "";
+	}
+});
+
 const deleteResourceText = computed(() => {
 	if(resource.value?.type === api.ResourceTypes.FOLDER) {
 		return t("organization_folders", "Delete folder");
+	} else if(resource.value?.type === api.ResourceTypes.CALENDAR) {
+		return t("organization_folders", "Delete calendar");
+	} else {
+		return "";
+	}
+});
+
+const moveResourceText = computed(() => {
+	if(resource.value?.type === api.ResourceTypes.FOLDER) {
+		return t("organization_folders", "Move folder");
+	} else if(resource.value?.type === api.ResourceTypes.CALENDAR) {
+		return t("organization_folders", "Move calendar");
 	} else {
 		return "";
 	}
@@ -597,6 +649,15 @@ const openMoveDialog = () => {
 				@update-member="updateMember"
 				@delete-member="deleteMember" />
 		</Section>
+		<Section v-if="!resourcePermissionsLimited && linkSharesSupportedByResource">
+			<template #header>
+				<HeaderButtonGroup :text="t('organization_folders', 'Link Shares')">
+					<CreateLinkShareButton @add-link-share="addLinkShare" />
+				</HeaderButtonGroup>
+			</template>
+			<LinkShareList :linkShares="resource?.linkShares"
+				@delete-link-share="deleteLinkShare" />
+		</Section>
 		<Section v-if="!resourcePermissionsLimited">
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Management Actions')"></SectionHeader>
@@ -645,7 +706,7 @@ const openMoveDialog = () => {
 					<UserPermissionsReport v-else-if="userPermissionsReport" :resource="resource" :user-permissions-report="userPermissionsReport" />
 				</NcDialog>
 				<NcButton @click="openMoveDialog">
-					{{ t("organization_folders", "Move folder") }}
+					{{ moveResourceText }}
 					<template #icon>
 						<FolderMove :size="20" />
 					</template>
@@ -656,7 +717,7 @@ const openMoveDialog = () => {
 					:open="moveDialogOpen"
 					@update:open="(newValue) => moveDialogOpen = newValue"
 					@move="move" />
-				<NcButton v-if="snapshotIntegrationActive" @click="switchToSnapshotRestoreView">
+				<NcButton v-if="snapshotIntegrationActive && snapshotsSupportedByResource" @click="switchToSnapshotRestoreView">
 					<template #icon>
 						<BackupRestore />
 					</template>
@@ -666,7 +727,7 @@ const openMoveDialog = () => {
 					:loading="resourceActiveLoading"
 					type="checkbox"
 					@update:checked="saveActive">
-					{{ t("organization_folders", "Resource active") }}
+					{{ resourceActiveText }}
 				</NcCheckboxRadioSwitch>
 				<ConfirmDeleteDialog :title="deleteResourceText"
 					:loading="loading"
@@ -703,15 +764,15 @@ const openMoveDialog = () => {
 				</ConfirmDeleteDialog>
 			</div>
 		</Section>
-		<Section v-if="subfoldersEnabled">
+		<Section v-if="subresourcesSupportedByResource && subfoldersEnabled">
 			<template #header>
 				<HeaderButtonGroup :text="t('organization_folders', 'Sub-Resources')">
-					<CreateResourceButton v-if="!resourcePermissionsLimited" @create="createSubResource" />
+					<CreateResourceButton v-if="!resourcePermissionsLimited" :types="organizationFolder?.enabledResourceTypes" @create="createSubResource" />
 				</HeaderButtonGroup>
 			</template>
 			<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
 		</Section>
-		<SectionCollapseable v-if="subfoldersEnabled && !resourcePermissionsLimited && (resource.unmanagedSubfolders.length > 0)">
+		<SectionCollapseable v-if="subfoldersEnabled && !resourcePermissionsLimited && resource.type === api.ResourceTypes.FOLDER && (resource.unmanagedSubfolders.length > 0)">
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Unmanaged Subfolders')"></SectionHeader>
 			</template>

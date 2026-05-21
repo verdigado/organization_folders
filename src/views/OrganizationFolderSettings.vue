@@ -229,9 +229,7 @@ const createResource = async (type, name, callback) => {
 			active: true,
 			inheritManagers: true,
 
-			membersAclPermission: 0,
-			managersAclPermission: 31,
-			inheritedAclPermission: 0,
+			...api.ResourceDefaultPermissionsByType[type],
 		});
 
 		callback(true);
@@ -380,7 +378,7 @@ const permissionLevelExplanation = t(
 				@delete-member="deleteMember" />
 		</Section>
 		<HeaderButtonGroup :text="t('organization_folders', 'Resources')">
-			<CreateResourceButton @create="createResource" />
+			<CreateResourceButton :types="organizationFolder?.enabledResourceTypes" @create="createResource" />
 		</HeaderButtonGroup>
 		<ResourceList :resources="organizationFolder?.resources" :enable-search="true" @click:resource="resourceClicked" />
 	</ModalView>

@@ -31,8 +31,6 @@ import Principal from "../Principal.vue";
 import PrincipalAvatar from "../PrincipalAvatar.vue";
 import PermissionsIcon from "../PermissionsIcon.vue";
 
-import { calcBits } from "../../helpers/permission-helpers.js";
-
 import api from '../../api.js';
 
 const props = defineProps({
@@ -47,19 +45,6 @@ const props = defineProps({
 });
 
 const expanded = ref(false);
-
-const calculatedPermissions = computed(() => {
-	return calcBits(props.item.permissionsBitmap, 31);
-});
-
-const calculatedPermissionOrigins = computed(() => {
-  return props.item.permissionOrigins.map((origin) => {
-    return {
-      ...origin,
-      calculatedPermissions: calcBits(origin.permissionsBitmap, 31),
-    }
-  })
-});
 
 const multiplePermissionsOrigins = computed(() => {
 	return props.item.permissionOrigins.length > 1;
@@ -80,11 +65,9 @@ const multiplePermissionsOrigins = computed(() => {
 			<td>
 				<Alert v-for="warning in item.warnings" :key="warning.type" v-tooltip="warning.l10n" />
 			</td>
-			<td><PermissionsIcon v-if="!expanded || !multiplePermissionsOrigins" :granted="calculatedPermissions?.READ?.value" /></td>
-			<td><PermissionsIcon v-if="!expanded || !multiplePermissionsOrigins" :granted="calculatedPermissions?.UPDATE?.value" /></td>
-			<td><PermissionsIcon v-if="!expanded || !multiplePermissionsOrigins" :granted="calculatedPermissions?.CREATE?.value" /></td>
-			<td><PermissionsIcon v-if="!expanded || !multiplePermissionsOrigins" :granted="calculatedPermissions?.DELETE?.value" /></td>
-			<td><PermissionsIcon v-if="!expanded || !multiplePermissionsOrigins" :granted="calculatedPermissions?.SHARE?.value" /></td>
+			<td v-for="permissionKey in api.RessourcePermissionKeysByType[resource.type]">
+				<PermissionsIcon v-if="!expanded || !multiplePermissionsOrigins" :granted="item.permissions?.[permissionKey]" />
+			</td>
 			<td>
 				<NcButton
 					aria-label="Show explanation"
@@ -99,11 +82,13 @@ const multiplePermissionsOrigins = computed(() => {
 		</tr>
 		<tr v-if="expanded" :class="{ noRowBorder: multiplePermissionsOrigins }">
 			<td style="grid-column: 1 / span 2;"></td>
-			<td v-if="multiplePermissionsOrigins" style="grid-column: 3 / span 7; text-align: center;">
-				<b>{{ t("organization_folders", "The permissions are made up as follows:") }}</b>
-			</td>
-			<td v-else style="grid-column: 3 / span 7; text-align: center;">
-				<template v-if="calculatedPermissionOrigins[0].type === api.PermissionOriginTypes.MEMBER">
+			<template v-if="multiplePermissionsOrigins">
+				<td style="grid-column: 3 / span calc(var(--permissions-columns) + 2); text-align: center;">
+					<b>{{ t("organization_folders", "The permissions are made up as follows:") }}</b>
+				</td>
+			</template>
+			<td v-else style="grid-column: 3 / span calc(var(--permissions-columns) + 2); text-align: center;">
+				<template v-if="item.permissionOrigins[0].type === api.PermissionOriginTypes.MEMBER">
 					<template v-if="resource.type === api.ResourceTypes.FOLDER">
 						<span v-if="item.principal.type === api.PrincipalTypes.USER">
 							{{ t("organization_folders", "These permissions were granted, because the person is a folder member.") }}
@@ -112,8 +97,16 @@ const multiplePermissionsOrigins = computed(() => {
 							{{ t("organization_folders", "These permissions were granted, because the group is a folder member.") }}
 						</span>
 					</template>
+					<template v-else-if="resource.type === api.ResourceTypes.CALENDAR">
+						<span v-if="item.principal.type === api.PrincipalTypes.USER">
+							{{ t("organization_folders", "These permissions were granted, because the person is a calendar member.") }}
+						</span>
+						<span v-else>
+							{{ t("organization_folders", "These permissions were granted, because the group is a calendar member.") }}
+						</span>
+					</template>
 				</template>
-				<template v-else-if="calculatedPermissionOrigins[0].type === api.PermissionOriginTypes.MANAGER">
+				<template v-else-if="item.permissionOrigins[0].type === api.PermissionOriginTypes.MANAGER">
 					<template v-if="resource.type === api.ResourceTypes.FOLDER">
 						<span v-if="item.principal.type === api.PrincipalTypes.USER">
 							{{ t("organization_folders", "These permissions were granted, because the person is a folder manager.") }}
@@ -122,8 +115,16 @@ const multiplePermissionsOrigins = computed(() => {
 							{{ t("organization_folders", "These permissions were granted, because the group is a folder manager.") }}
 						</span>
 					</template>
+					<template v-else-if="resource.type === api.ResourceTypes.CALENDAR">
+						<span v-if="item.principal.type === api.PrincipalTypes.USER">
+							{{ t("organization_folders", "These permissions were granted, because the person is a calendar manager.") }}
+						</span>
+						<span v-else>
+							{{ t("organization_folders", "These permissions were granted, because the group is a calendar manager.") }}
+						</span>
+					</template>
 				</template>
-				<template v-else-if="calculatedPermissionOrigins[0].type === api.PermissionOriginTypes.INHERITED_MEMBER">
+				<template v-else-if="item.permissionOrigins[0].type === api.PermissionOriginTypes.INHERITED_MEMBER">
 					<span v-if="item.principal.type === api.PrincipalTypes.USER">
 						{{ t("organization_folders", "These permissions were granted, because the person has read permissions in the parent folder.") }}
 					</span>
@@ -131,32 +132,38 @@ const multiplePermissionsOrigins = computed(() => {
 						{{ t("organization_folders", "These permissions were granted, because the group has read permissions in the parent folder.") }}
 					</span>
 				</template>
-				<template v-else-if="calculatedPermissionOrigins[0].type === api.PermissionOriginTypes.INHERITED_MANAGER">
+				<template v-else-if="item.permissionOrigins[0].type === api.PermissionOriginTypes.INHERITED_MANAGER">
 					<span v-if="item.principal.type === api.PrincipalTypes.USER">
 						{{ t("organization_folders", "These permissions were granted, because the person inherits manager permissions from {originName}.", {
-							originName: calculatedPermissionOrigins[0]?.inheritedFrom?.name ?? "",
+							originName: item.permissionOrigins[0]?.inheritedFrom?.name ?? "",
 						}) }}
 					</span>
 					<span v-else>
 						{{ t("organization_folders", "These permissions were granted, because the group inherits manager permissions from {originName}.", {
-							originName: calculatedPermissionOrigins[0]?.inheritedFrom?.name ?? "",
+							originName: item.permissionOrigins[0]?.inheritedFrom?.name ?? "",
 						}) }}
 					</span>
 				</template>
 			</td>
 			<td></td>
 		</tr>
-		<template v-if="expanded && multiplePermissionsOrigins" v-for="(permissionOrigin, index) in calculatedPermissionOrigins">
+		<template v-if="expanded && multiplePermissionsOrigins" v-for="(permissionOrigin, index) in item.permissionOrigins">
 			<tr :key="'tr1-' + index" class="noRowBorder">
 				<td style="grid-column: 1 / span 4;">
 					<template v-if="permissionOrigin.type === api.PermissionOriginTypes.MEMBER">
 						<p v-if="resource.type === api.ResourceTypes.FOLDER" class="origin-text">
 							{{ t("organization_folders", "Is a folder member") }}
 						</p>
+						<p v-else-if="resource.type === api.ResourceTypes.CALENDAR" class="origin-text">
+							{{ t("organization_folders", "Is a calendar member") }}
+						</p>
 					</template>
 					<template v-else-if="permissionOrigin.type === api.PermissionOriginTypes.MANAGER">
 						<p v-if="resource.type === api.ResourceTypes.FOLDER" class="origin-text">
 							{{ t("organization_folders", "Is a folder manager") }}
+						</p>
+						<p v-else-if="resource.type === api.ResourceTypes.CALENDAR" class="origin-text">
+							{{ t("organization_folders", "Is a calendar manager") }}
 						</p>
 					</template>
 					<p v-else-if="permissionOrigin.type === api.PermissionOriginTypes.INHERITED_MEMBER" class="origin-text">
@@ -168,21 +175,19 @@ const multiplePermissionsOrigins = computed(() => {
 						}) }}
 					</p>
 				</td>
-				<td><PermissionsIcon :granted="permissionOrigin.calculatedPermissions?.READ?.value" /></td>
-				<td><PermissionsIcon :granted="permissionOrigin.calculatedPermissions?.UPDATE?.value" /></td>
-				<td><PermissionsIcon :granted="permissionOrigin.calculatedPermissions?.CREATE?.value" /></td>
-				<td><PermissionsIcon :granted="permissionOrigin.calculatedPermissions?.DELETE?.value" /></td>
-				<td><PermissionsIcon :granted="permissionOrigin.calculatedPermissions?.SHARE?.value" /></td>
+				<td v-for="permissionKey in api.RessourcePermissionKeysByType[resource.type]">
+					<PermissionsIcon :granted="permissionOrigin.permissions?.[permissionKey]" />
+				</td>
 				<td></td>
 			</tr>
-			<tr :key="'tr2-' + index" v-if="index < calculatedPermissionOrigins.length - 1" class="noRowBorder">
-				<td style="grid-column: 5 / span 5; text-align: center;">+</td>
+			<tr :key="'tr2-' + index" v-if="index < item.permissionOrigins.length - 1" class="noRowBorder">
+				<td style="grid-column: 5 / span var(--permissions-columns); text-align: center;">+</td>
 				<td></td>
 			</tr>
 		</template>
 		<template v-if="expanded && multiplePermissionsOrigins">
 			<tr class="noRowBorder">
-				<td style="grid-column: 5 / span 5; text-align: center;">=</td>
+				<td style="grid-column: 5 / span var(--permissions-columns); text-align: center;">=</td>
 				<td></td>
 			</tr>
 			<tr>
@@ -190,11 +195,9 @@ const multiplePermissionsOrigins = computed(() => {
 				<td></td>
 				<td></td>
 				<td></td>
-				<td><PermissionsIcon :granted="calculatedPermissions?.READ?.value" /></td>
-				<td><PermissionsIcon :granted="calculatedPermissions?.UPDATE?.value" /></td>
-				<td><PermissionsIcon :granted="calculatedPermissions?.CREATE?.value" /></td>
-				<td><PermissionsIcon :granted="calculatedPermissions?.DELETE?.value" /></td>
-				<td><PermissionsIcon :granted="calculatedPermissions?.SHARE?.value" /></td>
+				<td v-for="permissionKey in api.RessourcePermissionKeysByType[resource.type]">
+					<PermissionsIcon :granted="item.permissions?.[permissionKey]" />
+				</td>
 				<td></td>
 			</tr>
 		</template>

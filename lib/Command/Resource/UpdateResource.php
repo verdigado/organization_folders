@@ -21,9 +21,9 @@ class UpdateResource extends BaseCommand {
 
 		// folder type options
 		$this
-			->addOption('members-acl-permission', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for members of resource')
-			->addOption('managers-acl-permission', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for managers of resource')
-			->addOption('inherited-acl-permission', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for users with access to the resource level above (or organization in case resource is top-level)');
+			->addOption('member-permissions', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for members of resource')
+			->addOption('manager-permissions', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for managers of resource')
+			->addOption('inherited-member-permissions', null, InputOption::VALUE_OPTIONAL, 'New acl permissions for users with access to the resource level above (or organization in case resource is top-level)');
 		
 		parent::configure();
 	}
@@ -45,9 +45,9 @@ class UpdateResource extends BaseCommand {
 			$inheritManagers = null;
 		}
 
-		$membersAclPermission = $input->getOption('members-acl-permission');
-		$managersAclPermission = $input->getOption('managers-acl-permission');
-		$inheritedAclPermission = $input->getOption('inherited-acl-permission');
+		$memberPermissionsBitfield = $input->getOption('member-permissions');
+		$managerPermissionsBitfield = $input->getOption('manager-permissions');
+		$inheritedMemberPermissionsBitfield = $input->getOption('inherited-member-permissions');
 
 		try {
 			$resource = $this->resourceService->update(
@@ -55,9 +55,9 @@ class UpdateResource extends BaseCommand {
 				active: $active,
 				inheritManagers: $inheritManagers,
 
-				membersAclPermission: $membersAclPermission,
-				managersAclPermission: $managersAclPermission,
-				inheritedAclPermission: $inheritedAclPermission,
+				memberPermissionsBitfield: $memberPermissionsBitfield,
+				managerPermissionsBitfield: $managerPermissionsBitfield,
+				inheritedMemberPermissionsBitfield: $inheritedMemberPermissionsBitfield,
 			);
 
 			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($resource)]);

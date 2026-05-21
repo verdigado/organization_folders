@@ -68,7 +68,7 @@ class GroupfolderManager {
 	 * @return array{
 	 *   created: GroupfolderMemberGroup[],
 	 *   updated: GroupfolderMemberGroup[],
-	 *   removed: string[],
+	 *   removed: GroupfolderMemberGroup[],
 	 * }
 	 */
 	public function overwriteMemberGroups(int $id, array $memberGroups): array {
@@ -106,19 +106,17 @@ class GroupfolderManager {
 			}
 		}
 
-		/** @var string[] */
+		/** @var GroupfolderMemberGroup[] */
 		$groupsToRemove = [];
 
 		foreach($existingMemberGroups as $existingMember) {
-			$groupId = $existingMember['group_id'];
-
-			if (!isset($groupPermissionsById[$groupId])) {
-        		$groupsToRemove[] = $groupId;
+			if (!isset($groupPermissionsById[$existingMember['group_id']])) {
+        		$groupsToRemove[] = $existingMember;
 			}
 		}
 
 		foreach($groupsToRemove as $group) {
-			$this->folderManager->removeApplicableGroup($id, $group);
+			$this->folderManager->removeApplicableGroup($id, $group["group_id"]);
 		}
 
 		foreach($groupsToAdd as $group) {

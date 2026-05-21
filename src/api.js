@@ -27,6 +27,7 @@ var PrincipalTypes = {
  */
 var ResourceTypes = {
 	FOLDER: "folder",
+	CALENDAR: "calendar",
 }
 
 /**
@@ -68,6 +69,69 @@ var PermissionOriginTypes = {
 	INHERITED_MANAGER: 4,
 }
 
+var RessourcePermissionKeysByType = {
+	folder: ["READ", "UPDATE", "CREATE", "DELETE", "SHARE"],
+	calendar: ["READ", "UPDATE"],
+}
+
+var RessourcePermissionKeyLabelsByType = {
+	folder: [
+		// TRANSLATORS Read permission checkbox title
+		t("organization_folders", "Read"),
+		// TRANSLATORS Write permission checkbox title
+		t("organization_folders", "Write"),
+		// TRANSLATORS Create permission checkbox title
+		t("organization_folders", "Create"),
+		// TRANSLATORS Delete permission checkbox title
+		t("organization_folders", "Delete"),
+		// TRANSLATORS Share permission checkbox title
+		t("organization_folders", "Share"),
+	],
+	calendar: [
+		// TRANSLATORS Read permission checkbox title
+		t("organization_folders", "Read"),
+		// TRANSLATORS Write permission checkbox title
+		t("organization_folders", "Write"),
+	],
+}
+
+var SubresourceSupportByType = {
+	folder: true,
+}
+
+var LinkShareSupportByType = {
+	calendar: true,
+}
+
+var SnapshotSupportByType = {
+	folder: true,
+}
+
+var ResourceDefaultPermissionsByType = {
+	folder: {
+		memberPermissions: {
+			READ: true,
+		},
+		managerPermissions: {
+			READ: true,
+			UPDATE: true,
+			CREATE: true,
+			DELETE: true,
+			SHARE: false,
+		},
+		inheritedMemberPermissions: {},
+	},
+	calendar: {
+		memberPermissions: {
+			READ: true,
+		},
+		managerPermissions: {
+			READ: true,
+			UPDATE: true,
+		},
+		inheritedMemberPermissions: {},
+	},
+}
 
 /**
  * @typedef {{
@@ -81,6 +145,8 @@ var PermissionOriginTypes = {
  * quota: number
  * organizationProviderId: string|undefined
  * organizationId: number
+ * serviceAccountUid: string
+ * enabledResourceTypes: string[]
  * members: Array<OrganizationFolderMember>|undefined
  * resources: Array<Resource>|undefined
  * }} OrganizationFolder
@@ -93,6 +159,19 @@ var PermissionOriginTypes = {
  * createdTimestamp: number,
  * lastUpdatedTimestamp: number,
  * }} OrganizationFolderMember
+ * 
+ * @typedef {{
+ * READ: bool,
+ * UPDATE: bool,
+ * CREATE: bool,
+ * DELETE: bool,
+ * SHARE: bool,
+ * }} FolderRessourcePermissions
+ * 
+ * @typedef {{
+ * READ: bool,
+ * UPDATE: bool,
+ * }} CalendarRessourcePermissions
  *
  * @typedef {{
  * id: number
@@ -104,12 +183,29 @@ var PermissionOriginTypes = {
  * inheritManagers: bool
  * createdTimestamp: number
  * lastUpdatedTimestamp: number
- * membersAclPermission: number
- * managersAclPermission: number
- * inheritedAclPermission: number
+ * memberPermissions: FolderRessourcePermissions
+ * managerPermissions: FolderRessourcePermissions
+ * inheritedMemberPermissions: FolderRessourcePermissions
  * members: Array<ResourceMember>|undefined
  * subResources: Array<Resource>|undefined
  * }} FolderResource
+ * 
+ * @typedef {{
+ * id: number
+ * type: ResourceType
+ * organizationFolderId: number
+ * name: string
+ * parentResourceId: number|null
+ * active: bool
+ * inheritManagers: bool
+ * createdTimestamp: number
+ * lastUpdatedTimestamp: number
+ * memberPermissions: CalendarRessourcePermissions
+ * managerPermissions: CalendarRessourcePermissions
+ * inheritedMemberPermissions: CalendarRessourcePermissions
+ * members: Array<ResourceMember>|undefined
+ * linkShares: array
+ * }} CalendarResource
  *
  * @typedef {(FolderResource)} Resource
  * 
@@ -122,14 +218,14 @@ var PermissionOriginTypes = {
  * @typedef {{
  * type: PrincipalType,
  * id: string,
- * friendlyName: string
- * fullHierarchyNames: string[]
+ * friendlyName: string,
+ * fullHierarchyNames: string[],
  * }} Principal
  *
  * @typedef {{
- * id: number
- * resourceId: number
- * permissionLevel: ResourceMemberPermissionLevel
+ * id: number,
+ * resourceId: number,
+ * permissionLevel: ResourceMemberPermissionLevel,
  * principal: Principal,
  * createdTimestamp: number,
  * lastUpdatedTimestamp: number,
@@ -140,6 +236,13 @@ var PermissionOriginTypes = {
  * friendlyName: string,
  * membersGroup: string,
  * }} Organization
+ * 
+ * @typedef {{
+ * id: number,
+ * resourceId: number,
+ * name: string,
+ * linkUrl: string,
+ * }} ResourceLinkShare
  *
  */
 
@@ -166,6 +269,12 @@ export default {
 	ResourceMemberPermissionLevels,
 	ResourceTypes,
 	PermissionOriginTypes,
+	RessourcePermissionKeysByType,
+	RessourcePermissionKeyLabelsByType,
+	SubresourceSupportByType,
+	LinkShareSupportByType,
+	SnapshotSupportByType,
+	ResourceDefaultPermissionsByType,
 
 	/* Organization Folders */
 
@@ -310,9 +419,9 @@ export default {
 	 *   name: string|undefined
 	 *   active: boolean|undefined
 	 *   inheritManagers: boolean|undefined
-	 *   membersAclPermission: number|undefined
-	 *   managersAclPermission: number|undefined
-	 *   inheritedAclPermission: number|undefined
+	 *   memberPermissions: FolderRessourcePermissions|CalendarRessourcePermissions|undefined
+	 *   managerPermissions: FolderRessourcePermissions|CalendarRessourcePermissions|undefined
+	 *   inheritedMemberPermissions: FolderRessourcePermissions|CalendarRessourcePermissions|undefined
 	 * }} updateResourceDto UpdateResourceDto
 	 * @param {string} include
 	 * @param {string} cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove
@@ -359,9 +468,9 @@ export default {
 	 * active: bool
 	 * inheritManagers: bool
 	 *
-	 * membersAclPermission: number|undefined
-	 * managersAclPermission: number|undefined
-	 * inheritedAclPermission: number|undefined
+	 * memberPermissions: FolderRessourcePermissions|CalendarRessourcePermissions
+	 * managerPermissions: FolderRessourcePermissions|CalendarRessourcePermissions
+	 * inheritedMemberPermissions: FolderRessourcePermissions|CalendarRessourcePermissions
 	 * }} createResourceDto CreateResourceDto
 	 * @param string include
 	 * @return {Promise<Resource>}
@@ -480,6 +589,33 @@ export default {
 	 */
 	deleteResourceMember(resourceMemberId, cancelIfRevokesOwnManagementRights = true) {
 		return axios.delete(`/resources/members/${resourceMemberId}`, { data: { cancelIfRevokesOwnManagementRights } }).then((res) => res.data);
+	},
+
+	/* Resource Link Shares */
+
+	/**
+	 * @param {number|string} resourceId Resource ID
+	 * @return {Promise<Array<ResourceLinkShare>>}
+	 */
+	getResourceLinkShares(resourceId) {
+		return axios.get(`/resources/${resourceId}/linkShares`, {}).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number|string} resourceId Resource ID
+	 * @return {Promise<ResourceLinkShare>}
+	 */
+	createResourceLinkShare(resourceId) {
+		return axios.post(`/resources/${resourceId}/linkShares`).then((res) => res.data);
+	},
+
+	/**
+	 * @param {number|string} resourceId Resource ID
+	 * @param {number} resourcelinkShareId Resource link share ID
+	 * @return {Promise<ResourceLinkShare>}
+	 */
+	deleteResourceLinkShare(resourceId, resourceLinkShareId) {
+		return axios.delete(`/resources/${resourceId}/linkShares/${resourceLinkShareId}`).then((res) => res.data);
 	},
 
 	/* Resource Snapshots */

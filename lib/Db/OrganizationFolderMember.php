@@ -5,7 +5,9 @@ namespace OCA\OrganizationFolders\Db;
 use JsonSerializable;
 use OCA\OrganizationFolders\Interface\TableSerializable;
 
+use OCP\IL10N;
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Enum\PrincipalType;
@@ -23,11 +25,11 @@ class OrganizationFolderMember extends Entity implements JsonSerializable, Table
 	protected $lastUpdatedTimestamp;
 	
 	public function __construct() {
-		$this->addType('organizationFolderId','integer');
-		$this->addType('permissionLevel','integer');
-		$this->addType('principalType','integer');
-		$this->addType('createdTimestamp','integer');
-		$this->addType('lastUpdatedTimestamp','integer');
+		$this->addType('organizationFolderId', Types::INTEGER);
+		$this->addType('permissionLevel', Types::INTEGER);
+		$this->addType('principalType', Types::INTEGER);
+		$this->addType('createdTimestamp', Types::INTEGER);
+		$this->addType('lastUpdatedTimestamp', Types::INTEGER);
 	}
 
 	public function getPrincipal(): PrincipalBackedByGroup {
@@ -88,7 +90,7 @@ class OrganizationFolderMember extends Entity implements JsonSerializable, Table
 		];
 	}
 
-	public function tableSerialize(?array $params = null): array {
+	public function tableSerialize(IL10N $l10n, ?array $params = null): array {
 		return [
 			'Id' => $this->id,
 			'Organization Folder Id' => $this->organizationFolderId,
