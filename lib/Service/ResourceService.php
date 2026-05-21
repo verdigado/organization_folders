@@ -222,9 +222,9 @@ class ResourceService {
 			active: $createResourceDto->active,
 			inheritManagers: $createResourceDto->inheritManagers,
 
-			memberPermissions: $createResourceDto->memberPermissionsBitfield,
-			managerPermissions: $createResourceDto->managerPermissionsBitfield,
-			inheritedMemberPermissions: $createResourceDto->inheritedMemberPermissionsBitfield,
+			memberPermissions: $createResourceDto->memberPermissions,
+			managerPermissions: $createResourceDto->managerPermissions,
+			inheritedMemberPermissions: $createResourceDto->inheritedMemberPermissions,
 
 			createdFromTemplateId: $createdFromTemplateId,
 		);
@@ -384,7 +384,15 @@ class ResourceService {
 		}
 	}
 
-	/** Use named arguments to call this function */
+	/**
+	 * Use named arguments to call this function
+	 * 
+	 * @param array<string, bool> $memberPermissions
+	 * @param array<string, bool> $managerPermissions
+	 * @param array<string, bool> $inheritedMemberPermissions
+	 * @param bool $permissionsPatchMode if true permissions keys that are unset are kept at current value; if false unset values default to false
+	 * @return Resource
+	 */
 	public function update(
 			int $id,
 
@@ -394,6 +402,7 @@ class ResourceService {
 			?array $memberPermissions = null,
 			?array $managerPermissions = null,
 			?array $inheritedMemberPermissions = null,
+			bool $permissionsPatchMode = true,
 
 			?int $maxiumumUsersPermissionsAddedOrDeleted = null,
 		): Resource {
@@ -407,16 +416,30 @@ class ResourceService {
 			$resource->setInheritManagers($inheritManagers);
 		}
 
-		if(isset($memberPermissions)) {
-			$resource->patchMemberPermissions($memberPermissions);
-		}
+		if($permissionsPatchMode) {
+			if(isset($memberPermissions)) {
+				$resource->patchMemberPermissions($memberPermissions);
+			}
 
-		if(isset($managerPermissions)) {
-			$resource->patchManagerPermissions($managerPermissions);
-		}
+			if(isset($managerPermissions)) {
+				$resource->patchManagerPermissions($managerPermissions);
+			}
 
-		if(isset($inheritedMemberPermissions)) {
-			$resource->patchInheritedMemberPermissions($inheritedMemberPermissions);
+			if(isset($inheritedMemberPermissions)) {
+				$resource->patchInheritedMemberPermissions($inheritedMemberPermissions);
+			}
+		} else {
+			if(isset($memberPermissions)) {
+				$resource->setMemberPermissions($memberPermissions);
+			}
+
+			if(isset($managerPermissions)) {
+				$resource->setManagerPermissions($managerPermissions);
+			}
+
+			if(isset($inheritedMemberPermissions)) {
+				$resource->setInheritedMemberPermissions($inheritedMemberPermissions);
+			}
 		}
 
 		if(count($resource->getUpdatedFields()) > 0) {

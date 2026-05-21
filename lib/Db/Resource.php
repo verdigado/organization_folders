@@ -9,7 +9,6 @@ use OCA\OrganizationFolders\Errors\Api\ResourcePermissionsBitfieldInvalid;
 
 use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
-use OCP\L10N\IFactory;
 
 abstract class Resource extends Entity implements JsonSerializable, TableSerializable {
 	protected $organizationFolderId;
@@ -264,5 +263,9 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	 */
 	public function patchInheritedMemberPermissions(array $permissions): void {
 		$this->setInheritedMemberPermissionsBitfield(static::patchPermissionsBitfield($this->inheritedMemberPermissionsBitfield, $permissions));
+	}
+
+	protected function tableSerializePermissions(array $permissions): string {
+		return implode("+", array_keys($permissions, true, true));
 	}
 }

@@ -15,7 +15,7 @@ class CreateResourceFromTemplate extends BaseCommand {
 			->setName('organization-folders:resources:create-from-template')
 			->setDescription('Create a new resource in organization folder from a template')
 			->addOption('organization-folder-id', null, InputOption::VALUE_REQUIRED, 'ID of organization folder to create resource in')
-			->addOption('parent-resource-id', null, InputOption::VALUE_OPTIONAL, 'ID of parent resource (leave out if creating at top level in organization folder)')
+			->addOption('parent-resource-id', null, InputOption::VALUE_REQUIRED, 'ID of parent resource (leave out if creating at top level in organization folder)')
 			->addOption('template-provider-id', null, InputOption::VALUE_REQUIRED, 'ID of template provider')
 			->addOption('template-id', null, InputOption::VALUE_REQUIRED, 'ID of template to create resource from');
 

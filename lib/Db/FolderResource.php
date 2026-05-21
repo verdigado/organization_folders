@@ -95,9 +95,9 @@ class FolderResource extends Resource {
 			'Inherit Managers' =>  ((bool)$this->inheritManagers) ? 'yes' : 'no',
 			'Last Updated' => $this->lastUpdatedTimestamp,
 
-			'Members ACL Permission' => $this->memberPermissionsBitfield,
-			'Managers ACL Permission' => $this->managerPermissionsBitfield,
-			'Inherited ACL Permission' => $this->inheritedMemberPermissionsBitfield,
+			'Member Permissions' => $this->tableSerializePermissions($this->getMemberPermissions()),
+			'Manager Permissions' => $this->tableSerializePermissions($this->getManagerPermissions()),
+			'Inherited Member Permissions' => $this->tableSerializePermissions($this->getInheritedMemberPermissions()),
 
 			'Created From Template' => $this->createdFromTemplateId,
 		];
