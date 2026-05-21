@@ -26,11 +26,10 @@ class ResourceMemberController extends BaseController {
 	public function __construct(
 		AuthorizationService $authorizationService,
 		ValidatorService $validatorService,
-		protected readonly IDBConnection $db,
-		private ResourceMemberService $service,
-		private ResourceService $resourceService,
-		private PrincipalFactory $principalFactory,
-		private string $userId,
+		private readonly IDBConnection $db,
+		private readonly ResourceMemberService $service,
+		private readonly ResourceService $resourceService,
+		private readonly PrincipalFactory $principalFactory,
 	) {
 		parent::__construct($authorizationService, $validatorService);
 	}

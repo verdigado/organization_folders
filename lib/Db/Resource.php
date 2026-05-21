@@ -30,6 +30,7 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 	public const PERMISSION_KEYS = [];
 	protected const PERMISSIONS_BITFIELD_MAX = 0;
 	public const SUPPORTS_SUBRESOURCES = false;
+	public const SUPPORTS_LINK_SHARES = false;
 	
 	public function __construct() {
 		$this->addType('organizationFolderId', Types::INTEGER);

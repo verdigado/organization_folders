@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Integration\Dav;
 
+use Psr\Log\LoggerInterface;
+
 use OCP\IDBConnection;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\AppFramework\Db\TTransactional;
+use OCP\L10N\IFactory;
+use OCP\IL10N;
+use OCP\IUserSession;
+use OCP\IConfig;
 
 use Sabre\DAV\PropPatch;
 
 use OCA\DAV\CalDAV\Sharing\Service;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Calendar;
 use OCA\OrganizationFolders\Model\CalendarShareList;
 use OCA\OrganizationFolders\Model\CalendarSharesUpdatePlan;
 
@@ -36,17 +43,33 @@ class CalendarIntegration {
 
 	private const PROPERTY_DESCRIPTION = "{urn:ietf:params:xml:ns:caldav}calendar-description";
 
+	private IL10N $davL10n;
+
 	public function __construct(
+		private readonly IFactory $l10nFactory,
+		private readonly IUserSession $userSession,
+		private readonly IConfig $config,
+		private readonly LoggerInterface $logger,
 		private readonly CalDavBackend $calDavBackend,
 		private readonly Service $sharingService,
 		private readonly IDBConnection $db,
-	) {}
+	) {
+		$this->davL10n = $l10nFactory->get(\OCA\DAV\AppInfo\Application::APP_ID, $l10nFactory->getUserLanguage($userSession->getUser()));
+	}
 
 	/**
 	 * @psalm-return ?CalendarInfo
 	 */
 	public function getCalendarById(int $calendarId): ?array {
 		return $this->calDavBackend->getCalendarById($calendarId);
+	}
+
+	/**
+	 * @param CalendarInfo $calendarInfo
+	 * @return Calendar
+	 */
+	private function calendarInfoToCalendar(array $calendarInfo): Calendar {
+		return new Calendar($this->calDavBackend, $calendarInfo, $this->davL10n, $this->config, $this->logger);
 	}
 
 /**
@@ -77,7 +100,6 @@ class CalendarIntegration {
 		}
 
 		if(!empty($mutations)) {
-			//throw new \Exception("test " . json_encode($mutations));
 			$propPatch = new PropPatch($mutations);
 			$this->calDavBackend->updateCalendar($calendarId, $propPatch);
 			if(!$propPatch->commit()) {
@@ -95,7 +117,7 @@ class CalendarIntegration {
 	 * @param int $calendarId
 	 * @return array{id: int, principaluri: string, access: int}[]
 	 */
-	public function getCalendarShares(int $calendarId) {
+	public function getCalendarShares(int $calendarId): array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'principaluri', 'access'])
 			->from('dav_shares')
@@ -113,21 +135,37 @@ class CalendarIntegration {
 	/**
 	 * If it exists get the link share of a calendar
 	 * @param int $calendarId
-	 * @return array{id: int, publicuri: string}[]
+	 * @return ?array{id: int, publicuri: string}
 	 */
-	public function getCalendarLinkShare(int $calendarId) {
+	public function getCalendarLinkShare(int $calendarId): ?array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'publicuri'])
 			->from('dav_shares')
 			->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendarId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter("calendar", IQueryBuilder::PARAM_STR)))
-			// exclude link shares
 			->andWhere($query->expr()->eq('access', $query->createNamedParameter(CalDavBackend::ACCESS_PUBLIC, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->executeQuery();
-		$rows = $result->fetchAll();
+		$row = $result->fetch();
 		$result->closeCursor();
-		return $rows;
+
+		if($row) {
+			return $row;
+		} else {
+			return null;
+		}
+	}
+
+	public function createCalendarLinkShare(int $calendarId): string {
+		$calendarInfo = $this->getCalendarById($calendarId);
+		$calendar = $this->calendarInfoToCalendar($calendarInfo);
+		return $this->calDavBackend->setPublishStatus(true, $calendar);
+	}
+
+	public function deleteCalendarLinkShare(int $calendarId): void {
+		$calendarInfo = $this->getCalendarById($calendarId);
+		$calendar = $this->calendarInfoToCalendar($calendarInfo);
+		$this->calDavBackend->setPublishStatus(false, $calendar);
 	}
 
 	public function createSharesUpdatePlanFromShareList(CalendarShareList $calendarShareList): CalendarSharesUpdatePlan {

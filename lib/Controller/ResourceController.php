@@ -14,6 +14,7 @@ use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Db\FolderResource;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
+use OCA\OrganizationFolders\Service\ResourceLinkShareService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Traits\ApiObjectController;
 use OCA\OrganizationFolders\Errors\Api\AccessDenied;
@@ -31,16 +32,17 @@ class ResourceController extends BaseController {
 	public const SUBRESOURCES_INCLUDE = 'subresources';
 	public const UNMANAGEDSUBFOLDERS_INCLUDE = 'unmanagedSubfolders';
 	public const FULLPATH_INCLUDE = 'fullPath';
+	public const LINK_SHARES_INCLUDE = "linkShares";
 
 	public function __construct(
 		AuthorizationService $authorizationService,
 		ValidatorService $validatorService,
 		private readonly ResourceService $service,
 		private readonly ResourceMemberService $memberService,
+		private readonly ResourceLinkShareService $linkShareService,
 		private readonly OrganizationFolderService $organizationFolderService,
 		private readonly PrincipalFactory $principalFactory,
 		private readonly IUserManager $userManager,
-		private string $userId,
 	) {
 		parent::__construct($authorizationService, $validatorService);
 	}
@@ -108,6 +110,10 @@ class ResourceController extends BaseController {
 		if(!$limited) {
 			if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
 				$result["members"] = $this->memberService->findAll($resource->getId());
+			}
+
+			if ($resource::SUPPORTS_LINK_SHARES && $this->shouldInclude(self::LINK_SHARES_INCLUDE, $includes)) {
+				$result["linkShares"] = $this->linkShareService->findAll($resource);
 			}
 
 			if($resource instanceof FolderResource && $this->shouldInclude(self::UNMANAGEDSUBFOLDERS_INCLUDE, $includes)) {
