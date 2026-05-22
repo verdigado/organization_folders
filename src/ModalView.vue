@@ -62,8 +62,8 @@ const previousStepButtonPressed = () => {
 </script>
 
 <template>
-    <div class="modal__content">
-        <div class="modal__title">
+    <div class="org_folders_modal__content">
+        <div class="org_folders_modal__title_container">
             <NcButton
                 type="secondary"
                 class="btn-back"
@@ -74,15 +74,15 @@ const previousStepButtonPressed = () => {
                     <KeyboardBackspace />
                 </template>
             </NcButton>
-            <h1>{{ title }}</h1>
+            <h1 id="org_folders_modal__title">{{ title }}</h1>
         </div>
-        <div v-if="loading" class="modal__loading">
+        <div v-if="loading" class="org_folders_modal__loading">
             <NcLoadingIcon :size="64" />
         </div>
-        <div v-if="!loading" class="modal__main ignoreForLayout">
+        <div v-if="!loading" class="org_folders_modal__main ignoreForLayout">
             <slot></slot>
         </div>
-        <div v-if="!loading && (hasPreviousStepButton || hasNextStepButton)" class="modal__footer">
+        <div v-if="!loading && (hasPreviousStepButton || hasNextStepButton)" class="org_folders_modal__footer">
             <NcButton
                 :style="{visibility: hasPreviousStepButton ? 'visible' : 'hidden'}"
                 type="secondary"
@@ -104,18 +104,18 @@ const previousStepButtonPressed = () => {
 </template>
 
 <style scoped>
-.modal__title {
+.org_folders_modal__title_container {
 	margin-bottom: 16px;
 	flex-grow: 0;
 }
 
-.modal__title h1 {
+#org_folders_modal__title {
 	text-align: center;
 	font-size: 1.6rem;
 	font-weight: bold;
 }
 
-.modal__footer{
+.org_folders_modal__footer{
 	margin-top: 16px;
 	height: 50px;
 	flex-grow: 0;
@@ -124,7 +124,7 @@ const previousStepButtonPressed = () => {
 	justify-content: space-between;
 }
 
-.modal__content {
+.org_folders_modal__content {
 	padding: 50px;
 	min-width: 75vw;
 	height: calc(100% - 100px);
@@ -132,7 +132,7 @@ const previousStepButtonPressed = () => {
 	display: flex;
 	flex-direction: column;
 }
-.modal__loading {
+.org_folders_modal__loading {
     padding: 50px;
 	min-width: 75vw;
 	height: calc(100% - 100px);

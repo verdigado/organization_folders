@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from "vue";
 
+import { translate as t } from "@nextcloud/l10n";
+
 import NcSelect from "@nextcloud/vue/components/NcSelect";
 import NcButton from "@nextcloud/vue/components/NcButton";
 import NcLoadingIcon from "@nextcloud/vue/components/NcLoadingIcon";
@@ -66,7 +68,7 @@ const onDeleteClicked = (e) => {
 				@update:modelValue="onPermissionLevelSelected" />
 		</td>
 		<td>
-			<NcButton type="tertiary-no-background" @click="onDeleteClicked">
+			<NcButton type="tertiary-no-background" :aria-label="t('organization_folders', 'Delete member')" @click="onDeleteClicked">
 				<template #icon>
 					<NcLoadingIcon :size="20" v-if="deletionLoading" />
 					<Delete :size="20" v-else />

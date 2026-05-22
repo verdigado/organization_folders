@@ -47,14 +47,14 @@ const onCopyClicked = () => {
 			{{ props.linkShare.name }}
 		</td>
         <td>
-			<NcButton type="tertiary-no-background" @click="onCopyClicked">
+			<NcButton type="tertiary-no-background" :aria-label="t('organization_folders', 'Copy link')" @click="onCopyClicked">
 				<template #icon>
 					<ContentCopy :size="20" />
 				</template>
 			</NcButton>
 		</td>
 		<td>
-			<NcButton type="tertiary-no-background" @click="onDeleteClicked">
+			<NcButton type="tertiary-no-background" :aria-label="t('organization_folders', 'Delete link share')" @click="onDeleteClicked">
 				<template #icon>
 					<NcLoadingIcon :size="20" v-if="deletionLoading" />
 					<Delete :size="20" v-else />

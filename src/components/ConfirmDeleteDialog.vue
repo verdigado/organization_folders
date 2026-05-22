@@ -64,10 +64,11 @@ const confirmExplanation = computed(() => {
 			:out-transition="true"
 			:has-next="false"
 			:has-previous="false"
+			label-id="confirm_delete_modal_title"
 			@close="closeDialog">
-			<div class="modal__content">
-				<div class="modal__title">
-					<h1>
+			<div class="confirm_delete_modal_content">
+				<div id="confirm_delete_modal_title_container">
+					<h1 id="confirm_delete_modal_title">
 						{{ props.title }}
 					</h1>
 				</div>
@@ -91,18 +92,17 @@ const confirmExplanation = computed(() => {
 	margin: 1rem 0 1rem 0;
 }
 
-.modal__title {
+#confirm_delete_modal_title_container {
 	margin-bottom: 16px;
 	height: 50px;
 }
-
-.modal__title h1 {
+#confirm_delete_modal_title {
 	text-align: center;
 	font-size: 1.6rem;
 	font-weight: bold;
 }
 
-.modal__content {
+.confirm_delete_modal_content {
 	margin: 50px;
 	min-height: 500px;
 }
