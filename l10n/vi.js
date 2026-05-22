@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Lịch",
+    "Folder" : "Thư mục",
     "Members" : "Thành viên",
     "Back" : "Trở lại",
     "Next" : "Tiếp theo",
@@ -15,9 +17,8 @@ OC.L10N.register(
     "Folder name" : "Tên thư mục",
     "Save" : "Lưu",
     "Edit" : "Chỉnh sửa",
+    "Link copied" : "Đã sao chép liên kết",
     "Move to {target}" : "Di chuyển đến {target}",
-    "Read" : "Đọc",
-    "Share" : "Chia sẻ",
     "Search" : "Tìm kiếm",
     "Confirm" : "Xác nhận",
     "Warning" : "Cảnh báo",
@@ -28,6 +29,8 @@ OC.L10N.register(
     "Resources" : "Các nguồn lực",
     "No search results" : "Không tìm thấy",
     "Delete folder" : "Xoá thư mục",
+    "Read" : "Đọc",
+    "Share" : "Chia sẻ",
     "Unlimited" : "Không giới hạn"
 },
 "nplurals=1; plural=0;");

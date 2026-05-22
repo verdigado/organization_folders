@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "Calendario",
+    "Folder" : "Dossier",
     "Members" : "Membros",
     "Next" : "Proxime",
     "Delete" : "Deler",

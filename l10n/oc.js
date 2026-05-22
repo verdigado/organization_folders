@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendièr",
+    "Folder" : "Dorsièr",
     "Members" : "Membres",
     "Next" : "Seguent",
     "Delete" : "Suprimir",
@@ -13,9 +15,8 @@ OC.L10N.register(
     "Folder name" : "Nom del dorsièr",
     "Save" : "Enregistrar",
     "Edit" : "Modificar",
+    "Link copied" : "Ligam copiat",
     "Move to {target}" : "Desplaçar a {target}",
-    "Read" : "Legit",
-    "Share" : "Partejar",
     "Search" : "Recercar",
     "Confirm" : "Confirmar",
     "Warning" : "Avertiment",
@@ -24,6 +25,8 @@ OC.L10N.register(
     "No search results" : "pas cap de resultats de recèrca",
     "Delete folder" : "Suprimir dossièr",
     "Permissions" : "Autorizacions",
+    "Read" : "Legit",
+    "Share" : "Partejar",
     "Unlimited" : "Illimitat"
 },
 "nplurals=2; plural=(n > 1);");

@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "ប្រតិទិន",
+    "Folder" : "ថត",
     "Delete" : "លុប",
     "Add" : "បន្ថែម",
     "Name" : "ឈ្មោះ",

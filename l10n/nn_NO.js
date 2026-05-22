@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Kalendar",
+    "Folder" : "Mappe",
     "Delete" : "Slett",
     "Select an account" : "Vel ein konto",
     "Add account" : "Legg til konto",
@@ -10,6 +12,7 @@ OC.L10N.register(
     "Folder name" : "Katalognavn",
     "Save" : "Lagre",
     "Edit" : "Rediger",
+    "Link copied" : "Lenkje kopiert",
     "Search" : "Søk",
     "Warning" : "Åtvaring",
     "Admin" : "Administrer",

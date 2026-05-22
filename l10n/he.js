@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "לוח שנה",
+    "Folder" : "תיקייה",
     "Members" : "חברים",
     "Back" : "אחורה",
     "Delete" : "מחיקה",
@@ -14,15 +16,11 @@ OC.L10N.register(
     "Folder name" : "שם התיקייה",
     "Save" : "שמירה",
     "Edit" : "עריכה",
+    "Link copied" : "הקישור הועתק",
     "Move to {target}" : "העברה אל {target}",
-    "Read" : "קריאה",
-    "Write" : "כתיבה",
-    "Share" : "שתף",
-    "Denied (Inherited permission)" : "חסום (הרשאה בירושה)",
-    "Access denied" : "הגישה נדחתה",
-    "Allowed (Inherited permission)" : "מורשה (הרשאה בירושה)",
-    "Denied" : "חסום",
     "Allowed" : "מורשה",
+    "Denied" : "חסום",
+    "Access denied" : "הגישה נדחתה",
     "Search" : "חיפוש",
     "Confirm" : "אישור",
     "Warning" : "אזהרה",
@@ -33,6 +31,9 @@ OC.L10N.register(
     "Finish" : "סיים",
     "Delete folder" : "מחק תיקייה",
     "Permissions" : "הרשאות",
+    "Read" : "קריאה",
+    "Write" : "כתיבה",
+    "Share" : "שתף",
     "Unlimited" : "ללא הגבלה"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

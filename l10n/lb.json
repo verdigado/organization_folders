@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "Kalenner",
+    "Folder" : "Dossier",
     "Delete" : "Läschen",
     "Add" : "Dobäisetzen",
     "Name" : "Numm",
@@ -6,6 +8,7 @@
     "Folder name" : "Dossiers Numm:",
     "Save" : "Späicheren",
     "Edit" : "Änneren",
+    "Link copied" : "Link kopéiert",
     "Search" : "Sichen",
     "Confirm" : "Konfirméieren",
     "Warning" : "Warnung",

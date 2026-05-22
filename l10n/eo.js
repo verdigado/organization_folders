@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Kalendaro",
     "Members" : "Membroj",
     "Next" : "Posten",
     "Delete" : "Forigi",
@@ -11,13 +12,9 @@ OC.L10N.register(
     "Save" : "Konservi",
     "Edit" : "Modifi",
     "Move to {target}" : "Movi al {target}",
-    "Read" : "Legi",
-    "Write" : "Skribi",
-    "Denied (Inherited permission)" : "Rifuzita (heredita permeso)",
-    "Access denied" : "Aliro malpermesata",
-    "Allowed (Inherited permission)" : "Permesita (heredita permeso)",
-    "Denied" : "Rifuzita",
     "Allowed" : "Permesita",
+    "Denied" : "Rifuzita",
+    "Access denied" : "Aliro malpermesata",
     "Search" : "Serĉi",
     "Confirm" : "Konfirmi",
     "Warning" : "Averto",
@@ -25,6 +22,8 @@ OC.L10N.register(
     "Admin" : "Administranto",
     "Settings" : "Agordoj",
     "Resources" : "Rimedoj",
+    "Read" : "Legi",
+    "Write" : "Skribi",
     "Unlimited" : "Senlima"
 },
 "nplurals=2; plural=(n != 1);");

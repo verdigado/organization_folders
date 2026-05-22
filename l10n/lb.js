@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Kalenner",
+    "Folder" : "Dossier",
     "Delete" : "Läschen",
     "Add" : "Dobäisetzen",
     "Name" : "Numm",
@@ -8,6 +10,7 @@ OC.L10N.register(
     "Folder name" : "Dossiers Numm:",
     "Save" : "Späicheren",
     "Edit" : "Änneren",
+    "Link copied" : "Link kopéiert",
     "Search" : "Sichen",
     "Confirm" : "Konfirméieren",
     "Warning" : "Warnung",

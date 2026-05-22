@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendar",
+    "Folder" : "Director",
     "Members" : "Membri",
     "Back" : "Înapoi",
     "Next" : "Următorul",
@@ -13,9 +15,8 @@ OC.L10N.register(
     "Folder name" : "Denumire director",
     "Save" : "Salvează",
     "Edit" : "Editează",
+    "Link copied" : "Link copiat",
     "Move to {target}" : "Mută la {target}",
-    "Read" : "Citit",
-    "Share" : "Partajează",
     "Access denied" : "Acces interzis",
     "Search" : "Căutare",
     "Confirm" : "Confirmă",
@@ -27,6 +28,8 @@ OC.L10N.register(
     "No search results" : "Căutarea nu are rezultate",
     "Finish" : "Finalizare",
     "Permissions" : "Permisiuni",
+    "Read" : "Citit",
+    "Share" : "Partajează",
     "Unlimited" : "Nelimitată"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

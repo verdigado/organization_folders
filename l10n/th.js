@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "ปฏิทิน",
+    "Folder" : "โฟลเดอร์",
     "Next" : "ถัดไป",
     "Delete" : "ลบ",
     "Add group" : "เพิ่มกลุ่ม",
@@ -10,15 +12,16 @@ OC.L10N.register(
     "Folder name" : "ชื่อโฟลเดอร์",
     "Save" : "บันทึก",
     "Edit" : "แก้ไข",
+    "Link copied" : "คัดลอกลิงก์แล้ว",
     "File does not exist" : "ไม่มีไฟล์อยู่",
     "Move to {target}" : "ย้ายไปยัง {target}",
-    "Read" : "อ่าน",
     "Search" : "ค้นหา",
     "Confirm" : "ยืนยัน",
     "Warning" : "คำเตือน",
     "Admin" : "ผู้ดูแลระบบ",
     "Settings" : "การตั้งค่า",
     "Resources" : "ทรัพยากร",
+    "Read" : "อ่าน",
     "Unlimited" : "ไม่จำกัด"
 },
 "nplurals=1; plural=0;");

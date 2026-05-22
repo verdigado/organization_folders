@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendàriu",
+    "Folder" : "Cartella",
     "Members" : "Membros",
     "Back" : "In segus",
     "Next" : "Imbeniente",
@@ -16,14 +18,11 @@ OC.L10N.register(
     "Folder name" : "Nùmene de sa cartella",
     "Save" : "Sarva",
     "Edit" : "Modìfica",
+    "Link copied" : "Ligòngiu copiadu",
+    "Move folder" : "Tràmuda sa cartella",
     "Move to {target}" : "Tràmuda a {target}",
-    "Read" : "Leghe",
-    "Write" : "Iscrie",
-    "Share" : "Cumpartzidura",
-    "Denied (Inherited permission)" : "Negadu (permissu eredadu)",
-    "Allowed (Inherited permission)" : "Cunsentidu (permissu eredadu)",
-    "Denied" : "Negadu",
     "Allowed" : "Cunsentidu",
+    "Denied" : "Negadu",
     "Search" : "Chirca",
     "Confirm" : "Cunfirma",
     "Warning" : "Avisu",
@@ -34,6 +33,8 @@ OC.L10N.register(
     "No search results" : "Perunu resurtadu de chirca",
     "Delete folder" : "Cantzella sa cartella",
     "Permissions" : "Permissos",
-    "Move folder" : "Tràmuda sa cartella"
+    "Read" : "Leghe",
+    "Write" : "Iscrie",
+    "Share" : "Cumpartzidura"
 },
 "nplurals=2; plural=(n != 1);");

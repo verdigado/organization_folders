@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "Calendar",
+    "Folder" : "Folder",
     "Members" : "Members",
     "Back" : "უკან",
     "Next" : "Next",
@@ -12,17 +14,13 @@
     "Folder name" : "Folder name",
     "Save" : "დამახსოვრება",
     "Edit" : "Edit",
+    "Link copied" : "ლინკი მოიკოპა",
     "File does not exist" : "File does not exist",
     "Move to {target}" : "Move to {target}",
-    "Read" : "Read",
-    "Write" : "Write",
-    "Share" : "Share",
-    "Denied (Inherited permission)" : "Denied (Inherited permission)",
-    "Access denied" : "Access denied",
-    "Allowed (Inherited permission)" : "Allowed (Inherited permission)",
-    "Access allowed" : "Access allowed",
-    "Denied" : "Denied",
     "Allowed" : "Allowed",
+    "Denied" : "Denied",
+    "Access allowed" : "Access allowed",
+    "Access denied" : "Access denied",
     "Search" : "ძიება",
     "Confirm" : "Confirm",
     "Warning" : "Warning",
@@ -35,6 +33,9 @@
     "No search results" : "No search results",
     "Delete folder" : "Delete folder",
     "Permissions" : "Permissions",
+    "Read" : "Read",
+    "Write" : "Write",
+    "Share" : "Share",
     "Unlimited" : "Unlimited"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

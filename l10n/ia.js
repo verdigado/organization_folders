@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendario",
+    "Folder" : "Dossier",
     "Members" : "Membros",
     "Next" : "Proxime",
     "Delete" : "Deler",

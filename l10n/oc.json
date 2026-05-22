@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "Calendièr",
+    "Folder" : "Dorsièr",
     "Members" : "Membres",
     "Next" : "Seguent",
     "Delete" : "Suprimir",
@@ -11,9 +13,8 @@
     "Folder name" : "Nom del dorsièr",
     "Save" : "Enregistrar",
     "Edit" : "Modificar",
+    "Link copied" : "Ligam copiat",
     "Move to {target}" : "Desplaçar a {target}",
-    "Read" : "Legit",
-    "Share" : "Partejar",
     "Search" : "Recercar",
     "Confirm" : "Confirmar",
     "Warning" : "Avertiment",
@@ -22,6 +23,8 @@
     "No search results" : "pas cap de resultats de recèrca",
     "Delete folder" : "Suprimir dossièr",
     "Permissions" : "Autorizacions",
+    "Read" : "Legit",
+    "Share" : "Partejar",
     "Unlimited" : "Illimitat"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

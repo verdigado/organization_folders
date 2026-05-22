@@ -8,14 +8,14 @@ OC.L10N.register(
     "Folder name" : "Qovluq adı",
     "Save" : "Saxla",
     "Edit" : "Dəyişiklik et",
-    "Read" : "Oxu",
-    "Share" : "Yayımla",
     "Search" : "Axtarış",
     "Confirm" : "Təsdiq edin",
     "Warning" : "Xəbərdarlıq",
     "Admin" : "İnzibatçı",
     "Settings" : "Quraşdırmalar",
     "Resources" : "Resurslar",
+    "Read" : "Oxu",
+    "Share" : "Yayımla",
     "Unlimited" : "Limitsiz"
 },
 "nplurals=2; plural=(n != 1);");

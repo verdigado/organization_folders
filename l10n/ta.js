@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "நாட்காட்டி",
+    "Folder" : "கோப்புறை",
     "Back" : "பின்னுக்கு",
     "Delete" : "நீக்குக",
     "Add" : "சேர்க்க",

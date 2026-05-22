@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "Taqvim",
+    "Folder" : "Jild",
     "Back" : "Orqaga",
     "Next" : "Keyingisi",
     "Delete" : "O'chirish",
@@ -8,11 +10,11 @@
     "Cancel" : "Bekor qilish",
     "Create" : "Yaratish",
     "Folder name" : "Folder name",
+    "Calendar name" : "Taqvim nomi",
     "Save" : "Saqlash",
     "Edit" : "Tahrirlash",
+    "Link copied" : "Havola nusxalandi",
     "Move to {target}" : " {target}ga o`tish",
-    "Write" : "Yozish",
-    "Share" : "Ulashish",
     "Search" : "Qidirish",
     "Confirm" : "Tasdiqlang",
     "Warning" : "Ogohlantirish",
@@ -23,6 +25,8 @@
     "No search results" : "Qidiruv natijalari yo‘q",
     "Delete folder" : "Jildni o'chirish",
     "Permissions" : "Ruxsatnomalar",
+    "Write" : "Yozish",
+    "Share" : "Ulashish",
     "Unlimited" : "Unlimited"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

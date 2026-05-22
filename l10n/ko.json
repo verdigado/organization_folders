@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "일정",
+    "Folder" : "폴더",
     "Members" : "구성원",
     "Organization Folders" : "조직 폴더",
     "Back" : "뒤로",
@@ -15,19 +17,16 @@
     "Folder name" : "폴더 이름",
     "Save" : "저장",
     "Edit" : "편집",
+    "Link copied" : "링크 복사됨",
     "File does not exist" : "파일이 존재하지 않음",
+    "Move folder" : "폴더 이동",
     "Move to {target}" : "{target}에 이동",
     "Decrement page" : "페이지 감소",
     "Select Page" : "페이지 선택",
     "Increment page" : "페이지 증가",
-    "Read" : "읽기",
-    "Write" : "쓰기",
-    "Share" : "공유하기",
-    "Denied (Inherited permission)" : "거부됨(권한 상속)",
-    "Access denied" : "접근이 거부됨",
-    "Allowed (Inherited permission)" : "허용됨(권한 상속)",
-    "Denied" : "거부됨",
     "Allowed" : "허용됨",
+    "Denied" : "거부됨",
+    "Access denied" : "접근이 거부됨",
     "Search" : "검색",
     "Confirm" : "확인",
     "Warning" : "경고",
@@ -40,6 +39,8 @@
     "No changes" : "변경 없음",
     "Delete folder" : "폴더 삭제",
     "Permissions" : "권한",
-    "Move folder" : "폴더 이동"
+    "Read" : "읽기",
+    "Write" : "쓰기",
+    "Share" : "공유하기"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -8,10 +8,11 @@ OC.L10N.register(
     "Folder name" : "Naziv fascikle",
     "Save" : "Sačuvaj",
     "Edit" : "Izmeni",
-    "Read" : "Čitaj",
-    "Share" : "Deli",
+    "Link copied" : "Veza iskopirana",
     "Search" : "Traži",
     "Warning" : "Upozorenje",
-    "Settings" : "Поставке"
+    "Settings" : "Поставке",
+    "Read" : "Čitaj",
+    "Share" : "Deli"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

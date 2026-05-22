@@ -10,8 +10,9 @@ OC.L10N.register(
     "Folder name" : "Papkanyň ady",
     "Save" : "Saklamak",
     "Edit" : "Redaktirläň",
-    "Share" : "Paýlaş",
+    "Link copied" : "Link-yň nusgasy alyndy",
     "Search" : "Gözlemek",
-    "Settings" : "Sazlamalar"
+    "Settings" : "Sazlamalar",
+    "Share" : "Paýlaş"
 },
 "nplurals=2; plural=(n != 1);");

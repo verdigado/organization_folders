@@ -10,8 +10,9 @@ OC.L10N.register(
     "Folder name" : "Ainm a’ phasgain",
     "Save" : "Sàbhail",
     "Edit" : "Deasaich",
-    "Share" : "Co-roinn",
+    "Link copied" : "Chaidh lethbhreac dhen cheangal a dhèanamh",
     "Search" : "Lorg",
-    "Settings" : "Roghainnean"
+    "Settings" : "Roghainnean",
+    "Share" : "Co-roinn"
 },
 "nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3;");

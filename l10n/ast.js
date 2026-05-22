@@ -17,8 +17,6 @@ OC.L10N.register(
     "Edit" : "Editar",
     "File does not exist" : "El ficheru nun esiste",
     "Move to {target}" : "Mover a {target}",
-    "Read" : "Lleer",
-    "Share" : "Compartir",
     "Search" : "Buscar",
     "Confirm" : "Confirmar",
     "Warning" : "Alvertencia",
@@ -33,6 +31,8 @@ OC.L10N.register(
     "No changes" : "Nun hai nengún cambéu",
     "Delete folder" : "Desaniciar la carpeta",
     "Permissions" : "Permisos",
+    "Read" : "Lleer",
+    "Share" : "Compartir",
     "Unlimited" : "Ensin llende"
 },
 "nplurals=2; plural=(n != 1);");

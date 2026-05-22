@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Awitay",
+    "Folder" : "Akaram",
     "Back" : "Retour",
     "Next" : "Uḍfir",
     "Delete" : "Kkes",
@@ -12,15 +14,16 @@ OC.L10N.register(
     "Folder name" : "Isem n ukaram",
     "Save" : "Sekles",
     "Edit" : "Ẓreg",
+    "Link copied" : "Aseɣwen yettwanɣel",
     "Select Page" : "Fren asebter",
-    "Read" : "Taɣuri",
-    "Share" : "Bḍu",
     "Search" : "Nadi",
     "Confirm" : "Serggeg",
     "Warning" : "Alɣu",
     "Admin" : "Anedbal",
     "Settings" : "Iɣewwaṛen",
     "No search results" : "Ulac igmaḍ n unadi",
-    "Delete folder" : "Kkes akaram"
+    "Delete folder" : "Kkes akaram",
+    "Read" : "Taɣuri",
+    "Share" : "Bḍu"
 },
 "nplurals=2; plural=(n != 1);");

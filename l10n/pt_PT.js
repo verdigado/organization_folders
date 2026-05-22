@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendário",
+    "Folder" : "Pasta",
     "Members" : "Membros",
     "Team folders inherit-per-user mode" : "Modo de herança de Pastas de Equipa por utilizador",
     "Team folders inherit-per-user mode is enabled on this instance. This is not supported by the OrganizationFolders app and permissions in organization folders will not work as expected!" : "O modo de herança por utilizador para as pastas de equipa está ativado nesta instância. Isto não é compatível com a aplicação OrganizationFolders e as permissões nas pastas da organização não funcionarão como esperado!",
@@ -18,15 +20,11 @@ OC.L10N.register(
     "Folder name" : "Nome da pasta",
     "Save" : "Guardar",
     "Edit" : "Editar",
+    "Link copied" : "Hiperligação copiada",
     "Move to {target}" : "Mover para {target}",
-    "Read" : "Ler",
-    "Write" : "Escrever",
-    "Share" : "Partilhar",
-    "Denied (Inherited permission)" : "Negado (permissões herdadas)",
-    "Access denied" : "Acesso proibido",
-    "Allowed (Inherited permission)" : "Permitido (permissão herdada)",
-    "Denied" : "Negado",
     "Allowed" : "Permitido",
+    "Denied" : "Negado",
+    "Access denied" : "Acesso proibido",
     "Search" : "Pesquisa sobre",
     "Confirm" : "Confirmar",
     "Warning" : "Aviso",
@@ -36,6 +34,9 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "Finish" : "Terminar",
     "Delete folder" : "Apagar pasta",
+    "Read" : "Ler",
+    "Write" : "Escrever",
+    "Share" : "Partilhar",
     "Unlimited" : "Ilimitado"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

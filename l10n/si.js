@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "දින දර්ශනය",
+    "Folder" : "බහාලුම",
     "Back" : "ආපසු",
     "Select an account" : "ගිණුමක් තෝරන්න",
     "Add" : "එකතු කරන්න",
@@ -9,15 +11,16 @@ OC.L10N.register(
     "Create" : "සාදන්න",
     "Folder name" : "බහාලුමේ නම",
     "Edit" : "සංස්කරණය",
-    "Read" : "කියවීම",
-    "Write" : "ලිවීම",
-    "Share" : "බෙදාගන්න",
+    "Link copied" : "සබැඳිය පිටපත් කළා",
     "Search" : "සොයන්න",
     "Confirm" : "තහවුරු කරන්න",
     "Warning" : "අවවාදයයි",
     "Member" : "සාමාජික",
     "Admin" : "පරිපාලක",
     "Settings" : "සැකසුම්",
+    "Read" : "කියවීම",
+    "Write" : "ලිවීම",
+    "Share" : "බෙදාගන්න",
     "Unlimited" : "අසීමිත"
 },
 "nplurals=2; plural=(n != 1);");

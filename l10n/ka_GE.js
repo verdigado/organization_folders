@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "კალენდარი",
     "Members" : "წევრები",
     "Delete" : "წაშლა",
     "Select an account" : "აირჩიეთ ანგარიში",
@@ -12,8 +13,6 @@ OC.L10N.register(
     "Save" : "შენახვა",
     "Edit" : "შეცვლა",
     "Move to {target}" : "გადატანა {target}-ში",
-    "Read" : "წაკითხვა",
-    "Write" : "ჩაწერა",
     "Access denied" : "წვდომა არაა დაშვებული",
     "Search" : "ძიება",
     "Confirm" : "დადასტურება",
@@ -25,6 +24,8 @@ OC.L10N.register(
     "Finish" : "დასრულება",
     "Delete folder" : "ფოლდერის წაშლა",
     "Permissions" : "უფლებები",
+    "Read" : "წაკითხვა",
+    "Write" : "ჩაწერა",
     "Unlimited" : "ულიმიტო"
 },
 "nplurals=2; plural=(n!=1);");

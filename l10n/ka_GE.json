@@ -1,4 +1,5 @@
 { "translations": {
+    "Calendar" : "კალენდარი",
     "Members" : "წევრები",
     "Delete" : "წაშლა",
     "Select an account" : "აირჩიეთ ანგარიში",
@@ -10,8 +11,6 @@
     "Save" : "შენახვა",
     "Edit" : "შეცვლა",
     "Move to {target}" : "გადატანა {target}-ში",
-    "Read" : "წაკითხვა",
-    "Write" : "ჩაწერა",
     "Access denied" : "წვდომა არაა დაშვებული",
     "Search" : "ძიება",
     "Confirm" : "დადასტურება",
@@ -23,6 +22,8 @@
     "Finish" : "დასრულება",
     "Delete folder" : "ფოლდერის წაშლა",
     "Permissions" : "უფლებები",
+    "Read" : "წაკითხვა",
+    "Write" : "ჩაწერა",
     "Unlimited" : "ულიმიტო"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

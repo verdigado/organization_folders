@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Taqvim",
+    "Folder" : "Jild",
     "Back" : "Orqaga",
     "Next" : "Keyingisi",
     "Delete" : "O'chirish",
@@ -10,11 +12,11 @@ OC.L10N.register(
     "Cancel" : "Bekor qilish",
     "Create" : "Yaratish",
     "Folder name" : "Folder name",
+    "Calendar name" : "Taqvim nomi",
     "Save" : "Saqlash",
     "Edit" : "Tahrirlash",
+    "Link copied" : "Havola nusxalandi",
     "Move to {target}" : " {target}ga o`tish",
-    "Write" : "Yozish",
-    "Share" : "Ulashish",
     "Search" : "Qidirish",
     "Confirm" : "Tasdiqlang",
     "Warning" : "Ogohlantirish",
@@ -25,6 +27,8 @@ OC.L10N.register(
     "No search results" : "Qidiruv natijalari yo‘q",
     "Delete folder" : "Jildni o'chirish",
     "Permissions" : "Ruxsatnomalar",
+    "Write" : "Yozish",
+    "Share" : "Ulashish",
     "Unlimited" : "Unlimited"
 },
 "nplurals=1; plural=0;");

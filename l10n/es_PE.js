@@ -1,6 +1,7 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendario",
     "Members" : "Miembros",
     "Delete" : "Borrar",
     "Select an account" : "Seleccionar una cuenta",
@@ -11,9 +12,8 @@ OC.L10N.register(
     "Folder name" : "Nombre de la carpeta",
     "Save" : "Guardar",
     "Edit" : "Editar",
+    "Link copied" : "Enlace copiado",
     "Move to {target}" : "Mover a {target}",
-    "Read" : "Leer",
-    "Write" : "Escribir",
     "Access denied" : "Acceso denegado",
     "Search" : "Buscar",
     "Confirm" : "Confirmar",
@@ -25,6 +25,8 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "Finish" : "Terminar",
     "Permissions" : "Permisos",
+    "Read" : "Leer",
+    "Write" : "Escribir",
     "Unlimited" : "Ilimitado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

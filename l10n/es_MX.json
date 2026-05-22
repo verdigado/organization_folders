@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "Calendario",
+    "Folder" : "Carpeta",
     "Members" : "Miembros",
     "Back" : "Atrás",
     "Delete" : "Eliminar",
@@ -13,16 +15,12 @@
     "Save" : "Guardar",
     "Edit" : "Editar",
     "File does not exist" : "El archivo no existe",
+    "Move folder" : "Mover carpeta",
     "Move to {target}" : "Mover a {target}",
-    "Read" : "Leer",
-    "Write" : "Escribir",
-    "Share" : "Compartir",
-    "Denied (Inherited permission)" : "Denegado (permiso heredado)",
-    "Access denied" : "Acceso denegado",
-    "Allowed (Inherited permission)" : "Permitido (permiso heredado)",
-    "Access allowed" : "Acceso permitido",
-    "Denied" : "Denegado",
     "Allowed" : "Permitido",
+    "Denied" : "Denegado",
+    "Access allowed" : "Acceso permitido",
+    "Access denied" : "Acceso denegado",
     "Search" : "Buscar",
     "Confirm" : "Confirmar",
     "Warning" : "Advertencia",
@@ -35,7 +33,9 @@
     "Finish" : "Terminar",
     "Delete folder" : "Eliminar carpeta",
     "Permissions" : "Permisos",
-    "Move folder" : "Mover carpeta",
+    "Read" : "Leer",
+    "Write" : "Escribir",
+    "Share" : "Compartir",
     "Unlimited" : "Ilimitado"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

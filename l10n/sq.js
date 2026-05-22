@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Kalendar",
+    "Folder" : "Dosje",
     "Members" : "Anëtar",
     "Back" : "Mbrapsht",
     "Next" : "I ardhshëm",
@@ -15,9 +17,7 @@ OC.L10N.register(
     "Folder name" : "Emër dosjeje",
     "Save" : "Ruaje",
     "Edit" : "Përpuno",
-    "Read" : "Lexoni",
-    "Write" : "Shkruaj",
-    "Share" : "Ndaj",
+    "Link copied" : "Linku u kopjua",
     "Search" : "Kërko",
     "Confirm" : "Konfirmo",
     "Warning" : "Kujdes",
@@ -29,6 +29,9 @@ OC.L10N.register(
     "Finish" : "Përfundo",
     "Delete folder" : "Fshije dosjen",
     "Permissions" : "Lejet",
+    "Read" : "Lexoni",
+    "Write" : "Shkruaj",
+    "Share" : "Ndaj",
     "Unlimited" : "E palimituar"
 },
 "nplurals=2; plural=(n != 1);");
