@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onBeforeMount, set } from "vue";
 import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 
 import NcActions from "@nextcloud/vue/components/NcActions";
@@ -24,13 +24,14 @@ const emit = defineEmits(["create"]);
 
 const open = ref(false);
 
-const loading = ref({});
+const loading = ref(false);
 const newResourceName = ref({});
 
-for(let type of props.types) {
-    loading.value[type] = false;
-    newResourceName.value[type] = "";
-}
+onBeforeMount(() => {
+    for(let type of props.types) {
+        set(newResourceName, type, "");
+    }
+});
 
 const labelByType = {
     folder: t('organization_folders', 'Create folder'),
@@ -48,17 +49,19 @@ const iconByType = {
 }
 
 const onSubmit = (type) => {
-    loading.value[type] = true;
+    if(!loading.value) {
+        loading.value = type;
 
-	if(validResourceName(newResourceName.value[type])) {
-		emit('create', type, newResourceName.value[type], (success) => {
-            if(success) {
-                open.value = false;
-            }
-
-            loading.value[type] = false;
-        });
-	}
+        if(validResourceName(newResourceName.value[type])) {
+            emit('create', type, newResourceName.value[type], (success) => {
+                if(success) {
+                    open.value = false;
+                    newResourceName.value[type] = "";
+                }
+                loading.value = false;
+            });
+        }
+    }
 };
 </script>
 
@@ -70,13 +73,13 @@ const onSubmit = (type) => {
         <NcActionInput v-for="type in types"
             :key="type"
             v-model="newResourceName[type]"
-			:show-trailing-button="validResourceName(newResourceName[type]) && !loading[type]"
+			:show-trailing-button="validResourceName(newResourceName[type]) && !loading"
             trailing-button-icon="arrowEnd"
 			:label="labelByType[type]"
 			@submit="onSubmit(type)">
             <template #icon>
                 <!-- TODO: It would be better to show the spinner where the trailing button is, but that is not currently possible -->
-                <NcLoadingIcon v-if="loading[type]" :size="20" />
+                <NcLoadingIcon v-if="loading === type" :size="20" />
                 <component v-else :is="iconByType[type]" :size="20" />
             </template>
             {{ placeholderByType[type] }}

@@ -29,7 +29,6 @@ class PathManager {
 
 	/** 
 	 * Get underlying groupfolder folder node for the organization folder
-	 * @TODO Expose node only to a given closure and unmount afterwards
 	*/
 	public function getOrganizationFolderRootNodeById(int $id): Folder {
 		$folder = $this->groupfolderFolderManager->getFolder($id);

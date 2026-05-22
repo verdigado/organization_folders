@@ -39,6 +39,7 @@ return [
 		['name' => 'resource_member#update', 'url' => '/resources/members/{id}', 'verb' => 'PUT'],
 		['name' => 'resource_member#destroy', 'url' => '/resources/members/{id}', 'verb' => 'DELETE'],
 
+		/* Resource Link Shares */
 		['name' => 'resource_link_share#index', 'url' => '/resources/{resourceId}/linkShares', 'verb' => 'GET'],
 		['name' => 'resource_link_share#create', 'url' => '/resources/{resourceId}/linkShares', 'verb' => 'POST'],
 		['name' => 'resource_link_share#destroy', 'url' => '/resources/{resourceId}/linkShares/{id}', 'verb' => 'DELETE'],
