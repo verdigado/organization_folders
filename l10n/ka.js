@@ -17,6 +17,7 @@ OC.L10N.register(
     "Save" : "დამახსოვრება",
     "Edit" : "Edit",
     "Link copied" : "ლინკი მოიკოპა",
+    "Copy link" : "Copy link",
     "File does not exist" : "File does not exist",
     "Move to {target}" : "Move to {target}",
     "Allowed" : "Allowed",

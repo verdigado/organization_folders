@@ -19,6 +19,7 @@ OC.L10N.register(
     "Save" : "Lagre",
     "Edit" : "Rediger",
     "Link copied" : "Lenke kopiert",
+    "Copy link" : "Kopier lenke",
     "File does not exist" : "Fil finnes ikke",
     "Move folder" : "Flytt mappe",
     "Move to {target}" : "Flytt til {target}",

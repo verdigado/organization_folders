@@ -14,6 +14,7 @@ OC.L10N.register(
     "Save" : "Saglabāt",
     "Edit" : "Labot",
     "Link copied" : "Saite nokopēta",
+    "Copy link" : "Ievietot saiti starpliktuvē",
     "Move to {target}" : "Pārvietot uz {target}",
     "Select Page" : "Atlasīt lapu",
     "Allowed" : "Atļauts",

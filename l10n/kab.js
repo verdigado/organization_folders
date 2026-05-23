@@ -15,6 +15,7 @@ OC.L10N.register(
     "Save" : "Sekles",
     "Edit" : "Ẓreg",
     "Link copied" : "Aseɣwen yettwanɣel",
+    "Copy link" : "Nɣel aseɣwen",
     "Select Page" : "Fren asebter",
     "Search" : "Nadi",
     "Confirm" : "Serggeg",

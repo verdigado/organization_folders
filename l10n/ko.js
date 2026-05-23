@@ -20,6 +20,7 @@ OC.L10N.register(
     "Save" : "저장",
     "Edit" : "편집",
     "Link copied" : "링크 복사됨",
+    "Copy link" : "링크 주소 복사",
     "File does not exist" : "파일이 존재하지 않음",
     "Move folder" : "폴더 이동",
     "Move to {target}" : "{target}에 이동",

@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendar",
+    "Folder" : "Folder",
     "Access Denied" : "Access Denied",
     "\"%s\" is not a valid resource name" : "\"%s\" is not a valid resource name",
     "\"%s\" is not a valid resource type" : "\"%s\" is not a valid resource type",
@@ -66,6 +68,8 @@ OC.L10N.register(
     "Calendar name" : "Calendar name",
     "Save" : "Save",
     "Edit" : "Edit",
+    "Link copied" : "Link copied",
+    "Copy link" : "Copy link",
     "{filePath} has been created" : "{filePath} has been created",
     "{filePath} has been changed" : "{filePath} has been changed",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} has been renamed to {newFilePath}",

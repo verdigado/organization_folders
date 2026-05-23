@@ -1,11 +1,14 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendr",
+    "Folder" : "Plygell",
     "Delete" : "Dileu",
     "Name" : "Enw",
     "Cancel" : "Cancel",
     "Save" : "Cadw",
     "Edit" : "Golygu",
+    "Link copied" : "Dolen wedi'i gopïo",
     "Search" : "Chwilio",
     "Confirm" : "Cadarnhau",
     "Warning" : "Rhybudd",

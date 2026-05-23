@@ -17,6 +17,7 @@ OC.L10N.register(
     "Save" : "Simpan",
     "Edit" : "Sunting",
     "Link copied" : "Tautan disalin",
+    "Copy link" : "Salin tautan",
     "File does not exist" : "File tidak ada",
     "Move folder" : "Pindahkan folder",
     "Move to {target}" : "Pindah ke {target}",

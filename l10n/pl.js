@@ -22,6 +22,7 @@ OC.L10N.register(
     "Save" : "Zapisz",
     "Edit" : "Edycja",
     "Link copied" : "Link skopiowany",
+    "Copy link" : "Kopiuj link",
     "File does not exist" : "Plik nie istnieje",
     "Move folder" : "Przenieś katalog",
     "Move to {target}" : "Przenieś do {target}",

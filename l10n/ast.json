@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "Calendariu",
+    "Folder" : "Carpeta",
     "Members" : "Miembros",
     "Back" : "Atrás",
     "Next" : "Siguiente",
@@ -13,6 +15,7 @@
     "Folder name" : "Nome de la carpeta",
     "Save" : "Guardar",
     "Edit" : "Editar",
+    "Link copied" : "Copióse l'enllaz",
     "File does not exist" : "El ficheru nun esiste",
     "Move to {target}" : "Mover a {target}",
     "Search" : "Buscar",

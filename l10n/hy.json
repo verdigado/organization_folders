@@ -1,0 +1,16 @@
+{ "translations": {
+    "Calendar" : "Օրացույց",
+    "Folder" : "Պանակ",
+    "Delete" : "հեռացնել",
+    "Name" : "Անուն",
+    "Cancel" : "Cancel",
+    "Folder name" : "Պանակի անուն",
+    "Save" : "Պահպանել",
+    "Edit" : "մշակել",
+    "Copy link" : "Պատճենել հղումը",
+    "Search" : "Search",
+    "Warning" : "Զգուշացում",
+    "Settings" : "Կարգավորումներ",
+    "Share" : "կիսվել"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

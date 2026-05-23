@@ -11,6 +11,7 @@ OC.L10N.register(
     "Folder name" : "Nomine de dossier",
     "Save" : "Salveguardar",
     "Edit" : "Modificar",
+    "Copy link" : "Copiar ligamine",
     "Search" : "Cercar",
     "Confirm" : "Confirmar",
     "Warning" : "Aviso",

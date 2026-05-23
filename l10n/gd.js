@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Sàbhail",
     "Edit" : "Deasaich",
     "Link copied" : "Chaidh lethbhreac dhen cheangal a dhèanamh",
+    "Copy link" : "Dèan lethbhreac dhen cheangal",
     "Search" : "Lorg",
     "Settings" : "Roghainnean",
     "Share" : "Co-roinn"

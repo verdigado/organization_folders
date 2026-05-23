@@ -21,6 +21,7 @@ OC.L10N.register(
     "Save" : "Mentés",
     "Edit" : "Szerkesztés",
     "Link copied" : "Hivatkozás másolva",
+    "Copy link" : "Hivatkozás másolása",
     "File does not exist" : "A fájl nem létezik",
     "Move folder" : "Mappa áthelyezése",
     "Move to {target}" : "Áthelyezés ide: {target}",

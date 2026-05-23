@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Təqvim",
+    "Folder" : "Qovluq",
     "Back" : "Geri",
     "Delete" : "Sil",
     "Name" : "Ad",
@@ -8,6 +10,7 @@ OC.L10N.register(
     "Folder name" : "Qovluq adı",
     "Save" : "Saxla",
     "Edit" : "Dəyişiklik et",
+    "Link copied" : "Link kopyalandı",
     "Search" : "Axtarış",
     "Confirm" : "Təsdiq edin",
     "Warning" : "Xəbərdarlıq",

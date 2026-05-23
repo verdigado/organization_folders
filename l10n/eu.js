@@ -19,6 +19,7 @@ OC.L10N.register(
     "Save" : "Gorde",
     "Edit" : "Editatu",
     "Link copied" : "Esteka kopiatu da",
+    "Copy link" : "Kopiatu esteka",
     "File does not exist" : "Fitxategia ez da existitzen",
     "Move folder" : "Lekuz aldatu karpeta",
     "Move to {target}" : "Mugitu hona: {target}",

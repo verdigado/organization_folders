@@ -20,6 +20,7 @@ OC.L10N.register(
     "Save" : "保存",
     "Edit" : "编辑",
     "Link copied" : "已复制链接",
+    "Copy link" : "复制链接",
     "File does not exist" : "文件不存在",
     "Move folder" : "移动文件夹",
     "Move to {target}" : "移动到 {target}",

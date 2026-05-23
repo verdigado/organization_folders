@@ -32,6 +32,7 @@ OC.L10N.register(
     "Save" : "Spara",
     "Edit" : "Redigera",
     "Link copied" : "Länken har kopierats",
+    "Copy link" : "Kopiera länk",
     "File does not exist" : "Filen finns inte",
     "No members yet" : "Inga medlemmar än",
     "Permission level" : "Behörighetsnivå",

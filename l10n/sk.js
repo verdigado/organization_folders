@@ -21,6 +21,7 @@ OC.L10N.register(
     "Save" : "Uložiť",
     "Edit" : "Upraviť",
     "Link copied" : "Odkaz bol skopírovaný",
+    "Copy link" : "Kopírovať odkaz",
     "File does not exist" : "Súbor neexistuje",
     "Move folder" : "Presunúť priečinok",
     "Move to {target}" : "Presunúť do {target}",

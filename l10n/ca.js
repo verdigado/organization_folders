@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendari",
+    "Folder" : "Carpeta",
     "Members" : "Membres",
     "Back" : "Torna",
     "Next" : "Següent",
@@ -16,6 +18,8 @@ OC.L10N.register(
     "Folder name" : "Nom de la carpeta",
     "Save" : "Desar",
     "Edit" : "Edició",
+    "Link copied" : "S'ha copiat l'enllaç",
+    "Copy link" : "Copia l'enllaç",
     "File does not exist" : "El fitxer no existeix",
     "Move folder" : "Mou la carpeta",
     "Move to {target}" : "Mou a {target}",

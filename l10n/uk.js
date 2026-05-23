@@ -69,6 +69,7 @@ OC.L10N.register(
     "Save" : "Зберегти",
     "Edit" : "Редагувати",
     "Link copied" : "Посилання скопійовано",
+    "Copy link" : "Копіювати посилання",
     "{filePath} has been created" : "{filePath} було створено",
     "{filePath} has been changed" : "{filePath} було змінено",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} було перейменовано у {newFilePath}",

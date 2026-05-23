@@ -21,6 +21,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Edit" : "Editar",
     "Link copied" : "Hiperligação copiada",
+    "Copy link" : "Copiar hiperligação",
     "Move to {target}" : "Mover para {target}",
     "Allowed" : "Permitido",
     "Denied" : "Negado",

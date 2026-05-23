@@ -1,0 +1,14 @@
+{ "translations": {
+    "Calendar" : "Kalendar",
+    "Folder" : "Folder",
+    "Delete" : "Padam",
+    "Name" : "Nama",
+    "Cancel" : "Cancel",
+    "Save" : "Simpan",
+    "Edit" : "Sunting",
+    "Search" : "Search",
+    "Warning" : "Amaran",
+    "Admin" : "Admin",
+    "Settings" : "Tetapan"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

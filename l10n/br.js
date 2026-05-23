@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Deiziataer",
+    "Folder" : "Teuliad",
     "Next" : "War-lerc'h",
     "Delete" : "Dilemel",
     "Add account" : "Ouzhpenn ur c'hont",
@@ -10,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Anv teuliad",
     "Save" : "Enrollañ",
     "Edit" : "Embann",
+    "Link copied" : "Liamm eilet",
+    "Copy link" : "Eilañ al liamm",
     "Move to {target}" : "Diblasañ da {target}",
     "Search" : "Klask",
     "Confirm" : "Kadarnaat",

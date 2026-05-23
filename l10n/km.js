@@ -10,6 +10,7 @@ OC.L10N.register(
     "Folder name" : "ឈ្មោះ​ថត",
     "Save" : "រក្សាទុក",
     "Edit" : "កែប្រែ",
+    "Copy link" : "ចម្លងតំណ",
     "Search" : "ស្វែងរក",
     "Warning" : "បម្រាម",
     "Admin" : "អ្នក​គ្រប់​គ្រង",

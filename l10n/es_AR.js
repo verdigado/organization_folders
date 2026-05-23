@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Calendar" : "Calendario",
+    "Folder" : "Carpeta",
     "Members" : "Miembros",
     "Back" : "Volver",
     "Delete" : "Eliminar",
@@ -14,6 +15,8 @@ OC.L10N.register(
     "Folder name" : "Nombre de la carpeta",
     "Save" : "Guardar",
     "Edit" : "Editar",
+    "Link copied" : "Link copiado",
+    "Copy link" : "Copiar link",
     "Search" : "Buscar",
     "Confirm" : "Confirmar",
     "Warning" : "Advertencia",

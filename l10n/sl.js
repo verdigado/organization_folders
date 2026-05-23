@@ -19,6 +19,7 @@ OC.L10N.register(
     "Save" : "Shrani",
     "Edit" : "Uredi",
     "Link copied" : "Povezava je kopirana",
+    "Copy link" : "Kopiraj povezavo",
     "File does not exist" : "Datoteka ne obstaja",
     "Move folder" : "Premakni mapo",
     "Move to {target}" : "Premakni na {target}",

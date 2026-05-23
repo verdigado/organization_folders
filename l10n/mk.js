@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Сними",
     "Edit" : "Уреди",
     "Link copied" : "Линкот е копиран",
+    "Copy link" : "Копирај линк",
     "File does not exist" : "Датотеката не постои",
     "Move folder" : "Премести папка",
     "Move to {target}" : "Премести во {target}",

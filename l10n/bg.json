@@ -1,4 +1,6 @@
 { "translations": {
+    "Calendar" : "Kалендар",
+    "Folder" : "Папка",
     "Members" : "Членове",
     "Back" : "Назад",
     "Next" : "Следващо",
@@ -14,6 +16,8 @@
     "Folder name" : "Име на папка",
     "Save" : "Запиши",
     "Edit" : "Редактиране",
+    "Link copied" : "Връзката е копирана",
+    "Copy link" : "Копиране на връзката",
     "File does not exist" : "Файлът не съществува",
     "Move folder" : "Преместване на папка",
     "Move to {target}" : "Премести в {target}",

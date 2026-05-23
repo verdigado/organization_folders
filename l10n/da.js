@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Kalender",
+    "Folder" : "Mappe",
     "Access Denied" : "Adgang nægtet",
     "\"%s\" is not a valid resource name" : "\"%s\" er ikke et gyldigt ressourcenavn",
     "\"%s\" is not a valid resource type" : "\"%s\" er ikke en gyldig ressourcetype",
@@ -64,6 +66,8 @@ OC.L10N.register(
     "Folder name" : "Mappenavn",
     "Save" : "Gem",
     "Edit" : "Redigér",
+    "Link copied" : "Link kopieret",
+    "Copy link" : "Kopier link",
     "{filePath} has been created" : "{filePath} er blevet oprettet",
     "{filePath} has been changed" : "{filePath} er blevet ændret",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} er blevet omdøbt til {newFilePath}",

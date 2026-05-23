@@ -13,6 +13,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Edit" : "Editar",
     "Link copied" : "Enlace copiado",
+    "Copy link" : "Copiar liga",
     "Move to {target}" : "Mover a {target}",
     "Access denied" : "Acceso denegado",
     "Search" : "Buscar",

@@ -13,6 +13,7 @@ OC.L10N.register(
     "Save" : "Lagre",
     "Edit" : "Rediger",
     "Link copied" : "Lenkje kopiert",
+    "Copy link" : "Kopier lenkje",
     "Search" : "Søk",
     "Warning" : "Åtvaring",
     "Admin" : "Administrer",

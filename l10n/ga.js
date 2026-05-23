@@ -69,6 +69,7 @@ OC.L10N.register(
     "Save" : "Sábháil",
     "Edit" : "Cuir in eagar",
     "Link copied" : "Cóipeáladh an nasc",
+    "Copy link" : "Cóipeáil an nasc",
     "{filePath} has been created" : "Cruthaíodh {filePath}",
     "{filePath} has been changed" : "Tá {filePath} athraithe",
     "{oldFilePath} has been renamed to {newFilePath}" : "Athainmníodh {oldFilePath} go {newFilePath}",

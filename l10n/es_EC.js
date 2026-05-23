@@ -16,6 +16,8 @@ OC.L10N.register(
     "Folder name" : "Nombre de la carpeta",
     "Save" : "Guardar",
     "Edit" : "Editar",
+    "Link copied" : "Enlace copiado",
+    "Copy link" : "Copiar liga",
     "File does not exist" : "El archivo no existe",
     "Move folder" : "Mover carpeta",
     "Move to {target}" : "Mover a {target}",

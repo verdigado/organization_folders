@@ -68,6 +68,7 @@ OC.L10N.register(
     "Save" : "ساقلاش",
     "Edit" : "تەھرىر",
     "Link copied" : "ئۇلىنىش كۆچۈرۈلدى",
+    "Copy link" : "ئۇلانمىنى كۆچۈرۈڭ",
     "{filePath} has been created" : "{filePath} قۇرۇلدى",
     "{filePath} has been changed" : "{filePath} ئۆزگەرتىلدى",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} نىڭ نامى {newFilePath} غا ئۆزگەرتىلدى",

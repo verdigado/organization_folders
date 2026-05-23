@@ -32,6 +32,7 @@ OC.L10N.register(
     "Save" : "Tallenna",
     "Edit" : "Muokkaa",
     "Link copied" : "Linkki kopioitu",
+    "Copy link" : "Kopioi linkki",
     "{filePath} has been created" : "{filePath} on luotu",
     "{filePath} has been changed" : "{filePath} on muutettu",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} on nimetty uudelleen muotoon {newFilePath}",

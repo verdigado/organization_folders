@@ -69,6 +69,7 @@ OC.L10N.register(
     "Save" : "Gardar",
     "Edit" : "Editar",
     "Link copied" : "Ligazón copiada",
+    "Copy link" : "Copiar a ligazón",
     "{filePath} has been created" : "Creouse {filePath}",
     "{filePath} has been changed" : "{filePath} foi cambiado",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} foi renomeado a {newFilePath}",

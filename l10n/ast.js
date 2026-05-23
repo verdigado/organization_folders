@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Calendariu",
+    "Folder" : "Carpeta",
     "Members" : "Miembros",
     "Back" : "Atrás",
     "Next" : "Siguiente",
@@ -15,6 +17,7 @@ OC.L10N.register(
     "Folder name" : "Nome de la carpeta",
     "Save" : "Guardar",
     "Edit" : "Editar",
+    "Link copied" : "Copióse l'enllaz",
     "File does not exist" : "El ficheru nun esiste",
     "Move to {target}" : "Mover a {target}",
     "Search" : "Buscar",

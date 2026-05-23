@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Ημερολόγιο",
+    "Folder" : "Φάκελος",
     "Access Denied" : "Απαγορεύεται η Πρόσβαση",
     "\"%s\" is not a valid resource name" : "Το \"%s\" δεν είναι έγκυρο όνομα πόρου",
     "\"%s\" is not a valid resource type" : "Το \"%s\" δεν είναι έγκυρος τύπος πόρου",
@@ -64,6 +66,8 @@ OC.L10N.register(
     "Folder name" : "Όνομα φακέλου",
     "Save" : "Αποθήκευση",
     "Edit" : "Επεξεργασία",
+    "Link copied" : "Ο σύνδεσμος αντιγράφηκε",
+    "Copy link" : "Αντιγραφή συνδέσμου",
     "{filePath} has been created" : "Το {filePath} έχει δημιουργηθεί",
     "{filePath} has been changed" : "Το {filePath} έχει αλλάξει",
     "{oldFilePath} has been renamed to {newFilePath}" : "Το {oldFilePath} μετονομάστηκε σε {newFilePath}",

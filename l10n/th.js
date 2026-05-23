@@ -13,6 +13,7 @@ OC.L10N.register(
     "Save" : "บันทึก",
     "Edit" : "แก้ไข",
     "Link copied" : "คัดลอกลิงก์แล้ว",
+    "Copy link" : "คัดลอกลิงก์",
     "File does not exist" : "ไม่มีไฟล์อยู่",
     "Move to {target}" : "ย้ายไปยัง {target}",
     "Search" : "ค้นหา",

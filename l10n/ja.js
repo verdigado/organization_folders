@@ -20,6 +20,7 @@ OC.L10N.register(
     "Save" : "保存する",
     "Edit" : "編集",
     "Link copied" : "リンクをコピーしました",
+    "Copy link" : "リンクをコピー",
     "File does not exist" : "ファイルが存在しません",
     "Move folder" : "フォルダーを移動",
     "Move to {target}" : "{target} に移動",

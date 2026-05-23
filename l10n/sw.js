@@ -20,6 +20,7 @@ OC.L10N.register(
     "Save" : "Hifadhi",
     "Edit" : "Hariri",
     "Link copied" : "Kiungo kimenakiliwa",
+    "Copy link" : "Nakili kiungio",
     "File does not exist" : "File does not exist",
     "Move folder" : "Move folder",
     "Move to {target}" : "Hamishia {target}",

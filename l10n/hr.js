@@ -21,6 +21,7 @@ OC.L10N.register(
     "Save" : "Spremi",
     "Edit" : "Uredi",
     "Link copied" : "Poveznica je kopirana",
+    "Copy link" : "Kopiraj poveznicu",
     "Move folder" : "Premjesti mapu",
     "Move to {target}" : "Premjesti u {target}",
     "Allowed" : "Dopušteno",

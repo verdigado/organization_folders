@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "ذخیره",
     "Edit" : "ویرایش",
     "Link copied" : "پیوند رونوشت شد",
+    "Copy link" : "کپی کردن لینک",
     "File does not exist" : "فایل وجود ندارد",
     "Move folder" : "Move folder",
     "Move to {target}" : "جابجایی به {target}",

@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Каляндар",
+    "Folder" : "Папка",
     "Members" : "Удзельнікі",
     "Back" : "Назад",
     "Delete" : "Выдаліць",
@@ -16,6 +18,7 @@ OC.L10N.register(
     "Folder name" : "Назва папкі",
     "Save" : "Захаваць",
     "Edit" : "Рэдагаваць",
+    "Link copied" : "Спасылка скапіявана",
     "Move folder" : "Перамясціць папку",
     "Move to {target}" : "Перамясціць у {target}",
     "Search" : "Пошук",

@@ -69,6 +69,7 @@ OC.L10N.register(
     "Save" : "Salvesta",
     "Edit" : "Muuda",
     "Link copied" : "Link on kopeeritud",
+    "Copy link" : "Kopeeri link",
     "{filePath} has been created" : "{filePath} on loodud",
     "{filePath} has been changed" : "{filePath} on muudetud",
     "{oldFilePath} has been renamed to {newFilePath}" : "Nimi on muutunud: „{oldFilePath}“ → „{newFilePath}“",

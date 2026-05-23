@@ -17,6 +17,7 @@ OC.L10N.register(
     "Save" : "שמירה",
     "Edit" : "עריכה",
     "Link copied" : "הקישור הועתק",
+    "Copy link" : "העתקת קישור",
     "Move to {target}" : "העברה אל {target}",
     "Allowed" : "מורשה",
     "Denied" : "חסום",

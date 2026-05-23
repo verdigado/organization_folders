@@ -12,6 +12,7 @@ OC.L10N.register(
     "Folder name" : "බහාලුමේ නම",
     "Edit" : "සංස්කරණය",
     "Link copied" : "සබැඳිය පිටපත් කළා",
+    "Copy link" : "සබැඳිය පිටපත් කරන්න",
     "Search" : "සොයන්න",
     "Confirm" : "තහවුරු කරන්න",
     "Warning" : "අවවාදයයි",

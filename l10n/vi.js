@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "Lưu",
     "Edit" : "Chỉnh sửa",
     "Link copied" : "Đã sao chép liên kết",
+    "Copy link" : "Sao chép liên kết",
     "Move to {target}" : "Di chuyển đến {target}",
     "Search" : "Tìm kiếm",
     "Confirm" : "Xác nhận",

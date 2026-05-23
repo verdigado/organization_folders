@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Kalendar",
+    "Folder" : "Fasikla",
     "Members" : "Članovi",
     "Delete" : "Obriši",
     "Name" : "Ime",

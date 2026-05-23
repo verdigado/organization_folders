@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Salvează",
     "Edit" : "Editează",
     "Link copied" : "Link copiat",
+    "Copy link" : "Copiază link",
     "Move to {target}" : "Mută la {target}",
     "Access denied" : "Acces interzis",
     "Search" : "Căutare",

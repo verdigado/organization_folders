@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Saklamak",
     "Edit" : "Redaktirläň",
     "Link copied" : "Link-yň nusgasy alyndy",
+    "Copy link" : "Link-y nusgalaň",
     "Search" : "Gözlemek",
     "Settings" : "Sazlamalar",
     "Share" : "Paýlaş"

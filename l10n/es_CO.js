@@ -13,6 +13,8 @@ OC.L10N.register(
     "Folder name" : "Nombre de la carpeta",
     "Save" : "Guardar",
     "Edit" : "Editar",
+    "Link copied" : "Enlace copiado",
+    "Copy link" : "Copiar enlace",
     "Move to {target}" : "Mover a {target}",
     "Access denied" : "Acceso denegado",
     "Search" : "Buscar",

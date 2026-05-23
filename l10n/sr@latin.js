@@ -9,6 +9,7 @@ OC.L10N.register(
     "Save" : "Sačuvaj",
     "Edit" : "Izmeni",
     "Link copied" : "Veza iskopirana",
+    "Copy link" : "Kopiraj vezu",
     "Search" : "Traži",
     "Warning" : "Upozorenje",
     "Settings" : "Поставке",

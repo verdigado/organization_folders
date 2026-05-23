@@ -69,6 +69,7 @@ OC.L10N.register(
     "Save" : "儲存",
     "Edit" : "編輯",
     "Link copied" : "已複製連結",
+    "Copy link" : "複製連結",
     "{filePath} has been created" : "已建立 {filePath}",
     "{filePath} has been changed" : "已變更 {filePath}",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} 已重新命名為 {newFilePath}",

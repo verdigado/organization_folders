@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Kalendář",
+    "Folder" : "Složka",
     "Access Denied" : "Přístup odepřen",
     "\"%s\" is not a valid resource name" : "„%s“ není platný název prostředku",
     "\"%s\" is not a valid resource type" : "„%s“ není platný typ prostředku",
@@ -65,6 +67,8 @@ OC.L10N.register(
     "Calendar name" : "Název kalendáře",
     "Save" : "Uložit",
     "Edit" : "Upravit",
+    "Link copied" : "Odkaz zkopírován",
+    "Copy link" : "Zkopírovat odkaz",
     "{filePath} has been created" : "{filePath} bylo vytvořeno",
     "{filePath} has been changed" : "{filePath} bylo změněno",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} bylo přejmenováno na {newFilePath}",

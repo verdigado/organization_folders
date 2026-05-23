@@ -24,6 +24,7 @@ OC.L10N.register(
     "Save" : "Įrašyti",
     "Edit" : "Taisyti",
     "Link copied" : "Nuoroda nukopijuota",
+    "Copy link" : "Kopijuoti nuorodą",
     "File does not exist" : "Failo nėra",
     "Move folder" : "Perkelti aplanką",
     "Move to {target}" : "Perkelti į {target}",

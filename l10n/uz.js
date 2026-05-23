@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Saqlash",
     "Edit" : "Tahrirlash",
     "Link copied" : "Havola nusxalandi",
+    "Copy link" : "Havolani nusxalash",
     "Move to {target}" : " {target}ga o`tish",
     "Search" : "Qidirish",
     "Confirm" : "Tasdiqlang",

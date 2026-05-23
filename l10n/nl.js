@@ -21,6 +21,7 @@ OC.L10N.register(
     "Save" : "Opslaan",
     "Edit" : "Bewerken",
     "Link copied" : "Link gekopieerd",
+    "Copy link" : "Link kopiëren",
     "File does not exist" : "Bestand bestaat niet",
     "Move folder" : "Verplaatsen map",
     "Move to {target}" : "Verplaats naar {target}",

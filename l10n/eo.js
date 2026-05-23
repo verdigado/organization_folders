@@ -2,6 +2,7 @@ OC.L10N.register(
     "organization_folders",
     {
     "Calendar" : "Kalendaro",
+    "Folder" : "Dosierujo",
     "Members" : "Membroj",
     "Next" : "Posten",
     "Delete" : "Forigi",
@@ -11,6 +12,8 @@ OC.L10N.register(
     "Folder name" : "Dosierujnomo",
     "Save" : "Konservi",
     "Edit" : "Modifi",
+    "Link copied" : "Ligilo kopiita",
+    "Copy link" : "Kopii ligilon",
     "Move to {target}" : "Movi al {target}",
     "Allowed" : "Permesita",
     "Denied" : "Rifuzita",

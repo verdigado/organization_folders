@@ -69,6 +69,7 @@ OC.L10N.register(
     "Save" : "Salvar",
     "Edit" : "Editar",
     "Link copied" : "Link copiado",
+    "Copy link" : "Copiar link",
     "{filePath} has been created" : "{filePath} foi criado.",
     "{filePath} has been changed" : "{filePath} foi alterado",
     "{oldFilePath} has been renamed to {newFilePath}" : "{oldFilePath} foi renomeado para {newFilePath}",

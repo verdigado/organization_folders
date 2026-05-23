@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "Kалендар",
+    "Folder" : "Папка",
     "Members" : "Членове",
     "Back" : "Назад",
     "Next" : "Следващо",
@@ -16,6 +18,8 @@ OC.L10N.register(
     "Folder name" : "Име на папка",
     "Save" : "Запиши",
     "Edit" : "Редактиране",
+    "Link copied" : "Връзката е копирана",
+    "Copy link" : "Копиране на връзката",
     "File does not exist" : "Файлът не съществува",
     "Move folder" : "Преместване на папка",
     "Move to {target}" : "Премести в {target}",

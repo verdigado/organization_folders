@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "Ruaje",
     "Edit" : "Përpuno",
     "Link copied" : "Linku u kopjua",
+    "Copy link" : "Kopjoje lidhjen",
     "Search" : "Kërko",
     "Confirm" : "Konfirmo",
     "Warning" : "Kujdes",

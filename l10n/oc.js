@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Enregistrar",
     "Edit" : "Modificar",
     "Link copied" : "Ligam copiat",
+    "Copy link" : "Copiar lo ligam",
     "Move to {target}" : "Desplaçar a {target}",
     "Search" : "Recercar",
     "Confirm" : "Confirmar",

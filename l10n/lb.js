@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Späicheren",
     "Edit" : "Änneren",
     "Link copied" : "Link kopéiert",
+    "Copy link" : "Link kopéieren",
     "Search" : "Sichen",
     "Confirm" : "Konfirméieren",
     "Warning" : "Warnung",

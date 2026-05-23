@@ -66,6 +66,7 @@ OC.L10N.register(
     "Save" : "Сачувај",
     "Edit" : "Измени",
     "Link copied" : "Веза ископирана",
+    "Copy link" : "Копирај везу",
     "{filePath} has been created" : "{filePath} је креиран",
     "{filePath} has been changed" : "{filePath} је измењен",
     "{oldFilePath} has been renamed to {newFilePath}" : "Име {oldFilePath} је промењено на {newFilePath}",

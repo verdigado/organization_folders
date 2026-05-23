@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "–•–∞–¥–≥–∞–ª–∞—Ö",
     "Edit" : "”®”©—Ä—á–ª”©—Ö",
     "Link copied" : "Холбоос хуулагдсан",
+    "Copy link" : "Холбоос хуулах",
     "Move folder" : "Хавтас зөөх",
     "Move to {target}" : "{target} руу зөөх",
     "Allowed" : "Зөвшөөрсөн",

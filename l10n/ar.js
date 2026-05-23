@@ -1,6 +1,8 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Calendar" : "التقويم",
+    "Folder" : "مجلد",
     "Members" : "الاعضاء",
     "Organization Folders" : "مُجلَّدات المؤسسة",
     "Back" : "عودة",
@@ -17,6 +19,7 @@ OC.L10N.register(
     "Folder name" : "اسم المجلد",
     "Save" : "حفظ",
     "Edit" : "تحرير",
+    "Link copied" : "تمّ نسخ الرابط",
     "File does not exist" : "الملف غير موجود",
     "Move folder" : "أنقُل المُجلّد",
     "Move to {target}" : "نقل إلى {target}",

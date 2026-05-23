@@ -19,6 +19,7 @@ OC.L10N.register(
     "Save" : "Сохранить",
     "Edit" : "Редактирование",
     "Link copied" : "Ссылка скопирована",
+    "Copy link" : "Копировать ссылку",
     "Currently" : "В настоящее время",
     "File does not exist" : "Файл не существует",
     "Move folder" : "Переместить папку",
