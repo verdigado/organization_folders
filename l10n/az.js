@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Saxla",
     "Edit" : "Dəyişiklik et",
     "Link copied" : "Link kopyalandı",
+    "Copy link" : "linki nüsxələ",
     "Search" : "Axtarış",
     "Confirm" : "Təsdiq edin",
     "Warning" : "Xəbərdarlıq",

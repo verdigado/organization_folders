@@ -20,6 +20,7 @@ OC.L10N.register(
     "Save" : "حفظ",
     "Edit" : "تحرير",
     "Link copied" : "تمّ نسخ الرابط",
+    "Copy link" : "نسخ الرابط",
     "File does not exist" : "الملف غير موجود",
     "Move folder" : "أنقُل المُجلّد",
     "Move to {target}" : "نقل إلى {target}",

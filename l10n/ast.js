@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Edit" : "Editar",
     "Link copied" : "Copióse l'enllaz",
+    "Copy link" : "Copiar l'enllaz",
     "File does not exist" : "El ficheru nun esiste",
     "Move to {target}" : "Mover a {target}",
     "Search" : "Buscar",
