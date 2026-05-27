@@ -39,7 +39,7 @@ OC.L10N.register(
     "Warning" : "Įspėjimas",
     "Continue anyway" : "Vis tiek tęsti",
     "Manager" : "Vadovas",
-    "Admin" : "Administravimas",
+    "Admin" : "Administratorius",
     "Settings" : "Nustatymai",
     "Organization" : "Organizacija",
     "Resources" : "Ištekliai",

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Invalid name" : "Nieprawidłowa nazwa",
     "Cancel" : "Cancel",
     "Create" : "Utwórz",
+    "Create folder" : "Utwórz folder",
     "Folder name" : "Nazwa katalogu",
     "Calendar name" : "Nazwa kalendarza",
     "Save" : "Zapisz",
