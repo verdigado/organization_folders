@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Kalendārs",
     "Folder" : "Mape",
-    "Members" : "Biedri",
+    "Members" : "Dalībnieki",
     "Delete" : "Izdzēst",
     "Add account" : "Pievienot kontu",
     "Add group" : "Pievienot grupu",
