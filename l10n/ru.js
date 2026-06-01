@@ -16,6 +16,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Create" : "Создать",
     "Folder name" : "Имя папки",
+    "Calendar name" : "Название календаря",
     "Save" : "Сохранить",
     "Edit" : "Редактирование",
     "Link copied" : "Ссылка скопирована",

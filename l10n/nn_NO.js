@@ -14,10 +14,12 @@ OC.L10N.register(
     "Edit" : "Rediger",
     "Link copied" : "Lenkje kopiert",
     "Copy link" : "Kopier lenkje",
+    "Move to {target}" : "Flytt til {target}",
     "Search" : "Søk",
     "Warning" : "Åtvaring",
     "Admin" : "Administrer",
     "Settings" : "Innstillingar",
+    "Share" : "Del",
     "Unlimited" : "Ubegrensa"
 },
 "nplurals=2; plural=(n != 1);");
