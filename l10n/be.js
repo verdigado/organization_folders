@@ -19,6 +19,7 @@ OC.L10N.register(
     "Save" : "Захаваць",
     "Edit" : "Рэдагаваць",
     "Link copied" : "Спасылка скапіявана",
+    "Copy link" : "Скапіяваць спасылку",
     "Move folder" : "Перамясціць папку",
     "Move to {target}" : "Перамясціць у {target}",
     "Search" : "Пошук",
