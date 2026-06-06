@@ -41,6 +41,7 @@ OC.L10N.register(
     "Read" : "خواندن",
     "Write" : "نوشتن",
     "Share" : "اشتراک‌گذاری",
+    "An unknown error occurred." : "خطای ناشناخته‌ای رخ داد.",
     "Unlimited" : "نامحدود"
 },
 "nplurals=2; plural=(n > 1);");
