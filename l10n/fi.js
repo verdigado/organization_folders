@@ -29,6 +29,7 @@ OC.L10N.register(
     "Create" : "Luo",
     "Create folder" : "Luo kansio",
     "Folder name" : "Kansion nimi",
+    "Calendar name" : "Kalenterin nimi",
     "Save" : "Tallenna",
     "Edit" : "Muokkaa",
     "Link copied" : "Linkki kopioitu",
