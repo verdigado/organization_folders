@@ -11,6 +11,8 @@ use Psr\Log\LoggerInterface;
 
 use OCP\IDBConnection;
 use OCP\IL10N;
+use OCP\IUserSession;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\TTransactional;
@@ -39,6 +41,11 @@ use OCA\OrganizationFolders\Errors\Api\ResourceCannotBeMovedIntoASubResource;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Errors\Api\PrincipalInvalid;
 use OCA\OrganizationFolders\Errors\Api\ResourceTypeNotEnabled;
+use OCA\OrganizationFolders\Errors\Api\ActionCancelled;
+use OCA\OrganizationFolders\Events\BeforeResourceCreatedEvent;
+use OCA\OrganizationFolders\Events\BeforeResourceDeletedEvent;
+use OCA\OrganizationFolders\Events\BeforeResourceMovedEvent;
+use OCA\OrganizationFolders\Events\BeforeResourceUpdatedEvent;
 use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Integration\Dav\CalendarIntegration;
@@ -58,6 +65,8 @@ class ResourceService {
 		protected readonly PrincipalFactory $principalFactory,
 		protected readonly ResourcePermissionsApplyPlanFactory $resourcePermissionsApplyPlanFactory,
 		protected readonly CalendarIntegration $calendarIntegration,
+		protected readonly IEventDispatcher $eventDispatcher,
+		protected readonly IUserSession $userSession,
 	) {
 	}
 
@@ -283,105 +292,117 @@ class ResourceService {
 			throw new InvalidResourceName($name);
 		}
 
-		if(!$this->mapper->existsWithName($organizationFolderId, $parentResourceId, $name)) {
-			$resource->setOrganizationFolderId($organizationFolderId);
-			$resource->setName($name);
-			$resource->setActive($active);
-			$resource->setInheritManagers($inheritManagers);
-			$resource->setMemberPermissions($memberPermissions);
-			$resource->setManagerPermissions($managerPermissions);
-			$resource->setInheritedMemberPermissions($inheritedMemberPermissions);
-			$resource->setCreatedTimestamp(time());
-			$resource->setLastUpdatedTimestamp(time());
-			$resource->setCreatedFromTemplateId($createdFromTemplateId);
-
-			if(isset($parentResourceId)) {
-				$parentResource = $this->find($parentResourceId);
-
-				if($parentResource->getOrganizationFolderId() === $organizationFolderId) {
-					if(!$parentResource::SUPPORTS_SUBRESOURCES) {
-						throw new ResourceDoesNotSupportSubresources($parentResource);
-					} else {
-						$resource->setParentResource($parentResource->getId());
-					}
-				} else {
-					throw new Exception("Cannot create child-resource of parent in different organization folder");
-				}
-
-				$parentNode = $this->getFolderResourceFilesystemNode($parentResource);
-			} else {
-				$parentNode = $this->pathManager->getOrganizationFolderRootNodeById($organizationFolderId);
-			}
-
-			if($type === "folder") {
-				if($alreadyExists) {
-					$resourceNode = $parentNode->get($name);
-
-					if(!(isset($resourceNode) && $resourceNode instanceof Folder)) {
-						throw new Exception("Resource folder does not exist or is a file, cannot proceed");
-					}
-				} else {
-					if($parentNode->nodeExists($name)) {
-						throw new Exception("A subfolder with this name already exists");
-					}
-
-					$resourceNode = $parentNode->newFolder($name);
-				}
-				
-				$fileId = $resourceNode->getId();
-
-				if($fileId === -1) {
-					throw new Exception("Unknown error occured while creating resource folder");
-				}
-
-				$resource->setFileId($fileId);
-			} else if ($type === "calendar") {
-				if($alreadyExists) {
-					$calendar = $this->calendarIntegration->getCalendarById($existingCalendarId);
-
-					if(!isset($calendar)) {
-						throw new Exception("Existing calendar not found");
-					}
-
-					if($calendar['principaluri'] !== "principals/users/" . $organizationFolder->getServiceAccountUid()) {
-						throw new Exception("Existing calendar needs to be owned by organization folder service account");
-					}
-
-					$this->calendarIntegration->updateCalendar($calendar["id"], displayname: $name, description: "");
-				} else {
-					$calendar = $this->calendarIntegration->createCalendar(
-						principalUri: "principals/users/" . $organizationFolder->getServiceAccountUid(),
-						calendarUri: $calendarUri ?? hash('sha256', $name . "_" . time()),
-						displayname: $name,
-						description: "",
-					);
-				}
-
-				$resource->setCalendarId($calendar["id"]);
-			}
-
-			try {
-				$resource = $this->mapper->insert($resource);
-			} catch (\Throwable $e) {
-				// an error occured, rewind all changes, depending on resource type
-				if(!$alreadyExists) {
-					if($type === "folder") {
-						$resourceNode?->delete();
-					} else if ($type === "calendar") {
-						$this->calendarIntegration->deleteCalendar($calendar["id"]);
-					}
-				}
-				throw $e;
-			}
-
-			if(!$skipPermssionsApply) {
-				$this->organizationFolderService->applyAllPermissionsById($organizationFolderId);
-			}
-
-			return $resource;
-		} else {
+		if($this->mapper->existsWithName($organizationFolderId, $parentResourceId, $name)) {
 			throw new ResourceNameNotUnique();
 		}
+
+		$resource->setOrganizationFolderId($organizationFolderId);
+		$resource->setName($name);
+		$resource->setActive($active);
+		$resource->setInheritManagers($inheritManagers);
+		$resource->setMemberPermissions($memberPermissions);
+		$resource->setManagerPermissions($managerPermissions);
+		$resource->setInheritedMemberPermissions($inheritedMemberPermissions);
+		$resource->setCreatedTimestamp(time());
+		$resource->setLastUpdatedTimestamp(time());
+		$resource->setCreatedFromTemplateId($createdFromTemplateId);
+
+		if(isset($parentResourceId)) {
+			$parentResource = $this->find($parentResourceId);
+
+			if($parentResource->getOrganizationFolderId() === $organizationFolderId) {
+				if(!$parentResource::SUPPORTS_SUBRESOURCES) {
+					throw new ResourceDoesNotSupportSubresources($parentResource);
+				} else {
+					$resource->setParentResource($parentResource->getId());
+				}
+			} else {
+				throw new Exception("Cannot create child-resource of parent in different organization folder");
+			}
+
+			$parentNode = $this->getFolderResourceFilesystemNode($parentResource);
+		} else {
+			$parentNode = $this->pathManager->getOrganizationFolderRootNodeById($organizationFolderId);
+		}
+
+		// emit cancellable event before doing any changes
+        $beforeEvent = new BeforeResourceCreatedEvent(
+            $resource,
+            $this->userSession->getUser()?->getUID(),
+        );
+        $this->eventDispatcher->dispatchTyped($beforeEvent);
+        if ($beforeEvent->isCancelled()) {
+            throw new ActionCancelled(
+                $beforeEvent->getErrorMessage(),
+            );
+        }
+
+		if($type === "folder") {
+			if($alreadyExists) {
+				$resourceNode = $parentNode->get($name);
+
+				if(!(isset($resourceNode) && $resourceNode instanceof Folder)) {
+					throw new Exception("Resource folder does not exist or is a file, cannot proceed");
+				}
+			} else {
+				if($parentNode->nodeExists($name)) {
+					throw new Exception("A subfolder with this name already exists");
+				}
+
+				$resourceNode = $parentNode->newFolder($name);
+			}
+			
+			$fileId = $resourceNode->getId();
+
+			if($fileId === -1) {
+				throw new Exception("Unknown error occured while creating resource folder");
+			}
+
+			$resource->setFileId($fileId);
+		} else if ($type === "calendar") {
+			if($alreadyExists) {
+				$calendar = $this->calendarIntegration->getCalendarById($existingCalendarId);
+
+				if(!isset($calendar)) {
+					throw new Exception("Existing calendar not found");
+				}
+
+				if($calendar['principaluri'] !== "principals/users/" . $organizationFolder->getServiceAccountUid()) {
+					throw new Exception("Existing calendar needs to be owned by organization folder service account");
+				}
+
+				$this->calendarIntegration->updateCalendar($calendar["id"], displayname: $name, description: "");
+			} else {
+				$calendar = $this->calendarIntegration->createCalendar(
+					principalUri: "principals/users/" . $organizationFolder->getServiceAccountUid(),
+					calendarUri: $calendarUri ?? hash('sha256', $name . "_" . time()),
+					displayname: $name,
+					description: "",
+				);
+			}
+
+			$resource->setCalendarId($calendar["id"]);
+		}
+
+		try {
+			$resource = $this->mapper->insert($resource);
+		} catch (\Throwable $e) {
+			// an error occured, rewind all changes, depending on resource type
+			if(!$alreadyExists) {
+				if($type === "folder") {
+					$resourceNode?->delete();
+				} else if ($type === "calendar") {
+					$this->calendarIntegration->deleteCalendar($calendar["id"]);
+				}
+			}
+			throw $e;
+		}
+
+		if(!$skipPermssionsApply) {
+			$this->organizationFolderService->applyAllPermissionsById($organizationFolderId);
+		}
+
+		return $resource;
 	}
 
 	/**
@@ -408,6 +429,49 @@ class ResourceService {
 		): Resource {
 		$resource = $this->find($id);
 
+		if($permissionsPatchMode) {
+			if(isset($memberPermissions)) {
+				$memberPermissionsBitfield = $resource::patchPermissionsBitfield($resource->getMemberPermissionsBitfield(), $memberPermissions);
+			}
+
+			if(isset($managerPermissions)) {
+				$managerPermissionsBitfield = $resource::patchPermissionsBitfield($resource->getManagerPermissionsBitfield(), $managerPermissions);
+			}
+
+			if(isset($inheritedMemberPermissions)) {
+				$inheritedMemberPermissionsBitfield = $resource::patchPermissionsBitfield($resource->getInheritedMemberPermissionsBitfield(), $inheritedMemberPermissions);
+			}
+		} else {
+			if(isset($memberPermissions)) {
+				$memberPermissionsBitfield = $resource::permissionsToBitfield($memberPermissions);
+			}
+
+			if(isset($managerPermissions)) {
+				$managerPermissionsBitfield = $resource::permissionsToBitfield($managerPermissions);
+			}
+
+			if(isset($inheritedMemberPermissions)) {
+				$inheritedMemberPermissionsBitfield = $resource::permissionsToBitfield($inheritedMemberPermissions);
+			}
+		}
+
+		// emit cancellable event before doing any changes
+		$beforeEvent = new BeforeResourceUpdatedEvent(
+			$resource,
+			$active,
+			$inheritManagers,
+			isset($memberPermissionsBitfield) ? $resource::bitfieldToPermissions($memberPermissionsBitfield) : null,
+			isset($managerPermissionsBitfield) ? $resource::bitfieldToPermissions($managerPermissionsBitfield) : null,
+			isset($inheritedMemberPermissionsBitfield) ? $resource::bitfieldToPermissions($inheritedMemberPermissionsBitfield) : null,
+			$this->userSession->getUser()?->getUID(),
+		);
+		$this->eventDispatcher->dispatchTyped($beforeEvent);
+		if ($beforeEvent->isCancelled()) {
+			throw new ActionCancelled(
+				$beforeEvent->getErrorMessage(),
+			);
+		}
+
 		if(isset($active)) {
 			$resource->setActive($active);
 		}
@@ -416,30 +480,16 @@ class ResourceService {
 			$resource->setInheritManagers($inheritManagers);
 		}
 
-		if($permissionsPatchMode) {
-			if(isset($memberPermissions)) {
-				$resource->patchMemberPermissions($memberPermissions);
-			}
+		if(isset($memberPermissionsBitfield)) {
+			$resource->setMemberPermissionsBitfield($memberPermissionsBitfield);
+		}
 
-			if(isset($managerPermissions)) {
-				$resource->patchManagerPermissions($managerPermissions);
-			}
+		if(isset($managerPermissionsBitfield)) {
+			$resource->setManagerPermissionsBitfield($managerPermissionsBitfield);
+		}
 
-			if(isset($inheritedMemberPermissions)) {
-				$resource->patchInheritedMemberPermissions($inheritedMemberPermissions);
-			}
-		} else {
-			if(isset($memberPermissions)) {
-				$resource->setMemberPermissions($memberPermissions);
-			}
-
-			if(isset($managerPermissions)) {
-				$resource->setManagerPermissions($managerPermissions);
-			}
-
-			if(isset($inheritedMemberPermissions)) {
-				$resource->setInheritedMemberPermissions($inheritedMemberPermissions);
-			}
+		if(isset($inheritedMemberPermissionsBitfield)) {
+			$resource->setInheritedMemberPermissionsBitfield($inheritedMemberPermissionsBitfield);
 		}
 
 		if(count($resource->getUpdatedFields()) > 0) {
@@ -531,6 +581,24 @@ class ResourceService {
 
 		$oldName = $resource->getName();
 		$oldParentResourceId = $resource->getParentResourceId();
+
+		$beforeEvent = new BeforeResourceMovedEvent(
+			$resource,
+			$name,
+			$parentResourceId,
+			$this->userSession->getUser()?->getUID(),
+		);
+		$this->eventDispatcher->dispatchTyped($beforeEvent);
+		if ($beforeEvent->isCancelled()) {
+			if($resource instanceof FolderResource) {
+				$resourceNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+				$parentNode->unlock(\OCP\Lock\ILockingProvider::LOCK_SHARED);
+			}
+			
+			throw new ActionCancelled(
+				$beforeEvent->getErrorMessage(),
+			);
+		}
 
 		$resource->setName($name);
 		$resource->setParentResource($parentResource?->getId());
@@ -890,33 +958,54 @@ class ResourceService {
 
 	public function delete(Resource $resource): Resource {
 		return $this->atomic(function () use ($resource): Resource {
-			// first delete all subresources recursively
-			$subResources = $this->getSubResources($resource);
-			
-			foreach($subResources as $subResource) {
-				$this->delete($subResource);
+			$deleteStack = [];
+
+			$this->recursiveBeforeDeleteEvent($resource, $deleteStack);
+
+			foreach($deleteStack as $deleteResource) {
+				if($deleteResource instanceof FolderResource) {
+					// delete in filesystem if type folder
+					$node = $this->getFolderResourceFilesystemNode($deleteResource);
+					
+					if(isset($node)) {
+						$node->delete();
+					} else {
+						$this->logger->warning(
+							"Tried deleting filesystem node of resource "
+							. json_encode($deleteResource)
+							. ", but it did not exist. This should not happen, investigate the cause! Proceeding normally."
+						);
+					}
+				} else if($deleteResource instanceof CalendarResource) {
+					$this->calendarIntegration->deleteCalendar($deleteResource->getCalendarId());
+				}
+				
+				// delete in database
+				$this->mapper->delete($deleteResource);
 			}
 
-			// delete in filesystem if type folder
-			if($resource instanceof FolderResource) {
-				$node = $this->getFolderResourceFilesystemNode($resource);
-				
-				if(isset($node)) {
-					$node->delete();
-				} else {
-					$this->logger->warning(
-						"Tried deleting filesystem node of resource "
-						. json_encode($resource)
-						. ", but it did not exist. This should not happen, investigate the cause! Proceeding normally."
-					);
-				}
-			} else if($resource instanceof CalendarResource) {
-				$this->calendarIntegration->deleteCalendar($resource->getCalendarId());
-			}
-			
-			// delete in database
-			$this->mapper->delete($resource);
 			return $resource;
 		}, $this->db);
+	}
+
+	private function recursiveBeforeDeleteEvent(Resource $resource, array &$deleteStack) {
+		$beforeEvent = new BeforeResourceDeletedEvent(
+			$resource,
+			$this->userSession->getUser()?->getUID(),
+		);
+		$this->eventDispatcher->dispatchTyped($beforeEvent);
+		if ($beforeEvent->isCancelled()) {
+			throw new ActionCancelled(
+				$beforeEvent->getErrorMessage(),
+			);
+		}
+		
+		$subResources = $this->getSubResources($resource);
+		
+		foreach($subResources as $subResource) {
+			$this->recursiveBeforeDeleteEvent($subResource, $deleteStack);
+		}
+
+		array_push($deleteStack, $resource);
 	}
 }
