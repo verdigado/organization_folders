@@ -192,7 +192,7 @@ class ResourceMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select($qb->createFunction('COUNT(1)'))
+		$qb->selectAlias($qb->createFunction('COUNT(1)'), "cnt")
 			->from(self::RESOURCES_TABLE)
 			->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
 
@@ -204,18 +204,18 @@ class ResourceMapper extends QBMapper {
 
 		$qb->andWhere($qb->expr()->eq('name', $qb->createNamedParameter($name, IQueryBuilder::PARAM_STR)));
 
-		return $qb->executeQuery()->fetch()["COUNT(1)"] === 1;
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN) >= 1;
 	}
 
 	public function existAnyCreatedFromTemplate(int $organizationFolderId, string $providerId, string $templateId): bool {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select($qb->createFunction('COUNT(1)'))
+		$qb->selectAlias($qb->createFunction('COUNT(1)'), "cnt")
 			->from(self::RESOURCES_TABLE)
 			->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('created_from_template_id', $qb->createNamedParameter($providerId . ":" . $templateId, IQueryBuilder::PARAM_STR)));
 
-		return $qb->executeQuery()->fetch()["COUNT(1)"] === 1;
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN) >= 1;
 	}
 
 	/**
