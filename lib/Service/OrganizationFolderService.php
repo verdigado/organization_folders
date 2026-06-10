@@ -9,6 +9,7 @@ use Psr\Container\ContainerInterface;
 use OCP\AppFramework\Db\TTransactional;
 use OCP\IDBConnection;
 use OCP\Files\Node;
+use OCP\IUserManager;
 
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupfolderTags\Service\TagService;
@@ -20,6 +21,7 @@ use OCA\OrganizationFolders\DTO\CreateOrganizationFolderDto;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Errors\Api\OrganizationProviderNotFound;
+use OCA\OrganizationFolders\Errors\Api\UserNotFound;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
@@ -43,6 +45,7 @@ class OrganizationFolderService {
 		protected readonly ACLManager $aclManager,
 		protected readonly ContainerInterface $container,
 		protected readonly PrincipalFactory $principalFactory,
+		protected readonly IUserManager $userManager,
 	) {
 	}
 
@@ -235,6 +238,10 @@ class OrganizationFolderService {
 			}
 
 			if(isset($serviceAccountUid)) {
+				if(!$this->userManager->userExists($serviceAccountUid)) {
+					throw new UserNotFound($serviceAccountUid);
+				}
+
 				$this->tagService->update($id, static::TAG_SERVICE_ACCOUNT_UID, $serviceAccountUid);
 			}
 		}, $this->db);
