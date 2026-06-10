@@ -35,14 +35,17 @@ class Version010200Date20260402133000 extends SimpleMigrationStep {
 		$table->addColumn('member_permissions_bitfield', Types::INTEGER, [
 			'length' => 11,
 			'notnull' => true,
+			'default' => 0,
 		]);
 		$table->addColumn('manager_permissions_bitfield', Types::INTEGER, [
 			'length' => 11,
 			'notnull' => true,
+			'default' => 0,
 		]);
 		$table->addColumn('inherited_member_permissions_bitfield', Types::INTEGER, [
 			'length' => 11,
 			'notnull' => true,
+			'default' => 0,
 		]);
 
 		return $schema;
