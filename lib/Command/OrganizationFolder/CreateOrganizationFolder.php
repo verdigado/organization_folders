@@ -15,9 +15,9 @@ class CreateOrganizationFolder extends BaseCommand {
 			->setName('organization-folders:create')
 			->setDescription('Create a new organization folder')
 			->addOption('name', null, InputOption::VALUE_REQUIRED, 'Name of the new organization folder')
-			->addOption('quota', null, InputOption::VALUE_REQUIRED, 'Storage Quota of the new organization folder')
-			->addOption('organization-provider', null, InputOption::VALUE_OPTIONAL, 'Organization provider of the organization this folder is part of')
-			->addOption('organization-id', null, InputOption::VALUE_OPTIONAL, 'Organization id of the organization this folder is part of');
+			->addOption('quota', null, InputOption::VALUE_REQUIRED, 'Storage quota of the new organization folder in bytes. Use -3 for unlimited.')
+			->addOption('organization-provider', null, InputOption::VALUE_REQUIRED, 'Organization provider of the organization this folder is part of')
+			->addOption('organization-id', null, InputOption::VALUE_REQUIRED, 'Organization id of the organization this folder is part of');
 		parent::configure();
 	}
 
