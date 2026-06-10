@@ -39,7 +39,7 @@ The Organization Folders Nextcloud app is a new way to manage Team Folders (form
       - For resources of the type folder you can choose for each permission level the rights people within them should have inside that folder: Read, Write, Create, Delete and Share
       - Additionally you can choose which rights people with at least read access to the folder level above (for top level resources that is the organization folder, otherwise it's the parent resource) should have within the folder
       - This permissions model is intentionally limited compared to raw ACLs, to make it easy to understand the current permissions configuration and easy to ensure at a glance, that the permissions are correctly configured.
-      - We believe this permissions model still allows you to configure most if not all permissions structures commonly used in groupfolders, while being much simpler to use than ACLs
+      - We believe this permissions model still allows you to configure most permissions structures commonly used in groupfolders, while being much simpler to use than ACLs
     - You can create regular folders within folder resources (not at the top-level of an organization folder though), these are called "unmanaged" folders, because all file rights for them are inherited from the nearest parent resource
   - The system that gives Organization Folders it's name: Organizations and Suborganizations allow you to model your entire organizations hierarchy/structure (perfect for highly distributed organizations like political parties with local chapters)
     - Each (sub)organization can have Roles
@@ -47,9 +47,10 @@ The Organization Folders Nextcloud app is a new way to manage Team Folders (form
     - Users have a role, if they are assigned to the specific nextcloud group it is backed by
     - The management of these role assignments is currently out of scope of this app.
       It is expected, that you connect your nextcloud instance to your organization members database (for example using https://github.com/nextcloud/user_saml/ or a custom group backend) or are manually assigning users to nextcloud groups
-    - The structure of your organization must be provided to this app using a programmatic interface, by creating a small companion app, that registers itself as an organization provider. It can pull data for your organizations member database or just hardcoded values.
+    - The structure of your organization must be provided to this app using a programmatic interface, by creating a small companion app, that registers itself as an organization provider. It can pull data from your organizations member database or just return hardcoded values. An example implementation returning hardcoded values can be found [here](https://git.verdigado.com/verdigado-public/demo_organization_provider). NOTE: This API is not yet in the Public namespace, meaning no API interface stability guarantees are made between app versions, for progress see [#74](https://github.com/verdigado/organization_folders/issues/74).
     - The usage of this system is entirely optional. The app works fine without any registered organization provider. But all members will then be individual users or regular nextcloud groups, which are unstructured and therefore not easy to work with in very large organizations.
   - If you use a filesystem with snapshot capabilities, Organization Folders can be integrated with it to offer a self-service restore-from-backups UI to folder resource managers.
+  - Resources can be created from templates, which are defined using a programmatic interface similar to the organization system.
 
 ## How to install
 - Install the [Team folders](https://apps.nextcloud.com/apps/groupfolders) app from the nextcloud app store
