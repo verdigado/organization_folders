@@ -137,7 +137,7 @@ class ResourceMemberMapper extends QBMapper {
 	public function countOrganizationFolderTopLevelResourceIndividualMembers(int $organizationFolderId): int {
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select($qb->createFunction('COUNT(DISTINCT `member`.`principal_id`)'))
+		$qb->selectAlias($qb->createFunction('COUNT(DISTINCT `member`.`principal_id`)'), "cnt")
 			->from(self::RESOURCES_TABLE, "resource")
 			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->isNull('resource.parent_resource'));
@@ -146,14 +146,14 @@ class ResourceMemberMapper extends QBMapper {
 
 		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
 
-		return $qb->executeQuery()->fetch(\PDO::FETCH_NUM)[0];
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN);
 	}
 
 	public function hasOrganizationFolderTopLevelResourceIndividualMembers(int $organizationFolderId): bool {
 		// This would be faster using EXISTS() and a subquery, but that does not seem possible with the QueryBuilder
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select($qb->createFunction('COUNT(1)'))
+		$qb->selectAlias($qb->createFunction('COUNT(1)'), "cnt")
 			->from(self::RESOURCES_TABLE, "resource")
 			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->isNull('resource.parent_resource'));
@@ -162,14 +162,14 @@ class ResourceMemberMapper extends QBMapper {
 
 		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
 
-		return $qb->executeQuery()->fetch()["COUNT(1)"] >= 1;
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN) >= 1;
 	}
 
 	public function isUserIndividualMemberOfTopLevelResourceOfOrganizationFolder(int $organizationFolderId, string $userId): bool {
 		// This would be faster using EXISTS() and a subquery, but that does not seem possible with the QueryBuilder
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select($qb->createFunction('COUNT(1)'))
+		$qb->selectAlias($qb->createFunction('COUNT(1)'), "cnt")
 			->from(self::RESOURCES_TABLE, "resource")
 			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->isNull('resource.parent_resource'));
@@ -179,7 +179,7 @@ class ResourceMemberMapper extends QBMapper {
 		$qb->andWhere($qb->expr()->eq('member.principal_type', $qb->createNamedParameter(PrincipalType::USER->value, IQueryBuilder::PARAM_INT)));
 		$qb->andWhere($qb->expr()->eq('member.principal_id', $qb->createNamedParameter($userId)));
 
-		return $qb->executeQuery()->fetch()["COUNT(1)"] >= 1;
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN) >= 1;
 	}
 
 	public function getIdsOfOrganizationFoldersUserIsTopLevelResourceIndividualMemberIn(string $userId): array {
@@ -233,12 +233,12 @@ class ResourceMemberMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select($qb->createFunction('COUNT(1)'))
+		$qb->selectAlias($qb->createFunction('COUNT(1)'), "cnt")
 			->from(self::RESOURCE_MEMBERS_TABLE)
 			->where($qb->expr()->eq('resource_id', $qb->createNamedParameter($resourceId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('principal_type', $qb->createNamedParameter($principalType, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('principal_id', $qb->createNamedParameter($principalId)));
 
-		return $qb->executeQuery()->fetch()["COUNT(1)"] === 1;
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN) === 1;
 	}
 }

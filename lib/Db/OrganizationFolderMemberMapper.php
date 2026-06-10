@@ -92,12 +92,12 @@ class OrganizationFolderMemberMapper extends QBMapper {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select($qb->createFunction('COUNT(1)'))
+		$qb->selectAlias($qb->createFunction('COUNT(1)'), "cnt")
 			->from(self::ORGANIZATIONFOLDER_MEMBERS_TABLE)
 			->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('principal_type', $qb->createNamedParameter($principalType, IQueryBuilder::PARAM_INT)))
 			->andWhere($qb->expr()->eq('principal_id', $qb->createNamedParameter($principalId)));
 
-		return $qb->executeQuery()->fetch()["COUNT(1)"] === 1;
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN) === 1;
 	}
 }
