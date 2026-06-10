@@ -852,7 +852,7 @@ class ResourceService {
 						$filteredPermissionOrigins[$permissionOrigin["type"]->value] = [
 							"type" => $permissionOrigin["type"],
 							"permissions" => $resource->bitfieldToPermissions($permissionOrigin["permissionsBitmap"]),
-							"inheritedFrom" => $permissionOrigin["inheritedFrom"],
+							"inheritedFrom" => $permissionOrigin["inheritedFrom"]?->limitedJsonSerialize(),
 						];
 					}
 				}
