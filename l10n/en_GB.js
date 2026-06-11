@@ -58,7 +58,7 @@ OC.L10N.register(
     "Select organization" : "Select organisation",
     "Select sub-organization or role" : "Select sub-organisation or role",
     "Create Organization Folder" : "Create Organisation Folder",
-    "Name" : "Surname",
+    "Name" : "Name",
     "Invalid name" : "Invalid name",
     "Storage Quota" : "Storage Quota",
     "Cancel" : "Cancel",
