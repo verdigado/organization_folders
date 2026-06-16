@@ -378,9 +378,7 @@ const permissionLevelExplanation = t(
 				@delete-member="deleteMember" />
 		</Section>
 		<HeaderButtonGroup :text="t('organization_folders', 'Resources')">
-			<CreateResourceButton v-if="!organizationFolderPermissionsLimited"
-				:types="organizationFolder?.enabledResourceTypes"
-				@create="createResource" />
+			<CreateResourceButton :types="organizationFolder?.enabledResourceTypes" @create="createResource" />
 		</HeaderButtonGroup>
 		<ResourceList :resources="organizationFolder?.resources" :enable-search="true" @click:resource="resourceClicked" />
 	</ModalView>
