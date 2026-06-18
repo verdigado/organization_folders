@@ -7,6 +7,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Create" : "Crear",
     "Folder name" : "Nombre de carpeta",
+    "Save" : "Save",
     "Allowed" : "Permitiu",
     "Denied" : "Denegau",
     "Search" : "Buscar",
