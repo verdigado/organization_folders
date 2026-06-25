@@ -42,7 +42,7 @@ const filteredResources = computed(() => props.resources.filter((r) => r.name.to
 			@trailing-button-click="search = ''">
 			<Magnify :size="16" />
 		</NcTextField>
-		<NcEmptyContent v-if="resources.length === 0" name="Keine Unter-Resourcen vorhanden">
+		<NcEmptyContent v-if="resources.length === 0" :name="t('organization_folders', 'No sub-resources available')">
             <template #icon>
                 <FolderOff />
             </template>
