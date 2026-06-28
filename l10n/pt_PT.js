@@ -38,6 +38,7 @@ OC.L10N.register(
     "Read" : "Ler",
     "Write" : "Escrever",
     "Share" : "Partilhar",
+    "An unknown error occurred." : "Ocorreu um erro desconhecido.",
     "Unlimited" : "Ilimitado"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
