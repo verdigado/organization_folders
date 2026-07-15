@@ -10,12 +10,17 @@ use OCP\IL10N;
 
 class OrganizationRole implements \JsonSerializable, TableSerializable {
 	public function __construct(
+		protected readonly string $providerId,
 		protected readonly string $id,
 		protected readonly int $organizationId,
 		protected readonly string $friendlyName,
 		protected readonly string $membersGroup,
 		protected readonly ?OrganizationRoleCategory $category = null,
 	) {
+	}
+
+	public function getProviderId(): string {
+		return $this->providerId;
 	}
 
 	public function getId(): string {

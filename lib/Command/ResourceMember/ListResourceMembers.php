@@ -23,7 +23,9 @@ class ListResourceMembers extends BaseCommand {
 		try {
 			$resourceId = $input->getArgument('resource-id');
 
-			$members = $this->resourceMemberService->findAll($resourceId);
+			$members = $this->resourceMemberService->findAll([
+				"resourceId" => $resourceId
+			]);
 
 			$this->writeTableInOutputFormat($input, $output, $this->formatTableSerializables($members));
 			return 0;
