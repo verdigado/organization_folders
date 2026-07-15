@@ -10,6 +10,7 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\IDBConnection;
 use OCP\Files\Node;
 use OCP\IUserManager;
+use OCP\Files\Cache\IFileAccess;
 
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupfolderTags\Service\TagService;
@@ -27,7 +28,6 @@ use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
-use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\GroupfolderManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\Groups\GroupBackend;
@@ -40,12 +40,12 @@ class OrganizationFolderService {
 		protected readonly FolderManager $folderManager,
 		protected readonly TagService $tagService,
 		protected readonly OrganizationProviderManager $organizationProviderManager,
-		protected readonly PathManager $pathManager,
 		protected readonly GroupfolderManager $groupfolderManager,
 		protected readonly ACLManager $aclManager,
 		protected readonly ContainerInterface $container,
 		protected readonly PrincipalFactory $principalFactory,
 		protected readonly IUserManager $userManager,
+		protected readonly IFileAccess $filecacheAccess,
 	) {
 	}
 
@@ -144,8 +144,7 @@ class OrganizationFolderService {
 	}
 
 	public function getOrganizationFolderQuotaUsed(OrganizationFolder $organizationFolder): int {
-		// TODO: This could be done using the filecache layer instead of the filesystem node layer, which would be faster as it does not require a temporary mount
-		return $this->pathManager->getOrganizationFolderRootNode($organizationFolder)->getSize(includeMounts: false);
+		return $this->filecacheAccess->getByFileIdInStorage($organizationFolder->getRootNodeFileId(), $organizationFolder->getStorageId())->getSize();
 	}
 
 
