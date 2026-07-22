@@ -8,8 +8,11 @@ use OCP\EventDispatcher\IEventDispatcher;
 
 use OCA\OrganizationFolders\Errors\Api\OrganizationProviderNotFound;
 use OCA\OrganizationFolders\Events\RegisterOrganizationProviderEvent;
+use OCA\OrganizationFolders\Model\Organization;
+use OCA\OrganizationFolders\Model\OrganizationRole;
 
 class OrganizationProviderManager {
+	/** @var OrganizationProvider[] */
 	private array $organizationProviders = [];
 
 	public function __construct(
@@ -50,5 +53,37 @@ class OrganizationProviderManager {
 	public function registerOrganizationProvider(OrganizationProvider $organizationProvider): self {
 		$this->organizationProviders[$organizationProvider->getId()] = $organizationProvider;
 		return $this;
+	}
+
+	/**
+	 * @param string $groupId
+	 * @return Organization[]
+	 */
+	public function getOrganizationsByMembersGroupId(string $groupId): array {
+		$result = [];
+
+		foreach($this->organizationProviders as $organizationProvider) {
+			foreach($organizationProvider->getOrganizationsByMembersGroupId($groupId) as $organization) {
+				$result[] = $organization;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param string $groupId
+	 * @return OrganizationRole[]
+	 */
+	public function getRolesByMembersGroupId(string $groupId): array {
+		$result = [];
+
+		foreach($this->organizationProviders as $organizationProvider) {
+			foreach($organizationProvider->getRolesByMembersGroupId($groupId) as $role) {
+				$result[] = $role;
+			}
+		}
+
+		return $result;
 	}
 }

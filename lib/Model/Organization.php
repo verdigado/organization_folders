@@ -10,12 +10,17 @@ use OCA\OrganizationFolders\Interface\TableSerializable;
 
 class Organization implements \JsonSerializable, TableSerializable {
 	public function __construct(
+		protected readonly string $providerId,
 		protected readonly int $id,
 		protected readonly string $friendlyName,
 		protected readonly string $membersGroup,
 		protected readonly ?int $parentOrganizationId = null,
 		protected readonly bool $membershipImpliesParentMembership = false,
 	) {
+	}
+
+	public function getProviderId(): string {
+		return $this->providerId;
 	}
 
 	public function getId(): int {

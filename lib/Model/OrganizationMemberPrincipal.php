@@ -8,25 +8,34 @@ use OCP\IL10N;
 use OCP\IGroupManager;
 
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\OrganizationProvider\OrganizationProvider;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
 class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
-	private ?Organization $organization = null;
+	private bool $valid;
 
 	public function __construct(
-		private readonly OrganizationProviderManager $organizationProviderManager,
+		PrincipalFactory $factory,
+		OrganizationProviderManager $organizationProviderManager,
 		private readonly IL10N $l10n,
 		IGroupManager $groupManager,
-		private string $providerId,
-		private int $organizationId,
+		private readonly string $providerId,
+		private readonly int $organizationId,
+		private ?OrganizationProvider $provider = null,
+		private ?Organization $organization = null,
 	) {
-		parent::__construct($groupManager);
+		parent::__construct($factory, $groupManager, $organizationProviderManager);
 
-		try {
-			$this->organization = $this->organizationProviderManager->getOrganizationProvider($providerId)->getOrganization($organizationId);
-			$this->valid = !is_null($this->organization);
-		} catch (\Exception $e) {
-			$this->valid = false;
+		if($provider === null || $organization === null) {
+			try {
+				$this->provider = $this->organizationProviderManager->getOrganizationProvider($providerId);
+				$this->organization = $this->provider->getOrganization($organizationId);
+				$this->valid = $this->organization !== null;
+			} catch (\Exception $e) {
+				$this->valid = false;
+			}
+		} else {
+			$this->valid = true;
 		}
 	}
 
@@ -36,6 +45,10 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 
 	public function getId(): string {
 		return $this->providerId . ":"  . $this->organizationId;
+	}
+
+	public function isValid(): bool {
+		return $this->valid;
 	}
 
 	public function getOrganizationProviderId(): string {
@@ -58,21 +71,19 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 		$membersTranslation = $this->l10n->t('Members');
 
 		if($this->valid) {
-			$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
-
 			$result = [$membersTranslation, $this->getFriendlyName()];
 
 			try {
 				$organization = $this->organization;
 
-				while($organization?->getParentOrganizationId() && $organization = $organizationProvider->getOrganization($organization->getParentOrganizationId())) {
+				while($organization?->getParentOrganizationId() && $organization = $this->provider->getOrganization($organization->getParentOrganizationId())) {
 					$result[] = $organization->getFriendlyName();
 				}
 
-				$result[] = $organizationProvider->getFriendlyName();
+				$result[] = $this->provider->getFriendlyName();
 			} catch (\Exception $e) {
 				// fall back to without hierarchy
-				return [$organizationProvider->getFriendlyName(), $this->getFriendlyName(), $membersTranslation];
+				return [$this->provider->getFriendlyName(), $this->getFriendlyName(), $membersTranslation];
 			}
 
 			return array_reverse($result);
@@ -85,28 +96,31 @@ class OrganizationMemberPrincipal extends PrincipalBackedByGroup {
 		return $this->getOrganization()?->getMembersGroup();
 	}
 
-	public function containsPrincipal(Principal $principal, bool $skipExpensiveOperations = false): bool {
+	public function containsPrincipal(Principal $principal): bool {
 		if($this->isValid() && $principal->isValid()) {
-			// Fast path with assurances made by OrganizationProvider
 			if ($principal instanceof OrganizationMemberPrincipal && $this->getOrganizationProviderId() === $principal->getOrganizationProviderId()) {
-				$organizationProvider = $this->organizationProviderManager->getOrganizationProvider($this->providerId);
+				// if $this organization is a parent organization of given organization and
+				// a chain of membership implying parent memberships exists return true
 
-				$principalOrganization = $principal->getOrganization();
+				try {
+					$principalOrganization = $principal->getOrganization();
 
-				do {
-					if($principalOrganization->getId() === $this->organizationId) {
-						return true;
+					do {
+						if($principalOrganization->getId() === $this->organizationId) {
+							return true;
+						}
 					}
+					while(
+						$principalOrganization?->getParentOrganizationId() &&
+						$principalOrganization?->getMembershipImpliesParentMembership() &&
+						$principalOrganization = $this->provider->getOrganization($principalOrganization->getParentOrganizationId())
+					);
+				} catch (\Exception $e) {
+					return false;
 				}
-				while(
-					$principalOrganization?->getParentOrganizationId() &&
-					$principalOrganization?->getMembershipImpliesParentMembership() &&
-					$principalOrganization = $organizationProvider->getOrganization($principalOrganization->getParentOrganizationId())
-				);
 			}
 
-			// Slow path with manual user subset checking
-			return parent::containsPrincipal($principal, $skipExpensiveOperations);
+			return parent::containsPrincipal($principal);
 		}
 
 		return false;

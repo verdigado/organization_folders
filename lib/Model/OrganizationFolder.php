@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
-use \JsonSerializable;
-use OCA\OrganizationFolders\Interface\TableSerializable;
-
 use OCP\IL10N;
 
-class OrganizationFolder implements JsonSerializable, TableSerializable {
+use OCA\OrganizationFolders\ApiPermissionsVoter\VoterSubject;
+use OCA\OrganizationFolders\Interface\TableSerializable;
+
+class OrganizationFolder implements VoterSubject, \JsonSerializable, TableSerializable {
+
+	public const VOTER_SUBJECT_TYPE = "OrganizationFolder";
+
 	public function __construct(
 		private readonly int $id,
 		private string $name,
@@ -105,5 +108,9 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'Organization ID' => $this->organizationId,
 			'Service Account UID' => $this->serviceAccountUid,
 		];
+	}
+
+	public function getVoterSubjectKey(): string {
+		return "organizationFolder:" . $this->id;
 	}
 }

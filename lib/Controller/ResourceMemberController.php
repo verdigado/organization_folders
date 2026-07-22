@@ -41,7 +41,9 @@ class ResourceMemberController extends BaseController {
 
 			$this->denyAccessUnlessGranted(['READ'], $resource);
 
-			return $this->service->findAll($resourceId);
+			return $this->service->findAll([
+				"resourceId" => $resourceId,
+			]);
 		});
 	}
 

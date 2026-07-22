@@ -9,7 +9,10 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 use OCA\OrganizationFolders\Enum\PrincipalType;
+use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
+use OCA\OrganizationFolders\Model\PrincipalFilter;
+use OCP\DB\QueryBuilder\ICompositeExpression;
 
 class ResourceMemberMapper extends QBMapper {
 	public const RESOURCES_TABLE = "organizationfolders_resources";
@@ -86,28 +89,111 @@ class ResourceMemberMapper extends QBMapper {
 	}
 
 	/**
-	 * @param int $resourceId
-	 * @param array{permissionLevel: int, principalType: int} $filters
-	 * @return array
+	 * @param array{
+	 *   organizationFolderId: ?int,
+	 *   resourceId: ?int,
+	 *   permissionLevel: ?ResourceMemberPermissionLevel[],
+	 *   principal: ?PrincipalFilter[]
+	 * } $filters resourceId filter takes precedence over organizationFolderId filter
 	 * @psalm-return ResourceMember[]
 	 */
-	public function findAll(int $resourceId, array $filters = []): array {
+	public function findAll(array $filters = []): array {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
 
-		$qb->select('*')
-			->from(self::RESOURCE_MEMBERS_TABLE)
-			->where($qb->expr()->eq('resource_id', $qb->createNamedParameter($resourceId, IQueryBuilder::PARAM_INT)));
+		$qb->select('member.*')
+			->from(self::RESOURCE_MEMBERS_TABLE, "member");
 
-		if(isset($filters["permissionLevel"])) {
-			$qb->andWhere($qb->expr()->eq('permission_level', $qb->createNamedParameter($filters["permissionLevel"], IQueryBuilder::PARAM_INT)));
+		if(isset($filters["resourceId"])) {
+			$qb->where($qb->expr()->eq('member.resource_id', $qb->createNamedParameter($filters["resourceId"], IQueryBuilder::PARAM_INT)));
+		} else if(isset($filters["organizationFolderId"])) {
+			$qb->innerJoin("member", self::RESOURCES_TABLE, "resource", $qb->expr()->eq('member.resource_id', 'resource.id'));
+			$qb->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($filters["organizationFolderId"], IQueryBuilder::PARAM_INT)));
 		}
 
-		if(isset($filters["principalType"])) {
-			$qb->andWhere($qb->expr()->eq('principal_type', $qb->createNamedParameter($filters["principalType"], IQueryBuilder::PARAM_INT)));
+		if(isset($filters["permissionLevel"])) {
+			$qb->andWhere($this->buildPermissionLevelDBFilter($qb, $filters["permissionLevel"]));
+		}
+
+		if(isset($filters["principal"])) {
+			$qb->andWhere($this->buildPrincipalDBFilter($qb, $filters["principal"]));
 		}
 		
 		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param array{
+	 *   organizationFolderId: ?int,
+	 *   resourceId: ?int,
+	 *   permissionLevel: ?ResourceMemberPermissionLevel[],
+	 *   principal: ?PrincipalFilter[]
+	 * } $filters resourceId filter takes precedence over organizationFolderId filter
+	 * @return int
+	 */
+	public function count(array $filters = []): int {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->selectAlias($qb->createFunction('COUNT(1)'), "cnt")
+			->from(self::RESOURCE_MEMBERS_TABLE, "member");
+
+		if(isset($filters["resourceId"])) {
+			$qb->where($qb->expr()->eq('member.resource_id', $qb->createNamedParameter($filters["resourceId"], IQueryBuilder::PARAM_INT)));
+		} else if(isset($filters["organizationFolderId"])) {
+			$qb->innerJoin("member", self::RESOURCES_TABLE, "resource", $qb->expr()->eq('member.resource_id', 'resource.id'));
+			$qb->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($filters["organizationFolderId"], IQueryBuilder::PARAM_INT)));
+		}
+
+		if(isset($filters["permissionLevel"])) {
+			$qb->andWhere($this->buildPermissionLevelDBFilter($qb, $filters["permissionLevel"]));
+		}
+
+		if(isset($filters["principal"])) {
+			$qb->andWhere($this->buildPrincipalDBFilter($qb, $filters["principal"]));
+		}
+		
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN);
+	}
+
+	/**
+	 * @param ResourceMemberPermissionLevel[] $permissionLevelFilter
+	 * @return ICompositeExpression
+	 */
+	private function buildPermissionLevelDBFilter(IQueryBuilder $qb, array $permissionLevelFilter): ICompositeExpression {
+		$permissionLevelDBFilter = $qb->expr()->orX();
+
+		foreach($permissionLevelFilter as $permissionLevel) {
+			$permissionLevelDBFilter->add(
+				$qb->expr()->eq('permission_level', $qb->createNamedParameter($permissionLevel->value, IQueryBuilder::PARAM_INT))
+			);
+		}
+
+		return $permissionLevelDBFilter;
+	}
+
+	/**
+	 * @param PrincipalFilter[] $principalFilters
+	 * @return ICompositeExpression
+	 */
+	private function buildPrincipalDBFilter(IQueryBuilder $qb, array $principalFilters): ICompositeExpression {
+		$principalsDBFilter = $qb->expr()->orX();
+
+		foreach($principalFilters as $principalFilter) {
+			$principalDBFilter = $qb->expr()->andX(
+				$qb->expr()->eq('principal_type', $qb->createNamedParameter($principalFilter->type->value, IQueryBuilder::PARAM_INT)),
+			);
+
+			if($principalFilter->id !== null) {
+				$principalDBFilter->add(
+					$qb->expr()->eq('principal_id', $qb->createNamedParameter($principalFilter->id, IQueryBuilder::PARAM_STR)),
+				);
+			}
+
+			$principalsDBFilter->add($principalDBFilter);
+		}
+
+		return $principalsDBFilter;
 	}
 
 	/**

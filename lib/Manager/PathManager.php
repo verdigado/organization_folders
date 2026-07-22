@@ -31,6 +31,7 @@ class PathManager {
 	 * Get underlying groupfolder folder node for the organization folder
 	*/
 	public function getOrganizationFolderRootNodeById(int $id): Folder {
+		// TODO: This call is VERY expensive for no good reason in this usecase, replace with a self-written version, that does not fetch folderMappings
 		$folder = $this->groupfolderFolderManager->getFolder($id);
 
 		$folderWithPermissions = FolderDefinitionWithPermissions::fromFolder($folder, $folder->rootCacheEntry, Constants::PERMISSION_ALL);
