@@ -16,6 +16,7 @@ OC.L10N.register(
     "Confirm" : "Konfirméieren",
     "Warning" : "Warnung",
     "Admin" : "Admin",
-    "Settings" : "Astellungen"
+    "Settings" : "Astellungen",
+    "Organization" : "Organisatioun"
 },
 "nplurals=2; plural=(n != 1);");
