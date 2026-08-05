@@ -131,6 +131,7 @@
     "Inherits manager permission from {originName}" : "{originName} yönetici izinlerini devralıyor",
     "Select storage quota or input custom quota" : "Depolama alanı kotasını seçin ya da özel bir kota yazın",
     "Search" : "Ara",
+    "No sub-resources yet" : "Henüz bir alt kaynak yok",
     "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "\"{folderName}\" klasörü şu anda yönetilmiyor. Yani kullanıcılara \"{parentFolderName}\" üst klasöründekiler ile aynı izinler uygulanıyor.<br>Farklı izinler yapılandırmanız gerekiyorsa, Onayla üzerine tıklayarak bu klasörü bir alt kaynağa dönüştürebilirsiniz. İzinler başlangıç için geçerli etkin izinler ile aynı ayarlanır.<br><br><b>Yalnızca bu klasörün kendi izin yapılandırması olması gerekiyorsa ilerleyin. Bu işlem geri alınamaz.</b>",
     "Convert folder into resource" : "Klasörü kaynağa dönüştür",
     "Confirm" : "Onayla",
