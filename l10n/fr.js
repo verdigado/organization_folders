@@ -133,6 +133,7 @@ OC.L10N.register(
     "Inherits manager permission from {originName}" : "Hérite des autorisations de gestionnaire de {originName}",
     "Select storage quota or input custom quota" : "Sélectionner un quota de stockage ou saisir un quota personnalisé",
     "Search" : "Rechercher",
+    "No sub-resources yet" : "Aucune sous-ressource pour le moment",
     "The folder \"{folderName}\" is currently unmanaged, meaning users have the same permissions in it as they do in its parent folder \"{parentFolderName}\".<br>If you need to configure different permissions, you can convert it into a subresource by clicking Confirm. The initial settings will match the current effective permissions.<br><br><b>Only proceed if this folder needs its own permission configuration. This change cannot be undone.</b>" : "Le dossier \"{folderName}\" n'est actuellement pas géré, ce qui signifie que les utilisateurs disposent des mêmes autorisations dans ce dossier que dans son dossier parent \"{parentFolderName}\".<br> Si vous devez configurer des autorisations différentes, vous pouvez le convertir en sous-ressource en cliquant sur Confirmer. Les paramètres initiaux correspondront aux autorisations actuellement en vigueur.<br><br><b> Ne poursuivez que si ce dossier nécessite sa propre configuration d'autorisations. Cette modification ne peut pas être annulée.</b>",
     "Convert folder into resource" : "Convertir le dossier en ressource",
     "Confirm" : "Confirmer",
