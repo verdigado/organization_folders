@@ -64,6 +64,7 @@ OC.L10N.register(
     "Create" : "Opret",
     "Create folder" : "Opret mappe",
     "Folder name" : "Mappenavn",
+    "Calendar name" : "Kalendernavn",
     "Save" : "Gem",
     "Edit" : "Redigér",
     "Link copied" : "Link kopieret",
