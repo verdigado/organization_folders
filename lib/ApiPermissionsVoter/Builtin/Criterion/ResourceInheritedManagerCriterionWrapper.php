@@ -30,7 +30,7 @@ class ResourceInheritedManagerCriterionWrapper extends Criterion {
 			return new CriterionUnsatisfied([new CriterionResultReason("!" . static::CRITERION_TYPE, "Blocked by Blocklist")]);
 		}
 
-		// TODO: investigate wether memoization could yield relevant performance improvement (probably not)
+		// TODO: investigate whether memoization could yield relevant performance improvement (probably not)
 		
 		$evalResult = $this->criterion->evaluate($allReasons);
 
