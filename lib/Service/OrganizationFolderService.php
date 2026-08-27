@@ -19,6 +19,7 @@ use OCA\GroupFolders\ACL\Rule;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\DTO\CreateOrganizationFolderDto;
+use OCA\OrganizationFolders\DTO\UpdateOrganizationFolderDto;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Errors\Api\OrganizationProviderNotFound;
@@ -196,6 +197,17 @@ class OrganizationFolderService {
 			
 			return $organizationFolder;
 		}, $this->db);
+	}
+
+	public function updateFromDto(UpdateOrganizationFolderDto $dto): OrganizationFolder {
+		return $this->update(
+			id: $dto->id,
+			name: $dto->name,
+			quota: $dto->quota,
+			organizationProviderId: $dto->organizationProviderId,
+			organizationId: $dto->organizationId,
+			serviceAccountUid: $dto->serviceAccountUid,
+		);
 	}
 
 	public function update(

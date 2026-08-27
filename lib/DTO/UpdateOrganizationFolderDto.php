@@ -27,12 +27,16 @@ namespace OCA\OrganizationFolders\DTO;
 use Respect\Validation\Validator as v;
 use Respect\Validation\Validatable;
 
-class CreateOrganizationFolderDto extends BaseDto {
-	
+/**
+ * Properties with not-null values will be updated
+ */
+class UpdateOrganizationFolderDto extends BaseDto {
+
 	private static ?Validatable $validator = null;
 
 	public function __construct(
-		public readonly string $name,
+        public readonly int $id,
+		public readonly ?string $name = null,
 		public readonly ?int $quota = null,
 		public readonly ?string $organizationProviderId = null,
 		public readonly ?int $organizationId = null,
@@ -47,18 +51,13 @@ class CreateOrganizationFolderDto extends BaseDto {
 
 	private static function buildValidator(): Validatable {
 		return v::create()
-			->attribute('name', v::stringType())
+            ->attribute('id', v::intType())
+            ->attribute('name', v::nullable(v::stringType()))
 			->attribute('quota', v::nullable(v::intType()))
-			->oneOf(
-				 v::allOf(
-					v::attribute('organizationProviderId', v::nullType()),
-					v::attribute('organizationId', v::nullType())
-				),
-				v::allOf(
-					v::attribute('organizationProviderId', v::stringType()),
-					v::attribute('organizationId', v::intType())
-				),
-			)
+            ->attribute('organizationProviderId', v::nullable(v::stringType()))
+            ->attribute('organizationId', v::nullable(v::intType()))
 			->attribute('serviceAccountUid', v::nullable(v::stringType()));
 	}
 }
+
+
