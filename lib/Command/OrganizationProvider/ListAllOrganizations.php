@@ -3,7 +3,6 @@
 namespace OCA\OrganizationFolders\Command\OrganizationProvider;
 
 use OCA\OrganizationFolders\OrganizationProvider\IListAllOrganizationsOfProvider;
-use OCP\DB\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,7 +38,7 @@ class ListAllOrganizations extends BaseCommand {
 				$output->writeln("<error>this organization provider does not have the capability to fetch all organizations at once. Use occ organization-folders:organizations:list</error>");
 				return 1;
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");
 			return 1;
 		}

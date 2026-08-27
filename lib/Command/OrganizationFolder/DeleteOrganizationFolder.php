@@ -2,7 +2,6 @@
 
 namespace OCA\OrganizationFolders\Command\OrganizationFolder;
 
-use OCP\DB\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,7 +25,7 @@ class DeleteOrganizationFolder extends BaseCommand {
 			$output->writeln("done");
 
 			return 0;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");
 			return 1;
 		}
