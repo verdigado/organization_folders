@@ -28,14 +28,22 @@ class CreateResourceFromTemplate extends BaseCommand {
 		$templateId = $input->getOption('template-id');
 
 		try {
-			$resource = $this->resourceTemplateService->createFromResourceTemplate(
+			$result = $this->resourceTemplateService->createFromResourceTemplate(
 				providerId: $providerId,
 				templateId: $templateId,
 				organizationFolderId: $organizationFolderId,
 				parentResourceId: $parentResourceId,
-			)["resource"];
+			);
 
-			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($resource)]);
+			if($input->getOption("output") === "plain") {
+				$output->writeln("Created the following resource from template:");
+				$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($result["resource"])]);
+				$output->writeln("");
+				$output->writeln("with the following members:");
+				$this->writeTableInOutputFormat($input, $output, $this->formatTableSerializables($result["members"]));
+			} else {
+				$this->writeArrayInOutputFormat($input, $output, $result);
+			}
 			return 0;
 		} catch (\Exception $e) {
 			$this->handleException($output, $e);
