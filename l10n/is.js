@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Create" : "Búa til",
     "Folder name" : "Nafn möppu",
+    "Calendar name" : "Heiti dagatals",
     "Save" : "Vista",
     "Edit" : "Breyta",
     "Link copied" : "Tengill afritaður",
