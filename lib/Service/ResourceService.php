@@ -214,15 +214,13 @@ class ResourceService {
 		return (strlen($name) >= 3) && (!preg_match('/[`$%^*={};"\\\\|<>\/?~]/', $name));
 	}
 
-	/**
-	 * @param CreateResourceDto $createResourceDto
-	 * @return Resource
-	 */
 	public function createFromDTO(
 		CreateResourceDto $createResourceDto,
 
 		?string $createdFromTemplateId = null,
-	) {
+
+		?bool $skipPermssionsApply = false,
+	): Resource {
 		return $this->create(
 			type: $createResourceDto->type,
 			organizationFolderId: $createResourceDto->organizationFolderId,
@@ -236,11 +234,23 @@ class ResourceService {
 			inheritedMemberPermissions: $createResourceDto->inheritedMemberPermissions,
 
 			createdFromTemplateId: $createdFromTemplateId,
+
+			alreadyExists: $createResourceDto->alreadyExists,
+			existingCalendarId: $createResourceDto->existingCalendarId,
+
+			calendarUri: $createResourceDto->calendarUri,
+
+			skipPermssionsApply: $skipPermssionsApply,
 		);
 	}
 
 	/**
 	 * Use named arguments to call this function!
+	 * @todo migrate all callers to createFromDTO
+	 * 
+	 * @param array<string, bool> $memberPermissions
+	 * @param array<string, bool> $managerPermissions
+	 * @param array<string, bool> $inheritedMemberPermissions
 	 * 
 	 * @param bool $alreadyExists special mode, that for type = "folder" uses an existing folder with the resource name
 	 *                            and for type = "calendar" uses an existing calendar with the given id $existingCalendarId
