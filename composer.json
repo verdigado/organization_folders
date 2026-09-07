@@ -14,7 +14,7 @@
         }
     },
     "require": {
-        "respect/validation": "^2.4"
+        "respect/validation": "^3.0"
     },
     "config": {
         "optimize-autoloader": true,
