@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { PiniaVuePlugin } from "pinia";
-import { registerFileListHeaders } from '@nextcloud/files';
+import { registerFileListHeader } from '@nextcloud/files';
 import { translate as t, translatePlural as n } from "@nextcloud/l10n";
 import { generateFilePath } from "@nextcloud/router";
 import Tooltip from "@nextcloud/vue/dist/Directives/Tooltip.js";
@@ -32,4 +32,4 @@ Vue.use(PiniaVuePlugin);
 
 window.organization_folders_api = api;
 
-registerFileListHeaders(Header);
+registerFileListHeader(Header);

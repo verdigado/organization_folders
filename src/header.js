@@ -1,5 +1,4 @@
 import Vue from "vue";
-import { Header } from '@nextcloud/files';
 import { createPinia } from "pinia";
 import { subscribe } from '@nextcloud/event-bus';
 
@@ -13,7 +12,10 @@ let currentFolderFileid = null;
 
 const pinia = createPinia();
 
-const OrganizationFoldersHeader = new Header({
+/**
+ * @type {import('@nexcloud/files').IFileListHeader}
+ */
+const OrganizationFoldersHeader = {
 	id: 'organization_folders',
 	order: 2,
 
@@ -45,7 +47,7 @@ const OrganizationFoldersHeader = new Header({
         currentDir.update(folder?.path, folder?.displayname, folder.attributes);
         currentFolderFileid = folder?.fileid;
 	},
-})
+}
 
 // Handle empty folders seperately, because Headers are not rendered in this case :/
 subscribe("files:list:updated", ({view, folder, contents}) => {
