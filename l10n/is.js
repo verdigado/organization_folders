@@ -13,6 +13,7 @@ OC.L10N.register(
     "Name" : "Heiti",
     "Cancel" : "Cancel",
     "Create" : "Búa til",
+    "Create folder" : "Búa til möppu",
     "Folder name" : "Nafn möppu",
     "Calendar name" : "Heiti dagatals",
     "Save" : "Vista",
