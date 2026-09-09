@@ -22,6 +22,7 @@ use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\GroupPrincipal;
+use OCA\OrganizationFolders\Model\PrincipalFilter;
 
 class OrganizationFolderMemberService extends AMemberService {
 	public function __construct(
@@ -33,17 +34,15 @@ class OrganizationFolderMemberService extends AMemberService {
 
 	/**
 	 * @param int $organizationFolderId
-     * @param array{permissionLevel: OrganizationFolderMemberPermissionLevel, principalType: PrincipalType} $filters
+     * @param array{
+	 * 	 permissionLevel: ?OrganizationFolderMemberPermissionLevel[],
+	 * 	 principal: ?PrincipalFilter[]
+	 * } $filters
 	 * @return array
 	 * @psalm-return OrganizationFolderMember[]
 	 */
-	public function findAll(int $organizationFolderId, $filters = []): array {
-        $mapperFilters = [
-            "permissionLevel" => $filters['permissionLevel']?->value ?? null,
-            "principalType" => $filters['principalType']?->value ?? null,
-        ];
-
-		return $this->mapper->findAll($organizationFolderId, $mapperFilters);
+	public function findAll(int $organizationFolderId, array $filters = []): array {
+		return $this->mapper->findAll($organizationFolderId, $filters);
 	}
 
     /**
@@ -70,6 +69,18 @@ class OrganizationFolderMemberService extends AMemberService {
 		} catch (Exception $e) {
 			$this->handleException($e);
 		}
+	}
+
+	/**
+	 * @param int $organizationFolderId
+     * @param array{
+	 * 	permissionLevel: OrganizationFolderMemberPermissionLevel[],
+	 * 	principal: PrincipalFilter[]
+	 * } $filters
+	 * @return int
+	 */
+	public function count(int $organizationFolderId, array $filters = []): int {
+		return $this->mapper->count($organizationFolderId, $filters);
 	}
 
 	public function create(
@@ -158,7 +169,7 @@ class OrganizationFolderMemberService extends AMemberService {
 		$results = $this->groupManager->search($search, $limit);
 
 		$existingMembers = $this->findAll($organizationFolderId, [
-			"principalType" => PrincipalType::GROUP,
+			"principal" => [new PrincipalFilter(PrincipalType::GROUP)],
 		]);
 
 		$existingPrincipals = array_map(fn($member): GroupPrincipal => $member->getPrincipal(), $existingMembers);

@@ -13,4 +13,10 @@ class ValidationFailedException extends ApiError {
 	public function getViolations(): array {
 		return $this->violations;
 	}
+
+	public function getDetails(): array {
+		return [
+			"violations" => $this->violations,
+		];
+	}
 }

@@ -68,6 +68,10 @@ class ResourceTemplateService {
 
 		$createDTO = $template->apply($organizationFolder, $parentResource);
 
+		if($createDTO->organizationFolderId !== $organizationFolderId || $createDTO->parentResourceId !== $parentResourceId) {
+			throw new \Exception("Resource template returned invalid data");
+		}
+
 		return $this->atomic(function () use ($providerId, $createDTO, $template): array {
 			$resource = $this->resourceService->createFromDTO($createDTO, $providerId . ":" . $template->getId());
 

@@ -109,7 +109,9 @@ class ResourceController extends BaseController {
 
 		if(!$limited) {
 			if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
-				$result["members"] = $this->memberService->findAll($resource->getId());
+				$result["members"] = $this->memberService->findAll([
+					"resourceId" => $resource->getId()
+				]);
 			}
 
 			if ($resource::SUPPORTS_LINK_SHARES && $this->shouldInclude(self::LINK_SHARES_INCLUDE, $includes)) {

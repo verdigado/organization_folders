@@ -209,7 +209,9 @@ class PermissionsService {
 		$implicitlyDeactivated = false;
 
 		foreach($resourcePath as $resourceOnPath) {
-			[$resourceMembers, $resourceManagers] = $this->resourceMemberService->findAllByPermissionLevel($resourceOnPath->getId());
+			[$resourceMembers, $resourceManagers] = $this->resourceMemberService->findAllByPermissionLevel([
+				"resourceId" => $resourceOnPath->getId(),
+			]);
 
 			[
 				"permissionsList" => $permissionsList,
@@ -289,11 +291,8 @@ class PermissionsService {
 		bool $enableOriginTracing = false,
 	) {
 		foreach($resources as $resource) {
-			$resourceMembers = $this->resourceMemberService->findAll($resource->getId(), [
-				"permissionLevel" => ResourceMemberPermissionLevel::MEMBER,
-			]);
-			$resourceManagers = $this->resourceMemberService->findAll($resource->getId(), [
-				"permissionLevel" => ResourceMemberPermissionLevel::MANAGER,
+			[$resourceMembers, $resourceManagers] = $this->resourceMemberService->findAllByPermissionLevel([
+				"resourceId" => $resource->getId(),
 			]);
 
 			[

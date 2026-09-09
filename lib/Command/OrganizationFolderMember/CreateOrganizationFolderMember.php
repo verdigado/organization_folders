@@ -2,13 +2,11 @@
 
 namespace OCA\OrganizationFolders\Command\OrganizationFolderMember;
 
-use OCP\DB\Exception;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\OrganizationFolders\Command\BaseCommand;
-use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 
@@ -43,7 +41,7 @@ class CreateOrganizationFolderMember extends BaseCommand {
 
 			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($member)]);
 			return 0;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");
 			return 1;
 		}

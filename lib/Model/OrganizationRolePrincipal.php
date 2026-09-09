@@ -10,21 +10,27 @@ use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
 class OrganizationRolePrincipal extends PrincipalBackedByGroup {
-	private ?OrganizationRole $role = null;
+	private bool $valid;
 
 	public function __construct(
-		private OrganizationProviderManager $organizationProviderManager,
+		PrincipalFactory $factory,
 		IGroupManager $groupManager,
-		private string $providerId,
-		private string $roleId,
+		OrganizationProviderManager $organizationProviderManager,
+		private readonly string $providerId,
+		private readonly string $roleId,
+		private ?OrganizationRole $role = null,
 	) {
-		parent::__construct($groupManager);
+		parent::__construct($factory, $groupManager, $organizationProviderManager);
 
-		try {
-			$this->role = $this->organizationProviderManager->getOrganizationProvider($providerId)->getRole($roleId);
-			$this->valid = !is_null($this->role);
-		} catch (\Exception $e) {
-			$this->valid = false;
+		if($role === null) {
+			try {
+				$this->role = $this->organizationProviderManager->getOrganizationProvider($providerId)->getRole($roleId);
+				$this->valid = $this->role !== null;
+			} catch (\Exception $e) {
+				$this->valid = false;
+			}
+		} else {
+			$this->valid = true;
 		}
 	}
 
@@ -34,6 +40,10 @@ class OrganizationRolePrincipal extends PrincipalBackedByGroup {
 
 	public function getId(): string {
 		return $this->providerId . ":"  . $this->roleId;
+	}
+
+	public function isValid(): bool {
+		return $this->valid;
 	}
 
 	public function getOrganizationProviderId(): string {

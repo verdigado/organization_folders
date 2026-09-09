@@ -2,7 +2,6 @@
 
 namespace OCA\OrganizationFolders\Command\Resource;
 
-use OCP\DB\Exception;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -60,7 +59,7 @@ class UpdateResource extends BaseCommand {
 
 			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($resource)]);
 			return 0;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");
 			return 1;
 		}

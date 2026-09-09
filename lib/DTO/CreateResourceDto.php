@@ -1,35 +1,99 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * @author Jonathan Treffler <jonathan.treffler@verdigado.com>
+ *
+ * @license GNU AGPL version 3
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 namespace OCA\OrganizationFolders\DTO;
 
 use Respect\Validation\Validator as v;
-use Respect\Validation\ChainedValidator;
+use Respect\Validation\Validatable;
 
-readonly class CreateResourceDto {
+class CreateResourceDto extends BaseDto {
+
+	private static ?Validatable $validator = null;
+
+	/**
+	 * @param ?string $calendarUri special mode only for type = "calendar" to use a specific calendar URI instead of generating one
+	 * 
+	 * @param bool $alreadyExists special mode, that for type = "folder" uses an existing folder with the resource name
+	 *                            and for type = "calendar" uses an existing calendar with the given id $existingCalendarId
+	 */
 	public function __construct(
-		public int $organizationFolderId,
-		public string $type,
-		public string $name,
-		public array $memberPermissions,
-		public array $managerPermissions,
-		public array $inheritedMemberPermissions,
-		public ?int $parentResourceId = null,
-		public bool $active = true,
-		public bool $inheritManagers = true,
-	) {}
+		public readonly int $organizationFolderId,
+		public readonly string $type,
+		public readonly string $name,
+		public readonly array $memberPermissions,
+		public readonly array $managerPermissions,
+		public readonly array $inheritedMemberPermissions,
+		public readonly ?int $parentResourceId = null,
+		public readonly bool $active = true,
+		public readonly bool $inheritManagers = true,
+		public readonly ?string $calendarUri = null,
+		public readonly bool $alreadyExists = false,
+		public readonly ?int $existingCalendarId = null,
+	) {
+		$this->validate();
+	}
 
-	public static function GetValidator(): ChainedValidator {
+	public static function getValidator(): Validatable {
+		return self::$validator ??= self::buildValidator();
+	}
+
+	private static function buildValidator(): Validatable {
 		return v::create()
-			->key('organizationFolderId', v::intType())
-			->key('type', v::stringVal()->oneOf(
+			->attribute('organizationFolderId', v::intType())
+			->attribute('type', v::stringVal()->oneOf(
 				v::equals('folder'),
-			)->setTemplate('must be one of: folder'))
-			->key('name', v::stringVal()->not(v::regex('/[`$%^*={};"\\\\|<>\/?~]/')))
-			->key('parentResourceId', v::intType())
-			->key('active', v::boolType())
-			->key('inheritManagers', v::boolType())
-			->key('memberPermissions', v::arrayType())
-			->key('managerPermissions', v::arrayType())
-			->key('inheritedMemberPermissions', v::arrayType());
+				v::equals('calendar'),
+			)->setTemplate('must be one of: folder, calendar'))
+			->attribute('name', v::stringVal()->not(v::regex('/[`$%^*={};"\\\\|<>\/?~]/')))
+			->attribute('memberPermissions', v::arrayVal()->each(v::boolType()))
+			->attribute('managerPermissions', v::arrayVal()->each(v::boolType()))
+			->attribute('inheritedMemberPermissions', v::arrayVal()->each(v::boolType()))
+			->attribute('parentResourceId', v::nullable(v::intType()))
+			->attribute('active', v::boolType())
+			->attribute('inheritManagers', v::boolType())
+			->oneOf(
+				v::allOf(
+					v::attribute('type', v::equals('calendar')),
+					v::attribute('calendarUri', v::nullable(v::stringType())),
+				),
+				v::allOf(
+					v::attribute('type', v::not(v::equals('calendar'))),
+					v::attribute('calendarUri', v::nullType()),
+				)
+			)
+			->oneOf(
+				v::attribute('alreadyExists', v::equals(false)),
+				v::allOf(
+					v::attribute('type', v::equals('calendar')),
+					v::attribute('alreadyExists', v::equals(true)),
+					v::attribute('existingCalendarId', v::intType()),
+				),
+				v::allOf(
+					v::attribute('type', v::not(v::equals('calendar'))),
+					v::attribute('alreadyExists', v::equals(true)),
+					v::attribute('existingCalendarId', v::nullType()),
+				)
+			);
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace OCA\OrganizationFolders\Command\Resource;
 
-use OCP\DB\Exception;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,17 +28,25 @@ class CreateResourceFromTemplate extends BaseCommand {
 		$templateId = $input->getOption('template-id');
 
 		try {
-			$resource = $this->resourceTemplateService->createFromResourceTemplate(
+			$result = $this->resourceTemplateService->createFromResourceTemplate(
 				providerId: $providerId,
 				templateId: $templateId,
 				organizationFolderId: $organizationFolderId,
 				parentResourceId: $parentResourceId,
-			)["resource"];
+			);
 
-			$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($resource)]);
+			if($input->getOption("output") === "plain") {
+				$output->writeln("Created the following resource from template:");
+				$this->writeTableInOutputFormat($input, $output, [$this->formatTableSerializable($result["resource"])]);
+				$output->writeln("");
+				$output->writeln("with the following members:");
+				$this->writeTableInOutputFormat($input, $output, $this->formatTableSerializables($result["members"]));
+			} else {
+				$this->writeArrayInOutputFormat($input, $output, $result);
+			}
 			return 0;
-		} catch (Exception $e) {
-			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");
+		} catch (\Exception $e) {
+			$this->handleException($output, $e);
 			return 1;
 		}
 	}
