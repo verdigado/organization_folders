@@ -11,8 +11,7 @@ use OCA\GroupfolderFilesystemSnapshots\Manager\SnapshotManager;
 use OCA\GroupfolderFilesystemSnapshots\Manager\PathManager;
 use OCA\GroupfolderFilesystemSnapshots\Entity\Snapshot;
 
-use OCA\OrganizationFolders\Security\AuthorizationService;
-use OCA\OrganizationFolders\Validation\ValidatorService;
+use OCA\OrganizationFolders\Service\AuthorizationService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Errors\Api\ResourceSnapshotNotFound;
 use OCA\OrganizationFolders\Errors\Api\SnapshotIntegrationNotActive;
@@ -28,12 +27,11 @@ class ResourceSnapshotController extends BaseController {
 
 	public function __construct(
 		AuthorizationService $authorizationService,
-		ValidatorService $validatorService,
 		private readonly IAppManager $appManager,
 		private readonly ContainerInterface $container,
 		private readonly ResourceService $resourceService,
 	) {
-		parent::__construct($authorizationService, $validatorService);
+		parent::__construct($authorizationService);
 
 		$this->snapshotIntegrationEnabled = $this->appManager->isEnabledForUser("groupfolder_filesystem_snapshots");
 
@@ -52,7 +50,7 @@ class ResourceSnapshotController extends BaseController {
 
 			$resource = $this->resourceService->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['RESTORE_FROM_SNAPSHOT'], $resource);
+			$this->denyAccessUnlessGranted($resource, "RESTORE_FROM_SNAPSHOT");
 
 			if($resource->getType() !== "folder") {
 				throw new ResourceDoesNotSupportSnapshots($resource);
@@ -81,7 +79,7 @@ class ResourceSnapshotController extends BaseController {
 
 			$resource = $this->resourceService->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['RESTORE_FROM_SNAPSHOT'], $resource);
+			$this->denyAccessUnlessGranted($resource, "RESTORE_FROM_SNAPSHOT");
 
 			if($resource->getType() !== "folder") {
 				throw new ResourceDoesNotSupportSnapshots($resource);

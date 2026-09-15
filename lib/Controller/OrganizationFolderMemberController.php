@@ -7,13 +7,14 @@ namespace OCA\OrganizationFolders\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
-use OCA\OrganizationFolders\Security\AuthorizationService;
-use OCA\OrganizationFolders\Validation\ValidatorService;
+use OCA\OrganizationFolders\Service\AuthorizationService;
 use OCA\OrganizationFolders\Db\OrganizationFolderMember;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
+use OCA\OrganizationFolders\Errors\Api\AccessDenied;
+use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 
 class OrganizationFolderMemberController extends BaseController {
@@ -21,20 +22,26 @@ class OrganizationFolderMemberController extends BaseController {
 
 	public function __construct(
 		AuthorizationService $authorizationService,
-		ValidatorService $validatorService,
 		private OrganizationFolderMemberService $service,
 		private OrganizationFolderService $organizationFolderService,
 		private PrincipalFactory $principalFactory,
 	) {
-		parent::__construct($authorizationService, $validatorService);
+		parent::__construct($authorizationService);
 	}
 
 	#[NoAdminRequired]
 	public function index(int $organizationFolderId): JSONResponse {
 		return $this->handleErrors(function () use ($organizationFolderId) {
-			$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+			try {
+				$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+			} catch (OrganizationFolderNotFound $e) {
+				// treat ids where user has no permissions and invalid ids the same
+				throw new AccessDenied();
+			}
 
-			$this->denyAccessUnlessGranted(['READ'], $organizationFolder);
+			$apiPermissionsScratchpad = [];
+
+			$this->denyAccessUnlessGranted($organizationFolder, "READ_MEMBERS", $apiPermissionsScratchpad);
 
 			return $this->service->findAll($organizationFolderId);
 		});
@@ -48,9 +55,16 @@ class OrganizationFolderMemberController extends BaseController {
 		string $principalId,
 	): JSONResponse {
 		return $this->handleErrors(function () use ($organizationFolderId, $permissionLevel, $principalType, $principalId): OrganizationFolderMember {
-			$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+			try {
+				$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+			} catch (OrganizationFolderNotFound $e) {
+				// treat ids where user has no permissions and invalid ids the same
+				throw new AccessDenied();
+			}
 
-			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $organizationFolder);
+			$apiPermissionsScratchpad = [];
+
+			$this->denyAccessUnlessGranted($organizationFolder, "UPDATE_MEMBERS", $apiPermissionsScratchpad);
 
 			$principal = $this->principalFactory->buildPrincipal(PrincipalType::fromNameOrValue($principalType), $principalId);
 
@@ -73,8 +87,12 @@ class OrganizationFolderMemberController extends BaseController {
 			$organizationFolderMember = $this->service->find($id);
 
 			$organizationFolder = $this->organizationFolderService->find($organizationFolderMember->getOrganizationFolderId());
+
+			$apiPermissionsScratchpad = [];
 			
-			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $organizationFolder);
+			$this->denyAccessUnlessGranted($organizationFolder, "UPDATE_MEMBERS", $apiPermissionsScratchpad);
+
+			// TODO: implement cancelIfRevokesOwnManagementRights like ResourceMemberController
 
 			$organizationFolderMember = $this->service->update(
 				id: $organizationFolderMember->getId(),
@@ -91,8 +109,12 @@ class OrganizationFolderMemberController extends BaseController {
 			$organizationFolderMember = $this->service->find($id);
 
 			$organizationFolder = $this->organizationFolderService->find($organizationFolderMember->getOrganizationFolderId());
+
+			$apiPermissionsScratchpad = [];
 			
-			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $organizationFolder);
+			$this->denyAccessUnlessGranted($organizationFolder, "UPDATE_MEMBERS", $apiPermissionsScratchpad);
+
+			// TODO: implement cancelIfRevokesOwnManagementRights like ResourceMemberController
 
 			return $this->service->delete($organizationFolderMember->getId());
 		});

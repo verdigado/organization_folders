@@ -2,7 +2,10 @@
 
 namespace OCA\OrganizationFolders\Traits;
 
-trait ApiObjectController {
+/**
+ * For controllers returning OCA\OrganizationFolders\Model\ApiResponse\ objects
+ */
+trait ApiResponseController {
 	public const MODEL_INCLUDE = 'model';
 
 	/**
@@ -11,7 +14,7 @@ trait ApiObjectController {
 	 * @return array
 	 */
 	public function parseIncludesString(?string $include = null): array {
-		if (isset($include)) {
+		if ($include !== null && $include !== "") {
 			$includes = array_filter(explode('+', $include));
 
 			if (!!$includes) {

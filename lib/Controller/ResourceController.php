@@ -8,122 +8,53 @@ use OCP\IUserManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
-use OCA\OrganizationFolders\Security\AuthorizationService;
-use OCA\OrganizationFolders\Validation\ValidatorService;
+use OCA\OrganizationFolders\Service\AuthorizationService;
 use OCA\OrganizationFolders\Db\Resource;
-use OCA\OrganizationFolders\Db\FolderResource;
+use OCA\OrganizationFolders\DTO\CreateResourceDto;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
-use OCA\OrganizationFolders\Service\ResourceLinkShareService;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
-use OCA\OrganizationFolders\Traits\ApiObjectController;
+use OCA\OrganizationFolders\Traits\ApiResponseController;
 use OCA\OrganizationFolders\Errors\Api\AccessDenied;
 use OCA\OrganizationFolders\Errors\Api\WouldRevokeUsersManagementPermissions;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\Enum\PrincipalType;
+use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
+use OCA\OrganizationFolders\Errors\Api\ResourceNotFound;
+use OCA\OrganizationFolders\Model\ApiResponse\ResourceResponseFactory;
+use OCA\OrganizationFolders\ApiPermissionsVoter\Builtin\Criterion\ResourceInheritedManagerCriterionWrapper;
 
 class ResourceController extends BaseController {
 	use Errors;
-	use ApiObjectController;
-
-	public const PERMISSIONS_INCLUDE = 'permissions';
-	public const MEMBERS_INCLUDE = 'members';
-	public const PARENT_RESOURCE_INCLUDE = "parentResource";
-	public const SUBRESOURCES_INCLUDE = 'subresources';
-	public const UNMANAGEDSUBFOLDERS_INCLUDE = 'unmanagedSubfolders';
-	public const FULLPATH_INCLUDE = 'fullPath';
-	public const LINK_SHARES_INCLUDE = "linkShares";
+	use ApiResponseController;
 
 	public function __construct(
 		AuthorizationService $authorizationService,
-		ValidatorService $validatorService,
 		private readonly ResourceService $service,
 		private readonly ResourceMemberService $memberService,
-		private readonly ResourceLinkShareService $linkShareService,
 		private readonly OrganizationFolderService $organizationFolderService,
 		private readonly PrincipalFactory $principalFactory,
 		private readonly IUserManager $userManager,
+		private readonly ResourceResponseFactory $resourceResponseFactory,
 	) {
-		parent::__construct($authorizationService, $validatorService);
+		parent::__construct($authorizationService);
 	}
 
-	private function getApiObjectFromEntity(Resource $resource, bool $limited, ?string $include = null): array {
+	/**
+	 * The API object is the object returned as the response
+	 * It combines multiple entities and only returns fields the user is allowed to access
+	 * 
+	 * @param Resource $resource
+	 * @param string $include
+	 * @param array $apiPermissionsScratchpad
+	 * @param bool $throwIfNoAccess if false returns empty object instead of throwing
+	 * 
+	 * @return array
+	 */
+	private function getApiResponseFromEntity(Resource $resource, ?string $include, array &$apiPermissionsScratchpad, bool $throwIfNoAccess = true): array {
 		$includes = $this->parseIncludesString($include);
 
-		$result = [];
-
-		if ($this->shouldInclude(self::MODEL_INCLUDE, $includes)) {
-			if($limited) {
-				$result =  $resource->limitedJsonSerialize();
-			} else {
-				$result = $resource->jsonSerialize();
-			}
-		}
-
-		if ($this->shouldInclude(self::PERMISSIONS_INCLUDE, $includes)) {
-			$result["permissions"] = [];
-
-			if($limited) {
-				$result["permissions"]["level"] = "limited";
-			} else {
-				$result["permissions"]["level"] = "full";
-			}
-		}
-
-		if($this->shouldInclude(self::PARENT_RESOURCE_INCLUDE, $includes)) {
-			if(is_null($resource->getParentResourceId())) {
-				$result["parentResource"] = null;
-			} else {
-				$parentResource = $this->service->getParentResource($resource);
-
-				if($this->authorizationService->isGranted(["READ"], $parentResource)) {
-					$result["parentResource"] =  $parentResource->jsonSerialize();
-				} else {
-					// since the user is known to have at READ_LIMITED access to the child
-					// resource, they must have at least READ_LIMITED access to the parent, so
-					// we do not have to check for READ_LIMITED here
-					$result["parentResource"] =  $parentResource->limitedJsonSerialize();
-				}
-			}
-		}
-
-		if($resource::SUPPORTS_SUBRESOURCES && $this->shouldInclude(self::SUBRESOURCES_INCLUDE, $includes)) {
-			// do not recursively fetch whole resource tree when requesting subResources
-			// TODO: add depth filter to enable both usecases
-			$subInclude = implode('+', array_filter(["model", ...$includes], fn($include) => $include !== self::SUBRESOURCES_INCLUDE));
-			$result["subResources"] = $this->getSubResources($resource, $subInclude);
-		}
-
-		if($this->shouldInclude(self::FULLPATH_INCLUDE, $includes)) {
-			$result["fullPath"] = [];
-
-			$fullPathResources = $this->service->getAllResourcesOnPathFromRootToResource($resource);
-
-			foreach($fullPathResources as $resource) {
-				$result["fullPath"][] = [
-					"id" => $resource->getId(),
-					"name" => $resource->getName(),
-				];
-			}
-		}
-
-		if(!$limited) {
-			if ($this->shouldInclude(self::MEMBERS_INCLUDE, $includes)) {
-				$result["members"] = $this->memberService->findAll([
-					"resourceId" => $resource->getId()
-				]);
-			}
-
-			if ($resource::SUPPORTS_LINK_SHARES && $this->shouldInclude(self::LINK_SHARES_INCLUDE, $includes)) {
-				$result["linkShares"] = $this->linkShareService->findAll($resource);
-			}
-
-			if($resource instanceof FolderResource && $this->shouldInclude(self::UNMANAGEDSUBFOLDERS_INCLUDE, $includes)) {
-				$result["unmanagedSubfolders"] = $this->service->getUnmanagedSubfolders($resource);
-			}
-		}
-
-		return $result;
+		return $this->resourceResponseFactory->buildResponseForOne($resource, $includes, $apiPermissionsScratchpad, $throwIfNoAccess);
 	}
 
 	#[NoAdminRequired]
@@ -131,15 +62,9 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $include) {
 			$resource = $this->service->find($resourceId);
 
-			if($this->authorizationService->isGranted(["READ"], $resource)) {
-				$limited = false;
-			} else if($this->authorizationService->isGranted(["READ_LIMITED"], $resource)) {
-				$limited = true;
-			} else {
-				throw new AccessDenied();
-			}
+			$apiPermissionsScratchpad = [];
 
-			return $this->getApiObjectFromEntity($resource, $limited, $include);
+			return $this->getApiResponseFromEntity($resource, $include, $apiPermissionsScratchpad);
 		});
 	}
 
@@ -158,14 +83,21 @@ class ResourceController extends BaseController {
 		?string $include = null,
 	): JSONResponse {
 		return $this->handleErrors(function () use ($organizationFolderId, $type, $name, $parentResourceId, $active, $inheritManagers, $memberPermissions, $managerPermissions, $inheritedMemberPermissions, $include) {
-			$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+			try {
+				$organizationFolder = $this->organizationFolderService->find($organizationFolderId);
+			} catch (OrganizationFolderNotFound $e) {
+				// treat ids where user has no permissions and invalid ids the same
+				throw new AccessDenied();
+			}
+
+			$apiPermissionsScratchpad = [];
 			
-			if(!is_null($parentResourceId)) {
+			if($parentResourceId !== null) {
 				$parentResource = $this->service->find($parentResourceId);
 
-				$this->denyAccessUnlessGranted(['CREATE_SUBRESOURCE'], $parentResource);
+				$this->denyAccessUnlessGranted($parentResource, "CREATE_SUBRESOURCE", $apiPermissionsScratchpad);
 			} else {
-				$this->denyAccessUnlessGranted(['CREATE_TOP_LEVEL_RESOURCE'], $organizationFolder);
+				$this->denyAccessUnlessGranted($organizationFolder, "CREATE_TOP_LEVEL_RESOURCE", $apiPermissionsScratchpad);
 			}
 
 			$resource = $this->service->create(
@@ -180,7 +112,7 @@ class ResourceController extends BaseController {
 				inheritedMemberPermissions: $inheritedMemberPermissions,
 			);
 
-			return $this->getApiObjectFromEntity($resource, false, $include);
+			return $this->getApiResponseFromEntity($resource, $include, $apiPermissionsScratchpad);
 		});
 	}
 
@@ -199,18 +131,20 @@ class ResourceController extends BaseController {
 	): JSONResponse {
 		return $this->handleErrors(function () use ($resourceId, $active, $inheritManagers, $memberPermissions, $managerPermissions, $inheritedMemberPermissions, $include, $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove, $cancelIfRevokesOwnManagementRights) {
 			$resource = $this->service->find($resourceId);
+
+			$apiPermissionsScratchpad = [];
 			
-			$this->denyAccessUnlessGranted(['UPDATE'], $resource);
+			$this->denyAccessUnlessGranted($resource, "UPDATE", $apiPermissionsScratchpad);
 
-			if($cancelIfRevokesOwnManagementRights) {
-				if($inheritManagers === false) {
-					$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
-
-					// user has UPDATE, but neither MANAGE_ALL_RESOURCES nor READ_DIRECT, meaning they get their management permission via inheritance
-					if(!($this->authorizationService->isGranted(["MANAGE_ALL_RESOURCES"], $organizationFolder) ||
-						$this->authorizationService->isGranted(["READ_DIRECT"], $resource))) {
-							throw new WouldRevokeUsersManagementPermissions();
-					}
+			if($inheritManagers === false) {
+				$revokesOwnUpdatePermission = !$this->authorizationService->isGranted(
+					$resource,
+					"UPDATE",
+					$apiPermissionsScratchpad,
+					[ResourceInheritedManagerCriterionWrapper::CRITERION_TYPE => true]
+				);
+				if($cancelIfRevokesOwnManagementRights && $revokesOwnUpdatePermission) {
+					throw new WouldRevokeUsersManagementPermissions();
 				}
 			}
 
@@ -225,7 +159,10 @@ class ResourceController extends BaseController {
 				maxiumumUsersPermissionsAddedOrDeleted: $cancelIfNumberOfUsersPermissionsAddedOrDeletedAbove,
 			);
 
-			return $this->getApiObjectFromEntity($resource, false, $include);
+			// Clear scratchpad after making changes that can potentially impact permissions
+			$apiPermissionsScratchpad = [];
+
+			return $this->getApiResponseFromEntity($resource, $include, $apiPermissionsScratchpad, false);
 		});
 	}
 
@@ -240,16 +177,22 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $name, $parentResourceId, $include) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['UPDATE'], $resource);
+			$apiPermissionsScratchpad = [];
+
+			$this->denyAccessUnlessGranted($resource, "UPDATE", $apiPermissionsScratchpad);
 
 			if($parentResourceId !== $resource->getParentResourceId()) {
 				// only allow moving to places where the user is allowed to create resources
 				if(isset($parentResourceId)) {
-					$newParentResource = $this->service->find($parentResourceId);
-					$this->denyAccessUnlessGranted(['CREATE_SUBRESOURCE'], $newParentResource);
+					try {
+						$newParentResource = $this->service->find($parentResourceId);
+					} catch (ResourceNotFound $e) {
+						throw new AccessDenied();
+					}
+					$this->denyAccessUnlessGranted($newParentResource, "CREATE_SUBRESOURCE", $apiPermissionsScratchpad);
 				} else {
 					$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
-					$this->denyAccessUnlessGranted(['CREATE_TOP_LEVEL_RESOURCE'], $organizationFolder);
+					$this->denyAccessUnlessGranted($organizationFolder, "CREATE_TOP_LEVEL_RESOURCE", $apiPermissionsScratchpad);
 				}
 			}
 
@@ -259,7 +202,10 @@ class ResourceController extends BaseController {
 				parentResourceId: $parentResourceId,
 			);
 
-			return $this->getApiObjectFromEntity($resource, false, $include);
+			// Clear scratchpad after making changes that can potentially impact permissions
+			$apiPermissionsScratchpad = [];
+
+			return $this->getApiResponseFromEntity($resource, $include, $apiPermissionsScratchpad, false);
 		});
 	}
 	
@@ -268,7 +214,7 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->service->find($resourceId);
 			
-			$this->denyAccessUnlessGranted(['DELETE'], $resource);
+			$this->denyAccessUnlessGranted($resource, "DELETE");
 
 			return $this->service->delete($resource);
 		});
@@ -280,42 +226,16 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $include) {
 			$resource = $this->service->find($resourceId);
 
-			$this->authorizationService->isGranted(["READ", "READ_LIMITED"], $resource);
+			$apiPermissionsScratchpad = [];
 
-			return $this->getSubResources($resource, $include);
+			$this->denyAccessUnlessGranted($resource, "READ_LIMITED", $apiPermissionsScratchpad);
+
+			$subResources = $this->service->getSubResources($resource);
+
+			$includes = $this->parseIncludesString($include);
+
+			return $this->resourceResponseFactory->buildResponseForMultiple($subResources, $includes, $apiPermissionsScratchpad);
 		});
-	}
-
-	protected function getSubResources(Resource $resource, ?string $include = null): array {
-		$organizationFolder = $this->organizationFolderService->find($resource->getOrganizationFolderId());
-
-		$subresources = $this->service->getSubResources($resource);
-
-		$result = [];
-
-		if($this->authorizationService->isGranted(['MANAGE_ALL_RESOURCES'], $organizationFolder)) {
-			/* fastpath: access to all subresources */
-			foreach($subresources as $subresource) {
-				$result[] = $this->getApiObjectFromEntity($subresource, false, $include);
-			}
-		} else {
-			foreach($subresources as $subresource) {
-				// Future optimization potential 1: the following will potentially check the permissions of each of these subresources all the way up the resource tree.
-				// As sibling resources these subresources share the same resources above them in the tree.
-				// So if access to the parent resource is granted, all subresources with inheritManagers can be granted immediately.
-				// For all other subresources only a check if user has direct (non-inherited) manager rights is neccessary.
-
-				// Future optimization potential 2: READ permission check checks MANAGE_ALL_RESOURCES again, at this point we know this to be false, because of the fastpath.
-				// Could be replaced with something like a READ_DIRECT (name TBD) permission check, which does not check this again.
-				if($this->authorizationService->isGranted(['READ'], $subresource)) {
-					$result[] = $this->getApiObjectFromEntity($subresource, false, $include);
-				} else if($this->authorizationService->isGranted(['READ_LIMITED'], $subresource)) {
-					$result[] = $this->getApiObjectFromEntity($subresource, true, $include);
-				}
-			}
-		}
-
-		return $result;
 	}
 
 	#[NoAdminRequired]
@@ -323,7 +243,7 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['READ'], $resource);
+			$this->denyAccessUnlessGranted($resource, "READ");
 
 			return $this->service->getUnmanagedSubfolders($resource);
 		});
@@ -334,7 +254,7 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $unmanagedSubfolderName) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['CREATE_SUBRESOURCE'], $resource);
+			$this->denyAccessUnlessGranted($resource, "CREATE_SUBRESOURCE");
 
 			return $this->service->promoteUnmanagedSubfolder($resource, $unmanagedSubfolderName);
 		});
@@ -345,7 +265,7 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $search, $limit) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
+			$this->denyAccessUnlessGranted($resource, "UPDATE_MEMBERS");
 
 			$options = $this->memberService->findGroupMemberOptions($resourceId, $search, $limit);
 
@@ -361,7 +281,7 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $search, $limit) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
+			$this->denyAccessUnlessGranted($resource, "UPDATE_MEMBERS");
 
 			$options = $this->memberService->findUserMemberOptions($resourceId, $search, $limit);
 
@@ -378,7 +298,7 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['READ'], $resource);
+			$this->denyAccessUnlessGranted($resource, "GET_PERMISSIONS_REPORT");
 
 			return $this->service->getPermissionsReport($resource);
 		});
@@ -389,7 +309,7 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $userId) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['READ'], $resource);
+			$this->denyAccessUnlessGranted($resource, "GET_PERMISSIONS_REPORT");
 
 			$userPrincipal = $this->principalFactory->buildPrincipal(PrincipalType::USER, $userId);
 
@@ -402,7 +322,7 @@ class ResourceController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $search, $limit) {
 			$resource = $this->service->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['READ'], $resource);
+			$this->denyAccessUnlessGranted($resource, "GET_PERMISSIONS_REPORT");
 
 			$options = array_values($this->userManager->search($search, $limit));
 

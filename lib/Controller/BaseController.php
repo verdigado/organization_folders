@@ -23,17 +23,31 @@ class BaseController extends Controller {
 	}
 
 	/**
-	 * Throws an exception unless the actions are granted for the current authentication user
+	 * Throws an exception unless the action is granted for the current authentication user
 	 *
-	 * @param string[]		$actions	The actions
-	 * @param VoterSubject	$subject	The subject
-	 * @param string		$message    The message passed to the exception
+	 * @param VoterSubject $subject The subject
+	 * @param string $action The actions
+	 * @param array<string, mixed> $criterionTypeBlocklist associative array used as a set (values are ignored); criterions of the given types will force-evaluate to CriterionUnsatisfied
 	 *
 	 * @throws AccessDenied
 	 */
-	protected function denyAccessUnlessGrantedAny(array $actions, $subject, array &$scratchpad = [], $message = 'Access Denied.') {
+	protected function denyAccessUnlessGranted(VoterSubject $subject, string $action, array &$scratchpad = [], array $criterionTypeBlocklist = []) {
+		if (!$this->authorizationService->isGranted($subject, $action, $scratchpad, $criterionTypeBlocklist)) {
+			throw new AccessDenied();
+		}
+	}
+
+	/**
+	 * Throws an exception unless the any of the actions are granted for the current authentication user
+	 *
+	 * @param VoterSubject $subject The subject
+	 * @param string[] $actions The actions
+	 *
+	 * @throws AccessDenied
+	 */
+	protected function denyAccessUnlessGrantedAny(VoterSubject $subject, array $actions, array &$scratchpad = []) {
 		if (!$this->authorizationService->isGrantedAny($subject, $actions, $scratchpad)) {
-			throw new AccessDenied($message);
+			throw new AccessDenied();
 		}
 	}
 }

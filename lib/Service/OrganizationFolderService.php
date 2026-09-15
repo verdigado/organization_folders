@@ -32,6 +32,7 @@ use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Manager\GroupfolderManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\Groups\GroupBackend;
+use OCA\OrganizationFolders\Model\PaginationParameters;
 
 class OrganizationFolderService {
 	use TTransactional;
@@ -62,10 +63,10 @@ class OrganizationFolderService {
 
 	/**
 	 * @param array{organizationProvider: string, organizationId: int} $filters
-	 * @return array
+	 * @param ?PaginationParameters $pagination
 	 * @psalm-return OrganizationFolder[]
 	 */
-	public function findAll(array $filters = []) {
+	public function findAll(array $filters = [], ?PaginationParameters $pagination = null): array {
 		$result = [];
 
 		$tagFilters = [
@@ -86,7 +87,7 @@ class OrganizationFolderService {
 			$additionalReturnTags[] = static::TAG_ORGANIZATION_ID;
 		}
 
-		$groupfolders = $this->tagService->findGroupfoldersWithTagsGenerator($tagFilters, $additionalReturnTags);
+		$groupfolders = $this->tagService->findGroupfoldersWithTagsGenerator($tagFilters, $additionalReturnTags, $pagination);
 
 		foreach ($groupfolders as $groupfolder) {
 			$result[] = new OrganizationFolder(
@@ -158,6 +159,7 @@ class OrganizationFolderService {
 			serviceAccountUid: $dto->serviceAccountUid,
 		);
 	}
+
 	public function create(
 		string $name,
 		int $quota,
