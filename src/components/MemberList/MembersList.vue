@@ -21,6 +21,14 @@ const props = defineProps({
 		type: String,
 		default: "",
 	},
+	allowUpdate: {
+		type: Boolean,
+		default: true,
+	},
+	allowDelete: {
+		type: Boolean,
+		default: true,
+	},
 });
 
 const emit = defineEmits(["update-member", "delete-member"]);
@@ -68,6 +76,8 @@ const deleteMember = (memberId, callback) => {
 					:key="member.id"
 					:member="member"
 					:permission-level-options="props.permissionLevelOptions"
+					:allow-update="allowUpdate"
+					:allow-delete="allowDelete"
 					@update="updateMember"
 					@delete="deleteMember" />
 			</tbody>

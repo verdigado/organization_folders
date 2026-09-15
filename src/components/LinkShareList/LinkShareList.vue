@@ -12,6 +12,10 @@ const props = defineProps({
 		type: Array,
 		required: true,
 	},
+	allowDelete: {
+		type: Boolean,
+		default: true,
+	},
 });
 
 const emit = defineEmits(["delete-link-share"]);
@@ -38,6 +42,7 @@ const deleteLinkShare = (linkShareId, callback) => {
 				<LinkShareListItem v-for="linkShare in linkShares"
 					:key="linkShare.id"
 					:link-share="linkShare"
+					:allow-delete="allowDelete"
 					@delete="deleteLinkShare" />
 			</tbody>
 		</table>

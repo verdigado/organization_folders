@@ -9,10 +9,6 @@ import Cancel from "vue-material-design-icons/Cancel.vue";
 import HelpCircle from "vue-material-design-icons/HelpCircle.vue";
 
 const props = defineProps({
-	locked: {
-		type: Boolean,
-		default: false,
-	},
 	label: {
 		type: String,
 		default: "",
@@ -22,6 +18,14 @@ const props = defineProps({
 	},
 	value: {
 		type: Object,
+	},
+	locked: {
+		type: Boolean,
+		default: false,
+	},
+	disabled: {
+		type: Boolean,
+		default: false,
 	},
 });
 
@@ -58,6 +62,7 @@ const onClick = (permissionKey) => {
 		<th />
 		<td v-for="(permissionValue, permissionKey) in value" :key="permissionKey" class="buttonTd">
 			<NcButton v-tooltip="permissionValue ? tooltipAllow : tooltipDenied"
+				:disabled="disabled"
 				:aria-label="permissionValue ? labelAllowed : labelDenied"
 				@click="() => onClick(permissionKey)">
 				<template #icon>

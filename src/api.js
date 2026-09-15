@@ -302,8 +302,8 @@ export default {
 	 * @param {number|string} id Organization folder id
 	 * @return {Promise<Array<Resource>>}
 	 */
-	getOrganizationFolderResources(organizationFolderId) {
-		return axios.get(`/organizationFolders/${organizationFolderId}/resources`, {}).then((res) => res.data);
+	getOrganizationFolderResources(organizationFolderId, include = "model") {
+		return axios.get(`/organizationFolders/${organizationFolderId}/resources`, { params: { include } }).then((res) => res.data);
 	},
 
 	/**

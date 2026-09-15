@@ -19,17 +19,9 @@ const props = defineProps({
 	initialResourceId: {
 		type: Number,
 	},
-	requireFullPermissions: {
-		type: Boolean,
-		default: false,
-	},
-	resourceBlacklist: {
-		type: Array,
-		default: [],
-	},
-	typeAllowlist: {
-		type: Array,
-		default: () => [api.ResourceTypes.FOLDER],
+	resourceFilter: {
+		type: Function,
+		default: () => (() => true),
 	},
 });
 
@@ -42,7 +34,7 @@ const currentSubresources = ref([]);
 const subresourcesLoading = ref(true);
 
 if(props.initialResourceId) {
-	api.getResource(props.initialResourceId, "fullPath+subresources+permissions")
+	api.getResource(props.initialResourceId, "fullPath+subresources+userApiPermissions")
 		.then(({ fullPath, subResources }) => {
 			resourcePath.value = fullPath;
 			currentSubresources.value = subResources;
@@ -69,31 +61,16 @@ const reloadSubresources = async () => {
 	subresourcesLoading.value = true;
 
 	if(currentParentResourceId.value) {
-		currentSubresources.value = await api.getResourceSubresources(currentParentResourceId.value, "model+permissions");
+		currentSubresources.value = await api.getResourceSubresources(currentParentResourceId.value, "model+userApiPermissions");
 	} else {
-		currentSubresources.value = await api.getOrganizationFolderResources(props.organizationFolder.id);
+		currentSubresources.value = await api.getOrganizationFolderResources(props.organizationFolder.id, "model+userApiPermissions");
 	}
 	
 	subresourcesLoading.value = false;
 };
 
 const filteredSubresources = computed(() => {
-	if(props.requireFullPermissions) {
-		return currentSubresources.value.filter(
-			(resource) => {
-				return resource?.permissions?.level === "full"
-					&& !props.resourceBlacklist.includes(resource.id)
-					&& props.typeAllowlist.includes(resource.type);
-			}
-		);
-	} else {
-		return currentSubresources.value.filter(
-			(resource) => {
-				return !props.resourceBlacklist.includes(resource.id)
-					&& props.typeAllowlist.includes(resource.type);
-			}
-		);
-	}
+	return currentSubresources.value.filter(props.resourceFilter);
 });
 
 const breadcrumbClicked = (index) => {
@@ -103,10 +80,7 @@ const breadcrumbClicked = (index) => {
 };
 
 const resourceClicked = (resource) => {
-	resourcePath.value.push({
-		id: resource.id,
-		name: resource.name,
-	});
+	resourcePath.value.push(resource);
 	picked();
 	reloadSubresources();
 };

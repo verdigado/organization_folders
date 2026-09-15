@@ -16,6 +16,10 @@ const props = defineProps({
 		type: Object,
 		required: true,
 	},
+	allowDelete: {
+		type: Boolean,
+		default: true,
+	},
 });
 
 const emit = defineEmits(["delete"]);
@@ -54,7 +58,7 @@ const onCopyClicked = () => {
 			</NcButton>
 		</td>
 		<td>
-			<NcButton type="tertiary-no-background" :aria-label="t('organization_folders', 'Delete link share')" @click="onDeleteClicked">
+			<NcButton type="tertiary-no-background" :disabled="!allowDelete" :aria-label="t('organization_folders', 'Delete link share')" @click="onDeleteClicked">
 				<template #icon>
 					<NcLoadingIcon :size="20" v-if="deletionLoading" />
 					<Delete :size="20" v-else />

@@ -86,7 +86,7 @@ const memberPermissionLevelOptions = [
   { label: t("organization_folders", "Admin"), value: 3 },
 ];
 
-const neededOrganizationFolderIncludes = "model+permissions+quotaUsed+members+resources";
+const neededOrganizationFolderIncludes = "model+userApiPermissions+quotaUsed+members+resources";
 
 const router = useRouter();
 
@@ -94,9 +94,15 @@ const organizationFolderNameValid = computed(() => {
 	return validOrganizationFolderName(currentOrganizationFolderName.value); 
 });
 
-const organizationFolderPermissionsLimited = computed(() => {
-	return organizationFolder.value?.permissions?.level === "limited"; 
-});
+const getApiPermissionComputeFunction = (action) => {
+	return () => {
+		return organizationFolder.value?.userApiPermissions?.[action]?.granted === true;
+	};
+};
+
+const organizationFolderUpdatePermission = computed(getApiPermissionComputeFunction("UPDATE"));
+const organizationFolderReadMembersPermission = computed(getApiPermissionComputeFunction("READ_MEMBERS"));
+const organizationFolderCreateTopLevelResourcePermission = computed(getApiPermissionComputeFunction("CREATE_TOP_LEVEL_RESOURCE"));
 
 const organizationFullHierarchyNames = computed(() => {
 	let result = [];
@@ -295,7 +301,7 @@ const permissionLevelExplanation = t(
 						@keyup.enter="saveName"
 						@keydown.esc.stop.prevent
 						@keyup.esc.stop.prevent="cancelNameEdit" />
-					<EditCancelSaveButtons v-if="!organizationFolderPermissionsLimited"
+					<EditCancelSaveButtons v-if="organizationFolderUpdatePermission"
 						:edit-active="nameEditActive"
 						:loading="saveNameLoading"
 						@edit="editName"
@@ -318,7 +324,7 @@ const permissionLevelExplanation = t(
 					<QuotaSelector v-else
 						v-model="currentOrganizationFolderQuota" />
 						
-					<EditCancelSaveButtons v-if="!organizationFolderPermissionsLimited"
+					<EditCancelSaveButtons v-if="organizationFolderUpdatePermission"
 						:edit-active="quotaEditActive"
 						:loading="saveQuotaLoading"
 						@edit="editQuota"
@@ -348,7 +354,7 @@ const permissionLevelExplanation = t(
 					<p v-else>
 						{{ t('organization_folders', 'No organization assigned') }}
 					</p>
-					<NcActions v-if="!organizationFolderPermissionsLimited">
+					<NcActions v-if="organizationFolderUpdatePermission">
 						<NcActionButton @click="openOrganizationPicker">
 							<template #icon>
 								<Pencil :size="20" />
@@ -359,7 +365,7 @@ const permissionLevelExplanation = t(
 				</div>
 			</SubSection>
 		</Section>
-		<Section v-if="!organizationFolderPermissionsLimited">
+		<Section v-if="organizationFolderReadMembersPermission">
 			<template #header>
 				<HeaderButtonGroup :text="t('organization_folders', 'Members')">
 					<CreateMemberButton :organizationProviders="organizationProviders.providers"
@@ -378,7 +384,7 @@ const permissionLevelExplanation = t(
 				@delete-member="deleteMember" />
 		</Section>
 		<HeaderButtonGroup :text="t('organization_folders', 'Resources')">
-			<CreateResourceButton v-if="!organizationFolderPermissionsLimited"
+			<CreateResourceButton v-if="organizationFolderCreateTopLevelResourcePermission"
 				:types="organizationFolder?.enabledResourceTypes"
 				@create="createResource" />
 		</HeaderButtonGroup>
