@@ -37,7 +37,7 @@ class GlobalAdminCriterionFactory extends CriterionFactory {
 
 		$principalScratchpad = &$this->scratchpad["principal"][$principalKey];
 		
-		return new GlobalAdminCriterion(
+		return $this->cache[$principalKey] = new GlobalAdminCriterion(
 			$this->l10n,
 			$principal,
 			$principalScratchpad,

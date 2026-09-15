@@ -13,6 +13,7 @@ use OCA\GroupFolders\ACL\UserMapping\UserMapping;
 
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+use OCA\OrganizationFolders\Groups\GroupBackend;
 
 class UserPrincipal extends Principal {
 	private bool $valid;
@@ -143,21 +144,24 @@ class UserPrincipal extends Principal {
 			return $result;
 		}
 
-		// TODO: This also asks our own virtual group provider, which we know we can ignore
-		$groups = $this->groupManager->getUserGroups($this->user);
+		$groupIds = $this->groupManager->getUserGroupIds($this->user);
 
-		foreach($groups as $group) {
+		foreach($groupIds as $gid) {
+			if(str_starts_with($gid, GroupBackend::ORGANIZATION_FOLDER_GROUP_START) && str_ends_with($gid, GroupBackend::IMPLIED_INDIVIDUAL_GROUP_END)) {
+				continue;
+			}
+
 			// GroupPrincipals
-			$result[] = $this->principalFactory->buildFromIGroup($group);
+			$result[] = $this->principalFactory->buildPrincipal(PrincipalType::GROUP, $gid);
 
 			// OrganizationMemberPrincipals
 			// Recursion is not needed, as user group memberships already resolve impliedParentMemberships
-			foreach($this->organizationProviderManager->getOrganizationsByMembersGroupId($group->getGID()) as $organization) {
+			foreach($this->organizationProviderManager->getOrganizationsByMembersGroupId($gid) as $organization) {
 				$result[] = $this->principalFactory->buildFromOrganization($organization);
 			}
 
 			// OrganizationRolePrincipals
-			foreach($this->organizationProviderManager->getRolesByMembersGroupId($group->getGID()) as $role) {
+			foreach($this->organizationProviderManager->getRolesByMembersGroupId($gid) as $role) {
 				$result[] = $this->principalFactory->buildFromOrganizationRole($role);
 			}
 		}
