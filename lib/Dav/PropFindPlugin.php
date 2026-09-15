@@ -28,7 +28,10 @@ class PropFindPlugin extends ServerPlugin {
 	public const ORGANIZATION_FOLDER_READ_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-read-permissions';
 	public const ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-read-limited-permissions';
 	public const ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-update-permissions';
+	public const ORGANIZATION_FOLDER_RESOURCE_READ_LIMITED_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-resource-user-has-read-limited-permissions';
 	public const ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-resource-user-has-update-permissions';
+
+	private array $apiPermissionsScratchpad = [];
 
 	public function __construct(
 		private OrganizationFolderService $organizationFolderService,
@@ -40,6 +43,10 @@ class PropFindPlugin extends ServerPlugin {
 	public function initialize(Server $server): void {
 		// priority 90 ensures we get asked before the dav apps FilesPlugin, so we can reduce the permissions if necessary
 		$server->on('propFind', $this->propFind(...), 90);
+	}
+
+	public function clearCache(): void {
+		$this->apiPermissionsScratchpad = [];
 	}
 
 	public function propFind(PropFind $propFind, INode $sabreNode): void {
@@ -85,8 +92,6 @@ class PropFindPlugin extends ServerPlugin {
 		 */
 		$resource = null;
 
-		$apiPermissionsScratchpad = [];
-
 		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use (&$node, &$fileInfo, &$isInOrganizationFolder, &$organizationFolder): ?int {
 			try {
 				if(!isset($organizationFolder)) {
@@ -103,7 +108,7 @@ class PropFindPlugin extends ServerPlugin {
 			return $organizationFolder->getId();
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_READ_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$apiPermissionsScratchpad): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_READ_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder): ?string {
 			if($folderLevel > 0) {
 				return null;
 			}
@@ -124,13 +129,13 @@ class PropFindPlugin extends ServerPlugin {
 			}
 
 			try {
-				return $this->authorizationService->isGranted($organizationFolder, "READ", $apiPermissionsScratchpad) ? 'true' : 'false';
+				return $this->authorizationService->isGranted($organizationFolder, "READ", $this->apiPermissionsScratchpad) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$apiPermissionsScratchpad): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder): ?string {
 			if($folderLevel > 0) {
 				return null;
 			}
@@ -151,13 +156,13 @@ class PropFindPlugin extends ServerPlugin {
 			}
 
 			try {
-				return $this->authorizationService->isGranted($organizationFolder, "READ_LIMITED", $apiPermissionsScratchpad) ? 'true' : 'false';
+				return $this->authorizationService->isGranted($organizationFolder, "READ_LIMITED", $this->apiPermissionsScratchpad) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$apiPermissionsScratchpad): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder): ?string {
 			if($folderLevel > 0) {
 				return null;
 			}
@@ -178,7 +183,7 @@ class PropFindPlugin extends ServerPlugin {
 			}
 
 			try {
-				return $this->authorizationService->isGranted($organizationFolder, "UPDATE", $apiPermissionsScratchpad) ? 'true' : 'false';
+				return $this->authorizationService->isGranted($organizationFolder, "UPDATE", $this->apiPermissionsScratchpad) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
@@ -208,7 +213,7 @@ class PropFindPlugin extends ServerPlugin {
 			return $resource->getId();
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, &$isInOrganizationFolder, &$isResource, &$resource, &$apiPermissionsScratchpad): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use ($node, &$isInOrganizationFolder, &$isResource, &$resource): ?string {
 			if($isInOrganizationFolder === false) {
 				return null;
 			}
@@ -230,7 +235,35 @@ class PropFindPlugin extends ServerPlugin {
 			}
 
 			try {
-				return $this->authorizationService->isGranted($resource, "UPDATE", $apiPermissionsScratchpad) ? 'true' : 'false';
+				return $this->authorizationService->isGranted($resource, "READ_LIMITED", $this->apiPermissionsScratchpad) ? 'true' : 'false';
+			} catch (\Exception $e) {
+				return null;
+			}
+		});
+
+		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, &$isInOrganizationFolder, &$isResource, &$resource): ?string {
+			if($isInOrganizationFolder === false) {
+				return null;
+			}
+
+			if($isResource === false) {
+				return null;
+			}
+			
+			if(!isset($resource)) {
+				try {
+					$resource = $this->resourceService->findByFilesystemNode($node, true);
+					$isInOrganizationFolder = true;
+					$isResource = true;
+				} catch (\Exception $e) {
+					$isResource = false;
+
+					return null;
+				}
+			}
+
+			try {
+				return $this->authorizationService->isGranted($resource, "UPDATE", $this->apiPermissionsScratchpad) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
