@@ -7,6 +7,7 @@ const DAV_PROPERTIES = [
 	"organization-folder-user-has-update-permissions",
 	"organization-folder-user-has-read-limited-permissions",
 	"organization-folder-resource-id",
+	"organization-folder-resource-user-has-read-limited-permissions",
 	"organization-folder-resource-user-has-update-permissions",
 ];
 
