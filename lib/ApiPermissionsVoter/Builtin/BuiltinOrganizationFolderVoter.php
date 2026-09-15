@@ -16,6 +16,7 @@ use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
 use OCA\OrganizationFolders\Model\Criterion\AnyCriterion;
+use OCA\OrganizationFolders\Model\Criterion\Criterion;
 use OCA\OrganizationFolders\Model\VoterDecision;
 use OCA\OrganizationFolders\Service\ResourceService;
 
@@ -40,6 +41,7 @@ class BuiltinOrganizationFolderVoter extends BuiltinVoter {
 		"READ_LIMITED" => self::CRITERIA_GROUP_ADMIN_OR_MANAGER_OR_SUBRESOURCE_MANAGER,
 		"UPDATE" => self::CRITERIA_GROUP_ADMIN_ONLY,
 		"DELETE" => self::CRITERIA_GROUP_ADMIN_ONLY,
+		"READ_MEMBERS" => self::CRITERIA_GROUP_ADMIN_ONLY,
 		"UPDATE_MEMBERS" => self::CRITERIA_GROUP_ADMIN_ONLY,
 		"CREATE_TOP_LEVEL_RESOURCE" => self::CRITERIA_GROUP_ADMIN_OR_MANAGER,
 	];
@@ -50,12 +52,11 @@ class BuiltinOrganizationFolderVoter extends BuiltinVoter {
 	];
 
 	/**
-	 * @param Principal[] $principals
-	 * @param VoterSubject[] $subjects
-	 * @param list<string>|Closure(Principal, VoterSubject): list<string> $actions
-	 * @return array<string, array<string, array<string, VoterDecision>>>
+	 * {@inheritDoc}
+	 * 
+	 * @param Closure(Principal, VoterSubject, string): ?Criterion $currentCriterion ignored as built in voters are first to vote
 	 */
-	public function vote(array $principals, array $subjects, array|Closure $actions, array &$scratchpad): array {
+	public function vote(array $principals, array $subjects, array|Closure $actions, array &$scratchpad, Closure $currentCriterion): array {
 		$this->registerCriterionFactories($scratchpad);
 
 		if($actions instanceof Closure) {

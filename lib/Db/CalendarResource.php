@@ -72,7 +72,6 @@ class CalendarResource extends Resource {
 			'name' => $this->name,
 			'active' => $this->active,
 			'inheritManagers' => $this->inheritManagers,
-			'lastUpdatedTimestamp' => $this->lastUpdatedTimestamp,
 			'createdFromTemplateId' => $this->createdFromTemplateId,
 			
 			'calendarId' => $this->calendarId,

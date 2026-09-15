@@ -247,7 +247,9 @@ class PermissionsService {
 		$implicitlyDeactivated = false;
 
 		foreach($resourcePath as $resourceOnPath) {
-			[$resourceMembers, $resourceManagers] = $this->resourceMemberService->findAllByPermissionLevel($resourceOnPath->getId());
+			[$resourceMembers, $resourceManagers] = $this->resourceMemberService->findAllByPermissionLevel([
+				"resourceId" => $resourceOnPath->getId(),
+			]);
 
 			[
 				"permissionsList" => $permissionsList,

@@ -13,6 +13,7 @@ use OCA\OrganizationFolders\ApiPermissionsVoter\Builtin\Criterion\ResourceAnySub
 use OCA\OrganizationFolders\ApiPermissionsVoter\Builtin\Criterion\ResourceManagerCriterion;
 use OCA\OrganizationFolders\ApiPermissionsVoter\VoterSubject;
 use OCA\OrganizationFolders\Model\Criterion\AnyCriterion;
+use OCA\OrganizationFolders\Model\Criterion\Criterion;
 use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\VoterDecision;
 use OCP\IL10N;
@@ -28,9 +29,12 @@ class BuiltinResourceVoter extends BuiltinVoter {
 		"READ_LIMITED" => self::CRITERIA_GROUP_MANAGER_OR_SUBRESOURCE_MANAGER,
 		"UPDATE" => self::CRITERIA_GROUP_MANAGER,
 		"DELETE" => self::CRITERIA_GROUP_MANAGER,
-		"UPDATE_MEMBERS" => self::CRITERIA_GROUP_MANAGER,
-		"UPDATE_LINK_SHARES" => self::CRITERIA_GROUP_MANAGER,
+		"GET_PERMISSIONS_REPORT" => self::CRITERIA_GROUP_MANAGER,
 		"CREATE_SUBRESOURCE" => self::CRITERIA_GROUP_MANAGER,
+		"READ_MEMBERS" => self::CRITERIA_GROUP_MANAGER,
+		"UPDATE_MEMBERS" => self::CRITERIA_GROUP_MANAGER,
+		"READ_LINK_SHARES" => self::CRITERIA_GROUP_MANAGER,
+		"UPDATE_LINK_SHARES" => self::CRITERIA_GROUP_MANAGER,
 		"RESTORE_FROM_SNAPSHOT" => self::CRITERIA_GROUP_MANAGER,
 	];
 
@@ -50,14 +54,12 @@ class BuiltinResourceVoter extends BuiltinVoter {
 
 
 	/**
-	 * @param Principal[] $principals
-	 * @param VoterSubject[] $subjects
-	 * @param list<string>|Closure(Principal, VoterSubject): list<string> $actions
-	 * @return array<string, array<string, array<string, VoterDecision>>>
+	 * {@inheritDoc}
+	 * 
+	 * @param Closure(Principal, VoterSubject, string): ?Criterion $currentCriterion ignored as built in voters are first to vote
 	 */
-	public function vote(array $principals, array $subjects, array|Closure $actions, array &$scratchpad): array {
+	public function vote(array $principals, array $subjects, array|Closure $actions, array &$scratchpad, Closure $currentCriterion): array {
 		$this->registerCriterionFactories($scratchpad);
-
 		
 		if($actions instanceof Closure) {
 			// already a closure

@@ -61,7 +61,7 @@ class OrganizationFolder implements VoterSubject, \JsonSerializable, TableSerial
 	 * @return string[]
 	 */
 	public function getAvailableResourceTypes(): array {
-		if(is_null($this->serviceAccountUid)) {
+		if($this->serviceAccountUid === null) {
 			return ["folder"];
 		}
 
@@ -74,6 +74,16 @@ class OrganizationFolder implements VoterSubject, \JsonSerializable, TableSerial
 	public function getEnabledResourceTypes(): array {
 		// TODO: currently all available types are enabled, add configuration options to organization folders for this
 		return $this->getAvailableResourceTypes();
+	}
+
+	public function getIsResourceTypeEnabled(string $type) {
+		if($type === "folder") {
+			return true;
+		} else if ($type === "calendar") {
+			return $this->serviceAccountUid !== null;
+		} else {
+			return false;
+		}
 	}
 
 	public function jsonSerialize(): array {

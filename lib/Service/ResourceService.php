@@ -826,7 +826,7 @@ class ResourceService {
 
 			foreach($permissions as $permission) {
 				if($permission->getPermissionsBitmap() > 0) {
-					if($permission->getPrincipal()->containsPrincipal(principal: $principal, skipExpensiveOperations: true)) {
+					if($permission->getPrincipal()->containsPrincipal(principal: $principal)) {
 						// continue along path to next resource
 						continue 2;
 					}

@@ -111,12 +111,10 @@ class ResourceMapper extends QBMapper {
 
 	/**
 	 * @param int $organizationFolderId
-	 * @psalm-param int $organizationFolderId
-	 * @param int|null $parentResourceId
-	 * @psalm-param int|null $parentResourceId
-	 * @param array $filters
-	 * @psalm-param array $filters
-	 * @return array
+	 * @param ?int $parentResourceId
+	 * @psalm-param array{
+	 *   type: ?string
+	 * } $filters
 	 * @psalm-return Resource[]
 	 */
 	public function findAll(int $organizationFolderId, ?int $parentResourceId = null, array $filters = []): array {
@@ -136,12 +134,47 @@ class ResourceMapper extends QBMapper {
 		$folderJoinCondition = $qb->expr()->eq('resource.id', 'folder.resource_id');
 		$calendarJoinCondition = $qb->expr()->eq('resource.id', 'calendar.resource_id');
 		if(isset($filters["type"])) {
+			$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter($filters["type"])));
 			if($filters["type"] === "folder") {
-				$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter("folder")));
 				$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $folderJoinCondition);
 				$qb->addSelect('folder.file_id');
 			} else if($filters["type"] === "calendar") {
-				$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter("calendar")));
+				$qb->innerJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $calendarJoinCondition);
+				$qb->addSelect('calendar.calendar_id');
+			}
+		} else {
+			$qb->leftJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $folderJoinCondition);
+			$qb->leftJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $calendarJoinCondition);
+			$qb->addSelect('folder.file_id');
+			$qb->addSelect('calendar.calendar_id');
+		}
+
+		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param int $organizationFolderId
+	 * @psalm-param array{
+	 *   type: ?list<string>
+	 * } $filters
+	 * @psalm-return Resource[]
+	 */
+	public function findAllInOrganizationFolder(int $organizationFolderId, array $filters = []): array {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->select('resource.*')
+			->from(self::RESOURCES_TABLE, "resource")
+			->where($qb->expr()->eq('resource.organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
+
+		$folderJoinCondition = $qb->expr()->eq('resource.id', 'folder.resource_id');
+		$calendarJoinCondition = $qb->expr()->eq('resource.id', 'calendar.resource_id');
+		if(isset($filters["type"])) {
+			$qb->andWhere($qb->expr()->eq('resource.type', $qb->createNamedParameter($filters["type"])));
+			if($filters["type"] === "folder") {
+				$qb->innerJoin('resource', self::FOLDER_RESOURCES_TABLE, 'folder', $folderJoinCondition);
+				$qb->addSelect('folder.file_id');
+			} else if($filters["type"] === "calendar") {
 				$qb->innerJoin('resource', self::CALENDAR_RESOURCES_TABLE, 'calendar', $calendarJoinCondition);
 				$qb->addSelect('calendar.calendar_id');
 			}

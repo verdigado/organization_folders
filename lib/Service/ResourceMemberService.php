@@ -56,7 +56,7 @@ class ResourceMemberService extends AMemberService {
 	 * @return array
 	 * @psalm-return ResourceMember[]
 	 */
-	public function findAll($filters = []): array {
+	public function findAll(array $filters = []): array {
 		return $this->mapper->findAll($filters);
 	}
 
@@ -72,7 +72,7 @@ class ResourceMemberService extends AMemberService {
 	 * @return array
 	 * @psalm-return array{0: ResourceMember[], 1: ResourceMember[]}
 	 */
-	public function findAllByPermissionLevel($filters = []): array {
+	public function findAllByPermissionLevel(array $filters = []): array {
 		$members = $this->findAll($filters);
 
 		$result = [[], []];
@@ -178,7 +178,7 @@ class ResourceMemberService extends AMemberService {
 		ResourceMemberPermissionLevel $permissionLevel,
 		Principal $principal,
 
-		bool $skipPermssionsApply = false
+		bool $skipPermssionsApply = false,
 	): ResourceMember {
 		$resource = $this->resourceService->find($resourceId);
 
@@ -218,7 +218,13 @@ class ResourceMemberService extends AMemberService {
 		return $member;
 	}
 
-	public function update(int $id, ?ResourceMemberPermissionLevel $permissionLevel = null, ?Principal $principal = null): ResourceMember {
+	public function update(
+		int $id,
+		?ResourceMemberPermissionLevel $permissionLevel = null,
+		?Principal $principal = null,
+
+		bool $skipPermssionsApply = false,
+	): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
 			$resource = $this->resourceService->find($member->getResourceId());
@@ -252,7 +258,9 @@ class ResourceMemberService extends AMemberService {
 				$member = $this->mapper->update($member);
             }
 
-			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+			if(!$skipPermssionsApply) {
+				$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+			}
 
 			return $member;
 		} catch (Exception $e) {
@@ -260,7 +268,11 @@ class ResourceMemberService extends AMemberService {
 		}
 	}
 
-	public function delete(int $id): ResourceMember {
+	public function delete(
+		int $id,
+		
+		bool $skipPermssionsApply = false,
+	): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
 			$resource = $this->resourceService->find($member->getResourceId());
@@ -279,7 +291,10 @@ class ResourceMemberService extends AMemberService {
 			}
 
 			$this->mapper->delete($member);
-			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+
+			if(!$skipPermssionsApply) {
+				$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+			}
 
 			return $member;
 		} catch (Exception $e) {

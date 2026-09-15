@@ -14,24 +14,23 @@ use OCP\Files\DavUtil;
 
 use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
-use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Model\OrganizationFolder;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\ResourceService;
-use OCA\OrganizationFolders\Security\AuthorizationService;
+use OCA\OrganizationFolders\Service\AuthorizationService;
 
 class PropFindPlugin extends ServerPlugin {
 	public const ORGANIZATION_FOLDER_ID_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-id';
 	public const ORGANIZATION_FOLDER_RESOURCE_ID_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-resource-id';
-	public const ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-update-permissions';
+	public const ORGANIZATION_FOLDER_READ_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-read-permissions';
 	public const ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-read-limited-permissions';
+	public const ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-user-has-update-permissions';
 	public const ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME = '{http://verdigado.com/ns}organization-folder-resource-user-has-update-permissions';
 
 	public function __construct(
-		private FolderManager $folderManager,
 		private OrganizationFolderService $organizationFolderService,
 		private ResourceService $resourceService,
 		private AuthorizationService $authorizationService,
@@ -86,7 +85,7 @@ class PropFindPlugin extends ServerPlugin {
 		 */
 		$resource = null;
 
-		$userHasOrganizationFolderUpdatePermissions = null;
+		$apiPermissionsScratchpad = [];
 
 		$propFind->handle(self::ORGANIZATION_FOLDER_ID_PROPERTYNAME, function () use (&$node, &$fileInfo, &$isInOrganizationFolder, &$organizationFolder): ?int {
 			try {
@@ -104,7 +103,7 @@ class PropFindPlugin extends ServerPlugin {
 			return $organizationFolder->getId();
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_READ_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$apiPermissionsScratchpad): ?string {
 			if($folderLevel > 0) {
 				return null;
 			}
@@ -125,26 +124,19 @@ class PropFindPlugin extends ServerPlugin {
 			}
 
 			try {
-				$userHasOrganizationFolderUpdatePermissions = $this->authorizationService->isGranted(["UPDATE"], $organizationFolder);
-
-				return $userHasOrganizationFolderUpdatePermissions ? 'true' : 'false';
+				return $this->authorizationService->isGranted($organizationFolder, "READ", $apiPermissionsScratchpad) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$userHasOrganizationFolderUpdatePermissions): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_READ_LIMITED_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$apiPermissionsScratchpad): ?string {
 			if($folderLevel > 0) {
 				return null;
 			}
 
 			if($isInOrganizationFolder === false) {
 				return null;
-			}
-
-			// use cannot have update permissions and read only permissions at the same time, skip expensive READ_LIMITED check
-			if(isset($userHasOrganizationFolderUpdatePermissions) && $userHasOrganizationFolderUpdatePermissions) {
-				return 'false';
 			}
 
 			if(!isset($organizationFolder)) {
@@ -159,7 +151,34 @@ class PropFindPlugin extends ServerPlugin {
 			}
 
 			try {
-				return $this->authorizationService->isGranted(["READ_LIMITED"], $organizationFolder) ? 'true' : 'false';
+				return $this->authorizationService->isGranted($organizationFolder, "READ_LIMITED", $apiPermissionsScratchpad) ? 'true' : 'false';
+			} catch (\Exception $e) {
+				return null;
+			}
+		});
+
+		$propFind->handle(self::ORGANIZATION_FOLDER_UPDATE_PERMISSIONS_PROPERTYNAME, function () use (&$node, &$fileInfo, $folderLevel, &$isInOrganizationFolder, &$organizationFolder, &$apiPermissionsScratchpad): ?string {
+			if($folderLevel > 0) {
+				return null;
+			}
+
+			if($isInOrganizationFolder === false) {
+				return null;
+			}
+
+			if(!isset($organizationFolder)) {
+				try {
+					$organizationFolder = $this->organizationFolderService->findByFilesystemNode($node);
+					$isInOrganizationFolder = true;
+				} catch (\Exception $e) {
+					$isInOrganizationFolder = false;
+
+					return null;
+				}
+			}
+
+			try {
+				return $this->authorizationService->isGranted($organizationFolder, "UPDATE", $apiPermissionsScratchpad) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
@@ -189,7 +208,7 @@ class PropFindPlugin extends ServerPlugin {
 			return $resource->getId();
 		});
 
-		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, &$isInOrganizationFolder, &$isResource, &$resource): ?string {
+		$propFind->handle(self::ORGANIZATION_FOLDER_RESOURCE_UPDATE_PERMISSIONS_PROPERTYNAME, function () use ($node, &$isInOrganizationFolder, &$isResource, &$resource, &$apiPermissionsScratchpad): ?string {
 			if($isInOrganizationFolder === false) {
 				return null;
 			}
@@ -211,7 +230,7 @@ class PropFindPlugin extends ServerPlugin {
 			}
 
 			try {
-				return $this->authorizationService->isGranted(["UPDATE"], $resource) ? 'true' : 'false';
+				return $this->authorizationService->isGranted($resource, "UPDATE", $apiPermissionsScratchpad) ? 'true' : 'false';
 			} catch (\Exception $e) {
 				return null;
 			}
