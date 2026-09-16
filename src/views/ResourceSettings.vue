@@ -61,7 +61,7 @@ const organizationProviders = useOrganizationProvidersStore();
 
 organizationProviders.initialize();
 
-const resourceApiIncludes = "model+permissions+members+parentResource+subresources+unmanagedSubfolders+linkShares";
+const resourceApiIncludes = "model+userApiPermissions+members+parentResource+subresources+unmanagedSubfolders+linkShares";
 
 const organizationFolder = ref(null);
 const resource = ref(null);
@@ -188,7 +188,27 @@ const revokeOwnManagementPermissionsDialogContinue = async (callback) => {
 	revokeOwnManagementPermissionsDialogRetryApiRequest = null;
 	callback();
 	revokeOwnManagementPermissionsDialogOpen.value = false;
-	backButtonClicked();
+
+	try {
+		// reload current resource, succeeds if user still has READ_LIMITED
+		await loadResource(resource.value.id);
+		return;
+	} catch {}
+	
+	if(resource.value?.parentResourceId) {
+		try {
+			await api.getResource(resource.value.parentResourceId, "userApiPermissions");
+			
+			router.push({
+				path: '/organizationFolder/' + props.organizationFolderId + '/resource/' + resource.value.parentResourceId,
+			});
+			return;
+		} catch {}
+	}
+	
+	router.push({
+		path: '/organizationFolder/' + props.organizationFolderId
+	});
 }
 
 const tooManyPermissionsChangesDialogCancel = () => {
@@ -208,24 +228,45 @@ const tooManyPermissionsChangesDialogContinue = async (callback) => {
 	tooManyPermissionsChangesDialogOpen.value = false;
 }
 
-const resourcePermissionsLimited = computed(() => {
-    return resource.value?.permissions?.level === "limited";
-});
+const getApiPermissionComputeFunction = (action) => {
+	return () => {
+		return resource.value?.userApiPermissions?.[action]?.granted === true;
+	};
+};
 
-watch(() => props.resourceId, async (newResourceId) => {
-    resourceLoading.value = true;
-	resource.value = await api.getResource(newResourceId, resourceApiIncludes);
+const resourceReadPermission = computed(getApiPermissionComputeFunction("READ"));
+const resourceUpdatePermission = computed(getApiPermissionComputeFunction("UPDATE"));
+const resourceDeletePermission = computed(getApiPermissionComputeFunction("DELETE"));
+const resourceGetPermissionsReportPermission = computed(getApiPermissionComputeFunction("GET_PERMISSIONS_REPORT"));
+const resourceCreateSubresourcePermission = computed(getApiPermissionComputeFunction("CREATE_SUBRESOURCE"));
+const resourceReadMembersPermission = computed(getApiPermissionComputeFunction("READ_MEMBERS"));
+const resourceUpdateMembersPermission = computed(getApiPermissionComputeFunction("UPDATE_MEMBERS"));
+const resourceReadLinkSharesPermission = computed(getApiPermissionComputeFunction("READ_LINK_SHARES"));
+const resourceUpdateLinkSharesPermission = computed(getApiPermissionComputeFunction("UPDATE_LINK_SHARES"));
+const resourceRestoreFromSnapshotPermission = computed(getApiPermissionComputeFunction("RESTORE_FROM_SNAPSHOT"));
+
+const loadResource = async (resourceId) => {
+	resourceLoading.value = true;
+	resource.value = await api.getResource(resourceId, resourceApiIncludes);
     currentResourceName.value = resource.value.name;
 	permissionsReport.value = undefined;
 	userPermissionsReport.value = undefined;
     resourceLoading.value = false;
+};
+
+watch(() => props.resourceId, async (newResourceId) => {
+   await loadResource(newResourceId);
 }, { immediate: true });
 
 watch(() => props.organizationFolderId, async (newOrganizationFolderId) => {
     organizationFolderLoading.value = true;
-	organizationFolder.value = await api.getOrganizationFolder(newOrganizationFolderId, "model")
+	organizationFolder.value = await api.getOrganizationFolder(newOrganizationFolderId, "model+userApiPermissions")
     organizationFolderLoading.value = false;
 }, { immediate: true });
+
+const showUnmanagedSubfoldersSection = computed(() => {
+	return subfoldersEnabled && resourceCreateSubresourcePermission && resource.value.type === api.ResourceTypes.FOLDER && (resource.value.unmanagedSubfolders?.length > 0);
+});
 
 const saveActive = async (active) => {
     resourceActiveLoading.value = true;
@@ -412,12 +453,21 @@ const promoteUnmanagedSubfolder = async (subfolderName, callback) => {
 
 const title = computed(() =>{
 	if(resource.value?.type === api.ResourceTypes.FOLDER) {
-		// TRANSLATORS This is a modal header for the settings of a folder called folderName
+		// TRANSLATORS This is the modal header for the settings of a folder called folderName
 		return t(
 			"organization_folders",
 			'Folder Management "{folderName}"',
 			{
 				folderName: resource.value?.name,
+			}
+		);
+	} else if(resource.value?.type === api.ResourceTypes.CALENDAR) {
+		// TRANSLATORS This is the modal header for the settings of a calendar called calendarName
+		return t(
+			"organization_folders",
+			'Calendar Management "{calendarName}"',
+			{
+				calendarName: resource.value?.name,
 			}
 		);
 	} else {
@@ -433,6 +483,13 @@ const memberPermissionLevelOptions = computed(() => {
 			// TRANSLATORS This a permission level of members of folder resources
 			{ label: t("organization_folders", "Folder manager"), value: 2 },
 		];
+	} else if(resource.value?.type === api.ResourceTypes.CALENDAR) {
+		return [
+			// TRANSLATORS This a permission level of members of folder resources
+			{ label: t("organization_folders", "Calendar member"), value: 1 },
+			// TRANSLATORS This a permission level of members of folder resources
+			{ label: t("organization_folders", "Calendar manager"), value: 2 },
+		];
 	} else {
 		return [
 			// TRANSLATORS This a permission level of members of organization folders and resources
@@ -446,14 +503,18 @@ const memberPermissionLevelOptions = computed(() => {
 const permissionLevelExplanation = computed(() => {
 	if(resource.value?.type === api.ResourceTypes.FOLDER) {
 		return t("organization_folders", "Managers have access to the settings of this folder");
+	} else if(resource.value?.type === api.ResourceTypes.CALENDAR) {
+		return t("organization_folders", "Managers have access to the settings of this calendar");
 	} else {
 		return "";
 	}
 });
 
-const noPermissionExplanation = computed(() => {
+const noUpdatePermissionExplanation = computed(() => {
 	if(resource.value?.type === api.ResourceTypes.FOLDER) {
-		return t("organization_folders", "You do not have the permissions to manage this folder");
+		return t("organization_folders", "You do not have the permission to update the settings of this folder");
+	} else if(resource.value?.type === api.ResourceTypes.CALENDAR) {
+		return t("organization_folders", "You do not have the permission to update the settings of this calendar");
 	} else {
 		return "";
 	}
@@ -510,6 +571,14 @@ const deleteResourceExplanation = computed(() => {
 				}
 			);
 		}
+	} else if(resource.value?.type === api.ResourceTypes.CALENDAR) {
+		return t(
+			"organization_folders",
+			'You are about to delete the calendar "{calendarName}". Are you sure you want to proceed?',
+			{
+				calendarName: resource.value?.name,
+			}
+		);
 	} else {
 		return "";
 	}
@@ -561,13 +630,13 @@ const openMoveDialog = () => {
 		:loading="loading"
 		v-slot=""
 		@back-button-pressed="backButtonClicked">
-		<NcNoteCard v-if="resourcePermissionsLimited"
-			type="info"
-			:text="noPermissionExplanation" />
 		<Section>
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Settings')"></SectionHeader>
 			</template>
+			<NcNoteCard v-if="!resourceUpdatePermission"
+				type="info"
+				:text="noUpdatePermissionExplanation" />
 			<SubSection>
 				<template #header>
 					<SubSectionHeader :text="t('organization_folders', 'Name')" />
@@ -587,7 +656,7 @@ const openMoveDialog = () => {
 						@keyup.enter="saveName"
 						@keydown.esc.stop.prevent
 						@keyup.esc.stop.prevent="cancelNameEdit" />
-					<EditCancelSaveButtons v-if="!resourcePermissionsLimited"
+					<EditCancelSaveButtons v-if="resourceUpdatePermission"
 						:edit-active="nameEditActive"
 						:loading="saveNameLoading"
 						@edit="editName"
@@ -602,9 +671,9 @@ const openMoveDialog = () => {
 				</template>
 				<NcCheckboxRadioSwitch
 					:checked="resource.inheritManagers"
-					:disabled="resourcePermissionsLimited"
+					:disabled="!resourceUpdatePermission"
 					:loading="inheritManagersLoading"
-					:class="{ 'not-allowed-cursor': resourcePermissionsLimited }"
+					:class="{ 'not-allowed-cursor': !resourceUpdatePermission }"
 					style="margin-top: 12px; padding-left: 10px;"
 					@update:checked="saveInheritManagers">
 					{{ t("organization_folders", "Inherit managers from the level above") }}
@@ -624,14 +693,16 @@ const openMoveDialog = () => {
 				@cancel="tooManyPermissionsChangesDialogCancel"
 				@continue="tooManyPermissionsChangesDialogContinue" />
 		</Section>
-		<Section v-if="!resourcePermissionsLimited">
+		<Section v-if="resourceReadPermission">
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Permissions')"></SectionHeader>
 			</template>
-			<Permissions :organization-folder="organizationFolder" :resource="resource"
+			<Permissions :organization-folder="organizationFolder"
+				:resource="resource"
+				:disabled="!resourceUpdatePermission"
 				@permissionUpdated="savePermission" />
 		</Section>
-		<Section v-if="!resourcePermissionsLimited">
+		<Section v-if="resourceReadMembersPermission">
 			<template #header>
 				<HeaderButtonGroup :text="t('organization_folders', 'Members')">
 					<CreateMemberButton :organizationProviders="organizationProviders.providers"
@@ -640,30 +711,35 @@ const openMoveDialog = () => {
 						:find-user-member-options="findUserMemberOptions"
 						:initial-role-if-organization-provider="organizationFolder?.organizationProviderId ?? ''"
 						:initial-role-organization-path="organizationFolder?.organizationFullHierarchy ?? []"
+						:disabled="!resourceUpdateMembersPermission"
 						@add-member="addMember" />
 				</HeaderButtonGroup>
 			</template>
 			<MembersList :members="resource?.members"
 				:permission-level-options="memberPermissionLevelOptions"
 				:permission-level-explanation="permissionLevelExplanation"
+				:allow-update="resourceUpdateMembersPermission"
+				:allow-delete="resourceUpdateMembersPermission"
 				@update-member="updateMember"
 				@delete-member="deleteMember" />
 		</Section>
-		<Section v-if="!resourcePermissionsLimited && linkSharesSupportedByResource">
+		<Section v-if="linkSharesSupportedByResource && resourceReadLinkSharesPermission">
 			<template #header>
 				<HeaderButtonGroup :text="t('organization_folders', 'Link Shares')">
-					<CreateLinkShareButton @add-link-share="addLinkShare" />
+					<CreateLinkShareButton :disabled="!resourceUpdateLinkSharesPermission" @add-link-share="addLinkShare" />
 				</HeaderButtonGroup>
 			</template>
 			<LinkShareList :linkShares="resource?.linkShares"
+				:allow-delete="resourceUpdateLinkSharesPermission"
 				@delete-link-share="deleteLinkShare" />
 		</Section>
-		<Section v-if="!resourcePermissionsLimited">
+		<Section v-if="resourceGetPermissionsReportPermission || resourceUpdatePermission || resourceRestoreFromSnapshotPermission || resourceDeletePermission">
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Management Actions')"></SectionHeader>
 			</template>
 			<div class="button-group">
-				<NcButton @click="openPermissionsReport">
+				<NcButton v-if="resourceGetPermissionsReportPermission"
+					@click="openPermissionsReport">
 					{{ t("organization_folders", "Show Permissions Overview") }}
 					<template #icon>
 						<AccountEye :size="20" />
@@ -705,7 +781,7 @@ const openMoveDialog = () => {
 					<PermissionsReport v-else-if="permissionsReportPage === 'overview'" :resource="resource" :permissions-report="permissionsReport" />
 					<UserPermissionsReport v-else-if="userPermissionsReport" :resource="resource" :user-permissions-report="userPermissionsReport" />
 				</NcDialog>
-				<NcButton @click="openMoveDialog">
+				<NcButton v-if="resourceUpdatePermission" @click="openMoveDialog">
 					{{ moveResourceText }}
 					<template #icon>
 						<FolderMove :size="20" />
@@ -717,19 +793,20 @@ const openMoveDialog = () => {
 					:open="moveDialogOpen"
 					@update:open="(newValue) => moveDialogOpen = newValue"
 					@move="move" />
-				<NcButton v-if="snapshotIntegrationActive && snapshotsSupportedByResource" @click="switchToSnapshotRestoreView">
+				<NcButton v-if="snapshotIntegrationActive && snapshotsSupportedByResource && resourceRestoreFromSnapshotPermission" @click="switchToSnapshotRestoreView">
 					<template #icon>
 						<BackupRestore />
 					</template>
 					{{ t("organization_folders", "Restore files from a backup") }}
 				</NcButton>
-				<NcCheckboxRadioSwitch :checked="resource.active"
+				<NcCheckboxRadioSwitch v-if="resourceUpdatePermission"
+					:checked="resource.active"
 					:loading="resourceActiveLoading"
 					type="checkbox"
 					@update:checked="saveActive">
 					{{ resourceActiveText }}
 				</NcCheckboxRadioSwitch>
-				<ConfirmDeleteDialog :title="deleteResourceText"
+				<ConfirmDeleteDialog v-if="resourceDeletePermission" :title="deleteResourceText"
 					:loading="loading"
 					:match-text="resource.name">
 					<template #activator="{ open }">
@@ -767,12 +844,12 @@ const openMoveDialog = () => {
 		<Section v-if="subresourcesSupportedByResource && subfoldersEnabled">
 			<template #header>
 				<HeaderButtonGroup :text="t('organization_folders', 'Sub-Resources')">
-					<CreateResourceButton v-if="!resourcePermissionsLimited" :types="organizationFolder?.enabledResourceTypes" @create="createSubResource" />
+					<CreateResourceButton v-if="resourceCreateSubresourcePermission" :types="organizationFolder?.enabledResourceTypes" @create="createSubResource" />
 				</HeaderButtonGroup>
 			</template>
 			<ResourceList :resources="resource?.subResources" @click:resource="subResourceClicked" />
 		</Section>
-		<SectionCollapseable v-if="subfoldersEnabled && !resourcePermissionsLimited && resource.type === api.ResourceTypes.FOLDER && (resource.unmanagedSubfolders.length > 0)">
+		<SectionCollapseable v-if="showUnmanagedSubfoldersSection">
 			<template #header>
 				<SectionHeader :text="t('organization_folders', 'Unmanaged Subfolders')"></SectionHeader>
 			</template>

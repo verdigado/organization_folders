@@ -9,11 +9,11 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Db\TTransactional;
 
-use OCA\OrganizationFolders\Security\AuthorizationService;
-use OCA\OrganizationFolders\Validation\ValidatorService;
+use OCA\OrganizationFolders\Service\AuthorizationService;
 use OCA\OrganizationFolders\Db\ResourceMember;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Service\ResourceMemberService;
+use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Enum\ResourceMemberPermissionLevel;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
@@ -25,13 +25,13 @@ class ResourceMemberController extends BaseController {
 
 	public function __construct(
 		AuthorizationService $authorizationService,
-		ValidatorService $validatorService,
 		private readonly IDBConnection $db,
 		private readonly ResourceMemberService $service,
 		private readonly ResourceService $resourceService,
+		private readonly OrganizationFolderService $organizationFolderService,
 		private readonly PrincipalFactory $principalFactory,
 	) {
-		parent::__construct($authorizationService, $validatorService);
+		parent::__construct($authorizationService);
 	}
 
 	#[NoAdminRequired]
@@ -39,9 +39,11 @@ class ResourceMemberController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->resourceService->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['READ'], $resource);
+			$this->denyAccessUnlessGranted($resource, "READ_MEMBERS");
 
-			return $this->service->findAll($resourceId);
+			return $this->service->findAll([
+				"resourceId" => $resourceId,
+			]);
 		});
 	}
 
@@ -55,7 +57,7 @@ class ResourceMemberController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $permissionLevel, $principalType, $principalId): ResourceMember {
 			$resource = $this->resourceService->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
+			$this->denyAccessUnlessGranted($resource, "UPDATE_MEMBERS");
 
 			$principal = $this->principalFactory->buildPrincipal(PrincipalType::fromNameOrValue($principalType), $principalId);
 
@@ -79,22 +81,30 @@ class ResourceMemberController extends BaseController {
 			$resourceMember = $this->service->find($id);
 
 			$resource = $this->resourceService->find($resourceMember->getResourceId());
-			
-			$this->denyAccessUnlessGranted(['UPDATE_MEMBERS'], $resource);
 
-			return $this->atomic(function () use ($resource, $resourceMember, $permissionLevel, $cancelIfRevokesOwnManagementRights) {
-				// TODO: move applying resource permissions after check if rollback will be needed
+			$apiPermissionsScratchpad = [];
+			
+			$this->denyAccessUnlessGranted($resource, "UPDATE_MEMBERS", $apiPermissionsScratchpad);
+
+			$resourceMember = $this->atomic(function () use ($resource, $resourceMember, $permissionLevel, $cancelIfRevokesOwnManagementRights) {
 				$resourceMember = $this->service->update(
 					id: $resourceMember->getId(),
 					permissionLevel: ResourceMemberPermissionLevel::fromNameOrValue($permissionLevel),
+					skipPermssionsApply: true,
 				);
 
-				if($cancelIfRevokesOwnManagementRights && !$this->authorizationService->isGranted(["READ"], $resource)) {
+				// checking READ grant after changes without re-using old scratchpad(!)
+				if($cancelIfRevokesOwnManagementRights && !$this->authorizationService->isGranted($resource, "READ")) {
 					throw new WouldRevokeUsersManagementPermissions();
 				}
 
 				return $resourceMember;
 			}, $this->db);
+
+			// apply permissions only after knowing request was not cancelled
+			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+
+			return $resourceMember;
 		});
 	}
 
@@ -107,19 +117,28 @@ class ResourceMemberController extends BaseController {
 			$resourceMember = $this->service->find($id);
 
 			$resource = $this->resourceService->find($resourceMember->getResourceId());
+
+			$apiPermissionsScratchpad = [];
 			
-			$this->denyAccessUnlessGranted(["UPDATE_MEMBERS"], $resource);
+			$this->denyAccessUnlessGranted($resource, "UPDATE_MEMBERS", $apiPermissionsScratchpad);
 
-			return $this->atomic(function () use ($resource, $resourceMember, $cancelIfRevokesOwnManagementRights) {
-				// TODO: move applying resource permissions after check if rollback will be needed
-				$resourceMember = $this->service->delete($resourceMember->getId());
+			$resourceMember = $this->atomic(function () use ($resource, $resourceMember, $cancelIfRevokesOwnManagementRights) {
+				$resourceMember = $this->service->delete(
+					id: $resourceMember->getId(),
+					skipPermssionsApply: true,
+				);
 
-				if($cancelIfRevokesOwnManagementRights && !$this->authorizationService->isGranted(["READ"], $resource)) {
+				if($cancelIfRevokesOwnManagementRights && !$this->authorizationService->isGranted($resource, "READ")) {
 					throw new WouldRevokeUsersManagementPermissions();
 				}
 
 				return $resourceMember;
 			}, $this->db);
+
+			// apply permissions only after knowing request was not cancelled
+			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+
+			return $resourceMember;
 		});
 	}
 }

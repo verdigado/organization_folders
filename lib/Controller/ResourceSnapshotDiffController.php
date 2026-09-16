@@ -13,8 +13,7 @@ use OCA\GroupfolderFilesystemSnapshots\Service\DiffTaskService;
 use OCA\GroupfolderFilesystemSnapshots\Service\DiffTaskResultService;
 use OCA\GroupfolderFilesystemSnapshots\Db\DiffTask;
 
-use OCA\OrganizationFolders\Security\AuthorizationService;
-use OCA\OrganizationFolders\Validation\ValidatorService;
+use OCA\OrganizationFolders\Service\AuthorizationService;
 use OCA\OrganizationFolders\Db\Resource;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Errors\Api\SnapshotIntegrationNotActive;
@@ -32,13 +31,12 @@ class ResourceSnapshotDiffController extends BaseController {
 
 	public function __construct(
 		AuthorizationService $authorizationService,
-		ValidatorService $validatorService,
 		private readonly IAppManager $appManager,
 		private readonly ContainerInterface $container,
         private readonly ResourceService $resourceService,
         private readonly ?string $userId,
 	) {
-		parent::__construct($authorizationService, $validatorService);
+		parent::__construct($authorizationService);
 
 		$this->snapshotIntegrationEnabled = $this->appManager->isEnabledForUser("groupfolder_filesystem_snapshots");
 
@@ -58,7 +56,7 @@ class ResourceSnapshotDiffController extends BaseController {
 
 			$resource = $this->resourceService->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['RESTORE_FROM_SNAPSHOT'], $resource);	
+			$this->denyAccessUnlessGranted($resource, "RESTORE_FROM_SNAPSHOT");
 
 			if(!$this->snapshotManager->snapshotExists($snapshotId)) {
 				throw new ResourceSnapshotNotFound(['resourceId' => $resourceId, 'snapshotId' => $snapshotId]);
@@ -69,10 +67,10 @@ class ResourceSnapshotDiffController extends BaseController {
 			$blocklist = $this->createSubresourceBlocklist($resource);			
 
 			if($streamed) {
-				$previousProgress = 0;
 				return new StreamedProgressResponse(function() use ($resource, $groupFolderRelativePath, $snapshotId, $includeResults, $blocklist) {
 					echo "[\n";
 
+					$previousProgress = 0;
 					try {
 						$this->diffTaskService->create($groupFolderRelativePath, $resource->getOrganizationFolderId(), $snapshotId, $this->userId, $blocklist, function(array $progress) use ($includeResults, &$previousProgress) {
 							if(($progress["progress"] >= $previousProgress + 0.1) || ($progress["progress"] === 1.0)) {
@@ -117,7 +115,7 @@ class ResourceSnapshotDiffController extends BaseController {
 
 			$resource = $this->resourceService->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['RESTORE_FROM_SNAPSHOT'], $resource);
+			$this->denyAccessUnlessGranted($resource, "RESTORE_FROM_SNAPSHOT");
 
 			$task = $this->diffTaskService->find($diffTaskId, $this->userId);
 
@@ -141,7 +139,7 @@ class ResourceSnapshotDiffController extends BaseController {
 		$subresources = $this->resourceService->getSubResources($resource, ["type" => "folder"]);
 
 		foreach($subresources as $subresource) {
-			if($subresource->getActive() && $this->authorizationService->isGranted(["RESTORE_FROM_SNAPSHOT"], $subresource)) {
+			if($subresource->getActive() && $this->authorizationService->isGranted($subresource, "RESTORE_FROM_SNAPSHOT")) {
 				$subBlocklist = $this->createSubresourceBlocklist($subresource);
 
 				if(isset($subBlocklist) && count($subBlocklist) > 0) {

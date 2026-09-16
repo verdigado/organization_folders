@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
-use \JsonSerializable;
-use OCA\OrganizationFolders\Interface\TableSerializable;
-
 use OCP\IL10N;
 
-class OrganizationFolder implements JsonSerializable, TableSerializable {
+use OCA\OrganizationFolders\ApiPermissionsVoter\VoterSubject;
+use OCA\OrganizationFolders\Interface\TableSerializable;
+
+class OrganizationFolder implements VoterSubject, \JsonSerializable, TableSerializable {
+
+	public const VOTER_SUBJECT_TYPE = "OrganizationFolder";
+
 	public function __construct(
 		private readonly int $id,
 		private string $name,
@@ -58,7 +61,7 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 	 * @return string[]
 	 */
 	public function getAvailableResourceTypes(): array {
-		if(is_null($this->serviceAccountUid)) {
+		if($this->serviceAccountUid === null) {
 			return ["folder"];
 		}
 
@@ -71,6 +74,16 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 	public function getEnabledResourceTypes(): array {
 		// TODO: currently all available types are enabled, add configuration options to organization folders for this
 		return $this->getAvailableResourceTypes();
+	}
+
+	public function getIsResourceTypeEnabled(string $type) {
+		if($type === "folder") {
+			return true;
+		} else if ($type === "calendar") {
+			return $this->serviceAccountUid !== null;
+		} else {
+			return false;
+		}
 	}
 
 	public function jsonSerialize(): array {
@@ -105,5 +118,9 @@ class OrganizationFolder implements JsonSerializable, TableSerializable {
 			'Organization ID' => $this->organizationId,
 			'Service Account UID' => $this->serviceAccountUid,
 		];
+	}
+
+	public function getVoterSubjectKey(): string {
+		return "organizationFolder:" . $this->id;
 	}
 }

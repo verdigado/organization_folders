@@ -10,6 +10,7 @@ export const useCurrentDirStore = defineStore("currentDir", {
 		organizationFolderUpdatePermissions: null,
 		organizationFolderReadLimitedPermissions: null,
 		organizationFolderResourceId: null,
+		organizationFolderResourceReadLimitedPermissions: null,
 		organizationFolderResourceUpdatePermissions: null,
   	}),
 	actions: {
@@ -25,6 +26,7 @@ export const useCurrentDirStore = defineStore("currentDir", {
 			this.organizationFolderUpdatePermissions = attributes["organization-folder-user-has-update-permissions"];
 			this.organizationFolderReadLimitedPermissions = attributes["organization-folder-user-has-read-limited-permissions"];
 			this.organizationFolderResourceId = attributes["organization-folder-resource-id"];
+			this.organizationFolderResourceReadLimitedPermissions = attributes["organization-folder-resource-user-has-read-limited-permissions"];
 			this.organizationFolderResourceUpdatePermissions = attributes["organization-folder-resource-user-has-update-permissions"];
 		},
 

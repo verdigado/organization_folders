@@ -11,17 +11,18 @@ use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
 use OCA\OrganizationFolders\Enum\PrincipalType;
 
 abstract class Principal implements \JsonSerializable {
-	protected bool $valid;
+
+	public function __construct(
+		protected readonly PrincipalFactory $factory,
+	) {}
 
 	abstract public function getType(): PrincipalType;
 
 	abstract public function getId(): string;
 
-	abstract public function getFriendlyName(): string;
+	abstract public function isValid(): bool;
 
-	public function isValid(): bool {
-		return $this->valid;
-	}
+	abstract public function getFriendlyName(): string;
 
 	/**
 	 * @return array
@@ -53,15 +54,20 @@ abstract class Principal implements \JsonSerializable {
 	 * Returns true if all users contained in the given principal are contained in this principal
 	 * 
 	 * @param Principal $principal
-	 * @param bool $skipExpensiveOperations Allow false-negatives (no false-positives) to avoid expensive operations
 	 */
-	abstract public function containsPrincipal(Principal $principal, bool $skipExpensiveOperations = false): bool;
+	abstract public function containsPrincipal(Principal $principal): bool;
+
+	/**
+	 * Get all principals this principal is contained in (e.g. which would return true if called ->containsPrincipal($this) on)
+	 * @return list<Principal>
+	 */
+	abstract public function getPrincipalsIsContainedIn(): array;
 
 	public function jsonSerialize(): array {
 		return [
 			'type' => $this->getType(),
 			'id' => $this->getId(),
-			'valid' => $this->valid,
+			'valid' => $this->isValid(),
 			'friendlyName' => $this->getFriendlyName(),
 			'fullHierarchyNames' => $this->getFullHierarchyNames(),
 		];

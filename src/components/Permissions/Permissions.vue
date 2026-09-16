@@ -12,6 +12,10 @@ const props = defineProps({
 		type: Object,
 		required: true,
 	},
+	disabled: {
+		type: Boolean,
+		default: false,
+	},
 })
 
 const emit = defineEmits(["permissionUpdated"]);
@@ -75,6 +79,7 @@ const permissionUpdated = async (field, patch, callback) => {
 		<tbody class="ignoreForLayout">
 			<PermissionsInputRow v-for="{ field, label, explanation, value } in permissionGroups"
 				:key="field"
+				:disabled="disabled"
 				:locked="locked"
 				:label="label"
 				:explanation="explanation"

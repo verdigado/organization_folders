@@ -7,10 +7,9 @@ namespace OCA\OrganizationFolders\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 
-use OCA\OrganizationFolders\Security\AuthorizationService;
+use OCA\OrganizationFolders\Service\AuthorizationService;
 use OCA\OrganizationFolders\Service\ResourceLinkShareService;
 use OCA\OrganizationFolders\Service\ResourceService;
-use OCA\OrganizationFolders\Validation\ValidatorService;
 use OCA\OrganizationFolders\Model\ResourceLinkShare;
 
 class ResourceLinkShareController extends BaseController {
@@ -18,11 +17,10 @@ class ResourceLinkShareController extends BaseController {
 
 	public function __construct(
 		AuthorizationService $authorizationService,
-		ValidatorService $validatorService,
 		private readonly ResourceLinkShareService $service,
 		private readonly ResourceService $resourceService,
 	) {
-		parent::__construct($authorizationService, $validatorService);
+		parent::__construct($authorizationService);
 	}
 
 	#[NoAdminRequired]
@@ -30,7 +28,7 @@ class ResourceLinkShareController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId) {
 			$resource = $this->resourceService->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['READ'], $resource);
+			$this->denyAccessUnlessGranted($resource, "READ_LINK_SHARES");
 
 			return $this->service->findAllByResourceId($resourceId);
 		});
@@ -41,7 +39,7 @@ class ResourceLinkShareController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId): ResourceLinkShare {
 			$resource = $this->resourceService->find($resourceId);
 
-			$this->denyAccessUnlessGranted(['UPDATE_LINK_SHARES'], $resource);
+			$this->denyAccessUnlessGranted($resource, "UPDATE_LINK_SHARES");
 
 			return $this->service->create($resource);
 		});
@@ -52,7 +50,7 @@ class ResourceLinkShareController extends BaseController {
 		return $this->handleErrors(function () use ($resourceId, $id): ResourceLinkShare {
 			$resource = $this->resourceService->find($resourceId);
 			
-			$this->denyAccessUnlessGranted(["UPDATE_LINK_SHARES"], $resource);
+			$this->denyAccessUnlessGranted($resource, "UPDATE_LINK_SHARES");
 
 			return $this->service->delete($resource, $id);
 		});

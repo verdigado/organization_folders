@@ -26,9 +26,9 @@ const folderLevel = computed(() => {
 
 const showHeader = computed(() => {
 	return ((currentDir.organizationFolderUpdatePermissions || currentDir.organizationFolderReadLimitedPermissions ) && folderLevel.value === 1)
-		|| (currentDir.organizationFolderResourceUpdatePermissions && folderLevel.value <= 2)
+		|| (currentDir.organizationFolderResourceReadLimitedPermissions && folderLevel.value <= 2)
 		|| (userIsAdmin.value && folderLevel.value === 0)
-		|| (currentDir.organizationFolderResourceUpdatePermissions && folderLevel.value > 2 && subresourcesEnabled)
+		|| (currentDir.organizationFolderResourceReadLimitedPermissions && folderLevel.value > 2 && subresourcesEnabled)
 });
 
 const buttonText = computed(() => {
@@ -58,7 +58,7 @@ const ariaLabel = computed(() => {
 });
 
 function openModal() {
-    if(currentDir.organizationFolderResourceId && currentDir.organizationFolderResourceUpdatePermissions) {
+    if(currentDir.organizationFolderResourceId && currentDir.organizationFolderResourceReadLimitedPermissions) {
         router.push({
             path: '/organizationFolder/' + currentDir.organizationFolderId + '/resource/' + currentDir.organizationFolderResourceId,
         });

@@ -10,6 +10,7 @@ use OCP\AppFramework\Db\TTransactional;
 use OCP\IDBConnection;
 use OCP\Files\Node;
 use OCP\IUserManager;
+use OCP\Files\Cache\IFileAccess;
 
 use OCA\GroupFolders\Folder\FolderManager;
 use OCA\GroupfolderTags\Service\TagService;
@@ -18,6 +19,7 @@ use OCA\GroupFolders\ACL\Rule;
 use OCA\GroupFolders\Mount\GroupMountPoint;
 
 use OCA\OrganizationFolders\DTO\CreateOrganizationFolderDto;
+use OCA\OrganizationFolders\DTO\UpdateOrganizationFolderDto;
 use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
 use OCA\OrganizationFolders\Errors\Api\OrganizationFolderNotFound;
 use OCA\OrganizationFolders\Errors\Api\OrganizationProviderNotFound;
@@ -27,10 +29,10 @@ use OCA\OrganizationFolders\Model\Principal;
 use OCA\OrganizationFolders\Model\PrincipalBackedByGroup;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
-use OCA\OrganizationFolders\Manager\PathManager;
 use OCA\OrganizationFolders\Manager\GroupfolderManager;
 use OCA\OrganizationFolders\Manager\ACLManager;
 use OCA\OrganizationFolders\Groups\GroupBackend;
+use OCA\OrganizationFolders\Model\PaginationParameters;
 
 class OrganizationFolderService {
 	use TTransactional;
@@ -40,12 +42,12 @@ class OrganizationFolderService {
 		protected readonly FolderManager $folderManager,
 		protected readonly TagService $tagService,
 		protected readonly OrganizationProviderManager $organizationProviderManager,
-		protected readonly PathManager $pathManager,
 		protected readonly GroupfolderManager $groupfolderManager,
 		protected readonly ACLManager $aclManager,
 		protected readonly ContainerInterface $container,
 		protected readonly PrincipalFactory $principalFactory,
 		protected readonly IUserManager $userManager,
+		protected readonly IFileAccess $filecacheAccess,
 	) {
 	}
 
@@ -61,10 +63,10 @@ class OrganizationFolderService {
 
 	/**
 	 * @param array{organizationProvider: string, organizationId: int} $filters
-	 * @return array
+	 * @param ?PaginationParameters $pagination
 	 * @psalm-return OrganizationFolder[]
 	 */
-	public function findAll(array $filters = []) {
+	public function findAll(array $filters = [], ?PaginationParameters $pagination = null): array {
 		$result = [];
 
 		$tagFilters = [
@@ -85,7 +87,7 @@ class OrganizationFolderService {
 			$additionalReturnTags[] = static::TAG_ORGANIZATION_ID;
 		}
 
-		$groupfolders = $this->tagService->findGroupfoldersWithTagsGenerator($tagFilters, $additionalReturnTags);
+		$groupfolders = $this->tagService->findGroupfoldersWithTagsGenerator($tagFilters, $additionalReturnTags, $pagination);
 
 		foreach ($groupfolders as $groupfolder) {
 			$result[] = new OrganizationFolder(
@@ -144,8 +146,7 @@ class OrganizationFolderService {
 	}
 
 	public function getOrganizationFolderQuotaUsed(OrganizationFolder $organizationFolder): int {
-		// TODO: This could be done using the filecache layer instead of the filesystem node layer, which would be faster as it does not require a temporary mount
-		return $this->pathManager->getOrganizationFolderRootNode($organizationFolder)->getSize(includeMounts: false);
+		return $this->filecacheAccess->getByFileIdInStorage($organizationFolder->getRootNodeFileId(), $organizationFolder->getStorageId())->getSize();
 	}
 
 
@@ -158,6 +159,7 @@ class OrganizationFolderService {
 			serviceAccountUid: $dto->serviceAccountUid,
 		);
 	}
+
 	public function create(
 		string $name,
 		int $quota,
@@ -197,6 +199,17 @@ class OrganizationFolderService {
 			
 			return $organizationFolder;
 		}, $this->db);
+	}
+
+	public function updateFromDto(UpdateOrganizationFolderDto $dto): OrganizationFolder {
+		return $this->update(
+			id: $dto->id,
+			name: $dto->name,
+			quota: $dto->quota,
+			organizationProviderId: $dto->organizationProviderId,
+			organizationId: $dto->organizationId,
+			serviceAccountUid: $dto->serviceAccountUid,
+		);
 	}
 
 	public function update(

@@ -54,6 +54,10 @@ const props = defineProps({
 		type: Array,
 		default: () => [],
 	},
+	disabled: {
+		type: Boolean,
+		default: false,
+	}
 });
 
 const emit = defineEmits(["add-member"]);
@@ -125,7 +129,7 @@ const dialogUpdate = (open) => {
 
 <template>
 	<div>
-		<NcActions type="secondary" :force-menu="true">
+		<NcActions type="secondary" :disabled="disabled" :force-menu="true">
 			<template #icon>
 				<Plus :size="20" />
 			</template>

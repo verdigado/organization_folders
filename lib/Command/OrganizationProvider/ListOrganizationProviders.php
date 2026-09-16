@@ -2,7 +2,6 @@
 
 namespace OCA\OrganizationFolders\Command\OrganizationProvider;
 
-use OCP\DB\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -36,7 +35,7 @@ class ListOrganizationProviders extends BaseCommand {
 
 			$this->writeTableInOutputFormat($input, $output, $result);
 			return 0;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$output->writeln("<error>Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}</error>");
 			return 1;
 		}

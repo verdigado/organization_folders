@@ -31,6 +31,7 @@ use OCA\OrganizationFolders\Model\UserPrincipal;
 use OCA\OrganizationFolders\Events\BeforeResourceMemberCreatedEvent;
 use OCA\OrganizationFolders\Events\BeforeResourceMemberUpdatedEvent;
 use OCA\OrganizationFolders\Events\BeforeResourceMemberDeletedEvent;
+use OCA\OrganizationFolders\Model\PrincipalFilter;
 
 class ResourceMemberService extends AMemberService {
 	public function __construct(
@@ -46,29 +47,33 @@ class ResourceMemberService extends AMemberService {
 	}
 
 	/**
-	 * @param int $resourceId
-	 * @param array{permissionLevel: ResourceMemberPermissionLevel, principalType: PrincipalType} $filters
+	 * @param array{
+	 *   organizationFolderId: ?int,
+	 *   resourceId: ?int,
+	 *   permissionLevel: ?ResourceMemberPermissionLevel[],
+	 *   principal: ?PrincipalFilter[]
+	 * } $filters resourceId filter takes precedence over organizationFolderId filter
 	 * @return array
 	 * @psalm-return ResourceMember[]
 	 */
-	public function findAll(int $resourceId, $filters = []): array {
-		$mapperFilters = [
-			"permissionLevel" => $filters['permissionLevel']?->value ?? null,
-			"principalType" => $filters['principalType']?->value ?? null,
-        ];
-
-		return $this->mapper->findAll($resourceId, $mapperFilters);
+	public function findAll(array $filters = []): array {
+		return $this->mapper->findAll($filters);
 	}
 
 	/**
 	 * Get all members grouped by their permission level (0: members, 1: managers)
-	 * @param int $resourceId
-	 * @param array{principalType: PrincipalType} $filters
+	 * 
+	 * @param array{
+	 *   organizationFolderId: ?int,
+	 *   resourceId: ?int,
+	 *   permissionLevel: ?ResourceMemberPermissionLevel[],
+	 *   principal: ?PrincipalFilter[]
+	 * } $filters resourceId filter takes precedence over organizationFolderId filter
 	 * @return array
 	 * @psalm-return array{0: ResourceMember[], 1: ResourceMember[]}
 	 */
-	public function findAllByPermissionLevel(int $resourceId, $filters = []): array {
-		$members = $this->findAll($resourceId, $filters);
+	public function findAllByPermissionLevel(array $filters = []): array {
+		$members = $this->findAll($filters);
 
 		$result = [[], []];
 
@@ -77,6 +82,19 @@ class ResourceMemberService extends AMemberService {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param array{
+	 *   organizationFolderId: ?int,
+	 *   resourceId: ?int,
+	 *   permissionLevel: ?ResourceMemberPermissionLevel[],
+	 *   principal: ?PrincipalFilter[]
+	 * } $filters resourceId filter takes precedence over organizationFolderId filter
+	 * @return int
+	 */
+	public function count($filters = []): int {
+		return $this->mapper->count($filters);
 	}
 
 	/**
@@ -160,7 +178,7 @@ class ResourceMemberService extends AMemberService {
 		ResourceMemberPermissionLevel $permissionLevel,
 		Principal $principal,
 
-		bool $skipPermssionsApply = false
+		bool $skipPermssionsApply = false,
 	): ResourceMember {
 		$resource = $this->resourceService->find($resourceId);
 
@@ -200,7 +218,13 @@ class ResourceMemberService extends AMemberService {
 		return $member;
 	}
 
-	public function update(int $id, ?ResourceMemberPermissionLevel $permissionLevel = null, ?Principal $principal = null): ResourceMember {
+	public function update(
+		int $id,
+		?ResourceMemberPermissionLevel $permissionLevel = null,
+		?Principal $principal = null,
+
+		bool $skipPermssionsApply = false,
+	): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
 			$resource = $this->resourceService->find($member->getResourceId());
@@ -234,7 +258,9 @@ class ResourceMemberService extends AMemberService {
 				$member = $this->mapper->update($member);
             }
 
-			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+			if(!$skipPermssionsApply) {
+				$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+			}
 
 			return $member;
 		} catch (Exception $e) {
@@ -242,7 +268,11 @@ class ResourceMemberService extends AMemberService {
 		}
 	}
 
-	public function delete(int $id): ResourceMember {
+	public function delete(
+		int $id,
+		
+		bool $skipPermssionsApply = false,
+	): ResourceMember {
 		try {
 			$member = $this->mapper->find($id);
 			$resource = $this->resourceService->find($member->getResourceId());
@@ -261,7 +291,10 @@ class ResourceMemberService extends AMemberService {
 			}
 
 			$this->mapper->delete($member);
-			$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+
+			if(!$skipPermssionsApply) {
+				$this->organizationFolderService->applyAllPermissionsById($resource->getOrganizationFolderId());
+			}
 
 			return $member;
 		} catch (Exception $e) {
@@ -275,8 +308,9 @@ class ResourceMemberService extends AMemberService {
 	public function findGroupMemberOptions(int $resourceId, string $search = '', ?int $limit = null): array {
 		$results = $this->groupManager->search($search, $limit);
 
-		$existingMembers = $this->findAll($resourceId, [
-			"principalType" => PrincipalType::GROUP,
+		$existingMembers = $this->findAll([
+			"resourceId" => $resourceId,
+			"principal" => [new PrincipalFilter(PrincipalType::GROUP)],
 		]);
 
 		$existingPrincipals = array_map(fn($member): GroupPrincipal => $member->getPrincipal(), $existingMembers);
@@ -290,8 +324,9 @@ class ResourceMemberService extends AMemberService {
 	public function findUserMemberOptions(int $resourceId, string $search = '', ?int $limit = null): array {
 		$results = $this->userManager->search($search, $limit);
 
-		$existingMembers = $this->findAll($resourceId, [
-			"principalType" => PrincipalType::USER,
+		$existingMembers = $this->findAll([
+			"resourceId" => $resourceId,
+			"principal" => [new PrincipalFilter(PrincipalType::USER)],
 		]);
 
 		$existingPrincipals = array_map(fn($member): UserPrincipal => $member->getPrincipal(), $existingMembers);

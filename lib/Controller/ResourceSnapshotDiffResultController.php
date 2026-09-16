@@ -12,8 +12,7 @@ use OCA\GroupfolderFilesystemSnapshots\Manager\SnapshotManager;
 use OCA\GroupfolderFilesystemSnapshots\Service\DiffTaskService;
 use OCA\GroupfolderFilesystemSnapshots\Service\DiffTaskResultService;
 
-use OCA\OrganizationFolders\Security\AuthorizationService;
-use OCA\OrganizationFolders\Validation\ValidatorService;
+use OCA\OrganizationFolders\Service\AuthorizationService;
 use OCA\OrganizationFolders\Service\ResourceService;
 use OCA\OrganizationFolders\Errors\Api\ResourceSnapshotDiffTaskResultNotFound;
 
@@ -27,13 +26,12 @@ class ResourceSnapshotDiffResultController extends BaseController {
 
 	public function __construct(
 		AuthorizationService $authorizationService,
-		ValidatorService $validatorService,
 		private readonly IAppManager $appManager,
 		private readonly ContainerInterface $container,
         private readonly ResourceService $resourceService,
         private ?string $userId,
 	) {
-		parent::__construct($authorizationService, $validatorService);
+		parent::__construct($authorizationService);
 
 		$this->snapshotIntegrationEnabled = $this->appManager->isEnabledForUser("groupfolder_filesystem_snapshots");
 
@@ -47,7 +45,7 @@ class ResourceSnapshotDiffResultController extends BaseController {
 	private function findTaskResultIfAccessAllowed(int $resourceId, string $snapshotId, int $diffTaskId, int $diffTaskResultId) {
 		$resource = $this->resourceService->find($resourceId);
 
-		$this->denyAccessUnlessGranted(['UPDATE'], $resource);
+		$this->denyAccessUnlessGranted($resource, "UPDATE");
 
         $taskResult = $this->diffTaskResultService->find($diffTaskResultId);
 

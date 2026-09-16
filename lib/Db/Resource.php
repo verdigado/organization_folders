@@ -2,15 +2,18 @@
 
 namespace OCA\OrganizationFolders\Db;
 
-use JsonSerializable;
-
-use OCA\OrganizationFolders\Interface\TableSerializable;
-use OCA\OrganizationFolders\Errors\Api\ResourcePermissionsBitfieldInvalid;
-
 use OCP\AppFramework\Db\Entity;
 use OCP\DB\Types;
 
-abstract class Resource extends Entity implements JsonSerializable, TableSerializable {
+use OCA\OrganizationFolders\ApiPermissionsVoter\VoterSubject;
+use OCA\OrganizationFolders\Interface\TableSerializable;
+use OCA\OrganizationFolders\Errors\Api\ResourcePermissionsBitfieldInvalid;
+
+
+abstract class Resource extends Entity implements VoterSubject, \JsonSerializable, TableSerializable {
+
+	public const VOTER_SUBJECT_TYPE = "Resource";
+
 	protected $organizationFolderId;
 
 	/* TODO: rename to parentResourceId */
@@ -267,5 +270,9 @@ abstract class Resource extends Entity implements JsonSerializable, TableSeriali
 
 	protected function tableSerializePermissions(array $permissions): string {
 		return implode("+", array_keys($permissions, true, true));
+	}
+
+	public function getVoterSubjectKey(): string {
+		return "resource:" . $this->id;
 	}
 }

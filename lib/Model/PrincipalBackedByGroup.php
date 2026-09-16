@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\Model;
 
+
+use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
+
+use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
+use OCA\GroupFolders\ACL\UserMapping\UserMapping;
+use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCP\IUser;
 use OCP\IGroup;
 use OCP\IGroupManager;
 
-use OCA\GroupFolders\ACL\UserMapping\IUserMapping;
-use OCA\GroupFolders\ACL\UserMapping\UserMapping;
-
-/* Principal, that is backed by/can be resolved to a Nextcloud Group. */
+/** Principal, that is backed by/can be resolved to a Nextcloud Group. */
 abstract class PrincipalBackedByGroup extends Principal {
 	public function __construct(
+		PrincipalFactory $factory,
 		protected readonly IGroupManager $groupManager,
-	) {}
+		protected readonly OrganizationProviderManager $organizationProviderManager,
+	) {
+		parent::__construct($factory);
+	}
 
 	/**
 	 * Get the id of the nextcloud group that backs this principal
@@ -41,7 +48,7 @@ abstract class PrincipalBackedByGroup extends Principal {
 	}
 
 	public function getNumberOfUsersContained(): int {
-		if($this->valid) {
+		if($this->isValid()) {
 			return $this->getBackingGroup()?->count() ?? 0;
 		} else {
 			return 0;
@@ -52,7 +59,7 @@ abstract class PrincipalBackedByGroup extends Principal {
 	 * @return IUser[]
 	 */
 	public function getUsersContained(): array {
-		if($this->valid) {
+		if($this->isValid()) {
 			return $this->getBackingGroup()?->getUsers() ?? [];
 		} else {
 			return [];
@@ -83,28 +90,7 @@ abstract class PrincipalBackedByGroup extends Principal {
 		return false;
 	}
 
-	/**
-	 * @param IUser[] $set
-	 * @param IUser[] $potentialSubset
-	 * @return bool
-	 */
-	private function isSubsetOfUsers(array $set, array $potentialSubset) {
-		$uidMap = [];
-
-		foreach($set as $user) {
-			$uidMap[$user->getUID()] = true;
-		}
-
-		foreach($potentialSubset as $user) {
-			if(!isset($uidMap[$user->getUID()])) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function containsPrincipal(Principal $principal, bool $skipExpensiveOperations = false): bool {
+	public function containsPrincipal(Principal $principal): bool {
 		if($this->isValid() && $principal->isValid()) {
 			if($principal instanceof UserPrincipal) {
 				return $this->groupManager->isInGroup($principal->getId(), $this->getBackingGroupId());
@@ -112,14 +98,42 @@ abstract class PrincipalBackedByGroup extends Principal {
 				if($principal->getBackingGroupId() === $this->getBackingGroupId()) {
 					return true;
 				}
-
-				if(!$skipExpensiveOperations && $this->getBackingGroup()->count() >= $principal->getBackingGroup()->count()) {
-					// TODO: find way to get array of userIds instead of IUser objects to improve performance
-					return $this->isSubsetOfUsers($this->getBackingGroup()->getUsers(), $principal->getBackingGroup()->getUsers());
-				}
 			}
 		}
 
 		return false;
+	}
+
+	public function getPrincipalsIsContainedIn(): array {
+		return array_values($this->getPrincipalsIsContainedInRecursion($this->getBackingGroupId()));
+	}
+
+	private function getPrincipalsIsContainedInRecursion(string $gid): array {
+		$result = [];
+
+		// PrincipalType::GROUP
+		$principal = $this->factory->buildPrincipal(PrincipalType::GROUP, $gid);
+		$result[$principal->getKey()] = $principal;
+
+		// PrincipalType::ORGANIZATION_ROLE
+		foreach($this->organizationProviderManager->getRolesByMembersGroupId($gid) as $role) {
+			$principal = $this->factory->buildFromOrganizationRole($role);
+			$result[$principal->getKey()] = $principal;
+		}
+
+		// PrincipalType::ORGANIZATION_MEMBER
+		foreach($this->organizationProviderManager->getOrganizationsByMembersGroupId($gid) as $organization) {
+			$principal = $this->factory->buildFromOrganization($organization);
+			$result[$principal->getKey()] = $principal;
+
+			if($organization?->getParentOrganizationId() && $organization->getMembershipImpliesParentMembership()) {
+				try {
+					$parentOrganization = $this->organizationProviderManager->getOrganizationProvider($organization->getProviderId())->getOrganization($organization?->getParentOrganizationId());
+					$result += $this->getPrincipalsIsContainedInRecursion($parentOrganization->getMembersGroup());
+				} catch (\Exception $e) {}
+			}
+		}
+
+		return $result;
 	}
 }

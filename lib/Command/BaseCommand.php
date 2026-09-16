@@ -7,8 +7,8 @@ namespace OCA\OrganizationFolders\Command;
 use OC\Core\Command\Base;
 
 use OCP\IL10N;
-use OCP\IDateTimeFormatter;
 
+use OCA\OrganizationFolders\Errors\Api\ApiError;
 use OCA\OrganizationFolders\Service\OrganizationFolderService;
 use OCA\OrganizationFolders\Service\OrganizationFolderMemberService;
 use OCA\OrganizationFolders\Service\ResourceService;
@@ -19,12 +19,12 @@ use OCA\OrganizationFolders\OrganizationProvider\OrganizationProviderManager;
 use OCA\OrganizationFolders\Interface\TableSerializable;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
 use OCA\OrganizationFolders\Registry\ResourceTemplateProviderRegistry;
-use OCA\OrganizationFolders\Validation\ValidatorService;
+
+use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class BaseCommand extends Base {
 
 	public function __construct(
-		private readonly IDateTimeFormatter $dateTimeFormatter,
 		protected readonly IL10N $l10n,
 		protected readonly OrganizationFolderService $organizationFolderService,
 		protected readonly OrganizationFolderMemberService $organizationFolderMemberService,
@@ -35,9 +35,25 @@ abstract class BaseCommand extends Base {
 		protected readonly OrganizationProviderManager $organizationProviderManager,
 		protected readonly ResourceTemplateProviderRegistry $resourceTemplateProviderRegistry,
 		protected readonly PrincipalFactory $principalFactory,
-		protected readonly ValidatorService $validatorService,
 	) {
 		parent::__construct();
+	}
+
+	protected function handleException(OutputInterface $output, \Exception $e, bool $trace = false) {
+		if($e instanceof ApiError) {
+			$log = "Exception " . get_class($e) . " \"{$e->getMessage()}\"";
+			if($e->getDetails() !== null) {
+				$log .= " with details " . json_encode($e->getDetails());
+			}
+			$log .= " at {$e->getFile()} line {$e->getLine()}";
+		} else {
+			$log = "Exception \"{$e->getMessage()}\" at {$e->getFile()} line {$e->getLine()}";
+		}
+		$output->writeln("<error>" . $log . "</error>");
+		if($trace) {
+			$output->writeln("<error>Trace:");
+			$output->writeln($e->getTraceAsString() . "</error>");
+		}
 	}
 
 	/**

@@ -11,6 +11,13 @@ const loading = ref(false);
 
 const emit = defineEmits(["add-link-share"]);
 
+const props = defineProps({
+	disabled: {
+		type: Boolean,
+		default: false,
+	},
+});
+
 const submit = () => {
     loading.value = true;
 	emit("add-link-share", () => {
@@ -21,7 +28,7 @@ const submit = () => {
 
 <template>
 	<div>
-        <NcActions type="secondary">
+        <NcActions type="secondary" :disabled="disabled">
             <NcActionButton @click="submit">
                 <template #icon>
                     <NcLoadingIcon v-if="loading" :size="20" />

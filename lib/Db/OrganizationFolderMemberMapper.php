@@ -6,10 +6,13 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Entity;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\ICompositeExpression;
 use OCP\IDBConnection;
 
 use OCA\OrganizationFolders\Enum\PrincipalType;
 use OCA\OrganizationFolders\Model\PrincipalFactory;
+use OCA\OrganizationFolders\Enum\OrganizationFolderMemberPermissionLevel;
+use OCA\OrganizationFolders\Model\PrincipalFilter;
 
 class OrganizationFolderMemberMapper extends QBMapper {
 	public const ORGANIZATIONFOLDER_MEMBERS_TABLE = "organizationfolders_members";
@@ -65,7 +68,10 @@ class OrganizationFolderMemberMapper extends QBMapper {
 
 	/**
 	 * @param int $organizationFolderId
-	 * @param array{permissionLevel: int, principalType: int} $filters
+	 * @param array{
+	 * 	permissionLevel: ?OrganizationFolderMemberPermissionLevel[],
+	 * 	principal: ?PrincipalFilter[]
+	 * } $filters
 	 * @return array
 	 * @psalm-return OrganizationFolderMember[]
 	 */
@@ -78,14 +84,81 @@ class OrganizationFolderMemberMapper extends QBMapper {
 			->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
 
 		if(isset($filters["permissionLevel"])) {
-			$qb->andWhere($qb->expr()->eq('permission_level', $qb->createNamedParameter($filters["permissionLevel"], IQueryBuilder::PARAM_INT)));
+			$qb->andWhere($this->buildPermissionLevelDBFilter($qb, $filters["permissionLevel"]));
 		}
 
-		if(isset($filters["principalType"])) {
-			$qb->andWhere($qb->expr()->eq('principal_type', $qb->createNamedParameter($filters["principalType"], IQueryBuilder::PARAM_INT)));
+		if(isset($filters["principal"])) {
+			$qb->andWhere($this->buildPrincipalDBFilter($qb, $filters["principal"]));
 		}
 		
 		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param int $organizationFolderId
+	 * @param array{
+	 * 	permissionLevel: OrganizationFolderMemberPermissionLevel[],
+	 * 	principal: PrincipalFilter[]
+	 * } $filters
+	 * @return int
+	 */
+	public function count(int $organizationFolderId, array $filters = []): int {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+
+		$qb->selectAlias($qb->createFunction('COUNT(1)'), "cnt")
+			->from(self::ORGANIZATIONFOLDER_MEMBERS_TABLE)
+			->where($qb->expr()->eq('organization_folder_id', $qb->createNamedParameter($organizationFolderId, IQueryBuilder::PARAM_INT)));
+
+		if(isset($filters["permissionLevel"])) {
+			$qb->andWhere($this->buildPermissionLevelDBFilter($qb, $filters["permissionLevel"]));
+		}
+
+		if(isset($filters["principal"])) {
+			$qb->andWhere($this->buildPrincipalDBFilter($qb, $filters["principal"]));
+		}
+		
+		return $qb->executeQuery()->fetch(\PDO::FETCH_COLUMN);
+	}
+
+	/**
+	 * @param OrganizationFolderMemberPermissionLevel[] $permissionLevelFilter
+	 * @return ICompositeExpression
+	 */
+	private function buildPermissionLevelDBFilter(IQueryBuilder $qb, array $permissionLevelFilter): ICompositeExpression {
+		$permissionLevelDBFilter = $qb->expr()->orX();
+
+		foreach($permissionLevelFilter as $permissionLevel) {
+			$permissionLevelDBFilter->add(
+				$qb->expr()->eq('permission_level', $qb->createNamedParameter($permissionLevel->value, IQueryBuilder::PARAM_INT))
+			);
+		}
+
+		return $permissionLevelDBFilter;
+	}
+
+	/**
+	 * @param PrincipalFilter[] $principalFilters
+	 * @return ICompositeExpression
+	 */
+	private function buildPrincipalDBFilter(IQueryBuilder $qb, array $principalFilters): ICompositeExpression {
+		$principalsDBFilter = $qb->expr()->orX();
+
+		foreach($principalFilters as $principalFilter) {
+			$principalDBFilter = $qb->expr()->andX(
+				$qb->expr()->eq('principal_type', $qb->createNamedParameter($principalFilter->type->value, IQueryBuilder::PARAM_INT)),
+			);
+
+			if($principalFilter->id !== null) {
+				$principalDBFilter->add(
+					$qb->expr()->eq('principal_id', $qb->createNamedParameter($principalFilter->id, IQueryBuilder::PARAM_STR)),
+				);
+			}
+
+			$principalsDBFilter->add($principalDBFilter);
+		}
+
+		return $principalsDBFilter;
 	}
 
 	public function exists(int $organizationFolderId, int $principalType, string $principalId): bool {

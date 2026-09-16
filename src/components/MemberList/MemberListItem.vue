@@ -21,6 +21,14 @@ const props = defineProps({
 		type: Array,
 		required: true,
 	},
+	allowUpdate: {
+		type: Boolean,
+		default: true,
+	},
+	allowDelete: {
+		type: Boolean,
+		default: true,
+	},
 });
 
 const emit = defineEmits(["update", "delete"]);
@@ -57,7 +65,8 @@ const onDeleteClicked = (e) => {
 			<Principal :principal="props.member.principal" />
 		</td>
 		<td>
-			<NcSelect :modelValue="props.member.permissionLevel"
+			<NcSelect :disabled="!allowUpdate"
+				:modelValue="props.member.permissionLevel"
 				:options="props.permissionLevelOptions"
 				:loading="permissionLevelLoading"
 				:aria-label-combobox="'Permissions level select'"
@@ -68,7 +77,7 @@ const onDeleteClicked = (e) => {
 				@update:modelValue="onPermissionLevelSelected" />
 		</td>
 		<td>
-			<NcButton type="tertiary-no-background" :aria-label="t('organization_folders', 'Delete member')" @click="onDeleteClicked">
+			<NcButton type="tertiary-no-background" :disabled="!allowDelete" :aria-label="t('organization_folders', 'Delete member')" @click="onDeleteClicked">
 				<template #icon>
 					<NcLoadingIcon :size="20" v-if="deletionLoading" />
 					<Delete :size="20" v-else />
