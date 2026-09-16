@@ -90,12 +90,11 @@ class BuiltinResourceVoter extends BuiltinVoter {
 					}
 
 					$resource = $subject;
-					$resourceId = $resource->getId();
 					$organizationFolderId = $resource->getOrganizationFolderId();
 
 					$globalAdminCriterion = $scratchpad["criterionFactories"][GlobalAdminCriterion::CRITERION_TYPE]->build($principal);
 					$organizationFolderAdminCriterion = $scratchpad["criterionFactories"][OrganizationFolderAdminCriterion::CRITERION_TYPE]->build($principal, $organizationFolderId);
-					$resourceManagerCriterion = $scratchpad["criterionFactories"][ResourceManagerCriterion::CRITERION_TYPE]->buildFromId($principal, $resourceId);
+					$resourceManagerCriterion = $scratchpad["criterionFactories"][ResourceManagerCriterion::CRITERION_TYPE]->build($principal, $resource);
 					$anySubResourceManagerCriterion = $scratchpad["criterionFactories"][ResourceAnySubResourceManagerCriterion::CRITERION_TYPE]->build($principal, $resource);
 
 					$criteriaGroups = [
