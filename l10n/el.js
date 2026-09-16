@@ -64,6 +64,7 @@ OC.L10N.register(
     "Create" : "Δημιουργία",
     "Create folder" : "Δημιουργία φακέλου",
     "Folder name" : "Όνομα φακέλου",
+    "Calendar name" : "Όνομα ημερολογίου",
     "Save" : "Αποθήκευση",
     "Edit" : "Επεξεργασία",
     "Link copied" : "Ο σύνδεσμος αντιγράφηκε",

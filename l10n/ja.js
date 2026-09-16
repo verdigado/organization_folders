@@ -17,6 +17,7 @@ OC.L10N.register(
     "Create" : "作成",
     "Create folder" : "フォルダーの作成",
     "Folder name" : "フォルダー名",
+    "Calendar name" : "カレンダー名",
     "Save" : "保存する",
     "Edit" : "編集",
     "Link copied" : "リンクをコピーしました",

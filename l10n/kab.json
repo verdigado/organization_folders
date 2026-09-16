@@ -1,11 +1,13 @@
 { "translations": {
     "Calendar" : "Awitay",
     "Folder" : "Akaram",
+    "Members" : "Imedrawen",
     "Back" : "Retour",
     "Next" : "Uḍfir",
     "Delete" : "Kkes",
     "Select an account" : "Fren amiḍan",
     "Add account" : "Rnu amiḍan",
+    "Add" : "Rnu",
     "Name" : "Nom",
     "Cancel" : "Cancel",
     "Create" : "Snulfu-d",
@@ -15,14 +17,22 @@
     "Link copied" : "Aseɣwen yettwanɣel",
     "Copy link" : "Nɣel aseɣwen",
     "Select Page" : "Fren asebter",
+    "Allowed" : "Tessireg",
+    "Access denied" : "Addaf yugwi",
     "Search" : "Nadi",
     "Confirm" : "Serggeg",
     "Warning" : "Alɣu",
+    "Manager" : "Asefrak",
     "Admin" : "Anedbal",
     "Settings" : "Iɣewwaṛen",
+    "Organization" : "Tuddsa",
+    "Resources" : "Tiɣbula",
     "No search results" : "Ulac igmaḍ n unadi",
+    "Finish" : "Fak",
     "Delete folder" : "Kkes akaram",
+    "Permissions" : "Tasirag",
     "Read" : "Taɣuri",
-    "Share" : "Bḍu"
+    "Share" : "Bḍu",
+    "Unlimited" : "War talast"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

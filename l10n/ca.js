@@ -42,6 +42,7 @@ OC.L10N.register(
     "Read" : "Lectura",
     "Write" : "Escriu",
     "Share" : "Comparteix",
+    "An unknown error occurred." : "S'ha produït un error desconegut.",
     "Unlimited" : "Il·limitat"
 },
 "nplurals=2; plural=(n != 1);");

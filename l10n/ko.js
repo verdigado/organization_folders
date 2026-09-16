@@ -34,6 +34,7 @@ OC.L10N.register(
     "Confirm" : "확인",
     "Warning" : "경고",
     "Manager" : "담당 관리자",
+    "Admin" : "관리자",
     "Settings" : "설정",
     "Organization" : "개인 정보 관리",
     "Resources" : "자원",

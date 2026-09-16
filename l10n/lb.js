@@ -7,6 +7,7 @@ OC.L10N.register(
     "Add" : "Dobäisetzen",
     "Name" : "Numm",
     "Cancel" : "Cancel",
+    "Create" : "Erstellen",
     "Folder name" : "Dossiers Numm:",
     "Save" : "Späicheren",
     "Edit" : "Änneren",
@@ -16,6 +17,9 @@ OC.L10N.register(
     "Confirm" : "Konfirméieren",
     "Warning" : "Warnung",
     "Admin" : "Admin",
-    "Settings" : "Astellungen"
+    "Settings" : "Astellungen",
+    "Organization" : "Organisatioun",
+    "Resources" : "Ressourcen",
+    "Unlimited" : "Onbegrenzt"
 },
 "nplurals=2; plural=(n != 1);");
