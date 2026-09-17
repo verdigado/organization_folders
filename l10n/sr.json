@@ -157,7 +157,6 @@
     "Folder member" : "Члан фолдера",
     "Folder manager" : "Менаџер фолдера",
     "Managers have access to the settings of this folder" : "Менаџери имају приступ подешавањима овог фолдера",
-    "You do not have the permissions to manage this folder" : "Немате дозволе да управљате овим фолдером",
     "Delete folder" : "Обрши фолдер",
     "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "Управо ћете обрисати фолдер „{folderName}”. Да ли заиста желите да наставите?",
     "_You are about to delete the folder \"{folderName}\" and its %n sub-resource. Are you sure you want to proceed?_::_You are about to delete the folder \"{folderName}\" and its %n sub-resources. Are you sure you want to proceed?_" : ["Управо ћете обрисати фолдер „{folderName}” и његов %n подресурс. Да ли заиста желите да наставите?","Управо ћете обрисати фолдер „{folderName}” и његова %n подресурса. Да ли заиста желите да наставите?","Управо ћете обрисати фолдер „{folderName}” и његових %n подресурса. Да ли заиста желите да наставите?"],

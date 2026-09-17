@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Membro da pasta",
     "Folder manager" : "Gerente da pasta",
     "Managers have access to the settings of this folder" : "Gerentes têm acesso às configurações desta pasta",
-    "You do not have the permissions to manage this folder" : "Você não tem permissões para gerenciar esta pasta",
     "Folder active" : "Pasta ativa",
     "Calendar active" : "Calendário ativo",
     "Delete folder" : "Excluir pasta",

@@ -158,7 +158,6 @@
     "Folder member" : "Miembro de carpeta",
     "Folder manager" : "Administrador de carpeta",
     "Managers have access to the settings of this folder" : "Los Managers tienen acceso a los ajustes de esta carpeta",
-    "You do not have the permissions to manage this folder" : "No tiene permisos para gestionar esta carpeta",
     "Delete folder" : "Eliminar carpeta",
     "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "Está a punto de eliminar la carpeta \"{folderName}\". ¿Está seguro que desea continuar?",
     "_You are about to delete the folder \"{folderName}\" and its %n sub-resource. Are you sure you want to proceed?_::_You are about to delete the folder \"{folderName}\" and its %n sub-resources. Are you sure you want to proceed?_" : ["Está a punto de eliminar la carpeta \"{folderName}\" y su %n recurso subyacente. ¿Está seguro de que desea continuar? ","Está a punto de eliminar la carpeta \"{folderName}\" y sus %n recursos subyacentes. ¿Está seguro de que desea continuar?","Está a punto de eliminar la carpeta \"{folderName}\" y sus %n recursos subyacentes. ¿Está seguro de que desea continuar?"],

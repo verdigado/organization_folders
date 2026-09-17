@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Anggota folder",
     "Folder manager" : "Pengelola folder",
     "Managers have access to the settings of this folder" : "Pengelola memiliki akses ke pengaturan folder ini",
-    "You do not have the permissions to manage this folder" : "Anda tidak memiliki izin untuk mengelola folder ini",
     "Folder active" : "Folder aktif",
     "Calendar active" : "Kalender aktif",
     "Delete folder" : "Hapus folder",

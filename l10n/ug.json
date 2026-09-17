@@ -160,7 +160,6 @@
     "Folder member" : "قىسقۇچ ئەزاسى",
     "Folder manager" : "قىسقۇچ باشقۇرغۇچ",
     "Managers have access to the settings of this folder" : "باشقۇرغۇچىلار بۇ قىسقۇچنىڭ تەڭشەكلىرىگە كىرەلەيدۇ",
-    "You do not have the permissions to manage this folder" : "بۇ قىسقۇچنى باشقۇرۇشقا ھوقۇقىڭىز يوق",
     "Delete folder" : "ھۆججەت قىسقۇچنى ئۆچۈرۈڭ",
     "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "سىز «{folderName}» قىسقۇچىنى ئۆچۈرمەكچى بولۇۋاتىسىز. راستىنلا داۋاملاشتۇرماقچىمۇ؟",
     "_You are about to delete the folder \"{folderName}\" and its %n sub-resource. Are you sure you want to proceed?_::_You are about to delete the folder \"{folderName}\" and its %n sub-resources. Are you sure you want to proceed?_" : ["سىز \"{folderName}\" قىسقۇچنى ھەمدە ئۇنىڭ تارماق بايلىقىنى ئۆچۈرمەكچى بولىۋاتىسىز. داۋاملاشتۇرۇشنى جەزىملەشتۈرەمسىز؟","سىز \"{folderName}\" قىسقۇچنى ھەمدە ئۇنىڭ تارماق بايلىقلىرىنى ئۆچۈرمەكچى بولىۋاتىسىز. داۋاملاشتۇرۇشنى جەزىملەشتۈرەمسىز؟"],

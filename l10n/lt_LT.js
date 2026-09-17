@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Aplanko narys",
     "Folder manager" : "Aplanko tvarkytojas",
     "Managers have access to the settings of this folder" : "Tvarkytojai turi prieigą prie šio aplanko nustatymų",
-    "You do not have the permissions to manage this folder" : "Neturite leidimo tvarkyti šį aplanką",
     "Folder active" : "Aplankas aktyvus",
     "Calendar active" : "Kalendorius aktyvus",
     "Delete folder" : "Ištrinti aplanką",

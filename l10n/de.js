@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Ordnermitglied",
     "Folder manager" : "Ordnermanager",
     "Managers have access to the settings of this folder" : "Manager haben Zugriff auf die Einstellungen dieses Ordners",
-    "You do not have the permissions to manage this folder" : "Du hast nicht die Berechtigung, diesen Ordner zu verwalten",
     "Folder active" : "Ordner ist aktiv",
     "Calendar active" : "Kalender ist aktiv",
     "Delete folder" : "Ordner löschen",

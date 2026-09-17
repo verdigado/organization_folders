@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Ball fillteáin",
     "Folder manager" : "Bainisteoir fillteán",
     "Managers have access to the settings of this folder" : "Tá rochtain ag bainisteoirí ar shocruithe an fhillteáin seo",
-    "You do not have the permissions to manage this folder" : "Níl na ceadanna agat an fillteán seo a bhainistiú",
     "Folder active" : "Fillteán gníomhach",
     "Calendar active" : "Féilire gníomhach",
     "Delete folder" : "Scrios fillteán",

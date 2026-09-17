@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Mappmedlem",
     "Folder manager" : "Mappansvarig",
     "Managers have access to the settings of this folder" : "Ansvariga har åtkomst till inställningarna för den här mappen",
-    "You do not have the permissions to manage this folder" : "Du har inte behörighet att hantera den här mappen",
     "Folder active" : "Mapp aktiv",
     "Calendar active" : "Kalender aktiv",
     "Delete folder" : "Ta bort mapp",

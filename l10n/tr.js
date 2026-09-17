@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Klasör üyesi",
     "Folder manager" : "Klasör yöneticisi",
     "Managers have access to the settings of this folder" : "Sorumlular bu klasörün ayarlarına erişebilir",
-    "You do not have the permissions to manage this folder" : "Bu klasörü yönetme izniniz yok",
     "Folder active" : "Klasör etkin",
     "Calendar active" : "Takvim etkin",
     "Delete folder" : "Klasörü sil",

@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "資料夾成員",
     "Folder manager" : "資料夾經理",
     "Managers have access to the settings of this folder" : "管理員可以訪問此文件夾的設置",
-    "You do not have the permissions to manage this folder" : "您沒有管理此文件夾的許可權",
     "Folder active" : "資料夾已啟用",
     "Calendar active" : "日曆已啟用",
     "Delete folder" : "刪除資料夾",

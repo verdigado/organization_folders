@@ -182,7 +182,6 @@ OC.L10N.register(
     "Folder member" : "عضو پوشه",
     "Folder manager" : "مدیر پوشه",
     "Managers have access to the settings of this folder" : "مدیران به تنظیمات این پوشه دسترسی دارند",
-    "You do not have the permissions to manage this folder" : "شما مجوز مدیریت این پوشه را ندارید",
     "Folder active" : "پوشه فعال",
     "Calendar active" : "تقویم فعال",
     "Delete folder" : "حذف پوشه",

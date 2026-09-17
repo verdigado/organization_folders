@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Člen priečinka",
     "Folder manager" : "Správca priečinka",
     "Managers have access to the settings of this folder" : "Správcovia majú prístup k nastaveniam tohto priečinka",
-    "You do not have the permissions to manage this folder" : "Nemáte oprávnenia na správu tohto priečinka",
     "Folder active" : "Priečinok je aktívny",
     "Calendar active" : "Kalendár je aktívny",
     "Delete folder" : "Zmazať priečinok",

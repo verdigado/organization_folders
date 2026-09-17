@@ -159,7 +159,6 @@
     "Folder member" : "Μέλος φακέλου",
     "Folder manager" : "Διαχειριστής φακέλου",
     "Managers have access to the settings of this folder" : "Οι διαχειριστές έχουν πρόσβαση στις ρυθμίσεις αυτού του φακέλου",
-    "You do not have the permissions to manage this folder" : "Δεν έχετε τα δικαιώματα να διαχειριστείτε αυτόν τον φάκελο",
     "Delete folder" : "Διαγραφή φακέλου",
     "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "Πρόκειται να διαγράψετε τον φάκελο \"{folderName}\". Είστε βέβαιοι ότι θέλετε να συνεχίσετε;",
     "_You are about to delete the folder \"{folderName}\" and its %n sub-resource. Are you sure you want to proceed?_::_You are about to delete the folder \"{folderName}\" and its %n sub-resources. Are you sure you want to proceed?_" : ["Πρόκειται να διαγράψετε τον φάκελο \"{folderName}\" και τον %n υπο-πόρο του. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;","Πρόκειται να διαγράψετε τον φάκελο \"{folderName}\" και τους %n υπο-πόρους του. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;"],

@@ -183,7 +183,6 @@ OC.L10N.register(
     "Folder member" : "Kausta kasutaja",
     "Folder manager" : "Kaustahaldur",
     "Managers have access to the settings of this folder" : "Haldajatel on ligipääs selle kausta seadistustele",
-    "You do not have the permissions to manage this folder" : "Sul puuduvad õigused selle kausta haldamiseks",
     "Folder active" : "Kaust on aktiivne",
     "Calendar active" : "Kalender on aktiivne",
     "Delete folder" : "Kustuta kaust",

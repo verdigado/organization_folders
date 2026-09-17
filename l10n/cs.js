@@ -166,7 +166,6 @@ OC.L10N.register(
     "Folder member" : "Člen složky",
     "Folder manager" : "Správce složky",
     "Managers have access to the settings of this folder" : "Spravující mají přístup k nastavením této složky",
-    "You do not have the permissions to manage this folder" : "Nemáte oprávnění spravovat tuto složku",
     "Folder active" : "Složka aktivní",
     "Calendar active" : "Kalendář aktivní",
     "Delete folder" : "Smazat složku",

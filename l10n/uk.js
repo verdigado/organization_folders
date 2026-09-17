@@ -163,7 +163,6 @@ OC.L10N.register(
     "Folder member" : "Учасник каталогу",
     "Folder manager" : "Учасник каталогу",
     "Managers have access to the settings of this folder" : "Керівники мають доступ до налаштувань цього каталогу",
-    "You do not have the permissions to manage this folder" : "У вас відсутні дозволи керування цим каталогом",
     "Delete folder" : "Вилучити каталог",
     "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "Ви намагаєтеся вилучити каталог \"{folderName}\". Продовжити?",
     "_You are about to delete the folder \"{folderName}\" and its %n sub-resource. Are you sure you want to proceed?_::_You are about to delete the folder \"{folderName}\" and its %n sub-resources. Are you sure you want to proceed?_" : ["Ви намагаєтеся вилучитии каталог \"{folderName}\" та його %n підресурс. Продовжити?","Ви намагаєтеся вилучитии каталог \"{folderName}\" та його %n підресурси. Продовжити?","Ви намагаєтеся вилучитии каталог \"{folderName}\" та його %n підресурсів. Продовжити?","Ви намагаєтеся вилучитии каталог \"{folderName}\" та його %n підресурсів. Продовжити?"],

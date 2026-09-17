@@ -105,7 +105,6 @@
     "Folder member" : "Membro della cartella",
     "Folder manager" : "Gestore cartelle",
     "Managers have access to the settings of this folder" : "I gestori hanno accesso alle impostazioni di questa cartella",
-    "You do not have the permissions to manage this folder" : "Non hai i permessi per gestire questa cartella",
     "Delete folder" : "Elimina cartella",
     "You are about to delete the folder \"{folderName}\". Are you sure you want to proceed?" : "Stai per eliminare la cartella \"{folderName}\". Sei sicuro di voler procedere?",
     "_You are about to delete the folder \"{folderName}\" and its %n sub-resource. Are you sure you want to proceed?_::_You are about to delete the folder \"{folderName}\" and its %n sub-resources. Are you sure you want to proceed?_" : ["Stai per eliminare la cartella \"{folderName}\" e la %n risorsa secondaria. Sei sicuro di voler procedere?","Stai per eliminare le cartella \"{folderName}\" e le %n risorse secondarie. Sei sicuro di voler procedere?","Stai per eliminare le cartelle \"{folderName}\" e le %n risorse secondarie. Sei sicuro di voler procedere?"],
