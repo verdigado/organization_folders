@@ -152,7 +152,7 @@ OC.L10N.register(
     "Permission level" : "Nível de permissão",
     "Move folder" : "Mover pasta",
     "Move calendar" : "Mover calendário",
-    "Resource cannot be moved to its current location" : "Não é possível mover o recurso para sua localização atual",
+    "Resource cannot be moved to its current location" : "Não é possível mover o recurso para seu local atual",
     "You do not have the required permissions to move the resource here" : "Você não possui as permissões necessárias para mover o recurso para cá",
     "Move to {target}" : "Mover para {target}",
     "Decrement page" : "Diminuir página",
