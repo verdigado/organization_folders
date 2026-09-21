@@ -7,7 +7,7 @@ OC.L10N.register(
     "Organization is a global admin" : "Die Organisation ist eine globale Administration",
     "User is not a global admin" : "Der Benutzer ist keine globale Administration",
     "Group is not a global admin" : "Die Gruppe ist keine globale Administration",
-    "Organization role is not a global admin" : "Die Rolle der Organisation ist keine globalen Administration",
+    "Organization role is not a global admin" : "Die Rolle der Organisation ist keine globale Administration",
     "Organization is not a global admin" : "Die Organisation ist keine globale Administration",
     "User is an admin of organization folder" : "Der Benutzer gehört zur Administration des Organisationsordners",
     "Group is an admin of organization folder" : "Die Gruppe gehört zur Administration des Organisationsordners",
