@@ -202,6 +202,14 @@ class ResourceService {
 		}
 	}
 
+	public function findByCalendarId(int $calendarId): CalendarResource {
+		try {
+			return $this->mapper->findByCalendarId($calendarId);
+		} catch (Exception $e) {
+			throw $this->handleException($e, ["calendarId" => $calendarId]);
+		}
+	}
+
 	public function existsWithName(int $organizationFolderId, ?int $parentResourceId, string $name): bool {
 		return $this->mapper->existsWithName($organizationFolderId, $parentResourceId, $name);
 	}
