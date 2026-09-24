@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Create" : "יצירה",
     "Folder name" : "שם התיקייה",
+    "Calendar name" : "שם לוח שנה",
     "Save" : "שמירה",
     "Edit" : "עריכה",
     "Link copied" : "הקישור הועתק",
