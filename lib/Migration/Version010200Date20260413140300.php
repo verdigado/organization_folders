@@ -42,7 +42,7 @@ class Version010200Date20260413140300 extends SimpleMigrationStep {
 				['id'],
 				['onDelete' => 'CASCADE'],
 				'organizationfolders_calendar_resources_resource_id_fk');
-			$table->addIndex(['calendar_id'], 'organizationfolders_calendar_resources_calendar_id_index');
+			$table->addUniqueIndex(['calendar_id'], 'organizationfolders_calendar_resources_calendar_id_index');
 		}
 
 		return $schema;
