@@ -3,6 +3,27 @@
 The format of this file is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-10-13
+
+### Added
+- Added support for **Nextcloud v33**/Team Folders v21
+- Added support for a second type of resource: **Calendars**
+  - Calendar resources are part of the same graph as folder resources and can inherit their permissions from parent folder resources. Calendars can not parents of other resources.
+  - The creation of link shares to calendar resources is supported
+  - Since there is currently no groupfolders equivalent for calendars this requires setting up a service-account where the calendars are stored and configuring the organization folder to use that account though occ. You can use one service account for all organization folders or set up a separate user for every organization folder.
+  - You can import existing calendars by exporting them as an .ics file and importing that into a new organization-folder managed calendar resource
+
+### Removed
+- Removed support for Nextcloud v32
+- Removed support for SQLite
+  - The limited support for foreign keys/the missing support for altering foreign keys in SQLite causes DBAL to recreate tables instead of altering them in place in the migration to v1.2, which causes data loss. This cannot be fixed in organization_folders, it would require changes to SQLite.
+
+### Changed
+- **Big performance improvements**
+  - The entire API Permissions subsystem was rewritten to be more performant and extensible
+- The output of multiple occ commands was improved
+- Translations were improved (thanks to the Nextcloud translation community on Transifex and @NohanV)
+
 ## [1.1.1] - 2026-02-10
 
 ### Added
