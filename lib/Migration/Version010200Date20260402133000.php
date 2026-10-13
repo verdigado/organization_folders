@@ -66,7 +66,7 @@ class Version010200Date20260402133000 extends SimpleMigrationStep {
 			WHERE
 				`resource`.`type` = 'folder';
 			SQL;
-		} else if($databaseProvider === IDBConnection::PLATFORM_POSTGRES || $databaseProvider === IDBConnection::PLATFORM_SQLITE) {
+		} else if($databaseProvider === IDBConnection::PLATFORM_POSTGRES) {
 			$sql = <<<'SQL'
 			UPDATE "*PREFIX*organizationfolders_resources" AS "resource"
 			SET
