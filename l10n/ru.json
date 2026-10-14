@@ -1,6 +1,7 @@
 { "translations": {
     "Calendar" : "Календарь",
     "Folder" : "Каталог",
+    "Access Denied" : "Доступ запрещён",
     "Members" : "Участники",
     "Organization Folders" : "Папки организации",
     "Back" : "Назад",
@@ -13,6 +14,7 @@
     "Name" : "Имя",
     "Cancel" : "Cancel",
     "Create" : "Создать",
+    "Create folder" : "Создать папку",
     "Folder name" : "Имя папки",
     "Calendar name" : "Название календаря",
     "Save" : "Сохранить",

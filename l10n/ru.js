@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Calendar" : "Календарь",
     "Folder" : "Каталог",
+    "Access Denied" : "Доступ запрещён",
     "Members" : "Участники",
     "Organization Folders" : "Папки организации",
     "Back" : "Назад",
@@ -15,6 +16,7 @@ OC.L10N.register(
     "Name" : "Имя",
     "Cancel" : "Cancel",
     "Create" : "Создать",
+    "Create folder" : "Создать папку",
     "Folder name" : "Имя папки",
     "Calendar name" : "Название календаря",
     "Save" : "Сохранить",
