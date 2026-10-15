@@ -43,6 +43,7 @@ OC.L10N.register(
     "Resources" : "Ресурсы",
     "No search results" : "Ничего не найдено",
     "Finish" : "Завершить",
+    "No changes" : "Нет изменений",
     "Delete folder" : "Удалить папку",
     "Permissions" : "Права",
     "Unmanaged Subfolders" : "Не управляемые вложенные папки",
