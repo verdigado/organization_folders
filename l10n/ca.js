@@ -16,6 +16,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Create" : "Crea",
     "Folder name" : "Nom de la carpeta",
+    "Calendar name" : "Nom del calendari",
     "Save" : "Desar",
     "Edit" : "Edició",
     "Link copied" : "S'ha copiat l'enllaç",
