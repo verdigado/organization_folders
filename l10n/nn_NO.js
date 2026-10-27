@@ -5,6 +5,7 @@ OC.L10N.register(
     "Folder" : "Mappe",
     "Members" : "Medlemmar",
     "Back" : "Tilbake",
+    "Next" : "Neste",
     "Delete" : "Slett",
     "Select an account" : "Vel ein konto",
     "Add account" : "Legg til konto",

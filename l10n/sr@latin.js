@@ -1,8 +1,10 @@
 OC.L10N.register(
     "organization_folders",
     {
+    "Next" : "Sledeće",
     "Delete" : "Obriši",
     "Select an account" : "Izaberite nalog",
+    "Add" : "Dodaj",
     "Name" : "Ime",
     "Cancel" : "Poništi",
     "Folder name" : "Naziv fascikle",
@@ -13,6 +15,7 @@ OC.L10N.register(
     "Search" : "Traži",
     "Warning" : "Upozorenje",
     "Settings" : "Поставке",
+    "Delete folder" : "Obriši fasciklu",
     "Read" : "Čitaj",
     "Share" : "Deli"
 },

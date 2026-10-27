@@ -4,6 +4,7 @@ OC.L10N.register(
     "Calendar" : "Kalendārs",
     "Folder" : "Mape",
     "Members" : "Dalībnieki",
+    "Next" : "Nākamā",
     "Delete" : "Izdzēst",
     "Add account" : "Pievienot kontu",
     "Add group" : "Pievienot grupu",

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Folder" : "Папка",
     "Members" : "Удзельнікі",
     "Back" : "Назад",
+    "Next" : "Далей",
     "Delete" : "Выдаліць",
     "Select an account" : "Выберыце ўліковы запіс",
     "Add account" : "Дадаць уліковы запіс",

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Folder" : "Carpeta",
     "Members" : "Miembros",
     "Back" : "Atrás",
+    "Next" : "Siguiente",
     "Delete" : "Eliminar",
     "Select an account" : "Seleccionar una cuenta",
     "Add account" : "Añadir cuenta",
