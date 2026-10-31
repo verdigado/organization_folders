@@ -63,6 +63,7 @@ OC.L10N.register(
     "Cancel" : "Storno",
     "Create" : "Vytvářet",
     "Create folder" : "Vytvořit složku",
+    "Create calendar" : "Vytvořit kalendář",
     "Folder name" : "Název složky",
     "Calendar name" : "Název kalendáře",
     "Save" : "Uložit",
