@@ -60,13 +60,13 @@ class ResourceInheritedManagerCriterionWrapper extends Criterion {
 					$l10nparams = [$reason->details["organizationFolderId"] ?? "?"];
 
 					if($principal instanceof UserPrincipal) {
-						$l10n = $this->l10n->t("User is an inherited manager from orgaization folder %s", $l10nparams);
+						$l10n = $this->l10n->t("User is an inherited manager from organization folder %s", $l10nparams);
 					} else if($principal instanceof GroupPrincipal) {
-						$l10n = $this->l10n->t("Group is an inherited manager from orgaization folder %s", $l10nparams);
+						$l10n = $this->l10n->t("Group is an inherited manager from organization folder %s", $l10nparams);
 					} else if($principal instanceof OrganizationRolePrincipal) {
-						$l10n = $this->l10n->t("Organization role is an inherited manager from orgaization folder %s", $l10nparams);
+						$l10n = $this->l10n->t("Organization role is an inherited manager from organization folder %s", $l10nparams);
 					} else if($principal instanceof OrganizationMemberPrincipal) {
-						$l10n = $this->l10n->t("Organization is an inherited manager from orgaization folder %s", $l10nparams);
+						$l10n = $this->l10n->t("Organization is an inherited manager from organization folder %s", $l10nparams);
 					}
 
 					$wrappedReasons[] = new CriterionResultReason(static::CRITERION_TYPE, $l10n ?? "", ["inheritedFrom" => $reason->details]);
