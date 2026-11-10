@@ -16,6 +16,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Create" : "Sortu",
     "Folder name" : "Karpetaren izena",
+    "Calendar name" : "Egutegiaren izena",
     "Save" : "Gorde",
     "Edit" : "Editatu",
     "Link copied" : "Esteka kopiatu da",
