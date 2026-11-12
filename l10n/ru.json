@@ -217,7 +217,7 @@
     "Organization Folder Settings" : "Параметры папки организации",
     "Settings" : "Параметры",
     "{usedStorage}/{availableStorage} used" : "Использовано {usedStorage} из {availableStorage}",
-    "({percent}% used)" : "(использовано {percent} %)",
+    "({percent}% used)" : "(использовано {percent} %)",
     "Organization" : "Организация",
     "Assigned organization {organizationProviderId}:{organizationId} no longer exists!" : "Назначенная организация {organizationProviderId}:{organizationId} больше не существует!",
     "No organization assigned" : "Организация не назначена",
