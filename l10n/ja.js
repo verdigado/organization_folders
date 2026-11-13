@@ -41,6 +41,7 @@ OC.L10N.register(
     "Resources" : "リソース",
     "No search results" : "検索結果なし",
     "Finish" : "完了",
+    "No changes" : "変更はありません",
     "Delete folder" : "フォルダーを削除",
     "Permissions" : "アクセス権限",
     "Read" : "読み込み",
