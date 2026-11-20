@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OCA\OrganizationFolders\OrganizationProvider;
 
 use OCA\OrganizationFolders\Model\FilterDefinition;
+use OCA\OrganizationFolders\Model\FilterOption;
 use OCA\OrganizationFolders\Model\Organization;
 use OCA\OrganizationFolders\Model\OrganizationRole;
 
@@ -102,6 +103,13 @@ abstract class OrganizationProvider {
 	 * @return FilterDefinition[]
 	 */
 	abstract public function getRoleFilterDefinitions(): array;
+
+	/**
+	 * Search the options of a select filter, for filters whose definition does not list all options
+	 *
+	 * @return FilterOption[]
+	 */
+	abstract public function findRoleFilterOptions(string $filterName, string $search, int $limit, int $offset): array;
 
 	/**
 	 * Find roles across the whole provider
