@@ -73,4 +73,22 @@ class OrganizationController extends BaseController {
 			return $organizationProvider->getRolesOfOrganization($organizationId);
 		});
 	}
+
+	#[NoAdminRequired]
+	public function getRoleFilterDefinitions(string $organizationProviderId): JSONResponse {
+		return $this->handleErrors(function () use ($organizationProviderId) {
+			$organizationProvider = $this->oganizationProviderManager->getOrganizationProvider($organizationProviderId);
+
+			return $organizationProvider->getRoleFilterDefinitions();
+		});
+	}
+
+	#[NoAdminRequired]
+	public function findRoles(string $organizationProviderId, array $filters = [], int $limit = 20): JSONResponse {
+		return $this->handleErrors(function () use ($organizationProviderId, $filters, $limit) {
+			$organizationProvider = $this->oganizationProviderManager->getOrganizationProvider($organizationProviderId);
+
+			return $organizationProvider->findRoles($filters, $limit);
+		});
+	}
 }

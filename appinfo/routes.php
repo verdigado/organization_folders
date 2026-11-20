@@ -58,6 +58,8 @@ return [
 		['name' => 'organization#getSubOrganizations', 'url' => '/organizationProviders/{organizationProviderId}/organizations/{parentOrganizationId}/subOrganizations', 'verb' => 'GET'],
 		['name' => 'organization#getTopLevelOrganizations', 'url' => '/organizationProviders/{organizationProviderId}/subOrganizations', 'verb' => 'GET'],
 		['name' => 'organization#getRoles', 'url' => '/organizationProviders/{organizationProviderId}/organizations/{organizationId}/roles/', 'verb' => 'GET'],
+		['name' => 'organization#getRoleFilterDefinitions', 'url' => '/organizationProviders/{organizationProviderId}/roleFilters', 'verb' => 'GET'],
+		['name' => 'organization#findRoles', 'url' => '/organizationProviders/{organizationProviderId}/roles', 'verb' => 'GET'],
 
 		/* Admin Settings */
 		['name' => 'AdminSettings#index', 'url' => '/adminSettings', 'verb' => 'GET'],

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\OrganizationFolders\OrganizationProvider;
 
+use OCA\OrganizationFolders\Model\FilterDefinition;
 use OCA\OrganizationFolders\Model\Organization;
 use OCA\OrganizationFolders\Model\OrganizationRole;
 
@@ -94,5 +95,20 @@ abstract class OrganizationProvider {
 	 * @return OrganizationRole[]
 	 */
 	abstract public function getRolesOfOrganization(int $organizationId): array;
+
+	/**
+	 * Describe the filters findRoles() accepts
+	 *
+	 * @return FilterDefinition[]
+	 */
+	abstract public function getRoleFilterDefinitions(): array;
+
+	/**
+	 * Find roles across the whole provider
+	 *
+	 * @param array<string, string> $filters keyed by FilterDefinition name, unknown keys should be rejected
+	 * @return OrganizationRole[]
+	 */
+	abstract public function findRoles(array $filters, int $limit): array;
 
 }
