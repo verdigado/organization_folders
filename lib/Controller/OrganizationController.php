@@ -93,11 +93,20 @@ class OrganizationController extends BaseController {
 	}
 
 	#[NoAdminRequired]
-	public function findRoles(string $organizationProviderId, array $filters = [], int $limit = 20): JSONResponse {
-		return $this->handleErrors(function () use ($organizationProviderId, $filters, $limit) {
+	public function findRoles(string $organizationProviderId, array $filters = [], int $limit = 20, int $offset = 0): JSONResponse {
+		return $this->handleErrors(function () use ($organizationProviderId, $filters, $limit, $offset) {
 			$organizationProvider = $this->oganizationProviderManager->getOrganizationProvider($organizationProviderId);
 
-			return $organizationProvider->findRoles($filters, $limit);
+			// fetch one extra role to know whether another page exists
+			$roles = $organizationProvider->findRoles($filters, $limit + 1, $offset);
+			$hasMore = count($roles) > $limit;
+			$roles = array_slice($roles, 0, $limit);
+
+			return [
+				'roles' => $roles,
+				'organizations' => $organizationProvider->getOrganizationPathsOfRoles($roles),
+				'hasMore' => $hasMore,
+			];
 		});
 	}
 }

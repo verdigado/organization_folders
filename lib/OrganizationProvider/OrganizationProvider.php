@@ -117,6 +117,33 @@ abstract class OrganizationProvider {
 	 * @param array<string, string> $filters keyed by FilterDefinition name, unknown keys should be rejected
 	 * @return OrganizationRole[]
 	 */
-	abstract public function findRoles(array $filters, int $limit): array;
+	abstract public function findRoles(array $filters, int $limit, int $offset): array;
+
+	/**
+	 * Get the organizations of the given roles together with all their ancestors up to the root,
+	 * so the roles can be placed in the organization tree.
+	 * Override if the provider can fetch these more efficiently than one organization at a time.
+	 *
+	 * @param OrganizationRole[] $roles
+	 * @return Organization[]
+	 * @throws OrganizationNotFound
+	 */
+	public function getOrganizationPathsOfRoles(array $roles): array {
+		/** @var array<int, Organization> $organizations */
+		$organizations = [];
+
+		foreach($roles as $role) {
+			$organizationId = $role->getOrganizationId();
+
+			// stop at the first organization already collected, its ancestors are collected too
+			while($organizationId !== null && !isset($organizations[$organizationId])) {
+				$organization = $this->getOrganization($organizationId);
+				$organizations[$organizationId] = $organization;
+				$organizationId = $organization->getParentOrganizationId();
+			}
+		}
+
+		return array_values($organizations);
+	}
 
 }
