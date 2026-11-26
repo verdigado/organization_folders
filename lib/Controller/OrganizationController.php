@@ -73,4 +73,40 @@ class OrganizationController extends BaseController {
 			return $organizationProvider->getRolesOfOrganization($organizationId);
 		});
 	}
+
+	#[NoAdminRequired]
+	public function getRoleFilterDefinitions(string $organizationProviderId): JSONResponse {
+		return $this->handleErrors(function () use ($organizationProviderId) {
+			$organizationProvider = $this->oganizationProviderManager->getOrganizationProvider($organizationProviderId);
+
+			return $organizationProvider->getRoleFilterDefinitions();
+		});
+	}
+
+	#[NoAdminRequired]
+	public function findRoleFilterOptions(string $organizationProviderId, string $filterName, string $search = '', int $limit = 20, int $offset = 0): JSONResponse {
+		return $this->handleErrors(function () use ($organizationProviderId, $filterName, $search, $limit, $offset) {
+			$organizationProvider = $this->oganizationProviderManager->getOrganizationProvider($organizationProviderId);
+
+			return $organizationProvider->findRoleFilterOptions($filterName, $search, $limit, $offset);
+		});
+	}
+
+	#[NoAdminRequired]
+	public function findRoles(string $organizationProviderId, array $filters = [], int $limit = 20, int $offset = 0): JSONResponse {
+		return $this->handleErrors(function () use ($organizationProviderId, $filters, $limit, $offset) {
+			$organizationProvider = $this->oganizationProviderManager->getOrganizationProvider($organizationProviderId);
+
+			// fetch one extra role to know whether another page exists
+			$roles = $organizationProvider->findRoles($filters, $limit + 1, $offset);
+			$hasMore = count($roles) > $limit;
+			$roles = array_slice($roles, 0, $limit);
+
+			return [
+				'roles' => $roles,
+				'organizations' => $organizationProvider->getOrganizationPathsOfRoles($roles),
+				'hasMore' => $hasMore,
+			];
+		});
+	}
 }
